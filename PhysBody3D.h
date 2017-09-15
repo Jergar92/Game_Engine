@@ -1,7 +1,7 @@
 #ifndef __PhysBody3D_H__
 #define __PhysBody3D_H__
 
-#include "p2List.h"
+
 
 class btRigidBody;
 class Module;
@@ -23,8 +23,7 @@ public:
 private:
 	btRigidBody* body = nullptr;
 	bool is_sensor = false;
-public:
-	p2List<Module*> collision_listeners;
+
 };
 
 #endif // __PhysBody3D_H__
