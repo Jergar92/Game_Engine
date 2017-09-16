@@ -76,11 +76,7 @@ bool ModuleWindow::Init()
 		}
 		else
 		{
-			ImGui_ImplSdlGL2_Init(window);
-
-			
-
-		
+			ImGui_ImplSdlGL2_Init(window);	
 			screen_surface = SDL_GetWindowSurface(window);
 			
 

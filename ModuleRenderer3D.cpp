@@ -4,10 +4,15 @@
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-
+#include "imgui\imgui.h"
+#include "imgui\imgui_impl_sdl.h"
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
+
+bool show_test_window = true;
+bool show_another_window = false;
+ImVec4 clear_color = ImColor(114, 144, 154);
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -78,7 +83,7 @@ bool ModuleRenderer3D::Init()
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 		
 		lights[0].ref = GL_LIGHT0;
-		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
+		lights[0].ambient.Set(1.0f, 1.0f, 1.0f, 1.0f);
 		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
 		lights[0].SetPos(0.0f, 0.0f, 2.5f);
 		lights[0].Init();
@@ -123,7 +128,26 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	SDL_GL_SwapWindow(App->window->window);
+	
+		ImGui_ImplSdlGL2_NewFrame(App->window->window);
+
+		{
+			static float f = 0.0f;
+			ImGui::Text("Hello, world!");
+			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+			ImGui::ColorEdit3("clear color", (float*)&clear_color);
+			if (ImGui::Button("Test Window")) show_test_window ^= 1;
+			if (ImGui::Button("Another Window")) show_another_window ^= 1;
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		}
+		//Get window surface
+
+		glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
+		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+		glClear(GL_COLOR_BUFFER_BIT);
+		ImGui::Render();
+		SDL_GL_SwapWindow(App->window->window);
+	
 	return UPDATE_CONTINUE;
 }
 
