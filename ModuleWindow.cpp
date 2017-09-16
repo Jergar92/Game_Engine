@@ -1,6 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "imgui\imgui.h"
+#include "imgui\imgui_impl_sdl.h"
+#include "SDL\include\SDL_opengl.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -19,6 +22,7 @@ bool ModuleWindow::Init()
 	LOG("Init SDL window & surface");
 	bool ret = true;
 
+
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -32,8 +36,15 @@ bool ModuleWindow::Init()
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
+
+		// Setup window
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+		SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+		SDL_DisplayMode current;
+		SDL_GetCurrentDisplayMode(0, &current);
 
 		if(WIN_FULLSCREEN == true)
 		{
@@ -56,6 +67,7 @@ bool ModuleWindow::Init()
 		}
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		glcontext = SDL_GL_CreateContext(window);
 
 		if(window == NULL)
 		{
@@ -64,8 +76,14 @@ bool ModuleWindow::Init()
 		}
 		else
 		{
-			//Get window surface
+			ImGui_ImplSdlGL2_Init(window);
+
+			
+
+		
 			screen_surface = SDL_GetWindowSurface(window);
+			
+
 		}
 	}
 
@@ -80,6 +98,8 @@ bool ModuleWindow::CleanUp()
 	//Destroy window
 	if(window != NULL)
 	{
+		ImGui_ImplSdlGL2_Shutdown();
+		SDL_GL_DeleteContext(glcontext);
 		SDL_DestroyWindow(window);
 	}
 

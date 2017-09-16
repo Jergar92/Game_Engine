@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "Globals.h"
 
+#include "imgui\imgui.h"
+
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
@@ -53,7 +55,7 @@ int main(int argc, char ** argv)
 		case MAIN_UPDATE:
 		{
 			int update_return = App->Update();
-
+			
 			if (update_return == UPDATE_ERROR)
 			{
 				LOG("Application Update exits with ERROR");
@@ -66,7 +68,7 @@ int main(int argc, char ** argv)
 			break;
 
 		case MAIN_FINISH:
-
+		
 			LOG("-------------- Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
