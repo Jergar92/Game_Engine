@@ -33,7 +33,10 @@
 #ifdef __APPLE__
 #include <mach/mach_time.h>
 #endif
+//add for me
 
+#include <time.h>
+//
 #include "Clock.h"
 #include "../Math/myassert.h"
 #include "../Math/assume.h"
@@ -104,11 +107,12 @@ void Clock::Sleep(int milliseconds)
 #elif defined(WIN32)
 	::Sleep(milliseconds);
 #elif !defined(__native_client__) && !defined(EMSCRIPTEN)
-	// http://linux.die.net/man/2/nanosleep
+	//http://linux.die.net/man/2/nanosleep
 	timespec ts;
 	ts.tv_sec = milliseconds / 1000;
 	ts.tv_nsec = (milliseconds - ts.tv_sec * 1000) * 1000 * 1000;
-	int ret = nanosleep(&ts, NULL);
+//	int ret = nanosleep(&ts, NULL);
+	int ret = -1;//nanosleep not working
 	if (ret == -1)
 		LOGI("nanosleep returned -1! Reason: %s(%d).", strerror(errno), (int)errno);
 #else
