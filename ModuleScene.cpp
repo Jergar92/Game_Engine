@@ -108,8 +108,6 @@ void ModuleScene::ColisionMenu()
 	}
 	//-------------------------------------------
 	ImGui::Separator();
-
-
 	static int element_2 = 0;
 	ImGui::RadioButton("Sphere_2", &element_2, 0);
 	if (element_2 == 0)
@@ -173,21 +171,13 @@ void ModuleScene::ColisionMenu()
 	if (element_2 == 5)
 	{
 		ImGui::InputFloat("Triangle_2_position_A_x", &triangle_2_pos_a_x, 0, 0, 1); ImGui::SameLine();
-
 		ImGui::InputFloat("Triangle_2_position_A_y", &triangle_2_pos_a_y, 0, 0, 1); ImGui::SameLine();
-
 		ImGui::InputFloat("Triangle_2_position_A_z", &triangle_2_pos_a_z, 0, 0, 1);
-
 		ImGui::InputFloat("Triangle_2_position_B_x", &triangle_2_pos_b_x, 0, 0, 1); ImGui::SameLine();
-
 		ImGui::InputFloat("Triangle_2_position_B_y", &triangle_2_pos_b_y, 0, 0, 1); ImGui::SameLine();
-
 		ImGui::InputFloat("Triangle_2_position_B_z", &triangle_2_pos_b_z, 0, 0, 1);
-
 		ImGui::InputFloat("Triangle_2_position_C_x", &triangle_2_pos_c_x, 0, 0, 1); ImGui::SameLine();
-
 		ImGui::InputFloat("Triangle_2_position_C_y", &triangle_2_pos_c_y, 0, 0, 1); ImGui::SameLine();
-
 		ImGui::InputFloat("Triangle_2_position_C_z", &triangle_2_pos_c_z, 0, 0, 1);
 	}
 	ImGui::Separator();
@@ -199,6 +189,36 @@ void ModuleScene::ColisionMenu()
 	}
 
 
+	ImGui::End();
+}
+
+void ModuleScene::RandomNumbers()
+{
+	ImGui::Begin("Random");
+	ImGui::PushItemWidth(80);
+
+	static float random_float = 0.0f;
+	static int number_a = 0;
+	static int number_b = 0;
+	static int random_int = 0;
+
+	ImGui::InputFloat("Float Number", &random_float, 0, 0, 3); ImGui::SameLine();
+
+	if (ImGui::Button("Random Float"))
+	{
+
+		random_float = Random.Float();
+	}
+
+	ImGui::InputInt("numberA", &number_a, 0, 0); ImGui::SameLine();
+	ImGui::InputInt("numberB", &number_b, 0, 0); ImGui::SameLine();
+	ImGui::InputInt("RandomInt", &random_int, 0, 0);
+
+	if (ImGui::Button("Random int"))
+	{
+
+		random_int = Random.Int((number_a <= number_b) ? number_a : number_b, (number_a>number_b) ? number_a : number_b);
+	}
 	ImGui::End();
 }
 
@@ -800,13 +820,13 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 update_status ModuleScene::Update(float dt)
 {
 	ColisionMenu();
+	RandomNumbers();
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;
-
 
 	return ret;
 }

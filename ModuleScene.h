@@ -7,6 +7,7 @@
 #include "MathGeoLib-1.5\src\Geometry\Plane.h"
 #include "MathGeoLib-1.5\src\Geometry\Ray.h"
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
+#include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 
 class ModuleScene : public Module
 {
@@ -16,6 +17,7 @@ public:
 
 	bool Start();
 	void ColisionMenu();
+	void RandomNumbers();
 	void CreateElement(Sphere& sphere,float3 center,float radius);
 	void CreateElement(AABB& aabb,float3 min_value ,float3 max_value);
 	void CreateElement(OBB& obb, float3 min_value, float3 max_value);
@@ -29,6 +31,8 @@ public:
 
 private:
 	
+	LCG Random;
+
 		float sphere_1_x = 0.0f;	
 		float sphere_1_y = 0.0f;
 		float sphere_1_z = 0.0f;
