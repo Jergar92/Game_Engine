@@ -10,7 +10,7 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	physics = new ModulePhysics3D(this);
 	gui = new ModuleImGui(this);
-
+	scene = new ModuleScene(this);
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -23,7 +23,8 @@ Application::Application()
 	AddModule(physics);
 	AddModule(gui);
 
-
+	//Scene Module
+	AddModule(scene);
 
 	// Renderer last!
 	AddModule(renderer3D);
