@@ -9,6 +9,7 @@ public:
 	~ModuleScene();
 
 	bool Start();
+	void ColisionMenu();
 	update_status Update(float dt);
 	bool CleanUp();
 

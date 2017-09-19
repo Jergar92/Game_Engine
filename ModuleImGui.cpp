@@ -20,53 +20,7 @@ ModuleImGui::~ModuleImGui()
 update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
-	ImGui::Begin("suuu");
-	ImGui::Columns(2, "mixed");
-	ImGui::Separator();
 
-		static int e = 0;
-		ImGui::RadioButton("Sphere", &e, 0); ImGui::SameLine();
-		static float f0 = 0.001f;
-		ImGui::PushItemWidth(50);
-		ImGui::InputFloat("x", &f0, 0, 0); ImGui::SameLine();
-		ImGui::PushItemWidth(50);
-
-		static float f1 = 0.001f;
-		ImGui::InputFloat("y", &f1,0, 0); ImGui::SameLine();
-		ImGui::PushItemWidth(50);
-
-		static float f2 = 0.001f;
-		ImGui::InputFloat("z", &f2,0,0); ImGui::SameLine();
-		ImGui::PushItemWidth(50);
-
-		static float f3 = 0;
-		ImGui::InputFloat("radius", &f3);
-
-		ImGui::RadioButton("Capsules", &e, 1); ImGui::SameLine();
-
-		ImGui::NextColumn();
-
-
-		static int e2 = 0;
-		ImGui::RadioButton("Sphere", &e2, 0); ImGui::SameLine();
-		static float ff0 = 0.001f;
-		ImGui::PushItemWidth(50);
-		ImGui::InputFloat("x", &ff0, 0, 0); ImGui::SameLine();
-		ImGui::PushItemWidth(50);
-
-		static float ff1 = 0.001f;
-		ImGui::InputFloat("y", &ff1, 0, 0); ImGui::SameLine();
-		ImGui::PushItemWidth(50);
-
-		static float ff2 = 0.001f;
-		ImGui::InputFloat("z", &ff2, 0, 0); ImGui::SameLine();
-		ImGui::PushItemWidth(50);
-
-		static float ff3 = 0;
-		ImGui::InputFloat("radius", &ff3);
-
-		ImGui::RadioButton("Capsules", &e2, 1); ImGui::SameLine();
-		ImGui::End();
 		if (ImGui::Button("Test Window"))
 			show_test_window = !show_test_window;
 		if (show_test_window)
@@ -97,9 +51,10 @@ update_status ModuleImGui::Update(float dt)
 	glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui::Render();
-
 	return UPDATE_CONTINUE;
 }
+
+
 
 bool ModuleImGui::CleanUp()
 {
