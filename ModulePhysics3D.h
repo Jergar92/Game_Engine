@@ -8,7 +8,7 @@
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
-class DebugDrawer;
+//class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
 struct VehicleInfo;
@@ -42,7 +42,7 @@ private:
 	btSequentialImpulseConstraintSolver* solver;
 	btDiscreteDynamicsWorld*			world;
 	btDefaultVehicleRaycaster*			vehicle_raycaster;
-	DebugDrawer*						debug_draw;
+	//DebugDrawer*						debug_draw;
 
 
 };
@@ -50,17 +50,17 @@ private:
 class DebugDrawer : public btIDebugDraw
 {
 public:
-	DebugDrawer() : line(0,0,0)
-	{}
+	//DebugDrawer() : line(0,0,0)
+	//{}
 
-	void drawLine(const btVector3& from, const btVector3& to, const btVector3& color);
-	void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color);
-	void reportErrorWarning(const char* warningString);
-	void draw3dText(const btVector3& location, const char* textString);
-	void setDebugMode(int debugMode);
-	int	 getDebugMode() const;
+	//void drawLine(const btVector3& from, const btVector3& to, const btVector3& color);
+	//void drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color);
+	//void reportErrorWarning(const char* warningString);
+//	void draw3dText(const btVector3& location, const char* textString);
+//	void setDebugMode(int debugMode);
+//	int	 getDebugMode() const;
 
 	DebugDrawModes mode;
-	Line line;
-	Primitive point;
+	//Line line;
+	//Primitive point;
 };

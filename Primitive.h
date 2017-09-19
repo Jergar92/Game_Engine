@@ -1,4 +1,4 @@
-
+/*
 #pragma once
 #include "glmath.h"
 #include "Color.h"
@@ -95,3 +95,4 @@ public:
 	vec3 normal;
 	float constant;
 };
+*/

@@ -22,13 +22,13 @@ ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(
 	dispatcher = new btCollisionDispatcher(collision_conf);
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
-	debug_draw = new DebugDrawer();
+	//debug_draw = new DebugDrawer();
 }
 
 // Destructor
 ModulePhysics3D::~ModulePhysics3D()
 {
-	delete debug_draw;
+	//delete debug_draw;
 	delete solver;
 	delete broad_phase;
 	delete dispatcher;
@@ -50,7 +50,7 @@ bool ModulePhysics3D::Start()
 	LOG("Creating Physics environment");
 
 	world = new btDiscreteDynamicsWorld(dispatcher, broad_phase, solver, collision_conf);
-	world->setDebugDrawer(debug_draw);
+	//world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 
@@ -102,8 +102,8 @@ update_status ModulePhysics3D::Update(float dt)
 
 		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
-			Sphere s(1);
-			s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+		//	Sphere s(1);
+			//s.SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 			float force = 30.0f;
 			/*AddBody(s)->Push(-(App->camera->Z.x * force), -(App->camera->Z.y * force), -(App->camera->Z.z * force));*/
 		}
@@ -333,6 +333,7 @@ bool ModulePhysics3D::isDebug()
 	return debug==true;
 }
 // =============================================
+/*
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {
 	line.origin.Set(from.getX(), from.getY(), from.getZ());
@@ -367,3 +368,4 @@ int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
 }
+*/
