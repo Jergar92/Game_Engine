@@ -30,7 +30,8 @@ public:
 
 
 private:
-	
+
+	bool show_console = false;
 	LCG Random;
 
 		float sphere_1_x = 0.0f;	

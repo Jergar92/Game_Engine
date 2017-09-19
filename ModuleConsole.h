@@ -24,19 +24,20 @@ public:
 	
 	void AddLog(const char*fmt, ...);
 	void Draw(const char* tittle,bool* p_open);
-	void InputText();
-	void    ExecCommand(const char* command_line);
-	int     TextEditCallback(ImGuiTextEditCallbackData* data);
-	static int TextEditCallbackStub(ImGuiTextEditCallbackData* data);
-	bool  show_app_console = false;
+	
+	/*void InputText();*/
+	/*void    ExecCommand(const char* command_line);*/
+	/*int     TextEditCallback(ImGuiTextEditCallbackData* data);
+	static int TextEditCallbackStub(ImGuiTextEditCallbackData* data);*/
+	
 
 private:
-	char               inputBuf[256];
-	bool               ScrollToBottom;
-	int                HistoryPos;
+	char            inputBuf[256];
+	bool            ScrollToBottom;
+	int             HistoryPos;
 	ImVector<char*> Commands;
 	ImVector<char*> History;
 	ImVector<char*> Items;
-    
+	bool  show_app_console = false;
 
 };
