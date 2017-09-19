@@ -21,26 +21,6 @@ update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 
-		if (ImGui::Button("Test Window"))
-			show_test_window = !show_test_window;
-		if (show_test_window)
-		{
-			ImGui::ShowTestWindow(&show_test_window);
-		}
-		if (ImGui::Button("show prove window"))
-			show_prove_window = !show_prove_window;
-		if (show_prove_window)
-		{
-			    ImGui::Begin("Prove Window", &show_another_window);
-				ImGui::InputInt("input number", &i0);
-				ImGui::InputInt("input number", &i1);
-				i2 = i1 + i0;
-				ImGui::InputInt("input number", &i2);
-				ImGui::End();
-		}
-		
-	
-
 	return UPDATE_CONTINUE;
 }
 

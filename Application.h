@@ -6,6 +6,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
+#include "ModuleConsole.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleImGui.h"
@@ -24,7 +25,8 @@ public:
 	ModulePhysics3D*	physics;
 	ModuleImGui*		gui;
 	ModuleScene*		scene;
-private:
+	ModuleConsole*      console;
+private: 
 
 	Timer	ms_timer;
 	float	dt;

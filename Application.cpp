@@ -11,6 +11,7 @@ Application::Application()
 	physics = new ModulePhysics3D(this);
 	gui = new ModuleImGui(this);
 	scene = new ModuleScene(this);
+	console = new ModuleConsole(this);
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -21,12 +22,15 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
-	
 
+	//console module
+	AddModule(console);
+	
 	//Scene Module
 	AddModule(scene);
-
+	
 	AddModule(gui);
+	
 	// Renderer last!
 	AddModule(renderer3D);
 }

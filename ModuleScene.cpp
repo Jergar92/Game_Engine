@@ -821,6 +821,14 @@ update_status ModuleScene::Update(float dt)
 {
 	ColisionMenu();
 	RandomNumbers();
+	
+	ImGui::Begin("Console");
+	if (App->console->show_app_console)
+		App->console->Draw("Test Console", &App->console->show_app_console);
+	if (ImGui::Button("Test Console"))
+		App->console->show_app_console = !App->console->show_app_console;
+	ImGui::End();
+
 	return UPDATE_CONTINUE;
 }
 

@@ -10,6 +10,9 @@
 #endif
 #define NULL  0
 
+// For see the size of one Array ----------------------------
+#define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
+
 // Deletes a buffer
 #define RELEASE( x ) \
     {                        \
