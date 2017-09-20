@@ -105,9 +105,6 @@
     <ClInclude Include="imgui\stb_truetype.h">
       <Filter>Sources\imGui</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleImGui.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="p2Defs.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
@@ -348,9 +345,6 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_sdl.cpp">
       <Filter>Sources\imGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleImGui.cpp">
-      <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="MathGeoLib-1.5\src\Math\Polynomial.cpp">
       <Filter>Sources\MathGeo\Math</Filter>

@@ -1,8 +1,8 @@
 #pragma once
+#include <string>
 
 class Application;
 struct PhysBody3D;
-
 class Module
 {
 private :
@@ -41,6 +41,10 @@ public:
 	{
 		return UPDATE_CONTINUE;
 	}
+	virtual bool GuiUpdate()
+	{
+		return true;
+	}
 
 	virtual bool Load()
 	{
@@ -61,5 +65,5 @@ public:
 	{}
 public:
 	std::string	name;
-
+	
 };

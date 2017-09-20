@@ -9,7 +9,6 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	physics = new ModulePhysics3D(this);
-	gui = new ModuleImGui(this);
 	scene = new ModuleScene(this);
 	console = new ModuleConsole(this);
 	// The order of calls is very important!
@@ -29,7 +28,6 @@ Application::Application()
 	//Scene Module
 	AddModule(scene);
 	
-	AddModule(gui);
 	
 	// Renderer last!
 	AddModule(renderer3D);

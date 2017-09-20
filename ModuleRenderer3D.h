@@ -14,12 +14,14 @@ public:
 
 	bool Init();
 	update_status PreUpdate(float dt);
+	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	void OnResize(int width, int height);
 
 public:
+	ImVec4 clear_color = ImColor(114, 144, 154);
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
