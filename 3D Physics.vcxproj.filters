@@ -444,9 +444,6 @@
     </ClCompile>
     <ClCompile Include="ModuleConsole.cpp" />
     <ClCompile Include="ModuleScene.cpp" />
-    <ClCompile Include="Parson\tests.c">
-      <Filter>Sources\Parson</Filter>
-    </ClCompile>
     <ClCompile Include="Parson\parson.c">
       <Filter>Sources\Parson</Filter>
     </ClCompile>
