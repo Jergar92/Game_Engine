@@ -7,6 +7,8 @@
 #include <gl/GLU.h>
 ModuleImGui::ModuleImGui(Application* app, bool start_enabled):Module(app,start_enabled)
 {
+	name = "gui";
+
 	show_test_window = true;
 	show_another_window = false;
 	clear_color = ImColor(114, 144, 154);

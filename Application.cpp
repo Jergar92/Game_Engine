@@ -139,6 +139,20 @@ bool Application::CleanUp()
 	return ret;
 }
 
+bool Application::LoadGameNow()
+{
+	bool ret = false;
+
+	return ret;
+}
+
+bool Application::SaveGameNow()
+{
+	bool ret = true;
+
+	return ret;
+}
+
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);

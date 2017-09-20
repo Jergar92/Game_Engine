@@ -42,6 +42,16 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
+	virtual bool Load()
+	{
+		return true;
+	}
+
+	virtual bool Save()
+	{
+		return true;
+	}
+
 	virtual bool CleanUp() 
 	{ 
 		return true; 
@@ -49,4 +59,7 @@ public:
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
+public:
+	std::string	name;
+
 };

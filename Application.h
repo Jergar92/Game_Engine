@@ -42,7 +42,8 @@ public:
 	bool CleanUp();
 
 private:
-
+	bool LoadGameNow();
+	bool SaveGameNow();
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
