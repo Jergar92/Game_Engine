@@ -14,7 +14,6 @@ ModuleConsole::ModuleConsole(Application * app, bool start_enabled) :Module(app,
 	ClearLog();
 	memset(inputBuf, 0, sizeof(inputBuf));
 	HistoryPos = -1;
-	AddLog("Engine Console Ready");
 }
 
 
@@ -25,8 +24,7 @@ ModuleConsole::~ModuleConsole()
 bool ModuleConsole::Start()
 {
 	bool ret = true;
-
-
+	LOG("Engine Console Ready");
 	return ret;
 }
 

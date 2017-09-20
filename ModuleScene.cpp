@@ -267,15 +267,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Sphere sphere2;
 			CreateElement(sphere2, float3(sphere_2_x, sphere_2_y, sphere_2_z), sphere_2_radius);
-			App->console->AddLog("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
-			App->console->AddLog("the sphere 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere2.pos.x, sphere2.pos.y, sphere2.pos.z);
+			LOG("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
+			LOG("the sphere 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere2.pos.x, sphere2.pos.y, sphere2.pos.z);
 			if (sphere1.Intersects(sphere2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -283,15 +283,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			AABB aabb2;
 			CreateElement(aabb2, float3(aaoo_2_min_x, aaoo_2_min_y, aaoo_2_min_z), float3(aaoo_2_max_x, aaoo_2_max_y, aaoo_2_max_z));
-			App->console->AddLog("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
-			App->console->AddLog("the AABB2(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb2.maxPoint.x, aabb2.maxPoint.y, aabb2.maxPoint.z,aabb2.minPoint.x, aabb2.minPoint.y, aabb2.minPoint.z);
+			LOG("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
+			LOG("the AABB2(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb2.maxPoint.x, aabb2.maxPoint.y, aabb2.maxPoint.z,aabb2.minPoint.x, aabb2.minPoint.y, aabb2.minPoint.z);
 			if (sphere1.Intersects(aabb2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -299,15 +299,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			OBB obb2;
 			CreateElement(obb2, float3(obb_2_min_x, obb_2_min_y, obb_2_min_z), float3(obb_2_max_x, obb_2_max_y, obb_2_max_z));
-			App->console->AddLog("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
-			App->console->AddLog("the OBB2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb2.pos.x, obb2.pos.y, obb2.pos.z);
+			LOG("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
+			LOG("the OBB2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb2.pos.x, obb2.pos.y, obb2.pos.z);
 			if (sphere1.Intersects(obb2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -315,15 +315,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Plane plane2;
 			CreateElement(plane2, float3(planes_2_normal_x, planes_2_normal_y, planes_2_normal_z), planes_2_constant);
-			App->console->AddLog("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
-			App->console->AddLog("the plane 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f constant = %.2f)", plane2.normal.x, plane2.normal.y, plane2.normal.z,plane2.d);
+			LOG("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
+			LOG("the plane 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f constant = %.2f)", plane2.normal.x, plane2.normal.y, plane2.normal.z,plane2.d);
 			if (sphere1.Intersects(plane2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -331,15 +331,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Ray ray2;
 			CreateElement(ray2, float3(ray_2_pos_x, ray_2_pos_y, ray_2_pos_z), float3(ray_2_dir_x, ray_2_dir_y, ray_2_dir_z));
-			App->console->AddLog("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
-			App->console->AddLog("the Ray 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f dir X = %.2f ,dir Y = %.2f , dir Z = %.2f)", ray2.pos.x, ray2.pos.y, ray2.pos.z, ray2.dir.x, ray2.dir.y, ray2.dir.z);
+			LOG("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
+			LOG("the Ray 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f dir X = %.2f ,dir Y = %.2f , dir Z = %.2f)", ray2.pos.x, ray2.pos.y, ray2.pos.z, ray2.dir.x, ray2.dir.y, ray2.dir.z);
 			if (sphere1.Intersects(ray2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 
 		}
@@ -348,15 +348,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Triangle triangle2;
 			CreateElement(triangle2, float3(triangle_2_pos_a_x, triangle_2_pos_a_y, triangle_2_pos_a_z), float3(triangle_2_pos_b_x, triangle_2_pos_b_y, triangle_2_pos_b_z), float3(triangle_2_pos_c_x, triangle_2_pos_c_y, triangle_2_pos_c_z));
-			App->console->AddLog("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
-			App->console->AddLog("the triangle 2(pos aX = %.2f ,pos aY = %.2f , pos aZ = %.2f, pos bX = %.2f ,pos bY = %.2f , pos bZ = %.2f, pos cX = %.2f ,pos cY = %.2f , pos cZ = %.2f)", triangle2.a.x, triangle2.a.y, triangle2.a.z, triangle2.b.x, triangle2.b.y, triangle2.b.z, triangle2.c.x, triangle2.c.y, triangle2.c.z);
+			LOG("the sphere 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere1.pos.x, sphere1.pos.y, sphere1.pos.z);
+			LOG("the triangle 2(pos aX = %.2f ,pos aY = %.2f , pos aZ = %.2f, pos bX = %.2f ,pos bY = %.2f , pos bZ = %.2f, pos cX = %.2f ,pos cY = %.2f , pos cZ = %.2f)", triangle2.a.x, triangle2.a.y, triangle2.a.z, triangle2.b.x, triangle2.b.y, triangle2.b.z, triangle2.c.x, triangle2.c.y, triangle2.c.z);
 			if (sphere1.Intersects(triangle2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 
 		}
@@ -376,15 +376,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Sphere sphere2;
 			CreateElement(sphere2, float3(sphere_2_x, sphere_2_y, sphere_2_z), sphere_2_radius);
-			App->console->AddLog("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
-			App->console->AddLog("the sphere 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere2.pos.x, sphere2.pos.y, sphere2.pos.z);
+			LOG("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
+			LOG("the sphere 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere2.pos.x, sphere2.pos.y, sphere2.pos.z);
 			if (aabb1.Intersects(sphere2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -392,15 +392,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			AABB aabb2;
 			CreateElement(aabb2, float3(aaoo_2_min_x, aaoo_2_min_y, aaoo_2_min_z), float3(aaoo_2_max_x, aaoo_2_max_y, aaoo_2_max_z));
-			App->console->AddLog("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
-			App->console->AddLog("the AABB 2(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb2.maxPoint.x, aabb2.maxPoint.y, aabb2.maxPoint.z, aabb2.minPoint.x, aabb2.minPoint.y, aabb2.minPoint.z);
+			LOG("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
+			LOG("the AABB 2(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb2.maxPoint.x, aabb2.maxPoint.y, aabb2.maxPoint.z, aabb2.minPoint.x, aabb2.minPoint.y, aabb2.minPoint.z);
 			if (aabb1.Intersects(aabb2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -408,15 +408,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			OBB obb2;
 			CreateElement(obb2, float3(obb_2_min_x, obb_2_min_y, obb_2_min_z), float3(obb_2_max_x, obb_2_max_y, obb_2_max_z));
-			App->console->AddLog("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
-			App->console->AddLog("the OBB2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb2.pos.x, obb2.pos.y, obb2.pos.z);
+			LOG("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
+			LOG("the OBB2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb2.pos.x, obb2.pos.y, obb2.pos.z);
 			if (aabb1.Intersects(obb2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -424,15 +424,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Plane plane2;
 			CreateElement(plane2, float3(planes_2_normal_x, planes_2_normal_y, planes_2_normal_z), planes_2_constant);
-			App->console->AddLog("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
-			App->console->AddLog("the plane 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f constant = %.2f)", plane2.normal.x, plane2.normal.y, plane2.normal.z, plane2.d);
+			LOG("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
+			LOG("the plane 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f constant = %.2f)", plane2.normal.x, plane2.normal.y, plane2.normal.z, plane2.d);
 			if (aabb1.Intersects(plane2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -440,15 +440,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Ray ray2;
 			CreateElement(ray2, float3(ray_2_pos_x, ray_2_pos_y, ray_2_pos_z), float3(ray_2_dir_x, ray_2_dir_y, ray_2_dir_z));
-			App->console->AddLog("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
-			App->console->AddLog("the Ray 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f dir X = %.2f ,dir Y = %.2f , dir Z = %.2f)", ray2.pos.x, ray2.pos.y, ray2.pos.z, ray2.dir.x, ray2.dir.y, ray2.dir.z);
+			LOG("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
+			LOG("the Ray 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f dir X = %.2f ,dir Y = %.2f , dir Z = %.2f)", ray2.pos.x, ray2.pos.y, ray2.pos.z, ray2.dir.x, ray2.dir.y, ray2.dir.z);
 			if (aabb1.Intersects(ray2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 
 		}
@@ -457,15 +457,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Triangle triangle2;
 			CreateElement(triangle2, float3(triangle_2_pos_a_x, triangle_2_pos_a_y, triangle_2_pos_a_z), float3(triangle_2_pos_b_x, triangle_2_pos_b_y, triangle_2_pos_b_z), float3(triangle_2_pos_c_x, triangle_2_pos_c_y, triangle_2_pos_c_z));
-			App->console->AddLog("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
-			App->console->AddLog("the triangle 2(pos aX = %.2f ,pos aY = %.2f , pos aZ = %.2f, pos bX = %.2f ,pos bY = %.2f , pos bZ = %.2f, pos cX = %.2f ,pos cY = %.2f , pos cZ = %.2f)", triangle2.a.x, triangle2.a.y, triangle2.a.z, triangle2.b.x, triangle2.b.y, triangle2.b.z, triangle2.c.x, triangle2.c.y, triangle2.c.z);
+			LOG("the AABB 1(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb1.maxPoint.x, aabb1.maxPoint.y, aabb1.maxPoint.z, aabb1.minPoint.x, aabb1.minPoint.y, aabb1.minPoint.z);
+			LOG("the triangle 2(pos aX = %.2f ,pos aY = %.2f , pos aZ = %.2f, pos bX = %.2f ,pos bY = %.2f , pos bZ = %.2f, pos cX = %.2f ,pos cY = %.2f , pos cZ = %.2f)", triangle2.a.x, triangle2.a.y, triangle2.a.z, triangle2.b.x, triangle2.b.y, triangle2.b.z, triangle2.c.x, triangle2.c.y, triangle2.c.z);
 			if (aabb1.Intersects(triangle2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 
 		}
@@ -485,15 +485,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Sphere sphere2;
 			CreateElement(sphere2, float3(sphere_2_x, sphere_2_y, sphere_2_z), sphere_2_radius);
-			App->console->AddLog("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
-			App->console->AddLog("the sphere 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere2.pos.x, sphere2.pos.y, sphere2.pos.z);
+			LOG("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
+			LOG("the sphere 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", sphere2.pos.x, sphere2.pos.y, sphere2.pos.z);
 			if (obb1.Intersects(sphere2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -501,15 +501,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			AABB aabb2;
 			CreateElement(aabb2, float3(aaoo_2_min_x, aaoo_2_min_y, aaoo_2_min_z), float3(aaoo_2_max_x, aaoo_2_max_y, aaoo_2_max_z));
-			App->console->AddLog("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
-			App->console->AddLog("the AABB 2(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb2.maxPoint.x, aabb2.maxPoint.y, aabb2.maxPoint.z, aabb2.minPoint.x, aabb2.minPoint.y, aabb2.minPoint.z);
+			LOG("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
+			LOG("the AABB 2(max X = %.2f ,max Y = %.2f , max Z = %.2f ,min X = %.2f ,min Y = %.2f , min Z = %.2f)", aabb2.maxPoint.x, aabb2.maxPoint.y, aabb2.maxPoint.z, aabb2.minPoint.x, aabb2.minPoint.y, aabb2.minPoint.z);
 			if (obb1.Intersects(aabb2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -517,15 +517,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			OBB obb2;
 			CreateElement(obb2, float3(obb_2_min_x, obb_2_min_y, obb_2_min_z), float3(obb_2_max_x, obb_2_max_y, obb_2_max_z));
-			App->console->AddLog("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
-			App->console->AddLog("the OBB2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb2.pos.x, obb2.pos.y, obb2.pos.z);
+			LOG("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
+			LOG("the OBB2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb2.pos.x, obb2.pos.y, obb2.pos.z);
 			if (obb1.Intersects(obb2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 		}
 		break;
@@ -533,15 +533,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Plane plane2;
 			CreateElement(plane2, float3(planes_2_normal_x, planes_2_normal_y, planes_2_normal_z), planes_2_constant);
-			App->console->AddLog("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
-			App->console->AddLog("the plane 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f constant = %.2f)", plane2.normal.x, plane2.normal.y, plane2.normal.z, plane2.d);
+			LOG("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
+			LOG("the plane 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f constant = %.2f)", plane2.normal.x, plane2.normal.y, plane2.normal.z, plane2.d);
 			if (obb1.Intersects(plane2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 
 		}
@@ -550,15 +550,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Ray ray2;
 			CreateElement(ray2, float3(ray_2_pos_x, ray_2_pos_y, ray_2_pos_z), float3(ray_2_dir_x, ray_2_dir_y, ray_2_dir_z));
-			App->console->AddLog("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
-			App->console->AddLog("the Ray 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f dir X = %.2f ,dir Y = %.2f , dir Z = %.2f)", ray2.pos.x, ray2.pos.y, ray2.pos.z, ray2.dir.x, ray2.dir.y, ray2.dir.z);
+			LOG("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
+			LOG("the Ray 2(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f dir X = %.2f ,dir Y = %.2f , dir Z = %.2f)", ray2.pos.x, ray2.pos.y, ray2.pos.z, ray2.dir.x, ray2.dir.y, ray2.dir.z);
 			if (obb1.Intersects(ray2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 
 		}
@@ -567,15 +567,15 @@ void ModuleScene::StartTestColision(int element_1, int element_2)
 		{
 			Triangle triangle2;
 			CreateElement(triangle2, float3(triangle_2_pos_a_x, triangle_2_pos_a_y, triangle_2_pos_a_z), float3(triangle_2_pos_b_x, triangle_2_pos_b_y, triangle_2_pos_b_z), float3(triangle_2_pos_c_x, triangle_2_pos_c_y, triangle_2_pos_c_z));
-			App->console->AddLog("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
-			App->console->AddLog("the triangle 2(pos aX = %.2f ,pos aY = %.2f , pos aZ = %.2f, pos bX = %.2f ,pos bY = %.2f , pos bZ = %.2f, pos cX = %.2f ,pos cY = %.2f , pos cZ = %.2f)", triangle2.a.x, triangle2.a.y, triangle2.a.z, triangle2.b.x, triangle2.b.y, triangle2.b.z, triangle2.c.x, triangle2.c.y, triangle2.c.z);
+			LOG("the OBB 1(pos X = %.2f ,pos Y = %.2f , pos Z = %.2f)", obb1.pos.x, obb1.pos.y, obb1.pos.z);
+			LOG("the triangle 2(pos aX = %.2f ,pos aY = %.2f , pos aZ = %.2f, pos bX = %.2f ,pos bY = %.2f , pos bZ = %.2f, pos cX = %.2f ,pos cY = %.2f , pos cZ = %.2f)", triangle2.a.x, triangle2.a.y, triangle2.a.z, triangle2.b.x, triangle2.b.y, triangle2.b.z, triangle2.c.x, triangle2.c.y, triangle2.c.z);
 			if (obb1.Intersects(triangle2))
 			{
-				App->console->AddLog("intersect");
+				LOG("intersect");
 			}
 			else
 			{
-				App->console->AddLog("not intersect");
+				LOG("not intersect");
 			}
 
 		}
