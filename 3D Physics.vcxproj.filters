@@ -287,6 +287,7 @@
     <ClInclude Include="Parson\parson.h">
       <Filter>Sources\Parson</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleMenuBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -441,6 +442,7 @@
     <ClCompile Include="Parson\parson.c">
       <Filter>Sources\Parson</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleMenuBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib-1.5\src\Math\Matrix.inl">
