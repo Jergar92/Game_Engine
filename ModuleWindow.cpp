@@ -7,7 +7,7 @@
 
 ModuleWindow::ModuleWindow(bool start_enabled)
 {
-	name = "windows";
+	name = "Windows";
 
 	window = NULL;
 	screen_surface = NULL;
@@ -86,6 +86,14 @@ bool ModuleWindow::Init()
 	}
 
 	return ret;
+}
+
+void ModuleWindow::GuiUpdate()
+{
+	if (ImGui::CollapsingHeader(name.c_str()))
+	{
+
+	}
 }
 
 // Called before quitting

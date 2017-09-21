@@ -6,7 +6,7 @@
 
 ModuleAudio::ModuleAudio(bool start_enabled) 
 {
-	name = "audio";
+	name = "Audio";
 }
 
 // Destructor
@@ -68,6 +68,14 @@ bool ModuleAudio::CleanUp()
 	Mix_Quit();
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	return true;
+}
+
+void ModuleAudio::GuiUpdate()
+{
+	if (ImGui::CollapsingHeader(name.c_str()))
+	{
+
+	}
 }
 
 // Play a music file

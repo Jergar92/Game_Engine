@@ -10,7 +10,7 @@
 
 ModuleInput::ModuleInput(bool start_enabled)
 {
-	name = "input";
+	name = "Input";
 
 	keyboard = new KEY_STATE[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
@@ -129,6 +129,14 @@ update_status ModuleInput::PreUpdate(float dt)
 		return UPDATE_STOP;
 
 	return UPDATE_CONTINUE;
+}
+
+void ModuleInput::GuiUpdate()
+{
+	if (ImGui::CollapsingHeader(name.c_str()))
+	{
+
+	}
 }
 
 // Called before quitting

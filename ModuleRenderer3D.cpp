@@ -10,7 +10,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled) 
 {
-	name = "render";
+	name = "Render";
 
 }
 
@@ -123,7 +123,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
-// Update present buffer to screen
+// Gui Update present buffer to screen
 void ModuleRenderer3D::GuiUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
