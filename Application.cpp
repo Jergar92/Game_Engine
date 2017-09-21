@@ -5,6 +5,7 @@
 
 Application::Application()
 {
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this);

@@ -1,11 +1,8 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include <vector>
 #include "imgui\imgui.h"
-#include "imgui\imgui_impl_sdl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+
 
 class ModuleConsole : public Module
 {
