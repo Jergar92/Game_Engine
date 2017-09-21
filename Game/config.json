@@ -1,0 +1,19 @@
+{
+  "App": {
+    "name": "feRasd",
+    "organization": "asdfsafawr2",
+    "frame_cap": 60
+  },
+  "Windows": {
+    "width": 1280,
+    "height": 1024
+  },
+  "Input": {
+ 
+  },
+ 
+  "Render": {
+   
+  }
+ 
+}

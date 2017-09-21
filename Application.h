@@ -11,6 +11,7 @@
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "ModuleScene.h"
+#include "ModuleMenuBar.h"
 #include <list>
 
 class Application
@@ -24,7 +25,10 @@ public:
 	ModulePhysics3D*	physics;
 	ModuleScene*		scene;
 	ModuleConsole*      console;
+	ModuleMenuBar*		menu_bar;
 private: 
+	std::string name;
+	std::string organization;
 
 	Timer	ms_timer;
 	float	dt;
@@ -46,7 +50,7 @@ public:
 
 	Application();
 	~Application();
-
+	bool Awake();
 	bool Init();
 	update_status Update();
 	void GuiUpdate(bool* open); //void?

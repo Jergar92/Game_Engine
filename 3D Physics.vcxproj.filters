@@ -282,12 +282,18 @@
     <ClInclude Include="MathGeoLib-1.5\src\Geometry\TriangleMesh.h">
       <Filter>Sources\MathGeo\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleConsole.h" />
-    <ClInclude Include="ModuleScene.h" />
     <ClInclude Include="Parson\parson.h">
       <Filter>Sources\Parson</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleMenuBar.h" />
+    <ClInclude Include="ModuleConsole.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleMenuBar.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleScene.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -437,12 +443,18 @@
     <ClCompile Include="MathGeoLib-1.5\src\Geometry\AABB.cpp">
       <Filter>Sources\MathGeo\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleConsole.cpp" />
-    <ClCompile Include="ModuleScene.cpp" />
     <ClCompile Include="Parson\parson.c">
       <Filter>Sources\Parson</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleMenuBar.cpp" />
+    <ClCompile Include="ModuleConsole.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleMenuBar.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleScene.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib-1.5\src\Math\Matrix.inl">

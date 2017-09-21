@@ -39,6 +39,12 @@ int main(int argc, char ** argv)
 
 		case MAIN_START:
 
+			LOG("-------------- Application Awake --------------");
+			if (App->Awake() == false)
+			{
+				LOG("Application Init exits with ERROR");
+				state = MAIN_EXIT;
+			}
 			LOG("-------------- Application Init --------------");
 			if (App->Init() == false)
 			{

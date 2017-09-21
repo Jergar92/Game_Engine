@@ -14,6 +14,7 @@ Application::Application()
 	physics = new ModulePhysics3D(this);
 	scene = new ModuleScene(this);
 	console = new ModuleConsole(this);
+	menu_bar = new ModuleMenuBar(this);
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -31,7 +32,8 @@ Application::Application()
 	
 	//Scene Module
 	AddModule(scene);
-	
+	AddModule(menu_bar);
+
 	
 	// Renderer last!
 	AddModule(renderer3D);
@@ -48,6 +50,35 @@ Application::~Application()
 	}
 
 	
+}
+
+bool Application::Awake()
+{
+	bool ret = true;
+	// Call Awake() in all modules
+
+	JSON_Value * config_data = json_parse_file("config.json");
+	if (config_data == NULL)
+	{
+		ret = false;
+	}
+
+	if (ret == true)
+	{
+		JSON_Object * object_data = json_value_get_object(config_data);
+		JSON_Object * application_data = json_object_dotget_object(object_data, "App");
+		name = json_object_dotget_string(application_data, "name");
+		organization = json_object_dotget_string(application_data, "organization");
+		fps_cap = json_object_get_number(application_data, "frame_cap");
+
+		std::list<Module*>::iterator item = list_modules.begin();
+		while (item != list_modules.end() && ret == true)
+		{
+			ret = item._Ptr->_Myval->Awake(json_object_dotget_object(object_data, item._Ptr->_Myval->name.c_str()));
+			item++;
+		}
+	}
+	return ret;
 }
 
 bool Application::Init()
@@ -133,10 +164,7 @@ update_status Application::Update()
 
 	if (ret == UPDATE_CONTINUE) {
 		GuiUpdate(&no_titlebar);
-
 	}
-
-
 	item = list_modules.begin();
 
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
@@ -192,6 +220,7 @@ void Application::AddModule(Module* mod)
 
 void Application::GuiUpdate(bool* open)
 {
+
 	static bool no_titlebar = false;
 	static bool no_border = true;
 	static bool no_resize = false;

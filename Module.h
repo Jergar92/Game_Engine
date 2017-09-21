@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include "Parson\parson.h"
 class Application;
 struct PhysBody3D;
 class Module
@@ -17,6 +17,10 @@ public:
 	virtual ~Module()
 	{}
 
+	virtual bool Awake(const JSON_Object* data)
+	{
+		return true;
+	}
 	virtual bool Init() 
 	{
 		return true; 

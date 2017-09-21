@@ -45,8 +45,7 @@ bool ModuleMenuBar::CleanUp()
 }
 
 void ModuleMenuBar::ShowMenuBar()
-{
-
+{/*
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -56,19 +55,24 @@ void ModuleMenuBar::ShowMenuBar()
 		}
 		if (ImGui::BeginMenu("Help"))
 		{
-			
-			if(ImGui::MenuItem("Documentation"))
-			{ 
-				
-			}		
-				
-		}
-	}
 
+			if (ImGui::MenuItem("Documentation"))
+			{
+
+			}
+
+			ImGui::EndMenu();
+
+		}
+		ImGui::EndMenuBar();
+
+	}
+	*/
 }
 
 void ModuleMenuBar::ShowMenuFile()
 {
+	
 	ImGui::MenuItem("(dummy menu)", NULL, false, false);
 	if (ImGui::MenuItem("New")) {}
 	if (ImGui::MenuItem("Open", "Ctrl+O")) {}
@@ -122,4 +126,5 @@ void ModuleMenuBar::ShowMenuFile()
 	}
 	if (ImGui::MenuItem("Checked", NULL, true)) {}
 	if (ImGui::MenuItem("Quit", "Alt+F4")) {}
+	
 }
