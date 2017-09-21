@@ -108,10 +108,7 @@ bool Application::Init()
 		item++;
 	}
 	
-	if (fps_cap > 0)
-	{
-		fps = 1000 / fps_cap;
-	}
+	SetFPSCap();
 	startup_time.Start();
 	ms_timer.Start();
 	return ret;
@@ -129,10 +126,16 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	static int values_offset = 0;
+
 	if (last_sec_frame_time.Read() > 1000)
 	{
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
+
+		fps_values[values_offset] = prev_last_sec_frame_count;
+		values_offset = (values_offset + 1) % IM_ARRAYSIZE(fps_values);
+
 		last_sec_frame_count = 0;
 	}
 
@@ -143,6 +146,14 @@ void Application::FinishUpdate()
 	if (fps > 0 && last_frame_ms < fps)
 	{
 		SDL_Delay(fps - last_frame_ms);
+	}
+}
+
+void Application::SetFPSCap()
+{
+	if (fps_cap > 0)
+	{
+		fps = 1000 / fps_cap;
 	}
 }
 
@@ -163,6 +174,7 @@ update_status Application::Update()
 	}
 
 	if (ret == UPDATE_CONTINUE) {
+		ImGui::ShowTestWindow();
 		GuiUpdate(&no_titlebar);
 	}
 	item = list_modules.begin();
@@ -199,17 +211,62 @@ bool Application::CleanUp()
 	return ret;
 }
 
-bool Application::LoadGameNow()
+bool Application::LoadConfigNow()
 {
-	bool ret = false;
+	bool ret = true;
+	JSON_Value * config_data = json_parse_file("config.json");
 
+	if (config_data == NULL)
+	{
+		ret = false;
+	}
+
+	if (ret == true)
+	{
+		JSON_Object * object_data = json_value_get_object(config_data);
+		JSON_Object * application_data = json_object_dotget_object(object_data, "App");
+		name = json_object_dotget_string(application_data, "name");
+		organization = json_object_dotget_string(application_data, "organization");
+		fps_cap = json_object_get_number(application_data, "frame_cap");
+		SetFPSCap();
+		std::list<Module*>::iterator item = list_modules.begin();
+		while (item != list_modules.end() && ret == true)
+		{
+			ret = item._Ptr->_Myval->LoadConfig(json_object_dotget_object(object_data, item._Ptr->_Myval->name.c_str()));
+			item++;
+		}
+	}
 	return ret;
 }
 
-bool Application::SaveGameNow()
+bool Application::SaveConfigNow()
 {
 	bool ret = true;
+	JSON_Value * config_data = json_parse_file("config.json");
 
+	if (config_data == NULL)
+	{
+		ret = false;
+	}
+
+	if (ret == true)
+	{
+		JSON_Object * object_data = json_value_get_object(config_data);
+		JSON_Object* application_data = json_object_dotget_object(object_data, "App");
+
+		json_object_dotset_string(application_data, "name",name.c_str());
+		json_object_dotset_string(application_data, "organization",organization.c_str());
+		json_object_dotset_number(application_data, "frame_cap",fps_cap);
+
+		std::list<Module*>::iterator item = list_modules.begin();
+		while (item != list_modules.end() && ret == true)
+		{
+			ret = item._Ptr->_Myval->SaveConfig(json_object_dotget_object(object_data, item._Ptr->_Myval->name.c_str()));
+			item++;
+		}
+		json_serialize_to_file(config_data, "config.json");
+
+	}
 	return ret;
 }
 
@@ -249,28 +306,34 @@ void Application::GuiUpdate(bool* open)
 	if (ImGui::CollapsingHeader("Application"))
 	{
 		
-		ImGui::Text("%u",frames_on_last_update);
+		ImGui::Text("FPS: %u",frames_on_last_update);
 		ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120);
-		if (ImGui::Button("Apply##frame_button"))
-		{
-			if (fps_cap > 0)
-			{
-				fps = 1000 / fps_cap;
-			}
-		}
+
+		
+		ImGui::PlotHistogram("FPS Histogram", fps_values, IM_ARRAYSIZE(fps_values), 0, NULL, 0.0f, 120.0f, ImVec2(0, 80));
+
 	}
 
-	update_status ret = UPDATE_CONTINUE;
-
+	
 	std::list<Module*>::iterator item = list_modules.begin();
 
-	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+	while (item != list_modules.end())
 	{
 		
 		item._Ptr->_Myval->GuiUpdate();
 		item++;
 	}
+	if (ImGui::Button("Apply##config_button"))
+	{
+		SaveConfigNow();
+		LoadConfigNow();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Discard##config_button"))
+	{
+		LoadConfigNow();
 
+	}
 	ImGui::End();
 
 }

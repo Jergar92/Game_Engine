@@ -57,11 +57,13 @@ public:
 	bool CleanUp();
 
 private:
-	bool LoadGameNow();
-	bool SaveGameNow();
+	float fps_values[90] = { 0 };
+	bool LoadConfigNow();
+	bool SaveConfigNow();
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+	void SetFPSCap();
 };
 
 extern Application* App;

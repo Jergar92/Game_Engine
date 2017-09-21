@@ -50,12 +50,12 @@ public:
 		return;
 	}
 
-	virtual bool Load()
+	virtual bool LoadConfig(const JSON_Object* data)
 	{
 		return true;
 	}
 
-	virtual bool Save()
+	virtual bool SaveConfig(const JSON_Object* data)
 	{
 		return true;
 	}
