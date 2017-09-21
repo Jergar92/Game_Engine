@@ -5,7 +5,7 @@
 #include "imgui\imgui_impl_sdl.h"
 #include "SDL\include\SDL_opengl.h"
 
-ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleWindow::ModuleWindow(bool start_enabled)
 {
 	name = "windows";
 

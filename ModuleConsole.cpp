@@ -9,7 +9,7 @@
 
 
 
-ModuleConsole::ModuleConsole(Application * app, bool start_enabled) :Module(app, start_enabled)
+ModuleConsole::ModuleConsole(bool start_enabled) 
 {
 	ClearLog();
 	memset(inputBuf, 0, sizeof(inputBuf));
