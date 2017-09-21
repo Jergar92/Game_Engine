@@ -33,8 +33,8 @@ bool ModuleWindow::Init()
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH * SCREEN_SIZE;
-		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		width = SCREEN_WIDTH * SCREEN_SIZE;
+		height = SCREEN_HEIGHT * SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
@@ -92,7 +92,12 @@ void ModuleWindow::GuiUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-
+		ImGui::SliderInt("Width", &width, 640, 1280);
+		ImGui::SliderInt("Height", &height, 480, 1024);
+		if (ImGui::Button("Apply changes"))
+		{
+			SDL_SetWindowSize(window, width, height);
+		}
 	}
 }
 

@@ -21,6 +21,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
+
 	AddModule(audio);
 	AddModule(physics);
 
@@ -107,7 +108,10 @@ update_status Application::Update()
 		item++;	
 	}
 
-	GuiUpdate(&no_titlebar);
+	if (ret == UPDATE_CONTINUE) {
+		GuiUpdate(&no_titlebar);
+
+	}
 
 
 	item = list_modules.begin();
@@ -181,6 +185,7 @@ void Application::GuiUpdate(bool* open)
 	if (no_scrollbar) window_flags |= ImGuiWindowFlags_NoScrollbar;
 	if (no_collapse)  window_flags |= ImGuiWindowFlags_NoCollapse;
 	if (!no_menu)     window_flags |= ImGuiWindowFlags_MenuBar;
+	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 
 	if (!ImGui::Begin("Configuration", open, window_flags))
 	{
