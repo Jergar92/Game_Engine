@@ -94,7 +94,7 @@ void ModuleWindow::GuiUpdate()
 	{
 		ImGui::SliderInt("Width", &width, 640, 1280);
 		ImGui::SliderInt("Height", &height, 480, 1024);
-		if (ImGui::Button("Apply changes"))
+		if (ImGui::Button("Apply##windows_button"))
 		{
 			SDL_SetWindowSize(window, width, height);
 		}
