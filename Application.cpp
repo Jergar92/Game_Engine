@@ -89,12 +89,10 @@ bool Application::Init()
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-
 	frame_count++;
 	last_sec_frame_count++;
-
-	dt = (float)ms_timer.Read() / 1000.0f;
-	ms_timer.Start();
+	dt = frame_time.ReadSec();
+	frame_time.Start();
 }
 
 // ---------------------------------------------
@@ -109,10 +107,8 @@ void Application::FinishUpdate()
 
 	float avg_fps = float(frame_count) / startup_time.ReadSec();
 	float seconds_since_startup = startup_time.ReadSec();
-
-	uint32 last_frame_ms = frame_time.Read();
-	uint32 frames_on_last_update = prev_last_sec_frame_count;
-
+	uint32_t last_frame_ms = frame_time.Read();
+	frames_on_last_update = prev_last_sec_frame_count;
 	if (fps > 0 && last_frame_ms < fps)
 	{
 		SDL_Delay(fps - last_frame_ms);
@@ -224,6 +220,7 @@ void Application::GuiUpdate(bool* open)
 	if (ImGui::CollapsingHeader("Application"))
 	{
 		
+		ImGui::Text("%u",frames_on_last_update);
 		ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120);
 		if (ImGui::Button("Apply##frame_button"))
 		{
@@ -235,7 +232,6 @@ void Application::GuiUpdate(bool* open)
 	}
 
 	update_status ret = UPDATE_CONTINUE;
-	PrepareUpdate();
 
 	std::list<Module*>::iterator item = list_modules.begin();
 
