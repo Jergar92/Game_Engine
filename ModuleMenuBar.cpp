@@ -45,7 +45,7 @@ bool ModuleMenuBar::CleanUp()
 }
 
 void ModuleMenuBar::ShowMenuBar()
-{/*
+{
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -60,14 +60,16 @@ void ModuleMenuBar::ShowMenuBar()
 			{
 
 			}
-
+			
 			ImGui::EndMenu();
 
 		}
-		ImGui::EndMenuBar();
-
+		
+		ImGui::EndMainMenuBar();
+		
 	}
-	*/
+	
+	
 }
 
 void ModuleMenuBar::ShowMenuFile()
