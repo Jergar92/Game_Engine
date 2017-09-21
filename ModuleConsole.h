@@ -25,6 +25,7 @@ public:
 	
 
 private:
+	
 	char            inputBuf[256];
 	bool            ScrollToBottom;
 	int             HistoryPos;
