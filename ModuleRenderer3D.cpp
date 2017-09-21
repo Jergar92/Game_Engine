@@ -122,6 +122,15 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	return UPDATE_CONTINUE;
 }
+
+// Update present buffer to screen
+void ModuleRenderer3D::GuiUpdate()
+{
+	if (ImGui::CollapsingHeader(name.c_str()))
+	{
+
+	}
+}
 // Update present buffer to screen
 update_status ModuleRenderer3D::Update(float dt)
 {

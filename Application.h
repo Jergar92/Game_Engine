@@ -37,6 +37,7 @@ public:
 
 	bool Init();
 	update_status Update();
+	void GuiUpdate(bool* open); //void?
 	bool CleanUp();
 
 private:

@@ -3,8 +3,7 @@
 #include"ModuleScene.h"
 #include "imgui\imgui.h"
 #include "imgui\imgui_impl_sdl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+
 
 ModuleScene::ModuleScene(bool start_enabled)
 {

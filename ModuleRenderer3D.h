@@ -14,10 +14,10 @@ public:
 
 	bool Init();
 	update_status PreUpdate(float dt);
+	void GuiUpdate();
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
-
 	void OnResize(int width, int height);
 
 public:

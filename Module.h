@@ -41,9 +41,9 @@ public:
 	{
 		return UPDATE_CONTINUE;
 	}
-	virtual bool GuiUpdate()
+	virtual void GuiUpdate()
 	{
-		return true;
+		return;
 	}
 
 	virtual bool Load()

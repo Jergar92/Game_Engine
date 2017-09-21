@@ -1,5 +1,7 @@
 #include "Application.h"
 #include "p2Defs.h"
+#include "imgui\imgui.h"
+#include "imgui\imgui_impl_sdl.h"
 
 Application::Application()
 {
@@ -92,6 +94,8 @@ void Application::FinishUpdate()
 // Call PreUpdate, Update and PostUpdate on all modules
 update_status Application::Update()
 {
+	static bool no_titlebar = true;
+
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 	
@@ -102,6 +106,9 @@ update_status Application::Update()
 		ret = item._Ptr->_Myval->PreUpdate(dt);
 		item++;	
 	}
+
+	GuiUpdate(&no_titlebar);
+
 
 	item = list_modules.begin();
 
@@ -154,4 +161,51 @@ bool Application::SaveGameNow()
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
+}
+
+void Application::GuiUpdate(bool* open)
+{
+	static bool no_titlebar = false;
+	static bool no_border = true;
+	static bool no_resize = false;
+	static bool no_move = false;
+	static bool no_scrollbar = false;
+	static bool no_collapse = false;
+	static bool no_menu = false;
+
+	ImGuiWindowFlags window_flags = 0;
+	if (no_titlebar)  window_flags |= ImGuiWindowFlags_NoTitleBar;
+	if (!no_border)   window_flags |= ImGuiWindowFlags_ShowBorders;
+	if (no_resize)    window_flags |= ImGuiWindowFlags_NoResize;
+	if (no_move)      window_flags |= ImGuiWindowFlags_NoMove;
+	if (no_scrollbar) window_flags |= ImGuiWindowFlags_NoScrollbar;
+	if (no_collapse)  window_flags |= ImGuiWindowFlags_NoCollapse;
+	if (!no_menu)     window_flags |= ImGuiWindowFlags_MenuBar;
+
+	if (!ImGui::Begin("Configuration", open, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+
+	if (ImGui::CollapsingHeader("Application"))
+	{
+
+	}
+
+	update_status ret = UPDATE_CONTINUE;
+	PrepareUpdate();
+
+	std::list<Module*>::iterator item = list_modules.begin();
+
+	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+	{
+		
+		item._Ptr->_Myval->GuiUpdate();
+		item++;
+	}
+
+	ImGui::End();
+
 }
