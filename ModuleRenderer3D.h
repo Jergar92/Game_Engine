@@ -12,16 +12,19 @@ public:
 	ModuleRenderer3D(bool start_enabled = true);
 	~ModuleRenderer3D();
 
-	bool Init();
+	bool Awake(const JSON_Object * data);
 	update_status PreUpdate(float dt);
 	void GuiUpdate();
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
+	bool SaveConfig(const JSON_Object * data);
+	bool LoadConfig(const JSON_Object * data);
 	bool CleanUp();
 	void OnResize(int width, int height);
 
 public:
-	ImVec4 clear_color = ImColor(114, 144, 154);
+	int vsync = 0;
+	ImVec4 background_color = ImColor(114, 144, 154);
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;

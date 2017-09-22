@@ -15,7 +15,8 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
-	bool Init();
+	bool Awake(const JSON_Object * data);
+
 	void GuiUpdate();
 	bool CleanUp();
 

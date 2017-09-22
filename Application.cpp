@@ -74,7 +74,7 @@ bool Application::Awake()
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			ret = item._Ptr->_Myval->Awake(json_object_dotget_object(object_data, item._Ptr->_Myval->name.c_str()));
+			ret = item._Ptr->_Myval->Awake(object_data);
 			item++;
 		}
 	}
@@ -232,7 +232,7 @@ bool Application::LoadConfigNow()
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			ret = item._Ptr->_Myval->LoadConfig(json_object_dotget_object(object_data, item._Ptr->_Myval->name.c_str()));
+			ret = item._Ptr->_Myval->LoadConfig(object_data);
 			item++;
 		}
 	}
@@ -261,7 +261,7 @@ bool Application::SaveConfigNow()
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			ret = item._Ptr->_Myval->SaveConfig(json_object_dotget_object(object_data, item._Ptr->_Myval->name.c_str()));
+			ret = item._Ptr->_Myval->SaveConfig(object_data);
 			item++;
 		}
 		json_serialize_to_file(config_data, "config.json");

@@ -17,15 +17,14 @@ ModuleWindow::ModuleWindow(bool start_enabled)
 ModuleWindow::~ModuleWindow()
 {
 }
-
 // Called before render is available
-bool ModuleWindow::Init()
+bool ModuleWindow::Awake(const JSON_Object * data)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
 
 
-	if(SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -48,22 +47,22 @@ bool ModuleWindow::Init()
 		SDL_DisplayMode current;
 		SDL_GetCurrentDisplayMode(0, &current);
 
-		if(WIN_FULLSCREEN == true)
+		if (WIN_FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(WIN_RESIZABLE == true)
+		if (WIN_RESIZABLE == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(WIN_BORDERLESS == true)
+		if (WIN_BORDERLESS == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if (WIN_FULLSCREEN_DESKTOP == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
@@ -71,22 +70,23 @@ bool ModuleWindow::Init()
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 		glcontext = SDL_GL_CreateContext(window);
 
-		if(window == NULL)
+		if (window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
 		else
 		{
-			ImGui_ImplSdlGL2_Init(window);	
+			ImGui_ImplSdlGL2_Init(window);
 			screen_surface = SDL_GetWindowSurface(window);
-			
+
 
 		}
 	}
 
 	return ret;
 }
+
 
 void ModuleWindow::GuiUpdate()
 {
