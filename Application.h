@@ -58,6 +58,8 @@ public:
 
 private:
 	float fps_values[90] = { 0 };
+	float millisecons_values[90] = { 0 };
+
 	bool LoadConfigNow();
 	bool SaveConfigNow();
 	void AddModule(Module* mod);

@@ -127,6 +127,7 @@ void Application::PrepareUpdate()
 void Application::FinishUpdate()
 {
 	static int values_offset = 0;
+	static int millisecons_offset = 0;
 
 	if (last_sec_frame_time.Read() > 1000)
 	{
@@ -136,6 +137,8 @@ void Application::FinishUpdate()
 		fps_values[values_offset] = prev_last_sec_frame_count;
 		values_offset = (values_offset + 1) % IM_ARRAYSIZE(fps_values);
 
+	
+		
 		last_sec_frame_count = 0;
 	}
 
@@ -143,6 +146,8 @@ void Application::FinishUpdate()
 	float seconds_since_startup = startup_time.ReadSec();
 	uint32_t last_frame_ms = frame_time.Read();
 	frames_on_last_update = prev_last_sec_frame_count;
+	millisecons_values[values_offset] = last_frame_ms;
+	millisecons_offset = (millisecons_offset + 1) % IM_ARRAYSIZE(fps_values);
 	if (fps > 0 && last_frame_ms < fps)
 	{
 		SDL_Delay(fps - last_frame_ms);
@@ -151,10 +156,8 @@ void Application::FinishUpdate()
 
 void Application::SetFPSCap()
 {
-	if (fps_cap > 0)
-	{
-		fps = 1000 / fps_cap;
-	}
+		fps = (fps_cap > 0) ? 1000 / fps_cap : 0;
+	
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -278,22 +281,12 @@ void Application::AddModule(Module* mod)
 void Application::GuiUpdate(bool* open)
 {
 
-	static bool no_titlebar = false;
-	static bool no_border = true;
-	static bool no_resize = false;
-	static bool no_move = false;
-	static bool no_scrollbar = false;
-	static bool no_collapse = false;
-	static bool no_menu = false;
 
 	ImGuiWindowFlags window_flags = 0;
-	if (no_titlebar)  window_flags |= ImGuiWindowFlags_NoTitleBar;
-	if (!no_border)   window_flags |= ImGuiWindowFlags_ShowBorders;
-	if (no_resize)    window_flags |= ImGuiWindowFlags_NoResize;
-	if (no_move)      window_flags |= ImGuiWindowFlags_NoMove;
-	if (no_scrollbar) window_flags |= ImGuiWindowFlags_NoScrollbar;
-	if (no_collapse)  window_flags |= ImGuiWindowFlags_NoCollapse;
-	if (!no_menu)     window_flags |= ImGuiWindowFlags_MenuBar;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+
 	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 
 	if (!ImGui::Begin("Configuration", open, window_flags))
@@ -308,9 +301,8 @@ void Application::GuiUpdate(bool* open)
 		
 		ImGui::Text("FPS: %u",frames_on_last_update);
 		ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120);
-
-		
 		ImGui::PlotHistogram("FPS Histogram", fps_values, IM_ARRAYSIZE(fps_values), 0, NULL, 0.0f, 120.0f, ImVec2(0, 80));
+		ImGui::PlotHistogram("Millisecons Histogram", millisecons_values, IM_ARRAYSIZE(millisecons_values), 0, NULL, 0.0f, 60.0f, ImVec2(0, 80));
 
 	}
 
@@ -323,6 +315,8 @@ void Application::GuiUpdate(bool* open)
 		item._Ptr->_Myval->GuiUpdate();
 		item++;
 	}
+	ImGui::Separator();
+
 	if (ImGui::Button("Apply##config_button"))
 	{
 		SaveConfigNow();
