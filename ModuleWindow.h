@@ -23,7 +23,9 @@ public:
 	bool CleanUp();
 
 	void SetTitle(const char* title);
-
+	const char* GetTitle();
+	const int GetWidth();
+	const int GetHeight();
 private:
 	void SetWindowsFlags(Uint32& flags);
 	

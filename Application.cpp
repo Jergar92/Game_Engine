@@ -6,15 +6,16 @@
 Application::Application()
 {
 
-	window = new ModuleWindow(this);
-	input = new ModuleInput(this);
-	audio = new ModuleAudio(this);
-	renderer3D = new ModuleRenderer3D(this);
-	camera = new ModuleCamera3D(this);
-	physics = new ModulePhysics3D(this);
-	scene = new ModuleScene(this);
-	console = new ModuleConsole(this);
-	menu_bar = new ModuleMenuBar(this);
+	window = new ModuleWindow();
+	input = new ModuleInput();
+	audio = new ModuleAudio();
+	renderer3D = new ModuleRenderer3D();
+	camera = new ModuleCamera3D();
+	physics = new ModulePhysics3D();
+	scene = new ModuleScene();
+	console = new ModuleConsole();
+	menu_bar = new ModuleMenuBar();
+	hardware = new ModuleHardware();
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -32,6 +33,8 @@ Application::Application()
 	
 	//Scene Module
 	AddModule(scene);
+	AddModule(hardware);
+
 	AddModule(menu_bar);
 
 	

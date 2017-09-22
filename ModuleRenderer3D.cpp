@@ -108,7 +108,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 	}
 
 	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	OnResize(App->window->GetWidth(), App->window->GetHeight());
 
 	return ret;
 }

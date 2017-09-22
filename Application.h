@@ -12,6 +12,7 @@
 #include "ModulePhysics3D.h"
 #include "ModuleScene.h"
 #include "ModuleMenuBar.h"
+#include "ModuleHardware.h"
 #include <list>
 
 class Application
@@ -26,6 +27,7 @@ public:
 	ModuleScene*		scene;
 	ModuleConsole*      console;
 	ModuleMenuBar*		menu_bar;
+	ModuleHardware*		hardware;
 private: 
 	std::string name;
 	std::string organization;
