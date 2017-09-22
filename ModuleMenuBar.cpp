@@ -20,6 +20,7 @@ bool ModuleMenuBar::Start()
 	bool ret = true;
 
 	LOG("Menu Bar Ready");
+	
 
 	return ret;
 
@@ -28,12 +29,23 @@ bool ModuleMenuBar::Start()
 
 update_status ModuleMenuBar::PreUpdate(float dt)
 {
+	
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleMenuBar::Update(float dt)
 {
 	ShowMenuBar();
+	
+	if (App->console->GetShowConsole())
+		App->console->Draw("Console Ready");
+	
+	if (GetAboutUsStatus())
+		AboutUsWindow();
+	
+	if (GetUpdateStatus())
+		return UPDATE_STOP;
+
 	return UPDATE_CONTINUE;
 }
 
@@ -44,25 +56,66 @@ bool ModuleMenuBar::CleanUp()
 	return ret;
 }
 
+
 void ModuleMenuBar::ShowMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			ShowMenuFile();
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Help"))
-		{
-
-			if (ImGui::MenuItem("Documentation"))
+			if (ImGui::MenuItem("Open"))
 			{
 
 			}
+
+			if (ImGui::MenuItem("Save"))
+			{
+
+			
+			}
+
+			if (ImGui::MenuItem("Quit", "alt+f4"))
+			{
+				StopUpdate();
+			}
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("View"))
+		{
+			
+			if (ImGui::MenuItem("Console"))
+			{
+				App->console->ActiveConsole();
+				LOG("Create Console, no existing errors");
+			}
+			
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Configuration"))
+			{
+
+
+			}
+
+			ImGui::Separator();
+			
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Help"))
+		{
+
+			if (ImGui::MenuItem("About us"))
+			{
+				AboutUs();
+			}
+				
+			
 			
 			ImGui::EndMenu();
-
 		}
 		
 		ImGui::EndMainMenuBar();
@@ -72,61 +125,32 @@ void ModuleMenuBar::ShowMenuBar()
 	
 }
 
-void ModuleMenuBar::ShowMenuFile()
+void ModuleMenuBar::AboutUs()
 {
-	
-	ImGui::MenuItem("(dummy menu)", NULL, false, false);
-	if (ImGui::MenuItem("New")) {}
-	if (ImGui::MenuItem("Open", "Ctrl+O")) {}
-	if (ImGui::BeginMenu("Open Recent"))
-	{
-		ImGui::MenuItem("fish_hat.c");
-		ImGui::MenuItem("fish_hat.inl");
-		ImGui::MenuItem("fish_hat.h");
-		if (ImGui::BeginMenu("More.."))
-		{
-			ImGui::MenuItem("Hello");
-			ImGui::MenuItem("Sailor");
-			if (ImGui::BeginMenu("Recurse.."))
-			{
-				ShowMenuFile();
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenu();
-		}
-		ImGui::EndMenu();
-	}
-	if (ImGui::MenuItem("Save", "Ctrl+S")) {}
-	if (ImGui::MenuItem("Save As..")) {}
-	ImGui::Separator();
-	if (ImGui::BeginMenu("Options"))
-	{
-		static bool enabled = true;
-		ImGui::MenuItem("Enabled", "", &enabled);
-		ImGui::BeginChild("child", ImVec2(0, 60), true);
-		for (int i = 0; i < 10; i++)
-			ImGui::Text("Scrolling Text %d", i);
-		ImGui::EndChild();
-		static float f = 0.5f;
-		static int n = 0;
-		static bool b = true;
-		ImGui::SliderFloat("Value", &f, 0.0f, 1.0f);
-		ImGui::InputFloat("Input", &f, 0.1f);
-		ImGui::Combo("Combo", &n, "Yes\0No\0Maybe\0\0");
-		ImGui::Checkbox("Check", &b);
-		ImGui::EndMenu();
-	}
-	if (ImGui::BeginMenu("Colors"))
-	{
-		for (int i = 0; i < ImGuiCol_COUNT; i++)
-			ImGui::MenuItem(ImGui::GetStyleColorName((ImGuiCol)i));
-		ImGui::EndMenu();
-	}
-	if (ImGui::BeginMenu("Disabled", false)) // Disabled
-	{
-		IM_ASSERT(0);
-	}
-	if (ImGui::MenuItem("Checked", NULL, true)) {}
-	if (ImGui::MenuItem("Quit", "Alt+F4")) {}
-	
+	show_about_us = !show_about_us;
+}
+
+void ModuleMenuBar::AboutUsWindow()
+{
+	ImGui::Begin("About Us", &open);
+	open = !open;
+	ImGui::Text("this game engine is created for two student of the UPC, Andreu Rojas, and Sergio Saez, Enjoi It.");
+	ImGui::End();
+}
+
+bool ModuleMenuBar::GetAboutUsStatus()
+{
+	return show_about_us;
+}
+
+
+
+bool ModuleMenuBar::GetUpdateStatus()
+{
+	return  stop_update;
+}
+
+void ModuleMenuBar::StopUpdate()
+{
+	stop_update = !stop_update;
 }

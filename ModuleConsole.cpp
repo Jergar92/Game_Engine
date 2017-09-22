@@ -36,7 +36,7 @@ update_status ModuleConsole::PreUpdate(float dt)
 
 update_status ModuleConsole::Update(float dt)
 {
-
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -50,6 +50,7 @@ bool ModuleConsole::CleanUp()
 
 	return ret;
 }
+
 
 void ModuleConsole::AddLog(const char * fmt, ...)
 {
@@ -73,21 +74,13 @@ void ModuleConsole::ClearLog()
 	ScrollToBottom = true;
 
 }
-void ModuleConsole::Draw(const char * tittle, bool * p_open)
+void ModuleConsole::Draw(const char * tittle)
 {
-
+	ImGui::Begin(tittle);
 	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-	if (!ImGui::Begin(tittle, p_open))
-	{
-		ImGui::End();
-		return;
-	}
+
 
 	ImGui::TextWrapped("Game Engine Console, in this console you can display all information do it for LOG");
-
-
-	// TODO: display items starting from the bottom
-
 
 	if (ImGui::SmallButton("Clear")) { ClearLog(); } ImGui::SameLine();
 	if (ImGui::SmallButton("Scroll to bottom")) ScrollToBottom = true;
@@ -119,10 +112,18 @@ void ModuleConsole::Draw(const char * tittle, bool * p_open)
 	ImGui::EndChild();
 	ImGui::Separator();
 
-	// Demonstrate keeping auto focus on the input box
-	if (ImGui::IsItemHovered() || (ImGui::IsRootWindowOrAnyChildFocused() && !ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0)))
-		ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
-
 	ImGui::End();
 }
+
+
+void ModuleConsole::ActiveConsole()
+{
+   show_app_console = !show_app_console;
+}
+
+bool ModuleConsole::GetShowConsole()
+{
+	return show_app_console;
+}
+
 

@@ -913,10 +913,10 @@ update_status ModuleScene::Update(float dt)
 	RandomNumbers();
     
 	
-	if (show_console)
-		App->console->Draw("Test Console", &show_console);
-	if (ImGui::Button("Test Console"))
-		show_console = !show_console;
+	//if (show_console)
+	//	App->console->Draw("Test Console", &show_console);
+	//if (ImGui::Button("Test Console"))
+	//	show_console = !show_console;
 	
 
 

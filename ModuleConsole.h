@@ -19,11 +19,12 @@ public:
 
 public:
 	
+	void ActiveConsole();
+	bool GetShowConsole();
+
 	void AddLog(const char*fmt, ...);
-	void Draw(const char* tittle,bool* p_open);
-
+	void Draw(const char* tittle);
 	
-
 private:
 	
 	char            inputBuf[256];
