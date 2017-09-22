@@ -31,10 +31,20 @@ bool ModuleWindow::Awake(const JSON_Object * data)
 	}
 	else
 	{
+
+		JSON_Object * window_data = json_object_dotget_object(data, name.c_str());
+		
+
 		//Create window
-		width = SCREEN_WIDTH * SCREEN_SIZE;
-		height = SCREEN_HEIGHT * SCREEN_SIZE;
-		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+		title = json_object_dotget_string(window_data, "title");
+		width = json_object_dotget_number(window_data, "width") * SCREEN_SIZE;
+		height = json_object_dotget_number(window_data, "height") * SCREEN_SIZE;
+		int i = 0;
+		windows_options[i++] = json_object_dotget_boolean(window_data, "full_screen");
+		windows_options[i++] = json_object_dotget_boolean(window_data, "window_full_screen");
+		windows_options[i++] = json_object_dotget_boolean(window_data, "window_borderless");
+		windows_options[i++] = json_object_dotget_boolean(window_data, "window_resizable");
+
 
 		//Use OpenGL 2.1
 
@@ -46,28 +56,12 @@ bool ModuleWindow::Awake(const JSON_Object * data)
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 		SDL_DisplayMode current;
 		SDL_GetCurrentDisplayMode(0, &current);
+		
+		Uint32 flags = 0;
+		SetWindowsFlags(flags);
+		
 
-		if (WIN_FULLSCREEN == true)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN;
-		}
-
-		if (WIN_RESIZABLE == true)
-		{
-			flags |= SDL_WINDOW_RESIZABLE;
-		}
-
-		if (WIN_BORDERLESS == true)
-		{
-			flags |= SDL_WINDOW_BORDERLESS;
-		}
-
-		if (WIN_FULLSCREEN_DESKTOP == true)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-		}
-
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 		glcontext = SDL_GL_CreateContext(window);
 
 		if (window == NULL)
@@ -87,17 +81,89 @@ bool ModuleWindow::Awake(const JSON_Object * data)
 	return ret;
 }
 
+void ModuleWindow::SetWindowsFlags(Uint32& flags)
+{
+	int i = 0;
+	flags= SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+	if (windows_options[i++] == true)
+	{
+		flags |= SDL_WINDOW_FULLSCREEN;
+	}
+
+	if (windows_options[i++] == true)
+	{
+		flags |= SDL_WINDOW_RESIZABLE;
+	}
+
+	if (windows_options[i++] == true)
+	{
+		flags |= SDL_WINDOW_BORDERLESS;
+	}
+
+	if (windows_options[i++] == true)
+	{
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
+}
 
 void ModuleWindow::GuiUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
+		static unsigned int we = 0;
+		const char* windows_menu[] = { "Windowed","Full Screen", "Windowed Full Screen", "Borderless", "Window Resizable" };
+		static int windows_selected = 0;
+		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, IM_ARRAYSIZE(windows_menu)))
+		{
+			for (int i = 1;i < IM_ARRAYSIZE(windows_menu);i++)
+			{
+				windows_options[i-1] = (i == windows_selected) ? true : false;
+			}
+		}
 		ImGui::SliderInt("Width", &width, 640, 1280);
 		ImGui::SliderInt("Height", &height, 480, 1024);
 	
 	}
 }
 
+bool ModuleWindow::SaveConfig(const JSON_Object* data)
+{
+	bool ret = true;
+	JSON_Object* window_data = json_object_dotget_object(data, name.c_str());
+
+	json_object_dotset_string(window_data, "title", title.c_str());
+	json_object_dotset_number(window_data, "width", width);
+	json_object_dotset_number(window_data, "height", height);
+
+	int i = 0;
+	json_object_dotset_boolean(window_data, "full_screen", windows_options[i++]);
+	json_object_dotset_boolean(window_data, "window_full_screen", windows_options[i++]);
+	json_object_dotset_boolean(window_data, "window_borderless", windows_options[i++]);
+	json_object_dotset_boolean(window_data, "window_resizable", windows_options[i++]);
+
+
+	return ret;
+}
+
+bool ModuleWindow::LoadConfig(const JSON_Object* data)
+{
+	bool ret = true;
+	JSON_Object * window_data = json_object_dotget_object(data, name.c_str());
+	//Create window
+	title = json_object_dotget_string(window_data, "title");
+	width = json_object_dotget_number(window_data, "width") * SCREEN_SIZE;
+	height = json_object_dotget_number(window_data, "height") * SCREEN_SIZE;
+	int i = 0;
+	windows_options[i++] = json_object_dotget_boolean(window_data, "full_screen");
+	windows_options[i++] = json_object_dotget_boolean(window_data, "window_full_screen");
+	windows_options[i++] = json_object_dotget_boolean(window_data, "window_borderless");
+	windows_options[i++] = json_object_dotget_boolean(window_data, "window_resizable");
+	Uint32 flags = 0;
+	SetWindowsFlags(flags);
+	SDL_SetWindowFullscreen(window, flags);
+
+	return ret;
+}
 // Called before quitting
 bool ModuleWindow::CleanUp()
 {
