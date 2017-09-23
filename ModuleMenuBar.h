@@ -19,17 +19,20 @@ public:
 	update_status PreUpdate(float dt);
 	bool CleanUp();
 
-public:
+private:
 
-	bool GetUpdateStatus();
-	void StopUpdate();
-	
 	void ShowMenuBar();
 	
+	bool GetUpdateStatus();
+	void StopUpdate();
+
 	void AboutUs();
 	void AboutUsWindow();
 	bool GetAboutUsStatus();
 
+	void Console();
+
+	void Configuration();
 
 private:
 
@@ -37,5 +40,6 @@ private:
 	bool  open = true;
 	bool  stop_update = false;
 	bool  show_about_us = false;
+
 };
 

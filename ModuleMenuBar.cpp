@@ -42,7 +42,7 @@ update_status ModuleMenuBar::Update(float dt)
 	
 	if (GetAboutUsStatus())
 		AboutUsWindow();
-	
+
 	if (GetUpdateStatus())
 		return UPDATE_STOP;
 
@@ -87,7 +87,7 @@ void ModuleMenuBar::ShowMenuBar()
 			
 			if (ImGui::MenuItem("Console"))
 			{
-				App->console->ActiveConsole();
+				Console();
 				LOG("Create Console, no existing errors");
 			}
 			
@@ -95,7 +95,7 @@ void ModuleMenuBar::ShowMenuBar()
 
 			if (ImGui::MenuItem("Configuration"))
 			{
-
+				Configuration();
 
 			}
 
@@ -134,7 +134,7 @@ void ModuleMenuBar::AboutUsWindow()
 {
 	ImGui::Begin("About Us", &open);
 	open = !open;
-	ImGui::Text("this game engine is created for two student of the UPC, Andreu Rojas, and Sergio Saez, Enjoi It.");
+	ImGui::Text("\n Name: Frog Engine. \n Description: this game engine is created for two student of the UPC, Enjoi It. . \n Creators: Andreu Rojas, and Sergio Saez. \n Licenses:  ");
 	ImGui::End();
 }
 
@@ -142,8 +142,6 @@ bool ModuleMenuBar::GetAboutUsStatus()
 {
 	return show_about_us;
 }
-
-
 
 bool ModuleMenuBar::GetUpdateStatus()
 {
@@ -153,4 +151,14 @@ bool ModuleMenuBar::GetUpdateStatus()
 void ModuleMenuBar::StopUpdate()
 {
 	stop_update = !stop_update;
+}
+
+void ModuleMenuBar::Console()
+{
+	App->console->ActiveConsole();
+}
+
+void ModuleMenuBar::Configuration()
+{
+	App->LoadConfigWindows();
 }

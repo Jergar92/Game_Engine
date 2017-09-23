@@ -60,9 +60,10 @@ public:
 	update_status Update();
 	void GuiUpdate(bool* open); //void?
 	bool CleanUp();
+	void LoadConfigWindows();
 
 private:
-	void LoadConfigWindows();
+	
 	bool LoadConfigNow();
 	bool SaveConfigNow();
 	void AddModule(Module* mod);
