@@ -35,16 +35,21 @@ update_status ModuleMenuBar::PreUpdate(float dt)
 
 update_status ModuleMenuBar::Update(float dt)
 {
-	ShowMenuBar();
-	
+
 	if (App->console->GetShowConsole())
 		App->console->Draw("Console Ready");
 	
 	if (GetAboutUsStatus())
 		AboutUsWindow();
 
-	if (GetUpdateStatus())
+	if (Draw(open))
+	{
+		ShowMenuBar();
+	}
+	else
 		return UPDATE_STOP;
+
+
 
 	return UPDATE_CONTINUE;
 }
@@ -76,9 +81,8 @@ void ModuleMenuBar::ShowMenuBar()
 
 			if (ImGui::MenuItem("Quit", "alt+f4"))
 			{
-				StopUpdate();
+				open = false;
 			}
-
 			ImGui::EndMenu();
 		}
 
@@ -160,7 +164,7 @@ void ModuleMenuBar::AboutUsWindow()
 {
 	ImGui::Begin("About Us", &open);
 	open = !open;
-	ImGui::Text("\n Name: Frog Engine. \n Description: this game engine is created for two student of the UPC, Enjoi It. . \n Creators: Andreu Rojas, and Sergio Saez. \n Licenses:  ");
+	ImGui::Text("\n Name: Frog Engine. \n Description: this game engine is created for two student of the UPC, Enjoi It. \n Creators: \n Andreu Rojas  \n Sergio Saez. \n Licenses: \n mathgeolib v1.5 \n sdl v2.0.3 \n imgui v.152 WIP \n JSON library writen in C ");
 	ImGui::End();
 }
 
@@ -169,14 +173,18 @@ bool ModuleMenuBar::GetAboutUsStatus()
 	return show_about_us;
 }
 
-bool ModuleMenuBar::GetUpdateStatus()
+bool ModuleMenuBar::Draw(bool open)
 {
-	return  stop_update;
-}
-
-void ModuleMenuBar::StopUpdate()
-{
-	stop_update = !stop_update;
+    if (open == true)
+	{
+		open = true;
+	}
+	else
+	{
+		open = false;
+	}
+	
+	return  open;
 }
 
 void ModuleMenuBar::Console()

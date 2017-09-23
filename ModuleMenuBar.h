@@ -23,8 +23,7 @@ private:
 
 	void ShowMenuBar();
 	
-	bool GetUpdateStatus();
-	void StopUpdate();
+	bool Draw(bool open);
 
 	void AboutUs();
 	void AboutUsWindow();
@@ -38,7 +37,6 @@ private:
 
 	bool  open_console = true;
 	bool  open = true;
-	bool  stop_update = false;
 	bool  show_about_us = false;
 
 };
