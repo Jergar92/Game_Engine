@@ -96,6 +96,7 @@ void ModuleMenuBar::ShowMenuBar()
 			if (ImGui::MenuItem("Configuration"))
 			{
 				Configuration();
+				LOG("Create Configuration Window, no existing errors")
 
 			}
 
@@ -107,6 +108,31 @@ void ModuleMenuBar::ShowMenuBar()
 
 		if (ImGui::BeginMenu("Help"))
 		{
+			if (ImGui::MenuItem("Documentation"))
+			{
+				ShellExecute(NULL, "open", "https://github.com/Jergar92/Game_Engine/wiki", NULL, NULL, SW_MINIMIZE);
+				LOG("Open Link");
+			}
+
+			ImGui::Separator();
+
+
+			if (ImGui::MenuItem("Download Latest"))
+			{
+				ShellExecute(NULL, "open", "https://github.com/Jergar92/Game_Engine/releases", NULL, NULL, SW_MINIMIZE);
+				LOG("Open Link");
+			}
+
+			ImGui::Separator();
+
+
+			if (ImGui::MenuItem("Report a bug"))
+			{
+				ShellExecute(NULL, "open", "https://github.com/Jergar92/Game_Engine/issues", NULL, NULL,SW_MINIMIZE);
+				LOG("Open Link");
+			}
+
+			ImGui::Separator();
 
 			if (ImGui::MenuItem("About us"))
 			{
