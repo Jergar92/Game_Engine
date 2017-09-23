@@ -73,11 +73,31 @@ void ModuleMenuBar::ShowMenuBar()
 
 			}
 
+			ImGui::Separator();
+
 			if (ImGui::MenuItem("Save"))
 			{
 
 			
 			}
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Save as"))
+			{
+
+
+			}
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Load"))
+			{
+
+
+			}
+
+			ImGui::Separator();
 
 			if (ImGui::MenuItem("Quit", "alt+f4"))
 			{
