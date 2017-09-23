@@ -2,6 +2,8 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
 class ModuleHardware : public Module
 {
@@ -16,5 +18,8 @@ public:
 
 
 private:
-
+	SDL_version sdl_vers;
+	int cpu_numbers = 0;
+	int cpu_cache = 0;
+	int system_ram = 0;
 };
