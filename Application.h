@@ -36,7 +36,8 @@ private:
 	float	dt;
 	int		fps = 0;
 	int		fps_cap = 0;
-
+	float fps_values[90] = { 0 };
+	float millisecons_values[90] = { 0 };
 
 	uint64_t frame_count = 0;
 	uint32_t last_sec_frame_count = 0;
@@ -47,6 +48,8 @@ private:
 	Timer startup_time;
 	Timer last_sec_frame_time;
 	std::list<Module*> list_modules;
+
+	bool open_config_window = false;
 
 public:
 
@@ -59,9 +62,7 @@ public:
 	bool CleanUp();
 
 private:
-	float fps_values[90] = { 0 };
-	float millisecons_values[90] = { 0 };
-
+	void LoadConfigWindows();
 	bool LoadConfigNow();
 	bool SaveConfigNow();
 	void AddModule(Module* mod);

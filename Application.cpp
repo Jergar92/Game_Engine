@@ -68,6 +68,8 @@ bool Application::Awake()
 
 	if (ret == true)
 	{
+		open_config_window = false;
+
 		JSON_Object * object_data = json_value_get_object(config_data);
 		JSON_Object * application_data = json_object_dotget_object(object_data, "App");
 		name = json_object_dotget_string(application_data, "name");
@@ -179,7 +181,7 @@ update_status Application::Update()
 		item++;	
 	}
 
-	if (ret == UPDATE_CONTINUE) {
+	if (ret == UPDATE_CONTINUE && open_config_window) {
 		ImGui::ShowTestWindow();
 		GuiUpdate(&no_titlebar);
 	}
@@ -215,6 +217,11 @@ bool Application::CleanUp()
 		item--;
 	}
 	return ret;
+}
+
+void Application::LoadConfigWindows()
+{
+	open_config_window = !open_config_window;
 }
 
 bool Application::LoadConfigNow()
