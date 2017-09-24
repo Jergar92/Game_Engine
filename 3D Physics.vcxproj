@@ -53,6 +53,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -75,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Brofiler\Brofiler.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ModuleConsole.h" />
     <ClInclude Include="glmath.h" />
@@ -224,6 +226,9 @@
     <None Include="MathGeoLib-1.5\src\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
     <None Include="MathGeoLib-1.5\src\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib-1.5\src\Math\Matrix.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Brofiler\Program\ProfilerCore32.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
