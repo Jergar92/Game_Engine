@@ -302,11 +302,12 @@ void Application::GuiUpdate(bool* open)
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
-	window_flags |= ImGuiWindowFlags_MenuBar;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	//window_flags |= ImGuiWindowFlags_MenuBar;
+	ImGui::SetNextWindowSize(ImVec2(550, 800), ImGuiCond_Once);
 
-	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 
-	if (!ImGui::Begin("Configuration", open, window_flags))
+	if (!ImGui::Begin("Configuration", &open_config_window, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.
 		ImGui::End();
