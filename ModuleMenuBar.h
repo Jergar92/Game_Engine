@@ -38,6 +38,6 @@ private:
 	bool  open_console = true;
 	bool  open = true;
 	bool  show_about_us = false;
-
+	
 };
 

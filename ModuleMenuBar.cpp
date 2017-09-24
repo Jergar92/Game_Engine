@@ -182,8 +182,7 @@ void ModuleMenuBar::AboutUs()
 
 void ModuleMenuBar::AboutUsWindow()
 {
-	ImGui::Begin("About Us", &open);
-	open = !open;
+	ImGui::Begin("About Us", &show_about_us);
 	ImGui::Text("\n Name: Frog Engine. \n Description: this game engine is created for two student of the UPC, Enjoi It. \n Creators: \n Andreu Rojas  \n Sergio Saez. \n Licenses: \n mathgeolib v1.5 \n sdl v2.0.3 \n imgui v.152 WIP \n JSON library writen in C ");
 	ImGui::End();
 }
