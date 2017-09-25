@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "p2Defs.h"
+#include "imgui\imgui_impl_sdl.h"
 
 
 Application::Application()
@@ -23,9 +24,8 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
-
-	AddModule(audio);
 	AddModule(physics);
+	AddModule(audio);
 
 	//console module
 	AddModule(console);
@@ -172,7 +172,6 @@ void Application::SetFPSCap()
 // Call PreUpdate, Update and PostUpdate on all modules
 update_status Application::Update()
 {
-	static bool no_titlebar = true;
 
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
@@ -186,9 +185,10 @@ update_status Application::Update()
 		item++;	
 	}
 
+
 	if (ret == UPDATE_CONTINUE && open_config_window) {
 		ImGui::ShowTestWindow();
-		GuiUpdate(&no_titlebar);
+		GuiUpdate();
 	}
 
 	item = list_modules.begin();
@@ -198,7 +198,7 @@ update_status Application::Update()
 		ret = item._Ptr->_Myval->Update(dt);
 		item++;
 	}
-
+	
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
@@ -294,7 +294,7 @@ void Application::AddModule(Module* mod)
 	list_modules.push_back(mod);
 }
 
-void Application::GuiUpdate(bool* open)
+void Application::GuiUpdate()
 {
 
 
@@ -346,5 +346,6 @@ void Application::GuiUpdate(bool* open)
 
 	}
 	ImGui::End();
+
 
 }

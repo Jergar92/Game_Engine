@@ -59,7 +59,7 @@ public:
 	bool Awake();
 	bool Init();
 	update_status Update();
-	void GuiUpdate(bool* open); //void?
+	void GuiUpdate(); //void?
 	bool CleanUp();
 	void LoadConfigWindows();
 

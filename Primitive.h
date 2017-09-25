@@ -1,4 +1,4 @@
-/*
+
 #pragma once
 #include "glmath.h"
 #include "Color.h"
@@ -37,11 +37,11 @@ protected:
 };
 
 // ============================================
-class Cube : public Primitive
+class Cube_p : public Primitive
 {
 public :
-	Cube();
-	Cube(float sizeX, float sizeY, float sizeZ);
+	Cube_p();
+	Cube_p(float sizeX, float sizeY, float sizeZ);
 	void InnerRender() const;
 	void Size(float x, float y, float z);
 
@@ -50,22 +50,22 @@ public:
 };
 
 // ============================================
-class Sphere : public Primitive
+class Sphere_p : public Primitive
 {
 public:
-	Sphere();
-	Sphere(float radius);
+	Sphere_p();
+	Sphere_p(float radius);
 	void InnerRender() const;
 public:
 	float radius;
 };
 
 // ============================================
-class Cylinder : public Primitive
+class Cylinder_p : public Primitive
 {
 public:
-	Cylinder();
-	Cylinder(float radius, float height);
+	Cylinder_p();
+	Cylinder_p(float radius, float height);
 	void InnerRender() const;
 public:
 	float radius;
@@ -73,11 +73,11 @@ public:
 };
 
 // ============================================
-class Line : public Primitive
+class Line_p : public Primitive
 {
 public:
-	Line();
-	Line(float x, float y, float z);
+	Line_p();
+	Line_p(float x, float y, float z);
 	void InnerRender() const;
 public:
 	vec3 origin;
@@ -85,14 +85,13 @@ public:
 };
 
 // ============================================
-class Plane : public Primitive
+class Plane_p : public Primitive
 {
 public:
-	Plane();
-	Plane(float x, float y, float z, float d);
+	Plane_p();
+	Plane_p(float x, float y, float z, float d);
 	void InnerRender() const;
 public:
 	vec3 normal;
 	float constant;
 };
-*/

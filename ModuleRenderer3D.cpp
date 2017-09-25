@@ -26,7 +26,6 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 	//BROFILER_CATEGORY("Module Render Awake", Profiler::Color::AliceBlue);
 
 	LOG("Creating 3D Renderer context");
-
 	bool ret = true;
 
 	JSON_Object * render_data = json_object_dotget_object(data, name.c_str());
@@ -53,7 +52,8 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-
+		
+		/*
 		//Check for error
 		GLenum error = glewInit();
 		if (error != GL_NO_ERROR)
@@ -61,8 +61,9 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 			LOG("Error initializing glew! %s\n", glewGetString(error));
 			ret = false;
 		}
+		*/
 		//Check for error
-		error = glGetError();
+		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
@@ -83,9 +84,9 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
-
 		//Initialize clear color
 		glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		//Check for error
 		error = glGetError();
@@ -182,6 +183,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	ImGui::Render();
 
 	SDL_GL_SwapWindow(App->window->window);	
+
 	return UPDATE_CONTINUE;
 }
 
