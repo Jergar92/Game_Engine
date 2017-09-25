@@ -13,7 +13,7 @@
 #include "ModuleScene.h"
 #include "ModuleMenuBar.h"
 #include "ModuleHardware.h"
-#include "Brofiler\Brofiler.h"
+//#include "Brofiler\Brofiler.h"
 #include <list>
 
 class Application

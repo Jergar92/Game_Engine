@@ -23,7 +23,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Awake(const JSON_Object* data)
 {
-	BROFILER_CATEGORY("Module Render Awake", Profiler::Color::AliceBlue);
+	//BROFILER_CATEGORY("Module Render Awake", Profiler::Color::AliceBlue);
 
 	LOG("Creating 3D Renderer context");
 
@@ -118,7 +118,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	BROFILER_CATEGORY("Module Render PreUpdate", Profiler::Color::AliceBlue);
+	//BROFILER_CATEGORY("Module Render PreUpdate", Profiler::Color::AliceBlue);
 
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 
@@ -139,7 +139,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // Gui Update present buffer to screen
 void ModuleRenderer3D::GuiUpdate()
 {
-	BROFILER_CATEGORY("Module Render GuiUpdate", Profiler::Color::AliceBlue);
+	//BROFILER_CATEGORY("Module Render GuiUpdate", Profiler::Color::AliceBlue);
 
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{

@@ -79,7 +79,7 @@ bool Application::Awake()
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			BROFILER_CATEGORY("%s Awake", item._Ptr->_Myval->name.c_str(), Profiler::Color::AliceBlue);
+			//BROFILER_CATEGORY("%s Awake", item._Ptr->_Myval->name.c_str(), Profiler::Color::AliceBlue);
 
 			ret = item._Ptr->_Myval->Awake(object_data);
 			item++;
@@ -91,7 +91,7 @@ bool Application::Awake()
 bool Application::Init()
 {
 	bool ret = true;
-	BROFILER_CATEGORY("Aplication Init", Profiler::Color::AliceBlue);
+	//BROFILER_CATEGORY("Aplication Init", Profiler::Color::AliceBlue);
 	// Call Init() in all modules
 	std::list<Module*>::iterator item = list_modules.begin();
 
@@ -99,7 +99,7 @@ bool Application::Init()
 	{
 		while (item != list_modules.end() && ret == true)
 		{
-			BROFILER_CATEGORY("%s Init", item._Ptr->_Myval->name.c_str(), Profiler::Color::AliceBlue);
+			//BROFILER_CATEGORY("%s Init", item._Ptr->_Myval->name.c_str(), Profiler::Color::AliceBlue);
 
 			ret = item._Ptr->_Myval->Init();
 		    item++;

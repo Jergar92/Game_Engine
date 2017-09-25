@@ -11,14 +11,19 @@ Drop the game folder inside the .zip somewhere in your computer and execute the 
 #### Libraries
 This software was made using [SDL](https://www.libsdl.org/) libraries.   
 
-This software is based on [pugixml](http://pugixml.org) library.
-pugixml is Copyright (C) 2006-2015 Arseny Kapoulkine. 
-
-Virtual file system was made using [Physfs](https://icculus.org/physfs/) library. 
-
 This engine use Bullet physics library (http://bulletphysics.org/wordpress/)
 
+This engine use ImGui library (https://github.com/ocornut/imgui)
+
+This engine use JSON library (https://github.com/nlohmann/json)
+
+This engine use MathGeolib (http://clb.demon.fi/MathGeoLib/nightly/)
+
 ## Changelog
+
+#### v0.2
+* Added: A configuration menu
+* Added: A bar menu
 
 #### v0.1
 * Added: A Collision test windows.

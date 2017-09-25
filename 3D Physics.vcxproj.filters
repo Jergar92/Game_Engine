@@ -300,9 +300,6 @@
     <ClInclude Include="ModuleHardware.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Brofiler\Brofiler.h">
-      <Filter>Sources\Brofiler</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -487,10 +484,5 @@
     <None Include="MathGeoLib-1.5\src\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>Sources\MathGeo\Geometry</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="Brofiler\Program\ProfilerCore32.lib">
-      <Filter>Sources\Brofiler</Filter>
-    </Library>
   </ItemGroup>
 </Project>

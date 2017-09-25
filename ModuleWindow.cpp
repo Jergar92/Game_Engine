@@ -20,7 +20,7 @@ ModuleWindow::~ModuleWindow()
 // Called before render is available
 bool ModuleWindow::Awake(const JSON_Object * data)
 {
-	BROFILER_CATEGORY("Module Window Awake", Profiler::Color::AliceBlue);
+	//BROFILER_CATEGORY("Module Window Awake", Profiler::Color::AliceBlue);
 
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -110,7 +110,7 @@ void ModuleWindow::SetWindowsFlags(Uint32& flags)
 
 void ModuleWindow::GuiUpdate()
 {
-	BROFILER_CATEGORY("Module Window GuiUpdate", Profiler::Color::AliceBlue);
+	//BROFILER_CATEGORY("Module Window GuiUpdate", Profiler::Color::AliceBlue);
 
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
