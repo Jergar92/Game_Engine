@@ -2,8 +2,7 @@
 
 #include "Module.h"
 #include "Globals.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+
 
 class ModuleHardware : public Module
 {

@@ -40,6 +40,9 @@
     <Filter Include="Sources\Brofiler">
       <UniqueIdentifier>{78b59745-b2ff-4598-956f-b5fdbeb3e4e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Glew">
+      <UniqueIdentifier>{0ffc6746-a1b6-4a6e-b60e-13cce008dbd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -299,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="ModuleHardware.h">
       <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="glew-2.1.0\include\GL\glew.h">
+      <Filter>Sources\Glew</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

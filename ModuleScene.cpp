@@ -1,8 +1,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include"ModuleScene.h"
-#include "imgui\imgui.h"
-#include "imgui\imgui_impl_sdl.h"
+
 
 
 ModuleScene::ModuleScene(bool start_enabled)

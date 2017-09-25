@@ -45,7 +45,6 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 
 	if (ret == true)
 	{
-
 		//Use Vsync
 		if (SDL_GL_SetSwapInterval(vsync) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
@@ -55,14 +54,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 		glLoadIdentity();
 
 		//Check for error
-		GLenum error = glewInit();
-		if (error != GL_NO_ERROR)
-		{
-			LOG("Error initializing glew! %s\n", glewGetString(error));
-			ret = false;
-		}
-		//Check for error
-		error = glGetError();
+		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
@@ -181,7 +173,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	ImGui::Render();
 
-	SDL_GL_SwapWindow(App->window->window);	
+		SDL_GL_SwapWindow(App->window->window);	
 	return UPDATE_CONTINUE;
 }
 

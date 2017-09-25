@@ -1,9 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
-#include "imgui\imgui.h"
 #include "imgui\imgui_impl_sdl.h"
-#include "SDL\include\SDL_opengl.h"
 
 ModuleWindow::ModuleWindow(bool start_enabled)
 {
@@ -91,21 +89,21 @@ void ModuleWindow::SetWindowsFlags(Uint32& flags)
 	{
 		flags |= SDL_WINDOW_FULLSCREEN;
 	}
-
+	if (windows_options[i++] == true)
+	{
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
+	
+	if (windows_options[i++] == true)
+	{
+		flags |= SDL_WINDOW_BORDERLESS;
+	}
 	if (windows_options[i++] == true)
 	{
 		flags |= SDL_WINDOW_RESIZABLE;
 	}
 
-	if (windows_options[i++] == true)
-	{
-		flags |= SDL_WINDOW_BORDERLESS;
-	}
-
-	if (windows_options[i++] == true)
-	{
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-	}
+	
 }
 
 void ModuleWindow::GuiUpdate()
