@@ -112,6 +112,12 @@ void ModuleWindow::GuiUpdate()
 
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
+
+		static char buff[128] = "Name";
+		ImGui::InputText("Window Name", buff, IM_ARRAYSIZE(buff));
+		title = buff;
+		SDL_SetWindowTitle(window,buff);
+
 		const char* windows_menu[] = { "Windowed","Full Screen", "Windowed Full Screen", "Borderless", "Window Resizable" };
 		static int windows_selected = 0;
 		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, IM_ARRAYSIZE(windows_menu)))
@@ -132,7 +138,6 @@ void ModuleWindow::GuiUpdate()
 			SDL_SetWindowSize(window,width, height);
 
 		}
-
 	}
 }
 
