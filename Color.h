@@ -3,20 +3,20 @@
 
 struct Color
 {
-	float r, g, b, a;
+	float vec4[4] = { 0,0,0,0 };
 	
-	Color() : r(0.0f), g(0.0f), b(0.0f), a(1.0f)
+	Color() : vec4 { 0,0,0,0 }
 	{}
 
-	Color(float r, float g, float b, float a = 1.0f) : r(r), g(g), b(b), a(a)
+	Color(float r, float g, float b, float a = 1.0f) : vec4{ r,g,b,a }
 	{}
 
 	void Set(float r, float g, float b, float a = 1.0f)
 	{
-		this->r = r;
-		this->g = g;
-		this->b = b;
-		this->a = a;
+		vec4[0] = r;
+		vec4[1] = g;
+		vec4[2] = b;
+		vec4[3] = a;
 	}
 
 	float* operator & ()

@@ -23,7 +23,20 @@ public:
 	Plane_p plane;
 	Cube_p cube;
 private:
+	float sphere_x = 0;
+	float sphere_y = 0;
+	float sphere_z = 0;
 
+	float sphere_radius = 0;
+
+	float cube_pos_x = 0;
+	float cube_pos_y = 0;
+	float cube_pos_z = 0;
+
+	float cube_size_x = 0;
+	float cube_size_y = 0;
+	float cube_size_z = 0;
+	std::list<Primitive*> elements;
 public:
 
 

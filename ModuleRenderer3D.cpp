@@ -112,10 +112,10 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 		GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
+		lights[0].Active(true);
 
 		(depth_test) ?glEnable(GL_DEPTH_TEST): glDisable(GL_DEPTH_TEST)	;
 		(cull_face)? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
-		lights[0].Active(true);
 		(lighting) ?glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
 		(color_material)? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
 		(texture_2d)? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
@@ -175,23 +175,60 @@ void ModuleRenderer3D::GuiUpdate()
 
 		if(ImGui::Checkbox("Depth test##depth", &depth_test))
 			(depth_test) ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
-	
+		//Culling Option
 		if(ImGui::Checkbox("Cull face##cull_face", &cull_face))
 			(cull_face) ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 		if (cull_face)
 		{	
-			if (ImGui::RadioButton("GL_CCW##gl_ccw", &front_face, 1))
+			if (ImGui::RadioButton("Front facing culling##gl_ccw", &front_face, 1))
 				glFrontFace(GL_CCW);
 			ImGui::SameLine();
-			if(ImGui::RadioButton("GL_CW##gl_cw", &front_face, 0))
+			if(ImGui::RadioButton("Back facing culling##gl_cw", &front_face, 0))
 				glFrontFace(GL_CW);
 		}
+		//------------------------------------
+		//Light Option
 		if(ImGui::Checkbox("Lighting##lighting", &lighting))
 			(lighting) ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+		if (lighting)
+		{
+			ImGui::SliderFloat4("Ambient light", light_ambient, 0.0f, 1.0f,"%0.1f");
+			glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
+		}
+		//Color Option
 		if(ImGui::Checkbox("Color material##color_material", &color_material))
 			(color_material) ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+		if (color_material)
+		{
+			ImGui::SliderFloat4("Ambient color", color_ambient, 0.0f, 1.0f, "%0.1f");
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, color_ambient);
+
+			ImGui::SliderFloat4("Diffuse color", color_diffuse, 0.0f, 1.0f, "%0.1f");
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color_diffuse);
+
+		}
+		//-------------------------------------
 		if(ImGui::Checkbox("Texture 2D##texture_2d", &texture_2d))
 			(texture_2d) ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+
+
+		//FOG
+		if (ImGui::Checkbox("FOG##fog", &fog))
+			(fog) ? glEnable(GL_FOG) : glDisable(GL_FOG);
+		if (fog)
+		{
+			if (ImGui::SliderFloat("FOG Density", &fog_density, 0.0f, 1.0f, "%0.3f"))
+			{
+				GLfloat GL_fog_density = fog_density;
+				glFogfv(GL_FOG_DENSITY, &GL_fog_density);
+			}
+			if (ImGui::SliderFloat4("FOG_color", fog_color, 0.0f, 1.0f, "%0.1"))
+			{
+				GLfloat GL_fog_color[4] = { fog_color[0],fog_color[1], fog_color[2], fog_color[3] };
+				glFogfv(GL_FOG_COLOR, GL_fog_color);
+			}
+		}
+		//--------------------------------------------------------------
 		if (ImGui::Checkbox("Wireframe##wireframe", &wireframe))
 			(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE): glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 

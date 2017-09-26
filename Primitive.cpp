@@ -55,7 +55,7 @@ void Primitive::Render() const
 		glLineWidth(1.0f);
 	}
 
-	glColor3f(color.r, color.g, color.b);
+	glColor3f(color.vec4[0], color.vec4[1], color.vec4[2]);
 
 	
 
