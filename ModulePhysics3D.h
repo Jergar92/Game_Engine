@@ -26,6 +26,18 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	PhysBody3D * AddBody(const Sphere_p & sphere, float mass);
+
+	PhysBody3D * AddBody(const Cube_p & cube, float mass);
+
+	PhysBody3D * AddBody(const Cylinder_p & cylinder, float mass);
+
+	void AddConstraintP2P(PhysBody3D & bodyA, PhysBody3D & bodyB, const vec3 & anchorA, const vec3 & anchorB);
+
+	void AddConstraintHinge(PhysBody3D & bodyA, PhysBody3D & bodyB, const vec3 & anchorA, const vec3 & anchorB, const vec3 & axisA, const vec3 & axisB, bool disable_collision);
+
+	void AddConstraintSlider(PhysBody3D & bodyA, bool disable_collision);
+
 	btDiscreteDynamicsWorld* GetWorld();
 	bool GetGravityState();
 	void ChangeGravity();
@@ -43,7 +55,10 @@ private:
 	btDiscreteDynamicsWorld*			world;
 	DebugDrawer*						debug_draw;
 
-
+	std::list<btCollisionShape*> shapes;
+	std::list<PhysBody3D*> bodies;
+	std::list<btDefaultMotionState*> motions;
+	std::list<btTypedConstraint*> constraints;
 };
 
 class DebugDrawer : public btIDebugDraw

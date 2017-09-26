@@ -133,7 +133,8 @@ void ModuleInput::GuiUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-
+		ImGui::Text("Mouse position:"); ImGui::SameLine();ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%ix | %iy", mouse_x, mouse_y);
+	
 	}
 }
 

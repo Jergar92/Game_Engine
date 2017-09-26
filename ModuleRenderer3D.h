@@ -23,11 +23,22 @@ public:
 	void OnResize(int width, int height);
 
 public:
-	int vsync = 0;
-	ImVec4 background_color = ImColor(114, 144, 154);
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+
+private:
+	int vsync = 0;
+	ImVec4 background_color = ImColor(114, 144, 154);
+
+
+	bool depth_test = true;
+	bool cull_face = true;
+	bool lighting = true;
+	bool color_material = true;
+	bool texture_2d = true;
+	bool wireframe = false;
+
 };

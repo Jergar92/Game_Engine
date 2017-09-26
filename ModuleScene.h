@@ -20,6 +20,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	Plane_p plane;
 
 private:
 

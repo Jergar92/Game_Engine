@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "imgui\imgui_impl_sdl.h"
-#include "glew-2.1.0\include\GL\glew.h"
+#include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -34,6 +34,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 	background_color.y = json_object_dotget_number(render_data, "background_g");
 	background_color.z = json_object_dotget_number(render_data, "background_b");
 
+
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
 	if (context == NULL)
@@ -53,7 +54,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		
-		/*
+		
 		//Check for error
 		GLenum error = glewInit();
 		if (error != GL_NO_ERROR)
@@ -61,9 +62,9 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 			LOG("Error initializing glew! %s\n", glewGetString(error));
 			ret = false;
 		}
-		*/
+		
 		//Check for error
-		GLenum error = glGetError();
+		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
@@ -111,11 +112,14 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 		GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+
+		(depth_test) ?glEnable(GL_DEPTH_TEST): glDisable(GL_DEPTH_TEST)	;
+		(cull_face)? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
+		(lighting) ?glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+		(color_material)? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+		(texture_2d)? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+
 	}
 
 	// Projection matrix for
@@ -168,7 +172,23 @@ void ModuleRenderer3D::GuiUpdate()
 		{
 			glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);
 		}
+
+		if(ImGui::Checkbox("Depth test##depth", &depth_test))
+			(depth_test) ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+		if(ImGui::Checkbox("Cull face##cull_face", &cull_face))
+			(cull_face) ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+		if(ImGui::Checkbox("Lighting##lighting", &lighting))
+			(lighting) ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+		if(ImGui::Checkbox("Color material##color_material", &color_material))
+			(color_material) ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+		if(ImGui::Checkbox("Texture 2D##texture_2d", &texture_2d))
+			(texture_2d) ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+		if (ImGui::Checkbox("Wireframe##wireframe", &wireframe))
+			(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) : glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);;
+
+
 		ImGui::PopItemWidth();
+
 
 	}
 }
@@ -209,6 +229,15 @@ bool ModuleRenderer3D::LoadConfig(const JSON_Object* data)
 	background_color.x = json_object_dotget_number(render_data, "background_r");
 	background_color.y = json_object_dotget_number(render_data, "background_g");
 	background_color.z = json_object_dotget_number(render_data, "background_b");
+
+	//OpenGL Enable/Disable
+	depth_test = json_object_dotget_boolean(render_data, "depth_test");
+	cull_face = json_object_dotget_boolean(render_data, "cull_face");
+	lighting = json_object_dotget_boolean(render_data, "lighting");
+	color_material = json_object_dotget_boolean(render_data, "color_material");
+	texture_2d = json_object_dotget_boolean(render_data, "texture_2d");
+
+
 	//Initialize clear color
 	glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);
 	//Use Vsync
