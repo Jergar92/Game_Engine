@@ -27,7 +27,7 @@ bool ModuleScene::Start()
 update_status ModuleScene::Update(float dt)
 {
 	plane.Render();
-
+	cube.Render();
 	return UPDATE_CONTINUE;
 }
 

@@ -21,7 +21,7 @@ public:
 	bool CleanUp();
 
 	Plane_p plane;
-
+	Cube_p cube;
 private:
 
 public:

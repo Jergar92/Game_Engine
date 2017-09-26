@@ -28,7 +28,7 @@ void Primitive::Render() const
 		// Draw Axis Grid
 		glLineWidth(2.0f);
 
-		glBegin(GL_LINES);
+		//glBegin(GL_LINES);
 
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
@@ -57,10 +57,7 @@ void Primitive::Render() const
 
 	glColor3f(color.r, color.g, color.b);
 
-	if(wire)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
 
 	InnerRender();
 

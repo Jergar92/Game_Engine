@@ -184,8 +184,7 @@ void ModuleRenderer3D::GuiUpdate()
 		if(ImGui::Checkbox("Texture 2D##texture_2d", &texture_2d))
 			(texture_2d) ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
 		if (ImGui::Checkbox("Wireframe##wireframe", &wireframe))
-			(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) : glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);;
-
+			(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE): glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		ImGui::PopItemWidth();
 
