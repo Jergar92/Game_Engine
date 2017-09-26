@@ -101,7 +101,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 
 		lights[0].ref = GL_LIGHT0;
-		lights[0].ambient.Set(1.0f, 1.0f, 1.0f, 1.0f);
+		lights[0].ambient.Set(0.5f, 0.5f, 0.5f, 1.0f);
 		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
 		lights[0].SetPos(0.0f, 0.0f, 2.5f);
 		lights[0].Init();
@@ -175,8 +175,17 @@ void ModuleRenderer3D::GuiUpdate()
 
 		if(ImGui::Checkbox("Depth test##depth", &depth_test))
 			(depth_test) ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+	
 		if(ImGui::Checkbox("Cull face##cull_face", &cull_face))
 			(cull_face) ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+		if (cull_face)
+		{	
+			if (ImGui::RadioButton("GL_CCW##gl_ccw", &front_face, 1))
+				glFrontFace(GL_CCW);
+			ImGui::SameLine();
+			if(ImGui::RadioButton("GL_CW##gl_cw", &front_face, 0))
+				glFrontFace(GL_CW);
+		}
 		if(ImGui::Checkbox("Lighting##lighting", &lighting))
 			(lighting) ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
 		if(ImGui::Checkbox("Color material##color_material", &color_material))

@@ -35,7 +35,10 @@ private:
 
 
 	bool depth_test = true;
+	float depth = 1.0f;
+
 	bool cull_face = true;
+	int front_face = 1;
 	bool lighting = true;
 	bool color_material = true;
 	bool texture_2d = true;

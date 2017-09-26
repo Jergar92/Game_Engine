@@ -123,18 +123,15 @@ void Application::PrepareUpdate()
 void Application::FinishUpdate()
 {
 	static int values_offset = 0;
+
 	static int millisecons_offset = 0;
 
 	if (last_sec_frame_time.Read() > 1000)
 	{
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
-
 		fps_values[values_offset] = prev_last_sec_frame_count;
-		values_offset = (values_offset + 1) % IM_ARRAYSIZE(fps_values);
-
-	
-		
+		values_offset = (values_offset + 1) % IM_ARRAYSIZE(fps_values);	
 		last_sec_frame_count = 0;
 	}
 
@@ -142,7 +139,7 @@ void Application::FinishUpdate()
 	float seconds_since_startup = startup_time.ReadSec();
 	uint32_t last_frame_ms = frame_time.Read();
 	frames_on_last_update = prev_last_sec_frame_count;
-	millisecons_values[values_offset] = last_frame_ms;
+	millisecons_values[millisecons_offset] = last_frame_ms;
 	millisecons_offset = (millisecons_offset + 1) % IM_ARRAYSIZE(fps_values);
 	if (fps > 0 && last_frame_ms < fps)
 	{
@@ -289,7 +286,6 @@ void Application::GuiUpdate()
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
-	//window_flags |= ImGuiWindowFlags_MenuBar;
 	ImGui::SetNextWindowSize(ImVec2(550, 800), ImGuiCond_Once);
 
 
@@ -307,6 +303,18 @@ void Application::GuiUpdate()
 		ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120);
 		ImGui::PlotHistogram("FPS Histogram", fps_values, IM_ARRAYSIZE(fps_values), 0, NULL, 0.0f, 120.0f, ImVec2(0, 80));
 		ImGui::PlotHistogram("Millisecons Histogram", millisecons_values, IM_ARRAYSIZE(millisecons_values), 0, NULL, 0.0f, 60.0f, ImVec2(0, 80));
+
+		sMStats stats = m_getMemoryStatistics();
+		
+		ImGui::Text("Accumulated actual memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.accumulatedActualMemory);
+		ImGui::Text("Peak actual memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.peakActualMemory);
+		ImGui::Text("Total actual memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.totalActualMemory);
+		ImGui::Text("Accumulated allocated memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.accumulatedAllocUnitCount);
+		ImGui::Text("Peak actual allocated memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.peakAllocUnitCount);
+		ImGui::Text("Total actual allocated memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.totalAllocUnitCount);
+		ImGui::Text("Accumulated reported memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.accumulatedReportedMemory);
+		ImGui::Text("Peak reported memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.peakReportedMemory);
+		ImGui::Text("Total reported memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.totalReportedMemory);
 
 	}
 

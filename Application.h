@@ -37,8 +37,8 @@ private:
 	float	dt;
 	int		fps = 0;
 	int		fps_cap = 0;
-	float fps_values[90] = { 0 };
-	float millisecons_values[90] = { 0 };
+	float fps_values[40] = { 0 };
+	float millisecons_values[40] = { 0 };
 
 	uint64_t frame_count = 0;
 	uint32_t last_sec_frame_count = 0;
