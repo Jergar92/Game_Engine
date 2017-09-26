@@ -53,7 +53,7 @@ private:
 	int width=0;
 	int height=0;
 	WindowSize window_s[4];
-	std::string title;
+	std::string title; 
 	bool windows_options[WINDOWS_OPTIONS] = { false,false,false,false };
 	bool windows_size_options[WINDOWS_OPTIONS] = { false,false,false,false };
 	bool full_screen = false;
