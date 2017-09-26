@@ -23,7 +23,7 @@ bool ModuleWindow::Awake(const JSON_Object * data)
 	LOG("Init SDL window & surface");
 	bool ret = true;
 
-	SDL_SetWindowTitle(window, buff);
+	
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -113,7 +113,7 @@ void ModuleWindow::GuiUpdate()
 
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-
+		SDL_SetWindowTitle(window, buff);
 		ImGui::InputText("Window Name", buff, IM_ARRAYSIZE(buff));
 		title = buff;
 
