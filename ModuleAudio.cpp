@@ -26,25 +26,33 @@ bool ModuleAudio::Awake(const JSON_Object * data)
 			LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
-
-		// load support for the OGG format
-		int flags = MIX_INIT_OGG;
-		int init = Mix_Init(flags);
-
-		if ((init & flags) != flags)
+		else
 		{
-			LOG("Could not initialize Mixer lib. Mix_Init: %s", Mix_GetError());
-			ret = false;
+			JSON_Object * audio_data = json_object_dotget_object(data, name.c_str());
+
+			volume = json_object_dotget_number(audio_data, "volume");
+
+			// load support for the OGG format
+			int flags = MIX_INIT_OGG;
+			int init = Mix_Init(flags);
+
+			if ((init & flags) != flags)
+			{
+				LOG("Could not initialize Mixer lib. Mix_Init: %s", Mix_GetError());
+				ret = false;
+			}
+
+			//Initialize SDL_mixer
+			if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+			{
+				LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+				ret = false;
+			}
+
+			return true;
 		}
 
-		//Initialize SDL_mixer
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-		{
-			LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-			ret = false;
-		}
 
-		return true;
 	
 }
 
@@ -77,15 +85,41 @@ void ModuleAudio::GuiUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-
+		
+		ImGui::Text("Audio Driver:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetAudioDriver(audio_driver));
+		ImGui::Separator();
+		ImGui::Text("Audio Device:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetAudioDeviceName(audio_device,captured));
+		ImGui::Separator();
+		ImGui::SliderInt("Volume",&volume, 10,100);
 	}
+}
+
+bool ModuleAudio::SaveConfig(const JSON_Object * data)
+{
+	bool ret = true;
+	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
+
+	json_object_dotset_number(audio_data,"volume",volume);
+
+	return ret;
+}
+
+bool ModuleAudio::LoadConfig(const JSON_Object * data)
+{
+	bool ret = true;
+	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
+
+	volume = json_object_dotget_number(audio_data, "volume");
+
+	return ret;
+	
 }
 
 // Play a music file
 bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 {
 	bool ret = true;
-	
+
 	if(music != NULL)
 	{
 		if(fade_time > 0.0f)
@@ -174,4 +208,9 @@ bool ModuleAudio::PlayFx(unsigned int id, int repeat)
 	
 
 	return ret;
+}
+
+const int ModuleAudio::GetVolume()
+{
+	return volume;
 }

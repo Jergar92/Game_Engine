@@ -17,7 +17,7 @@ public:
 
 	bool Init();
 	bool CleanUp();
-	void GuiUpdate();
+
 	// Play a music file
 	bool PlayMusic(const char* path, float fade_time = DEFAULT_MUSIC_FADE_TIME);
 
@@ -27,9 +27,19 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	//Volume functions
+	void GuiUpdate();
+	bool SaveConfig(const JSON_Object * data);
+	bool LoadConfig(const JSON_Object * data);
+	const int GetVolume();
+
 private:
 
 	Mix_Music*			music;
+	int                 volume = 0;
+	int                 audio_driver = 0;
+	int                 audio_device = 0;
+	int                 captured = 0;
 	std::list<Mix_Chunk*>	fx;
 };
 
