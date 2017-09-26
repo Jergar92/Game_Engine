@@ -12,39 +12,42 @@ ModuleAudio::ModuleAudio(bool start_enabled)
 // Destructor
 ModuleAudio::~ModuleAudio()
 {}
-
 // Called before render is available
-bool ModuleAudio::Init()
+
+bool ModuleAudio::Awake(const JSON_Object * data)
 {
-	LOG("Loading Audio Mixer");
-	bool ret = true;
-	SDL_Init(0);
+	
+		LOG("Loading Audio Mixer");
+		bool ret = true;
+		SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-	{
-		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
-	}
+		if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+		{
+			LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
+			ret = false;
+		}
 
-	// load support for the OGG format
-	int flags = MIX_INIT_OGG;
-	int init = Mix_Init(flags);
+		// load support for the OGG format
+		int flags = MIX_INIT_OGG;
+		int init = Mix_Init(flags);
 
-	if((init & flags) != flags)
-	{
-		LOG("Could not initialize Mixer lib. Mix_Init: %s", Mix_GetError());
-		ret = false;
-	}
+		if ((init & flags) != flags)
+		{
+			LOG("Could not initialize Mixer lib. Mix_Init: %s", Mix_GetError());
+			ret = false;
+		}
 
-	//Initialize SDL_mixer
-	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-		ret = false;
-	}
+		//Initialize SDL_mixer
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+		{
+			LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+			ret = false;
+		}
 
-	return true;
+		return true;
+	
 }
+
 
 // Called before quitting
 bool ModuleAudio::CleanUp()

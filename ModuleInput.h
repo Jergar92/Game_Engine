@@ -18,8 +18,8 @@ public:
 	
 	ModuleInput(bool start_enabled = true);
 	~ModuleInput();
+	bool Awake(const JSON_Object * data);
 
-	bool Init();
 	update_status PreUpdate(float dt);
 	void GuiUpdate();
 	bool CleanUp();

@@ -37,14 +37,8 @@ ModulePhysics3D::~ModulePhysics3D()
 	delete collision_conf;
 }
 
-// Render not available yet----------------------------------
-bool ModulePhysics3D::Init()
-{
-	LOG("Creating 3D Physics simulation");
-	bool ret = true;
 
-	return ret;
-}
+
 
 // ---------------------------------------------------------
 bool ModulePhysics3D::Start()

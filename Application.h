@@ -57,7 +57,7 @@ public:
 	Application();
 	~Application();
 	bool Awake();
-	bool Init();
+	bool Start();
 	update_status Update();
 	void GuiUpdate(); //void?
 	bool CleanUp();

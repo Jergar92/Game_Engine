@@ -49,9 +49,9 @@ int main(int argc, char ** argv)
 				state = MAIN_EXIT;
 			}
 			LOG("-------------- Application Init --------------");
-			if (App->Init() == false)
+			if (App->Start() == false)
 			{
-				LOG("Application Init exits with ERROR");
+				LOG("Application Start exits with ERROR");
 				state = MAIN_EXIT;
 			}
 			else

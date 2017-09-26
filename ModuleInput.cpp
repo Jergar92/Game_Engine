@@ -21,21 +21,27 @@ ModuleInput::~ModuleInput()
 	delete[] keyboard;
 }
 
-// Called before render is available
-bool ModuleInput::Init()
+bool ModuleInput::Awake(const JSON_Object * data)
 {
-	LOG("Init SDL input event system");
-	bool ret = true;
-	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
-	{
-		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
-	}
 
-	return ret;
+
+	
+		LOG("Init SDL input event system");
+		bool ret = true;
+		SDL_Init(0);
+
+		if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+		{
+			LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
+			ret = false;
+		}
+
+		return ret;
+	
 }
+
+// Called before render is available
 
 // Called every draw update
 update_status ModuleInput::PreUpdate(float dt)

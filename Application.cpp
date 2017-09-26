@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "p2Defs.h"
-#include "imgui\imgui_impl_sdl.h"
 
 
 Application::Application()
@@ -87,26 +86,14 @@ bool Application::Awake()
 	return ret;
 }
 
-bool Application::Init()
+bool Application::Start()
 {
 	bool ret = true;
 	//BROFILER_CATEGORY("Aplication Init", Profiler::Color::AliceBlue);
-	// Call Init() in all modules
-	std::list<Module*>::iterator item = list_modules.begin();
-
-	if (ret == true)
-	{
-		while (item != list_modules.end() && ret == true)
-		{
-			//BROFILER_CATEGORY("%s Init", item._Ptr->_Myval->name.c_str(), Profiler::Color::AliceBlue);
-
-			ret = item._Ptr->_Myval->Init();
-		    item++;
-		}
-	}
 
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");
+	std::list<Module*>::iterator item = list_modules.begin();
 
 	item = list_modules.begin();
 
