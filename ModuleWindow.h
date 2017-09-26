@@ -49,7 +49,7 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
 private:
-
+	char buff[128] = "Name";
 	int width=0;
 	int height=0;
 	WindowSize window_s[4];

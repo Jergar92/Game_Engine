@@ -67,7 +67,6 @@ bool Application::Awake()
 	if (ret == true)
 	{
 		open_config_window = false;
-
 		JSON_Object * object_data = json_value_get_object(config_data);
 		JSON_Object * application_data = json_object_dotget_object(object_data, "App");
 		name = json_object_dotget_string(application_data, "name");
@@ -156,7 +155,6 @@ void Application::SetFPSCap()
 // Call PreUpdate, Update and PostUpdate on all modules
 update_status Application::Update()
 {
-
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 	
@@ -298,6 +296,11 @@ void Application::GuiUpdate()
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
+		ImGui::InputText("Aplication name", buff, IM_ARRAYSIZE(buff));
+		name = buff;
+
+		ImGui::InputText("Organization name", buff2, IM_ARRAYSIZE(buff2));
+		organization = buff2;
 		
 		ImGui::Text("FPS: %u",frames_on_last_update);
 		ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120);

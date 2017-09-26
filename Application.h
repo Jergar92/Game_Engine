@@ -52,6 +52,7 @@ private:
 
 	bool open_config_window = false;
 
+
 public:
 
 	Application();
@@ -65,6 +66,8 @@ public:
 
 private:
 	
+	char buff[128] = "Aplication Name";
+	char buff2[128] = "Organization Name";
 	bool LoadConfigNow();
 	bool SaveConfigNow();
 	void AddModule(Module* mod);
