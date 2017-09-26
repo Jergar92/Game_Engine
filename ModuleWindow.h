@@ -6,6 +6,18 @@
 #define WINDOWS_OPTIONS 4
 class Application;
 
+struct WindowSize 
+{
+	WindowSize():width(0),height(0)
+	{
+
+	}
+
+public:
+	int width = 0;
+	int height = 0;
+};
+
 class ModuleWindow : public Module
 {
 public:
@@ -28,6 +40,7 @@ public:
 	const int GetHeight();
 private:
 	void SetWindowsFlags(Uint32& flags);
+	void  SetWindowSize();
 	
 public:
 	//The window we'll be rendering to
@@ -39,8 +52,10 @@ private:
 
 	int width=0;
 	int height=0;
+	WindowSize window_s[4];
 	std::string title;
 	bool windows_options[WINDOWS_OPTIONS] = { false,false,false,false };
+	bool windows_size_options[WINDOWS_OPTIONS] = { false,false,false,false };
 	bool full_screen = false;
 	bool window_full_screen = false;
 	bool window_borderless = false;

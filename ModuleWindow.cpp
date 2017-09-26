@@ -34,7 +34,7 @@ bool ModuleWindow::Awake(const JSON_Object * data)
 
 		JSON_Object * window_data = json_object_dotget_object(data, name.c_str());
 		
-
+		SetWindowSize();
 		//Create window
 		title = json_object_dotget_string(window_data, "title");
 		width = json_object_dotget_number(window_data, "width") * SCREEN_SIZE;
@@ -112,7 +112,6 @@ void ModuleWindow::GuiUpdate()
 
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-		static unsigned int we = 0;
 		const char* windows_menu[] = { "Windowed","Full Screen", "Windowed Full Screen", "Borderless", "Window Resizable" };
 		static int windows_selected = 0;
 		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, IM_ARRAYSIZE(windows_menu)))
@@ -122,9 +121,18 @@ void ModuleWindow::GuiUpdate()
 				windows_options[i-1] = (i == windows_selected) ? true : false;
 			}
 		}
-		ImGui::SliderInt("Width", &width, 640, 1280);
-		ImGui::SliderInt("Height", &height, 480, 1024);
-	
+
+		const char* windows_size[] = { "1024x600","1152x768","1280x720", "1920x1080" };
+		static int windows_size_selected = 0;
+		
+		if (ImGui::Combo("Windows Size", &windows_size_selected, windows_size, IM_ARRAYSIZE(windows_size)))
+		{
+			width = window_s[windows_size_selected].width;
+			height = window_s[windows_size_selected].height;
+			SDL_SetWindowSize(window,width, height);
+
+		}
+
 	}
 }
 
@@ -202,4 +210,21 @@ const int ModuleWindow::GetWidth()
 const int ModuleWindow::GetHeight()
 {
 	return height;
+}
+
+void ModuleWindow::SetWindowSize() 
+{
+	int i = 0;
+	window_s[i].width = 1024;
+	window_s[i++].height = 600;
+
+	window_s[i].width = 1152;
+	window_s[i++].height = 768;
+
+	window_s[i].width = 1280;
+	window_s[i++].height = 720;
+
+	window_s[i].width = 1920;
+	window_s[i++].height = 1080;
+	
 }
