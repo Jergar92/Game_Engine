@@ -272,6 +272,7 @@ void ModuleRenderer3D::GuiUpdate()
 // Update present buffer to screen
 update_status ModuleRenderer3D::Update(float dt)
 {
+	
 	return UPDATE_CONTINUE;
 }
 // PostUpdate present buffer to screen
