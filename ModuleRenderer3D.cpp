@@ -30,10 +30,42 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 
 	JSON_Object * render_data = json_object_dotget_object(data, name.c_str());
 	vsync = json_object_dotget_number(render_data, "vsync");
-	background_color.x =json_object_dotget_number(render_data, "background_r");
+	background_color.x = json_object_dotget_number(render_data, "background_r");
 	background_color.y = json_object_dotget_number(render_data, "background_g");
 	background_color.z = json_object_dotget_number(render_data, "background_b");
 
+	//OpenGL Enable/Disable
+	depth_test = json_object_dotget_boolean(render_data, "depth_test");
+	depth = json_object_dotget_number(render_data, "depth");
+
+	cull_face = json_object_dotget_boolean(render_data, "cull_face");
+	front_face = json_object_dotget_number(render_data, "front_face");
+
+	lighting = json_object_dotget_boolean(render_data, "lighting");
+	light_ambient[0] = json_object_dotget_number(render_data, "light_ambient_r");
+	light_ambient[1] = json_object_dotget_number(render_data, "light_ambient_g");
+	light_ambient[2] = json_object_dotget_number(render_data, "light_ambient_b");
+	light_ambient[3] = json_object_dotget_number(render_data, "light_ambient_a");
+
+	color_material = json_object_dotget_boolean(render_data, "color_material");
+	color_ambient[0] = json_object_dotget_number(render_data, "color_ambient_r");
+	color_ambient[1] = json_object_dotget_number(render_data, "color_ambient_g");
+	color_ambient[2] = json_object_dotget_number(render_data, "color_ambient_b");
+	color_ambient[3] = json_object_dotget_number(render_data, "color_ambient_a");
+
+	color_diffuse[0] = json_object_dotget_number(render_data, "color_diffuse_r");
+	color_diffuse[1] = json_object_dotget_number(render_data, "color_diffuse_g");
+	color_diffuse[2] = json_object_dotget_number(render_data, "color_diffuse_b");
+	color_diffuse[3] = json_object_dotget_number(render_data, "color_diffuse_a");
+
+	texture_2d = json_object_dotget_boolean(render_data, "texture_2d");
+
+	fog = json_object_dotget_boolean(render_data, "fog");
+	fog_density = json_object_dotget_number(render_data, "fog_density");
+	fog_color[0] = json_object_dotget_number(render_data, "fog_color_r");
+	fog_color[1] = json_object_dotget_number(render_data, "fog_color_g");
+	fog_color[2] = json_object_dotget_number(render_data, "fog_color_b");
+	fog_color[3] = json_object_dotget_number(render_data, "fog_color_a");
 
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
@@ -262,7 +294,38 @@ bool ModuleRenderer3D::SaveConfig(const JSON_Object* data)
 	json_object_dotset_number(render_data, "background_r", background_color.x);
 	json_object_dotset_number(render_data, "background_g", background_color.y);
 	json_object_dotset_number(render_data, "background_b", background_color.z);
+	//OpenGL Enable/Disable
+	json_object_dotset_boolean(render_data, "depth_test", depth_test);
+	json_object_dotset_number(render_data, "depth", depth);
 
+	json_object_dotset_boolean(render_data, "cull_face", cull_face);
+	json_object_dotset_number(render_data, "front_face", front_face);
+
+	json_object_dotset_boolean(render_data, "lighting", lighting);
+	json_object_dotset_number(render_data, "light_ambient_r", light_ambient[0]);
+	json_object_dotset_number(render_data, "light_ambient_g", light_ambient[1]);
+	json_object_dotset_number(render_data, "light_ambient_b", light_ambient[2]);
+	json_object_dotset_number(render_data, "light_ambient_a", light_ambient[3]);
+
+	json_object_dotset_boolean(render_data, "color_material", color_material);
+	json_object_dotset_number(render_data, "color_ambient_r", color_ambient[0]);
+	json_object_dotset_number(render_data, "color_ambient_g", color_ambient[1]);
+	json_object_dotset_number(render_data, "color_ambient_b", color_ambient[2]);
+	json_object_dotset_number(render_data, "color_ambient_a", color_ambient[3]);
+
+	json_object_dotset_number(render_data, "color_diffuse_r", color_diffuse[0]);
+	json_object_dotset_number(render_data, "color_diffuse_g", color_diffuse[1]);
+	json_object_dotset_number(render_data, "color_diffuse_b", color_diffuse[2]);
+	json_object_dotset_number(render_data, "color_diffuse_a", color_diffuse[3]);
+
+	json_object_dotset_boolean(render_data, "texture_2d", texture_2d);
+
+	json_object_dotset_boolean(render_data, "fog", fog);
+	json_object_dotset_number(render_data, "fog_density", fog_density);
+	json_object_dotset_number(render_data, "fog_color_r", fog_color[0]);
+	json_object_dotset_number(render_data, "fog_color_g", fog_color[1]);
+	json_object_dotset_number(render_data, "fog_color_b", fog_color[2]);
+	json_object_dotset_number(render_data, "fog_color_a", fog_color[3]);
 	return ret;
 }
 
@@ -277,11 +340,36 @@ bool ModuleRenderer3D::LoadConfig(const JSON_Object* data)
 
 	//OpenGL Enable/Disable
 	depth_test = json_object_dotget_boolean(render_data, "depth_test");
+	depth = json_object_dotget_number(render_data, "depth");
+
 	cull_face = json_object_dotget_boolean(render_data, "cull_face");
+	front_face = json_object_dotget_number(render_data, "front_face");
+
 	lighting = json_object_dotget_boolean(render_data, "lighting");
+	light_ambient[0] = json_object_dotget_number(render_data, "light_ambient_r");
+	light_ambient[1] = json_object_dotget_number(render_data, "light_ambient_g");
+	light_ambient[2] = json_object_dotget_number(render_data, "light_ambient_b");
+	light_ambient[3] = json_object_dotget_number(render_data, "light_ambient_a");
+
 	color_material = json_object_dotget_boolean(render_data, "color_material");
+	color_ambient[0] = json_object_dotget_number(render_data, "color_ambient_r");
+	color_ambient[1] = json_object_dotget_number(render_data, "color_ambient_g");
+	color_ambient[2] = json_object_dotget_number(render_data, "color_ambient_b");
+	color_ambient[3] = json_object_dotget_number(render_data, "color_ambient_a");
+
+	color_diffuse[0] = json_object_dotget_number(render_data, "color_diffuse_r");
+	color_diffuse[1] = json_object_dotget_number(render_data, "color_diffuse_g");
+	color_diffuse[2] = json_object_dotget_number(render_data, "color_diffuse_b");
+	color_diffuse[3] = json_object_dotget_number(render_data, "color_diffuse_a");
+
 	texture_2d = json_object_dotget_boolean(render_data, "texture_2d");
 
+	fog = json_object_dotget_boolean(render_data, "fog");
+	fog_density = json_object_dotget_number(render_data, "fog_density");
+	fog_color[0] = json_object_dotget_number(render_data, "fog_color_r");
+	fog_color[1] = json_object_dotget_number(render_data, "fog_color_g");
+	fog_color[2] = json_object_dotget_number(render_data, "fog_color_b");
+	fog_color[3] = json_object_dotget_number(render_data, "fog_color_a");
 
 	//Initialize clear color
 	glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);

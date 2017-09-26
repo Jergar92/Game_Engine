@@ -56,8 +56,6 @@ private:
 
 	bool fog = false;
 	float fog_density = 0.0f;
-	float fog_start = 0.0f;
-	float fog_end = 0.0f;
 
 	float fog_color[4] = { 0.0f, 0.0f,0.0f, 0.0f };
 
