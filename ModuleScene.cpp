@@ -78,7 +78,48 @@ bool ModuleScene::Start()
 	glGenBuffers(1, (GLuint*)&buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 36 * 3, cube, GL_STATIC_DRAW);
+	//-----------------------ERROR---------------------
+	/*
 
+	float cube2[] =
+	{
+	0.0f, 0.0f, 5.0f,//0
+
+	5.0f, 0.0f, 5.0f,//1
+
+	5.0f, 5.0f,5.0f,//2
+
+	0.0f, 5.0f, 5.0f,//3
+
+	5.0f, 0.0f, 0.0f,//4
+
+	5.0f,5.0f, 0.0f,//5
+
+	0.0f, 5.0f, 0.0f,//6
+
+	0.0f,0.0f, 0.0f//7
+	};
+
+	int cube_id[] =
+	{
+	0,1,2,
+	1,2,3,
+	1,4,2,
+	4,5,2,
+	4,6,5,
+	7,6,4,
+	7,8,6,
+	0,3,6,
+	2,5,6,
+	2,6,3,
+	1,0,7,
+	1,7,4
+	};
+	///
+	glGenBuffers(1, (GLuint*)&index_id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 36 * 3, cube_id, GL_STATIC_DRAW);
+	*/
 	return ret;
 }
 
@@ -162,7 +203,13 @@ update_status ModuleScene::Update(float dt)
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
-
+	/*
+	//-----------------------ERROR---------------------
+	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
+	glDrawElements(GL_TRIANGLES, my_indices, GL_UNSIGNED_INT, NULL);
+	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	*/
 	ImGui::Begin("Colision Menu");
 
 	static int element_1 = 0;

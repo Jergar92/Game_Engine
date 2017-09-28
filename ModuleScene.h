@@ -25,6 +25,7 @@ public:
 private:
 	
 	uint buffer_id = 0;
+	uint index_id = 4;
 
 	float sphere_x = 0;
 	float sphere_y = 0;
