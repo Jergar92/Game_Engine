@@ -23,6 +23,9 @@ public:
 	Plane_p plane;
 	Cube_p cube;
 private:
+	
+	uint buffer_id = 0;
+
 	float sphere_x = 0;
 	float sphere_y = 0;
 	float sphere_z = 0;

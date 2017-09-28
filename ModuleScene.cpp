@@ -18,6 +18,67 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+	//TODO 2
+	float cube[] =
+	{
+		0.0f, 0.0f, 5.0f,
+			5.0f, 0.0f, 5.0f,
+			5.0f, 5.0f, 5.0f,
+
+			0.0f, 0.0f, 5.0f,
+			5.0f, 5.0f, 5.0f,
+			0.0f, 5.0f, 5.0f,
+
+			5.0f, 0.0f, 5.0f,
+			5.0f, 0.0f, 0.0f,
+			5.0f, 5.0f, 5.0f,
+
+			5.0f, 0.0f, 0.0f,
+			5.0f, 5.0f, 0.0f,
+			5.0f, 5.0f, 5.0f,
+
+
+			5.0f, 0.0f, 0.0f,
+			0.0f, 5.0f, 0.0f,
+			5.0f, 5.0f, 0.0f,
+
+			0.0f, 0.0f, 0.0f,
+			0.0f, 5.0f, 0.0f,
+			5.0f, 0.0f, 0.0f,
+
+
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 5.0f,
+			0.0f, 5.0f, 0.0f,
+
+			0.0f, 0.0f, 5.0f,
+			0.0f, 5.0f, 5.0f,
+			0.0f, 5.0f, 0.0f,
+
+
+			5.0f, 5.0f, 5.0f,
+			5.0f, 5.0f, 0.0f,
+			0.0f, 5.0f, 0.0f,
+
+			5.0f, 5.0f, 5.0f,
+			0.0f, 5.0f, 0.0f,
+			0.0f, 5.0f, 5.0f,
+
+
+			5.0f, 0.0f, 5.0f,
+			0.0f, 0.0f, 5.0f,
+			0.0f, 0.0f, 0.0f,
+
+			5.0f, 0.0f, 5.0f,
+			0.0f, 0.0f, 0.0f,
+			5.0f, 0.0f, 0.0f
+	};
+
+	//load buffer
+	glGenBuffers(1, (GLuint*)&buffer_id);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 36 * 3, cube, GL_STATIC_DRAW);
+
 	return ret;
 }
 
@@ -26,6 +87,81 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update(float dt)
 {
+
+	/*
+	//TODO
+	glBegin(GL_TRIANGLES);
+	
+	//front
+	glVertex3f(0.0f, 0.0f, 5.0f);
+	glVertex3f(5.0f, 0.0f, 5.0f);
+	glVertex3f(5.0f, 5.0f, 5.0f);
+
+	glVertex3f(0.0f, 0.0f, 5.0f);
+	glVertex3f(5.0f, 5.0f, 5.0f);
+	glVertex3f(0.0f, 5.0f, 5.0f);
+
+	//Right
+	glVertex3f(5.0f, 0.0f, 5.0f);
+	glVertex3f(5.0f, 0.0f, 0.0f);
+	glVertex3f(5.0f, 5.0f, 5.0f);
+
+	glVertex3f(5.0f, 0.0f, 0.0f);
+	glVertex3f(5.0f, 5.0f, 0.0f);
+	glVertex3f(5.0f, 5.0f, 5.0f);
+
+	//Back
+	glVertex3f(5.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 5.0f, 0.0f);
+	glVertex3f(5.0f, 5.0f, 0.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 5.0f, 0.0f);
+	glVertex3f(5.0f, 0.0f, 0.0f);
+
+	//left
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 5.0f);
+	glVertex3f(0.0f, 5.0f, 0.0f);
+
+	glVertex3f(0.0f, 0.0f, 5.0f);
+	glVertex3f(0.0f, 5.0f, 5.0f);
+	glVertex3f(0.0f, 5.0f, 0.0f);
+
+	//Up
+	glVertex3f(5.0f, 5.0f, 5.0f);
+	glVertex3f(5.0f, 5.0f, 0.0f);
+	glVertex3f(0.0f, 5.0f, 0.0f);
+
+	glVertex3f(5.0f, 5.0f, 5.0f);
+	glVertex3f(0.0f, 5.0f, 0.0f);
+	glVertex3f(0.0f, 5.0f, 5.0f);
+
+	//bottom
+	glVertex3f(5.0f, 0.0f, 5.0f);
+	glVertex3f(0.0f, 0.0f, 5.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glVertex3f(5.0f, 0.0f, 5.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(5.0f, 0.0f, 0.0f);
+
+
+
+
+	glEnd();
+	*/
+	//TODO 2 with vertex arrays
+	//draw
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER,buffer_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	
+	
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 
 	ImGui::Begin("Colision Menu");
 
@@ -75,7 +211,7 @@ update_status ModuleScene::Update(float dt)
 		item._Ptr->_Myval->Render();
 		item++;
 	}
-	cube.Render();
+	/*cube.Render();*/
 	return UPDATE_CONTINUE;
 }
 
