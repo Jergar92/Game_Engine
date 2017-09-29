@@ -43,7 +43,7 @@ private:
 	float cube_size_z = 0;
 	std::list<Primitive*> elements;
 public:
-
+	void CubeVertex();
 
 private:
 

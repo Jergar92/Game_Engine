@@ -18,72 +18,6 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	//TODO 2
-	
-	GLfloat cube[] =
-	{
-		0.0f, 0.0f, 5.0f,
-			5.0f, 0.0f, 5.0f,
-			5.0f, 5.0f, 5.0f,
-
-			0.0f, 0.0f, 5.0f,
-			5.0f, 5.0f, 5.0f,
-			0.0f, 5.0f, 5.0f,
-
-			5.0f, 0.0f, 5.0f,
-			5.0f, 0.0f, 0.0f,
-			5.0f, 5.0f, 5.0f,
-
-			5.0f, 0.0f, 0.0f,
-			5.0f, 5.0f, 0.0f,
-			5.0f, 5.0f, 5.0f,
-
-
-			5.0f, 0.0f, 0.0f,
-			0.0f, 5.0f, 0.0f,
-			5.0f, 5.0f, 0.0f,
-
-			0.0f, 0.0f, 0.0f,
-			0.0f, 5.0f, 0.0f,
-			5.0f, 0.0f, 0.0f,
-
-
-			0.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 5.0f,
-			0.0f, 5.0f, 0.0f,
-
-			0.0f, 0.0f, 5.0f,
-			0.0f, 5.0f, 5.0f,
-			0.0f, 5.0f, 0.0f,
-
-
-			5.0f, 5.0f, 5.0f,
-			5.0f, 5.0f, 0.0f,
-			0.0f, 5.0f, 0.0f,
-
-			5.0f, 5.0f, 5.0f,
-			0.0f, 5.0f, 0.0f,
-			0.0f, 5.0f, 5.0f,
-
-
-			5.0f, 0.0f, 5.0f,
-			0.0f, 0.0f, 5.0f,
-			0.0f, 0.0f, 0.0f,
-
-			5.0f, 0.0f, 5.0f,
-			0.0f, 0.0f, 0.0f,
-			5.0f, 0.0f, 0.0f
-	};
-	
-	//load buffer
-
-
-	glGenBuffers(1, &other_buffer_id);
-	glBindBuffer(GL_ARRAY_BUFFER, other_buffer_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
-	//-----------------------ERROR---------------------
-	
-
 	GLfloat cube2[] =
 	{
 		-1.0, -1.0,  1.0,
@@ -135,7 +69,7 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update(float dt)
 {
-
+	//Direct mode
 	/*
 	//TODO
 	glBegin(GL_TRIANGLES);
@@ -199,20 +133,10 @@ update_status ModuleScene::Update(float dt)
 
 	glEnd();
 	*/
-	//TODO 2 with vertex arrays
-	//draw
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glBindBuffer(GL_ARRAY_BUFFER, other_buffer_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-
+	
+	CubeVertex();
+	
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
@@ -289,3 +213,32 @@ bool ModuleScene::CleanUp()
 
 	return ret;
 }
+
+void ModuleScene::CubeVertex()
+{
+	AABB cube;
+	
+	float3 pos(0, 2.5, 0);
+	float3 size(5, 5, 5);
+	float3 outpos[36] = {};
+	cube.SetFromCenterAndSize(pos,size);
+	cube.Triangulate(1,1,1,outpos,NULL,NULL,false);
+	
+	//load buffer
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glGenBuffers(1, &other_buffer_id);
+	glBindBuffer(GL_ARRAY_BUFFER, other_buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(outpos), outpos, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, other_buffer_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(outpos));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+
+
+}
+
