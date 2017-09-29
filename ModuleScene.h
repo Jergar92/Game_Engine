@@ -8,7 +8,16 @@
 #include "MathGeoLib-1.5\src\Geometry\Ray.h"
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
 #include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
+struct PGeometry
+{
+	PGeometry(GLuint buffer_id, float3* vertex, int size);
 
+	~PGeometry();
+	GLuint buffer_id;
+	float3* vertex;
+	int size;
+
+};
 class ModuleScene : public Module
 {
 public:
@@ -23,6 +32,10 @@ public:
 	Plane_p plane;
 	Cube_p cube;
 private:
+	void CubeVertex();
+	void GLAllocateElement(float3* vertex, int size);
+	void DrawElements();
+
 	GLuint other_buffer_id;
 
 	GLuint buffer_id;
@@ -41,9 +54,10 @@ private:
 	float cube_size_x = 0;
 	float cube_size_y = 0;
 	float cube_size_z = 0;
-	std::list<Primitive*> elements;
+	std::list<PGeometry*> elements;
+
 public:
-	void CubeVertex();
+
 
 private:
 

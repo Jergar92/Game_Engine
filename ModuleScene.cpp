@@ -32,6 +32,25 @@ bool ModuleScene::Start()
 	};
 
 
+	AABB cube1;
+	float3 pos = float3(1, 8, 1);
+	float3 size = float3(1, 1, 1);
+
+	cube1.SetFromCenterAndSize(pos, size);
+	float3 vertes[36];
+	cube1.Triangulate(1, 1, 1, vertes, NULL, NULL, NULL);
+	GLAllocateElement(vertes, sizeof(vertes));
+
+
+
+	AABB cube22;
+	float3 pos2 = float3(9, 8, 1);
+	float3 size2 = float3(1, 1, 1);
+	cube22.SetFromCenterAndSize(pos2, size2);
+	float3 vertes2[36];
+	cube22.Triangulate(1, 1, 1, vertes2, NULL, NULL, NULL);
+	GLAllocateElement(vertes2, sizeof(vertes2));
+
 
 	glGenBuffers(1, &buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
@@ -172,7 +191,6 @@ update_status ModuleScene::Update(float dt)
 		{
 			Sphere_p* item = new Sphere_p(sphere_radius);
 			item->SetPos(sphere_x, sphere_y, sphere_z);
-			elements.push_back(item);
 		}
 	}
 	ImGui::RadioButton("Cube", &element_1, 1);
@@ -190,19 +208,13 @@ update_status ModuleScene::Update(float dt)
 		{
 			Cube_p* item = new Cube_p(cube_size_x, cube_size_y, cube_size_z);
 			item->SetPos(cube_pos_x, cube_pos_y, cube_pos_z);
-			elements.push_back(item);
 		}
 	}
 
 	ImGui::End();
 
 	plane.Render();
-	std::list<Primitive*>::iterator item = elements.begin();
-	while (item != elements.end())
-	{
-		item._Ptr->_Myval->Render();
-		item++;
-	}
+	DrawElements();
 	/*cube.Render();*/
 	return UPDATE_CONTINUE;
 }
@@ -240,5 +252,49 @@ void ModuleScene::CubeVertex()
 
 
 
+}
+
+void ModuleScene::GLAllocateElement(float3 * vertex, int size)
+{
+	GLuint element_id;
+
+	float3* get_vertex = new float3[size];
+	memcpy(get_vertex, vertex, size);
+	glGenBuffers(1, &element_id);
+	glBindBuffer(GL_ARRAY_BUFFER, element_id);
+	glBufferData(GL_ARRAY_BUFFER, size, get_vertex, GL_STATIC_DRAW);
+	elements.push_back(new PGeometry(element_id, get_vertex, size));
+	delete[] get_vertex;
+}
+
+void ModuleScene::DrawElements()
+{
+	std::list<PGeometry*>::iterator item = elements.begin();
+	while (item != elements.end())
+	{
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+
+		glBindBuffer(GL_ARRAY_BUFFER, item._Ptr->_Myval->buffer_id);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glDrawArrays(GL_TRIANGLES, 0, item._Ptr->_Myval->size);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		item++;
+
+
+	}
+}
+
+PGeometry::PGeometry(GLuint buffer_id, float3* _vertex, int size) :buffer_id(buffer_id), size(size)
+{
+	vertex = new float3[size];
+	memcpy(vertex, _vertex, size);
+}
+
+PGeometry::~PGeometry()
+{
+	delete[] vertex;
 }
 
