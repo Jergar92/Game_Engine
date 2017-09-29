@@ -23,7 +23,8 @@ public:
 	Plane_p plane;
 	Cube_p cube;
 private:
-	
+	GLuint other_buffer_id;
+
 	GLuint buffer_id;
 	GLuint index_id;
 
