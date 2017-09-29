@@ -32,14 +32,21 @@ public:
 	Plane_p plane;
 	Cube_p cube;
 private:
-	void CubeVertex();
+	
+	void CubeVertexMode();
+	void cubeDirectMode();
+	void CubeIndexMode();
+
 	void GLAllocateElement(float3* vertex, int size);
 	void DrawElements();
 
-	GLuint other_buffer_id;
 
-	GLuint buffer_id;
-	GLuint index_id;
+	GLuint array_id;
+	uint   array_size;
+	GLuint array_index_id;
+	uint   array_index_size;
+	GLuint buffer_element_id;
+	uint   buffer_element_size;
 
 	float sphere_x = 0;
 	float sphere_y = 0;

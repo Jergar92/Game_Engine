@@ -18,44 +18,38 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+	//Vertex
+	AABB cube;
+	float3 pos(15, 2.5, 2.5);
+	float3 size(5, 5, 5);
+	float3 outpos[36] = {};
+	cube.SetFromCenterAndSize(pos, size);
+	cube.Triangulate(1, 1, 1, outpos, NULL, NULL, false);
+	array_size = sizeof(outpos);
+	glGenBuffers(1, &array_id);
+	glBindBuffer(GL_ARRAY_BUFFER, array_id);
+	glBufferData(GL_ARRAY_BUFFER, array_size, outpos, GL_STATIC_DRAW);
+
+	//index
 	GLfloat cube2[] =
 	{
-		-1.0, -1.0,  1.0,
-		1.0, -1.0,  1.0,
-		1.0,  1.0,  1.0,
-		-1.0,  1.0,  1.0,
+	    8.0, -1.0, 7.0,
+		10.0,-1.0, 7.0,
+		10.0, 1.0, 7.0,
+	    8.0,  1.0, 7.0,
 		// back
-		-1.0, -1.0, -1.0,
-		1.0, -1.0, -1.0,
-		1.0,  1.0, -1.0,
-		-1.0,  1.0, -1.0,
+	    8.0, -1.0, 5.0,
+		10.0,-1.0, 5.0,
+		10.0, 1.0, 5.0,
+	    8.0,  1.0, 5.0,
 	};
 
+	array_index_size = sizeof(cube2);
 
-	AABB cube1;
-	float3 pos = float3(1, 8, 1);
-	float3 size = float3(1, 1, 1);
+	glGenBuffers(1, &array_index_id);
+	glBindBuffer(GL_ARRAY_BUFFER, array_index_id);
+	glBufferData(GL_ARRAY_BUFFER, array_index_size, cube2, GL_STATIC_DRAW);
 
-	cube1.SetFromCenterAndSize(pos, size);
-	float3 vertes[36];
-	cube1.Triangulate(1, 1, 1, vertes, NULL, NULL, NULL);
-	GLAllocateElement(vertes, sizeof(vertes));
-
-
-
-	AABB cube22;
-	float3 pos2 = float3(9, 8, 1);
-	float3 size2 = float3(1, 1, 1);
-	cube22.SetFromCenterAndSize(pos2, size2);
-	float3 vertes2[36];
-	cube22.Triangulate(1, 1, 1, vertes2, NULL, NULL, NULL);
-	GLAllocateElement(vertes2, sizeof(vertes2));
-
-
-	glGenBuffers(1, &buffer_id);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cube2), cube2, GL_STATIC_DRAW);
-	///
 	GLushort cube_id[] =
 	{
 		0, 1, 2,
@@ -76,9 +70,34 @@ bool ModuleScene::Start()
 		3, 2, 6,
 		6, 7, 3,
 	};
-	glGenBuffers(1, &index_id);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cube_id) , cube_id, GL_STATIC_DRAW);
+
+	buffer_element_size = sizeof(cube_id);
+
+	glGenBuffers(1, &buffer_element_id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_element_size, cube_id, GL_STATIC_DRAW);
+	
+	//AABB cube1;
+	//float3 pos = float3(1, 8, 1);
+	//float3 size = float3(1, 1, 1);
+
+	//cube1.SetFromCenterAndSize(pos, size);
+	//float3 vertes[36];
+	//cube1.Triangulate(1, 1, 1, vertes, NULL, NULL, NULL);
+	//GLAllocateElement(vertes, sizeof(vertes));
+
+
+
+	//AABB cube22;
+	//float3 pos2 = float3(9, 8, 1);
+	//float3 size2 = float3(1, 1, 1);
+	//cube22.SetFromCenterAndSize(pos2, size2);
+	//float3 vertes2[36];
+	//cube22.Triangulate(1, 1, 1, vertes2, NULL, NULL, NULL);
+	//GLAllocateElement(vertes2, sizeof(vertes2));
+
+	///
+	
 	
 	return ret;
 }
@@ -88,11 +107,85 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::Update(float dt)
 {
-	//Direct mode
-	/*
+    //Draw modes
+	DrawElements();
+	cubeDirectMode();
+	CubeVertexMode();
+	CubeIndexMode();
+
+	ImGui::Begin("Colision Menu");
+
+	static int element_1 = 0;
+	//------------------Sphere_1------------
+	ImGui::PushItemWidth(90);
+
+	ImGui::RadioButton("Sphere", &element_1, 0);
+	if (element_1 == 0)
+	{
+		ImGui::InputFloat("Sphere pos x", &sphere_x, 0.1f, 1.0f, 1); ImGui::SameLine();
+		ImGui::InputFloat("Sphere pos y", &sphere_y, 0.1f, 1.0f, 1); ImGui::SameLine();
+		ImGui::InputFloat("Sphere pos z", &sphere_z, 0.1f, 1.0f, 1);
+		ImGui::InputFloat("Sphere radius", &sphere_radius, 0.1f, 1.0f, 1);
+		if (ImGui::Button("Create##create_sphere"))
+		{
+			Sphere_p* item = new Sphere_p(sphere_radius);
+			item->SetPos(sphere_x, sphere_y, sphere_z);
+		}
+	}
+	ImGui::RadioButton("Cube", &element_1, 1);
+	
+
+	if (element_1 == 1)
+	{
+		ImGui::InputFloat("Cube pos x", &cube_pos_x, 0.1f, 1.0f, 1); ImGui::SameLine();
+		ImGui::InputFloat("Cube pos y", &cube_pos_y, 0.1f, 1.0f, 1); ImGui::SameLine();
+		ImGui::InputFloat("Cube pos z", &cube_pos_z, 0.1f, 1.0f, 1);
+
+		ImGui::InputFloat("Cube size x", &cube_size_x, 0.1f, 1.0f, 1); ImGui::SameLine();
+		ImGui::InputFloat("Cube size y", &cube_size_y, 0.1f, 1.0f, 1); ImGui::SameLine();
+		ImGui::InputFloat("Cube size z", &cube_size_z, 0.1f, 1.0f, 1);
+		if (ImGui::Button("Create##create_cube"))
+		{
+			Cube_p* item = new Cube_p(cube_size_x, cube_size_y, cube_size_z);
+			item->SetPos(cube_pos_x, cube_pos_y, cube_pos_z);
+		}
+	}
+
+	ImGui::End();
+	
+	plane.Render();
+
+	return UPDATE_CONTINUE;
+}
+
+bool ModuleScene::CleanUp()
+{
+	bool ret = true;
+
+	return ret;
+}
+
+void ModuleScene::CubeVertexMode()
+{
+
+	//load buffer
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, array_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glDrawArrays(GL_TRIANGLES, 0, array_size);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+}
+
+void ModuleScene::cubeDirectMode()
+{
 	//TODO
 	glBegin(GL_TRIANGLES);
-	
+
 	//front
 	glVertex3f(0.0f, 0.0f, 5.0f);
 	glVertex3f(5.0f, 0.0f, 5.0f);
@@ -148,109 +241,24 @@ update_status ModuleScene::Update(float dt)
 	glVertex3f(5.0f, 0.0f, 0.0f);
 
 
-
-
 	glEnd();
-	*/
+}
 
-	
-	CubeVertex();
-	
-
+void ModuleScene::CubeIndexMode()
+{
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-
-	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	
-	//-----------------------ERROR---------------------
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
-	glDrawElements(GL_TRIANGLES, sizeof(GLushort)*72 , GL_UNSIGNED_SHORT, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, array_index_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_size);
+	glDrawElements(GL_TRIANGLES, sizeof(GLushort) * 72, GL_UNSIGNED_SHORT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
-
-	ImGui::Begin("Colision Menu");
-
-	static int element_1 = 0;
-	//------------------Sphere_1------------
-	ImGui::PushItemWidth(90);
-
-	ImGui::RadioButton("Sphere", &element_1, 0);
-	if (element_1 == 0)
-	{
-		ImGui::InputFloat("Sphere pos x", &sphere_x, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Sphere pos y", &sphere_y, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Sphere pos z", &sphere_z, 0.1f, 1.0f, 1);
-		ImGui::InputFloat("Sphere radius", &sphere_radius, 0.1f, 1.0f, 1);
-		if (ImGui::Button("Create##create_sphere"))
-		{
-			Sphere_p* item = new Sphere_p(sphere_radius);
-			item->SetPos(sphere_x, sphere_y, sphere_z);
-		}
-	}
-	ImGui::RadioButton("Cube", &element_1, 1);
-	
-	if (element_1 == 1)
-	{
-		ImGui::InputFloat("Cube pos x", &cube_pos_x, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Cube pos y", &cube_pos_y, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Cube pos z", &cube_pos_z, 0.1f, 1.0f, 1);
-
-		ImGui::InputFloat("Cube size x", &cube_size_x, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Cube size y", &cube_size_y, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Cube size z", &cube_size_z, 0.1f, 1.0f, 1);
-		if (ImGui::Button("Create##create_cube"))
-		{
-			Cube_p* item = new Cube_p(cube_size_x, cube_size_y, cube_size_z);
-			item->SetPos(cube_pos_x, cube_pos_y, cube_pos_z);
-		}
-	}
-
-	ImGui::End();
-
-	plane.Render();
-	DrawElements();
-	/*cube.Render();*/
-	return UPDATE_CONTINUE;
-}
-
-bool ModuleScene::CleanUp()
-{
-	bool ret = true;
-
-	return ret;
-}
-
-void ModuleScene::CubeVertex()
-{
-	AABB cube;
-	
-	float3 pos(0, 2.5, 0);
-	float3 size(5, 5, 5);
-	float3 outpos[36] = {};
-	cube.SetFromCenterAndSize(pos,size);
-	cube.Triangulate(1,1,1,outpos,NULL,NULL,false);
-	
-	//load buffer
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glGenBuffers(1, &other_buffer_id);
-	glBindBuffer(GL_ARRAY_BUFFER, other_buffer_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(outpos), outpos, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, other_buffer_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(outpos));
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-
 
 }
 
