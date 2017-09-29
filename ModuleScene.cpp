@@ -72,7 +72,6 @@ bool ModuleScene::Start()
 	};
 
 	buffer_element_size = sizeof(cube_id);
-
 	glGenBuffers(1, &buffer_element_id);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_element_size, cube_id, GL_STATIC_DRAW);
@@ -170,13 +169,10 @@ void ModuleScene::CubeVertexMode()
 
 	//load buffer
 	glEnableClientState(GL_VERTEX_ARRAY);
-
-
 	glBindBuffer(GL_ARRAY_BUFFER, array_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glDrawArrays(GL_TRIANGLES, 0, array_size);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 }
@@ -251,14 +247,14 @@ void ModuleScene::CubeIndexMode()
 	
 	glBindBuffer(GL_ARRAY_BUFFER, array_index_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_size);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_id);
 	glDrawElements(GL_TRIANGLES, sizeof(GLushort) * 72, GL_UNSIGNED_SHORT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	glDisableClientState(GL_VERTEX_ARRAY);
 
 }
 
@@ -292,7 +288,9 @@ void ModuleScene::DrawElements()
 		item++;
 
 
+	
 	}
+
 }
 
 PGeometry::PGeometry(GLuint buffer_id, float3* _vertex, int size) :buffer_id(buffer_id), size(size)
