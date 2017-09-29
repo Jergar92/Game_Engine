@@ -19,7 +19,8 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//TODO 2
-	float cube[] =
+	
+	GLfloat cube[] =
 	{
 		0.0f, 0.0f, 5.0f,
 			5.0f, 0.0f, 5.0f,
@@ -73,15 +74,18 @@ bool ModuleScene::Start()
 			0.0f, 0.0f, 0.0f,
 			5.0f, 0.0f, 0.0f
 	};
-
+	
 	//load buffer
-	glGenBuffers(1, (GLuint*)&buffer_id);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 36 * 3, cube, GL_STATIC_DRAW);
-	//-----------------------ERROR---------------------
-	/*
 
-	float cube2[] =
+
+	glGenBuffers(1, &buffer_id);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
+	/*
+	//-----------------------ERROR---------------------
+	
+
+	GLfloat cube2[] =
 	{
 	0.0f, 0.0f, 5.0f,//0
 
@@ -100,25 +104,26 @@ bool ModuleScene::Start()
 	0.0f,0.0f, 0.0f//7
 	};
 
-	int cube_id[] =
-	{
-	0,1,2,
-	1,2,3,
-	1,4,2,
-	4,5,2,
-	4,6,5,
-	7,6,4,
-	7,8,6,
-	0,3,6,
-	2,5,6,
-	2,6,3,
-	1,0,7,
-	1,7,4
-	};
+
 	///
-	glGenBuffers(1, (GLuint*)&index_id);
+	GLushort cube_id[] =
+	{
+		0,1,2,
+		1,2,3,
+		1,4,2,
+		4,5,2,
+		4,6,5,
+		7,6,4,
+		7,8,6,
+		0,3,6,
+		2,5,6,
+		2,6,3,
+		1,0,7,
+		1,7,4
+	};
+	glGenBuffers(1, &index_id);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 36 * 3, cube_id, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cube_id) , cube_id, GL_STATIC_DRAW);
 	*/
 	return ret;
 }
@@ -200,15 +205,15 @@ update_status ModuleScene::Update(float dt)
 	
 	
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	/*
 	//-----------------------ERROR---------------------
-	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
-	glDrawElements(GL_TRIANGLES, my_indices, GL_UNSIGNED_INT, NULL);
-	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	//glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);             
+	//glVertexPointer(3, GL_FLOAT, 0, 0);
+	//glDrawElements(GL_TRIANGLES,72 , GL_UNSIGNED_SHORT, NULL);
+	//glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);          
 	*/
 	ImGui::Begin("Colision Menu");
 

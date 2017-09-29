@@ -24,8 +24,8 @@ public:
 	Cube_p cube;
 private:
 	
-	uint buffer_id = 0;
-	uint index_id = 4;
+	GLuint buffer_id;
+	GLuint index_id;
 
 	float sphere_x = 0;
 	float sphere_y = 0;
