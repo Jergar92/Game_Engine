@@ -141,13 +141,12 @@ update_status ModuleScene::Update(float dt)
 		ImGui::InputFloat("Cube pos y", &cube_pos_y, 0.1f, 1.0f, 1); ImGui::SameLine();
 		ImGui::InputFloat("Cube pos z", &cube_pos_z, 0.1f, 1.0f, 1);
 
-		ImGui::InputFloat("Cube size x", &cube_size_x, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Cube size y", &cube_size_y, 0.1f, 1.0f, 1); ImGui::SameLine();
-		ImGui::InputFloat("Cube size z", &cube_size_z, 0.1f, 1.0f, 1);
+		ImGui::InputFloat("Cube size x", &cube_size, 0.1f, 1.0f, 1); ImGui::SameLine();
 		if (ImGui::Button("Create##create_cube"))
 		{
-			Cube_p* item = new Cube_p(cube_size_x, cube_size_y, cube_size_z);
-			item->SetPos(cube_pos_x, cube_pos_y, cube_pos_z);
+			GLAllocateElement(vertex_cube,cube_size);
+			CreateCube(float3(cube_pos_x,cube_pos_y,cube_pos_z),cube_size);
+			DrawElements();
 		}
 	}
 
@@ -287,11 +286,17 @@ void ModuleScene::DrawElements()
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		item++;
-
-
-	
 	}
+}
 
+void ModuleScene::CreateCube(float3 position, int size)
+{
+	AABB cube1;
+	float3 pos = position;
+	float3 size_(size,size,size);
+	cube1.SetFromCenterAndSize(pos, size_);
+	cube1.Triangulate(1, 1, 1, vertex_cube, NULL, NULL, NULL);
+	GLAllocateElement(vertex_cube, sizeof(vertex_cube));
 }
 
 PGeometry::PGeometry(GLuint buffer_id, float3* _vertex, int size) :buffer_id(buffer_id), size(size)

@@ -58,13 +58,12 @@ private:
 	float cube_pos_y = 0;
 	float cube_pos_z = 0;
 
-	float cube_size_x = 0;
-	float cube_size_y = 0;
-	float cube_size_z = 0;
+	float cube_size = 0;
 	std::list<PGeometry*> elements;
 
 public:
 
+	void CreateCube(float3 position, int size);
 
 private:
 
