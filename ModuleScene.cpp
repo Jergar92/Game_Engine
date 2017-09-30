@@ -128,8 +128,9 @@ update_status ModuleScene::Update(float dt)
 		ImGui::InputFloat("Sphere radius", &sphere_radius, 0.1f, 1.0f, 1);
 		if (ImGui::Button("Create##create_sphere"))
 		{
-			Sphere_p* item = new Sphere_p(sphere_radius);
-			item->SetPos(sphere_x, sphere_y, sphere_z);
+			GLAllocateElement(vertex_sphere, sphere_radius);
+			CreateSphere(float3(sphere_x, sphere_y, sphere_z), sphere_radius);
+			DrawElements();
 		}
 	}
 	ImGui::RadioButton("Cube", &element_1, 1);
@@ -292,11 +293,20 @@ void ModuleScene::DrawElements()
 void ModuleScene::CreateCube(float3 position, int size)
 {
 	AABB cube1;
-	float3 pos = position;
 	float3 size_(size,size,size);
-	cube1.SetFromCenterAndSize(pos, size_);
+	cube1.SetFromCenterAndSize(position, size_);
 	cube1.Triangulate(1, 1, 1, vertex_cube, NULL, NULL, NULL);
 	GLAllocateElement(vertex_cube, sizeof(vertex_cube));
+}
+
+void ModuleScene::CreateSphere(float3 position, int radius)
+{
+	Sphere sphere;
+	
+	sphere.pos = position;
+	sphere.r = radius;
+	sphere.Triangulate(vertex_sphere,NULL,NULL,1536,false);
+	GLAllocateElement(vertex_sphere, sizeof(vertex_sphere));
 }
 
 PGeometry::PGeometry(GLuint buffer_id, float3* _vertex, int size) :buffer_id(buffer_id), size(size)
