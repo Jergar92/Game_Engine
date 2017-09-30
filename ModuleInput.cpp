@@ -46,6 +46,8 @@ bool ModuleInput::Awake(const JSON_Object * data)
 // Called every draw update
 update_status ModuleInput::PreUpdate(float dt)
 {
+	App->profiler.CreateCategory(name.c_str(), "PreUpdate");
+
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);

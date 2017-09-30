@@ -33,6 +33,7 @@ update_status ModuleMenuBar::PreUpdate(float dt)
 
 update_status ModuleMenuBar::Update(float dt)
 {
+	App->profiler.CreateCategory(name.c_str(), "Update");
 
 	if (App->console->GetShowConsole())
 		App->console->Draw("Console Ready");

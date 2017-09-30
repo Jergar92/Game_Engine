@@ -43,8 +43,11 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+	App->profiler.CreateCategory(name.c_str(), "Update");
+
 	if (!ImGui::GetIO().WantCaptureKeyboard)
 	{
+		
 		vec3 newPos(0, 0, 0);
 		float speed = 3.0f * dt;
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)

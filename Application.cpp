@@ -121,6 +121,10 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	profiler.CreateTitle("Application", Title_chain::BACK);
+
+	profiler.CreateCategory("Application", "FinishUpdate");
+
 	static int values_offset = 0;
 
 	static int millisecons_offset = 0;
@@ -159,10 +163,10 @@ update_status Application::Update()
 	PrepareUpdate();
 	
 	std::list<Module*>::iterator item = list_modules.begin();
-	App->profiler.CreateTitle("Application");
+	profiler.CreateTitle("Application");
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		App->profiler.CreateTitle(item._Ptr->_Myval->name.c_str());
+		profiler.CreateTitle(item._Ptr->_Myval->name.c_str(),Title_chain::FRONT);
 
 		ret = item._Ptr->_Myval->PreUpdate(dt);
 		item++;	
@@ -170,6 +174,7 @@ update_status Application::Update()
 
 
 	if (ret == UPDATE_CONTINUE && open_config_window) {
+
 		ImGui::ShowTestWindow();
 		profiler.DrawProfiler();
 		GuiUpdate();
@@ -178,7 +183,7 @@ update_status Application::Update()
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-
+		profiler.CreateTitle(item._Ptr->_Myval->name.c_str());
 		ret = item._Ptr->_Myval->Update(dt);
 		item++;
 	}
@@ -186,6 +191,7 @@ update_status Application::Update()
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
+		profiler.CreateTitle(item._Ptr->_Myval->name.c_str(), Title_chain::BACK);
 
 		ret = item._Ptr->_Myval->PostUpdate(dt);
 		item++;

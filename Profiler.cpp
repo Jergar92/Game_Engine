@@ -19,6 +19,7 @@ void Profiler::CreateFrame(const char * framename)
 {
 	if (FrameExist(framename))
 	{
+		frame_count = frame_time.Read();
 		time = frame_time.ReadSec();
 		frame_time.Start();
 	}
@@ -30,43 +31,56 @@ void Profiler::CreateFrame(const char * framename)
 
 }
 
-bool Profiler::CreateTitle(const char * title_name)
+bool Profiler::CreateTitle(const char * title_name, Title_chain chain )
 {
 	Title* title = nullptr;
 	title = TitleExist(title_name);
 	if (title != nullptr)
 	{
-		title->time = title->frame_time.ReadSec();
+		current_title->SetValue();
 		title->frame_time.Start();
+		current_title = title;
+
 	}
 	else
 	{
-		title = new Title(title_name);
+		if (current_title != nullptr)
+			current_title->SetValue();
+		title = new Title(title_name, chain);
 		titles.push_back(title);
 		title->frame_time.Start();
+		current_title = title;
+
 
 	}
 	return false;
 }
 
-bool Profiler::CreateCategory(const char * title_name, char * category)
+bool Profiler::CreateCategory(const char * title_name, char * category_name)
 {
 	Title* title = nullptr;
 	title = TitleExist(title_name);
 	if (title != nullptr)
 	{
-		Category* current_category = nullptr;
-		current_category = title->CategotyExist(category);
-		if (current_category != nullptr)
+		Category* category = nullptr;
+		category = title->CategotyExist(category_name);
+		if (category != nullptr)
 		{
-			current_category->time = current_category->frame_time.ReadSec();
-			current_category->frame_time.Start();
+
+			current_category->GetTime();
+			category->frame_time.Start();
+			current_category=category;
+
 		}
 		else
 		{
-			current_category = new Category(category);
-			title->categories.push_back(current_category);
-			current_category->frame_time.Start();
+			if (current_category != nullptr)
+				current_category->GetTime();
+			category = new Category(category_name);
+			title->categories.push_back(category);
+			category->frame_time.Start();
+			current_category = category;
+
 		}
 	
 	}
@@ -89,22 +103,25 @@ void Profiler::DrawProfiler()
 	}
 	if (ImGui::TreeNode(name.c_str()))
 	{
+
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Time: %.2f", time);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", frame_count);
 
 		for (int i = 0; i < titles.size(); i++)
 			if (ImGui::TreeNode((void*)(intptr_t)i, titles[i]->name.c_str()))
 			{
+				
 				ImGui::SameLine();
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Time: %.2f", titles[i]->time);
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", titles[i]->frame_count);
+
 				for (int j= 0; j < titles[i]->categories.size(); j++)
 				{
 
 					if (ImGui::TreeNode((void*)(intptr_t)j, titles[i]->categories[j]->name.c_str()))
 					{
+					
 						ImGui::SameLine();
-						ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Time: %.2f", titles[i]->categories[j]->time);
-
+						ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", titles[i]->categories[j]->frame_count);
 						ImGui::TreePop();
 					}	
 				}
@@ -140,7 +157,7 @@ Title::Title()
 {
 }
 
-Title::Title(const char * titlename)
+Title::Title(const char * titlename, Title_chain chain):current_chain_state(chain)
 {
 	name = titlename;
 }
@@ -152,6 +169,35 @@ Title::~Title()
 		delete categories[i];
 	}
 	categories.clear();
+}
+
+void Title::SetValue()
+{
+	switch (current_chain_state)
+	{
+	case Title_chain::FRONT:
+	case Title_chain::MIDDLE:
+		SetStack();
+	case Title_chain::BACK:
+		SetStack();
+		frame_count = frame_stack;
+		frame_stack = 0;
+		break;
+	default:
+		break;
+	}
+}
+
+void Title::SetStack()
+{
+	frame_stack += frame_time.Read();
+}
+
+void Title::GetTime()
+{
+	frame_count = frame_time.Read();
+
+	frame_time.Start();
 }
 
 Category * Title::CategotyExist(const char * titlename)
@@ -179,3 +225,11 @@ Category::Category(const char * titlename)
 Category::~Category()
 {
 }
+
+void Category::GetTime()
+{
+	frame_count = frame_time.Read();
+	frame_time.Start();
+}
+
+
