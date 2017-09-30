@@ -159,9 +159,10 @@ update_status Application::Update()
 	PrepareUpdate();
 	
 	std::list<Module*>::iterator item = list_modules.begin();
-
+	App->profiler.CreateTitle("Application");
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
+		App->profiler.CreateTitle(item._Ptr->_Myval->name.c_str());
 
 		ret = item._Ptr->_Myval->PreUpdate(dt);
 		item++;	
@@ -170,6 +171,7 @@ update_status Application::Update()
 
 	if (ret == UPDATE_CONTINUE && open_config_window) {
 		ImGui::ShowTestWindow();
+		profiler.DrawProfiler();
 		GuiUpdate();
 	}
 

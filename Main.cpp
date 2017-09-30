@@ -37,18 +37,22 @@ int main(int argc, char ** argv)
 
 			LOG("-------------- Application Creation --------------");
 			App = new Application();
+
 			state = MAIN_START;
 			break;
 
 		case MAIN_START:
 
 			LOG("-------------- Application Awake --------------");
+
 			if (App->Awake() == false)
 			{
 				LOG("Application Init exits with ERROR");
 				state = MAIN_EXIT;
 			}
-			LOG("-------------- Application Init --------------");
+
+			LOG("-------------- Application Start --------------");
+
 			if (App->Start() == false)
 			{
 				LOG("Application Start exits with ERROR");
@@ -64,6 +68,9 @@ int main(int argc, char ** argv)
 
 		case MAIN_UPDATE:
 		{
+			App->profiler.CreateFrame("Main_loop");
+
+
 			int update_return = App->Update();
 			
 			if (update_return == UPDATE_ERROR)

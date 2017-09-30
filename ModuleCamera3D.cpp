@@ -5,7 +5,7 @@
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
-	name = "camera";
+	name = "Camera";
 
 	CalculateViewMatrix();
 

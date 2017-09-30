@@ -13,6 +13,7 @@
 #include "ModuleScene.h"
 #include "ModuleMenuBar.h"
 #include "ModuleHardware.h"
+#include "Profiler.h"
 //#include "Brofiler\Brofiler.h"
 #include <list>
 
@@ -29,6 +30,9 @@ public:
 	ModuleConsole*      console;
 	ModuleMenuBar*		menu_bar;
 	ModuleHardware*		hardware;
+
+	Profiler profiler;
+
 private: 
 	std::string name;
 	std::string organization;
@@ -65,7 +69,6 @@ public:
 	void LoadConfigWindows();
 
 private:
-	
 	char buff[128] = "Aplication Name";
 	char buff2[128] = "Organization Name";
 	bool LoadConfigNow();

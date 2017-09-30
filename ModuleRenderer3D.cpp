@@ -164,7 +164,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	//BROFILER_CATEGORY("Module Render PreUpdate", Profiler::Color::AliceBlue);
-
+	App->profiler.CreateCategory(name.c_str(), "PreUpdate");
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -6,6 +6,7 @@
 
 ModuleMenuBar::ModuleMenuBar(bool start_enabled)
 {
+	name = "Menu Bar";
 }
 
 ModuleMenuBar::~ModuleMenuBar()

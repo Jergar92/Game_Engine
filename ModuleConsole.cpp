@@ -8,6 +8,7 @@
 
 ModuleConsole::ModuleConsole(bool start_enabled) 
 {
+	name = "Console";
 	ClearLog();
 	memset(inputBuf, 0, sizeof(inputBuf));
 	HistoryPos = -1;

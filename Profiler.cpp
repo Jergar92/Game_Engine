@@ -15,7 +15,7 @@ Profiler::~Profiler()
 	titles.clear();
 }
 
-void Profiler::CreateFrame(char * framename)
+void Profiler::CreateFrame(const char * framename)
 {
 	if (FrameExist(framename))
 	{
@@ -30,11 +30,11 @@ void Profiler::CreateFrame(char * framename)
 
 }
 
-bool Profiler::CreateTitle(char * title_name)
+bool Profiler::CreateTitle(const char * title_name)
 {
 	Title* title = nullptr;
-	
-	if (title = TitleExist(title_name))
+	title = TitleExist(title_name);
+	if (title != nullptr)
 	{
 		title->time = title->frame_time.ReadSec();
 		title->frame_time.Start();
@@ -52,18 +52,19 @@ bool Profiler::CreateTitle(char * title_name)
 bool Profiler::CreateCategory(const char * title_name, char * category)
 {
 	Title* title = nullptr;
-
-	if (title = TitleExist(title_name))
+	title = TitleExist(title_name);
+	if (title != nullptr)
 	{
 		Category* current_category = nullptr;
-		if (current_category = title->CategotyExist(category))
+		current_category = title->CategotyExist(category);
+		if (current_category != nullptr)
 		{
 			current_category->time = current_category->frame_time.ReadSec();
 			current_category->frame_time.Start();
 		}
 		else
 		{
-			current_category = new Category(title_name);
+			current_category = new Category(category);
 			title->categories.push_back(current_category);
 			current_category->frame_time.Start();
 		}
@@ -76,22 +77,34 @@ void Profiler::DrawProfiler()
 {
 	if (name.empty())
 		return;
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
 
+	if (!ImGui::Begin("Profiler", &frame, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
 	if (ImGui::TreeNode(name.c_str()))
 	{
 		ImGui::SameLine();
-		ImGui::Text("Time: %.2f", time);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Time: %.2f", time);
+
 		for (int i = 0; i < titles.size(); i++)
 			if (ImGui::TreeNode((void*)(intptr_t)i, titles[i]->name.c_str()))
 			{
 				ImGui::SameLine();
-				ImGui::Text("Time: %.2f", titles[i]->time);
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Time: %.2f", titles[i]->time);
 				for (int j= 0; j < titles[i]->categories.size(); j++)
 				{
 
 					if (ImGui::TreeNode((void*)(intptr_t)j, titles[i]->categories[j]->name.c_str()))
 					{
-						ImGui::Text("Time: %.2f", titles[i]->categories[j]->time);
+						ImGui::SameLine();
+						ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Time: %.2f", titles[i]->categories[j]->time);
+
 						ImGui::TreePop();
 					}	
 				}
@@ -99,6 +112,7 @@ void Profiler::DrawProfiler()
 			}
 		ImGui::TreePop();
 	}
+	ImGui::End();
 
 }
 
@@ -128,6 +142,7 @@ Title::Title()
 
 Title::Title(const char * titlename)
 {
+	name = titlename;
 }
 
 Title::~Title()
@@ -157,6 +172,8 @@ Category::Category()
 
 Category::Category(const char * titlename)
 {
+	name = titlename;
+
 }
 
 Category::~Category()

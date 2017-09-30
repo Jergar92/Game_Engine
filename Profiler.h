@@ -43,8 +43,8 @@ class Profiler
 public:
 	Profiler();
 	~Profiler();
-	void CreateFrame(char* framename);
-	bool CreateTitle(char* title);
+	void CreateFrame(const char* framename);
+	bool CreateTitle(const char* title);
 	bool CreateCategory(const char* title,char*category);
 	void DrawProfiler();
 private:
@@ -59,5 +59,5 @@ private:
 	std::string name;
 	std::vector<Title*> titles;
 	bool categoty_running = false;
-	bool frame = false;
+	bool frame = true;
 };
