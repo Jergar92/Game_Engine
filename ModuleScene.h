@@ -67,4 +67,6 @@ public:
 
 private:
 
+	float3 vertex_cube[36] = {};
+
 };
