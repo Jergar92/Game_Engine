@@ -6,8 +6,12 @@
 
 struct Category
 {
+	Category();
 
-private:
+	Category(const char* titlename);
+
+	~Category();
+	public:
 	Timer frame_time;
 	float time = 0.0f;
 
@@ -16,14 +20,21 @@ private:
 };
 struct Title
 {
+public:
 	Title();
+	Title(const char* titlename);
+
 	~Title();
-private:
+	Category* CategotyExist(const char* titlename);
+public:
+	std::string name;
 	Timer frame_time;
 	float time = 0.0f;
-
-	std::string name;
 	std::vector<Category*> categories;
+
+private:
+
+
 };
 
 class Profiler
@@ -31,9 +42,13 @@ class Profiler
 public:
 	Profiler();
 	~Profiler();
-	bool CreateFrame(char* framename);
+	void CreateFrame(char* framename);
 	bool CreateTitle(char* title);
 	bool CreateCategory(const char* title,char*category);
+
+private:
+	bool FrameExist(const char* framename);
+	Title* TitleExist(const char* titlename);
 
 private:
 	Timer frame_time;

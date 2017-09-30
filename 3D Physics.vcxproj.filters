@@ -306,6 +306,9 @@
     <ClInclude Include="mmgr\nommgr.h">
       <Filter>Sources\Brofiler</Filter>
     </ClInclude>
+    <ClInclude Include="Profiler.h">
+      <Filter>Sources\Brofiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -471,6 +474,9 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="mmgr\mmgr.cpp">
+      <Filter>Sources\Brofiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Profiler.cpp">
       <Filter>Sources\Brofiler</Filter>
     </ClCompile>
   </ItemGroup>
