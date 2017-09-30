@@ -17,7 +17,7 @@ Profiler::~Profiler()
 
 void Profiler::CreateFrame(char * framename)
 {
-	if (FrameExist)
+	if (FrameExist(framename))
 	{
 		time = frame_time.ReadSec();
 		frame_time.Start();
@@ -70,6 +70,36 @@ bool Profiler::CreateCategory(const char * title_name, char * category)
 	
 	}
 	return false;
+}
+
+void Profiler::DrawProfiler()
+{
+	if (name.empty())
+		return;
+
+	if (ImGui::TreeNode(name.c_str()))
+	{
+		ImGui::SameLine();
+		ImGui::Text("Time: %.2f", time);
+		for (int i = 0; i < titles.size(); i++)
+			if (ImGui::TreeNode((void*)(intptr_t)i, titles[i]->name.c_str()))
+			{
+				ImGui::SameLine();
+				ImGui::Text("Time: %.2f", titles[i]->time);
+				for (int j= 0; j < titles[i]->categories.size(); j++)
+				{
+
+					if (ImGui::TreeNode((void*)(intptr_t)j, titles[i]->categories[j]->name.c_str()))
+					{
+						ImGui::Text("Time: %.2f", titles[i]->categories[j]->time);
+						ImGui::TreePop();
+					}	
+				}
+				ImGui::TreePop();
+			}
+		ImGui::TreePop();
+	}
+
 }
 
 bool Profiler::FrameExist(const char * framename)

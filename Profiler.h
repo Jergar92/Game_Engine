@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include <vector>
 #include "Timer.h"
+#include "imgui\imgui.h"
 //TODO Add Subcategory
 
 struct Category
@@ -45,7 +46,7 @@ public:
 	void CreateFrame(char* framename);
 	bool CreateTitle(char* title);
 	bool CreateCategory(const char* title,char*category);
-
+	void DrawProfiler();
 private:
 	bool FrameExist(const char* framename);
 	Title* TitleExist(const char* titlename);
