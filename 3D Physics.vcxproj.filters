@@ -309,6 +309,9 @@
     <ClInclude Include="Profiler.h">
       <Filter>Sources\Brofiler</Filter>
     </ClInclude>
+    <ClInclude Include="Primitive_p.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -478,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="Profiler.cpp">
       <Filter>Sources\Brofiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive_p.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
