@@ -36,7 +36,9 @@ bool ModuleHardware::CleanUp()
 	return ret;
 }
 
-void ModuleHardware::GuiUpdate()
+
+
+void ModuleHardware::GuiConfigUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{

@@ -109,10 +109,9 @@ void ModuleWindow::SetWindowsFlags(Uint32& flags)
 	
 }
 
-void ModuleWindow::GuiUpdate()
-{
-	//BROFILER_CATEGORY("Module Window GuiUpdate", Profiler::Color::AliceBlue);
 
+void ModuleWindow::GuiConfigUpdate()
+{
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
 		SDL_SetWindowTitle(window, buff);
@@ -123,20 +122,20 @@ void ModuleWindow::GuiUpdate()
 		static int windows_selected = 0;
 		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, IM_ARRAYSIZE(windows_menu)))
 		{
-			for (int i = 1;i < IM_ARRAYSIZE(windows_menu);i++)
+			for (int i = 1; i < IM_ARRAYSIZE(windows_menu); i++)
 			{
-				windows_options[i-1] = (i == windows_selected) ? true : false;
+				windows_options[i - 1] = (i == windows_selected) ? true : false;
 			}
 		}
 
 		const char* windows_size[] = { "1024x600","1152x768","1280x720", "1920x1080" };
 		static int windows_size_selected = 0;
-		
+
 		if (ImGui::Combo("Windows Size", &windows_size_selected, windows_size, IM_ARRAYSIZE(windows_size)))
 		{
 			width = window_s[windows_size_selected].width;
 			height = window_s[windows_size_selected].height;
-			SDL_SetWindowSize(window,width, height);
+			SDL_SetWindowSize(window, width, height);
 
 		}
 	}

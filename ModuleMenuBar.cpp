@@ -25,19 +25,14 @@ bool ModuleMenuBar::Start()
 
 }
 
-update_status ModuleMenuBar::PreUpdate(float dt)
-{
-	
-	return UPDATE_CONTINUE;
-}
 
-update_status ModuleMenuBar::Update(float dt)
+update_status ModuleMenuBar::GuiUpdate()
 {
 	App->profiler.CreateCategory(name.c_str(), "Update");
 
 	if (App->console->GetShowConsole())
 		App->console->Draw("Console Ready");
-	
+
 	if (GetAboutUsStatus())
 		AboutUsWindow();
 
@@ -124,7 +119,13 @@ void ModuleMenuBar::ShowMenuBar()
 			}
 
 			ImGui::Separator();
-			
+			if (ImGui::MenuItem("Profiler"))
+			{
+				Profiler();
+				LOG("Create Profiler Window, no existing errors")
+
+			}
+			ImGui::Separator();
 
 			ImGui::EndMenu();
 		}
@@ -213,4 +214,10 @@ void ModuleMenuBar::Console()
 void ModuleMenuBar::Configuration()
 {
 	App->LoadConfigWindows();
+}
+
+void ModuleMenuBar::Profiler()
+{
+	App->LoadProfilerWindow();
+
 }

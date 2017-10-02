@@ -42,11 +42,15 @@ public:
 	{
 		return UPDATE_CONTINUE;
 	}
-	virtual void GuiUpdate()
+	virtual update_status GuiUpdate()
+	{
+		return UPDATE_CONTINUE;
+	}
+
+	virtual void GuiConfigUpdate()
 	{
 		return;
 	}
-
 	virtual bool LoadConfig(const JSON_Object* data)
 	{
 		return true;

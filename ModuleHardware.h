@@ -13,8 +13,7 @@ public:
 	bool Awake(const JSON_Object* data);
 	bool Start();
 	bool CleanUp();
-	void GuiUpdate();
-
+	void GuiConfigUpdate();
 
 private:
 	SDL_version sdl_vers;

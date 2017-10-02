@@ -102,6 +102,11 @@ bool ModuleScene::Start()
 	return ret;
 }
 
+update_status ModuleScene::GuiUpdate()
+{
+	return UPDATE_CONTINUE;
+}
+
 
 
 

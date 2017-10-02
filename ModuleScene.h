@@ -25,6 +25,7 @@ public:
 	~ModuleScene();
 
 	bool Start();
+	update_status GuiUpdate();
 
 	update_status Update(float dt);
 	bool CleanUp();

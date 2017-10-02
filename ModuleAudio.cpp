@@ -81,16 +81,17 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-void ModuleAudio::GuiUpdate()
+
+void ModuleAudio::GuiConfigUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-		
+
 		ImGui::Text("Audio Driver:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetAudioDriver(audio_driver));
 		ImGui::Separator();
-		ImGui::Text("Audio Device:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetAudioDeviceName(audio_device,captured));
+		ImGui::Text("Audio Device:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetAudioDeviceName(audio_device, captured));
 		ImGui::Separator();
-		ImGui::SliderInt("Volume",&volume, 10,100);
+		ImGui::SliderInt("Volume", &volume, 10, 100);
 	}
 }
 

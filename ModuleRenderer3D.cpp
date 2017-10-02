@@ -182,14 +182,12 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 }
 
 // Gui Update present buffer to screen
-void ModuleRenderer3D::GuiUpdate()
+void ModuleRenderer3D::GuiConfigUpdate()
 {
-	//BROFILER_CATEGORY("Module Render GuiUpdate", Profiler::Color::AliceBlue);
-
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
 		static bool vsync_check = vsync != 0;
-		if(ImGui::Checkbox("Vsync", &vsync_check))
+		if (ImGui::Checkbox("Vsync", &vsync_check))
 		{
 			vsync = 1 - vsync;
 		}
@@ -200,35 +198,35 @@ void ModuleRenderer3D::GuiUpdate()
 		flags |= ImGuiColorEditFlags_PickerHueBar;
 		flags |= ImGuiColorEditFlags_RGB;
 
-		if(ImGui::ColorPicker4("Background Color##4", (float*)&background_color, flags, NULL))
+		if (ImGui::ColorPicker4("Background Color##4", (float*)&background_color, flags, NULL))
 		{
 			glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);
 		}
 
-		if(ImGui::Checkbox("Depth test##depth", &depth_test))
+		if (ImGui::Checkbox("Depth test##depth", &depth_test))
 			(depth_test) ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 		//Culling Option
-		if(ImGui::Checkbox("Cull face##cull_face", &cull_face))
+		if (ImGui::Checkbox("Cull face##cull_face", &cull_face))
 			(cull_face) ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 		if (cull_face)
-		{	
+		{
 			if (ImGui::RadioButton("Front facing culling##gl_ccw", &front_face, 1))
 				glFrontFace(GL_CCW);
 			ImGui::SameLine();
-			if(ImGui::RadioButton("Back facing culling##gl_cw", &front_face, 0))
+			if (ImGui::RadioButton("Back facing culling##gl_cw", &front_face, 0))
 				glFrontFace(GL_CW);
 		}
 		//------------------------------------
 		//Light Option
-		if(ImGui::Checkbox("Lighting##lighting", &lighting))
+		if (ImGui::Checkbox("Lighting##lighting", &lighting))
 			(lighting) ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
 		if (lighting)
 		{
-			ImGui::SliderFloat4("Ambient light", light_ambient, 0.0f, 1.0f,"%0.1f");
+			ImGui::SliderFloat4("Ambient light", light_ambient, 0.0f, 1.0f, "%0.1f");
 			glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
 		}
 		//Color Option
-		if(ImGui::Checkbox("Color material##color_material", &color_material))
+		if (ImGui::Checkbox("Color material##color_material", &color_material))
 			(color_material) ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
 		if (color_material)
 		{
@@ -240,7 +238,7 @@ void ModuleRenderer3D::GuiUpdate()
 
 		}
 		//-------------------------------------
-		if(ImGui::Checkbox("Texture 2D##texture_2d", &texture_2d))
+		if (ImGui::Checkbox("Texture 2D##texture_2d", &texture_2d))
 			(texture_2d) ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
 
 
@@ -262,12 +260,20 @@ void ModuleRenderer3D::GuiUpdate()
 		}
 		//--------------------------------------------------------------
 		if (ImGui::Checkbox("Wireframe##wireframe", &wireframe))
-			(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE): glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		ImGui::PopItemWidth();
 
 
 	}
+}
+update_status ModuleRenderer3D::GuiUpdate()
+{
+	if (lighting)glDisable(GL_LIGHTING);
+	ImGui::Render();
+	if (lighting)glEnable(GL_LIGHTING);
+
+	return UPDATE_CONTINUE;
 }
 // Update present buffer to screen
 update_status ModuleRenderer3D::Update(float dt)
@@ -280,7 +286,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	App->profiler.CreateCategory(name.c_str(), "PostUpdate");
 
-	ImGui::Render();
 
 	SDL_GL_SwapWindow(App->window->window);	
 

@@ -15,7 +15,6 @@ public:
 	~ModuleAudio();
 	bool Awake(const JSON_Object * data);
 
-	bool Init();
 	bool CleanUp();
 
 	// Play a music file
@@ -28,7 +27,7 @@ public:
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
 	//Volume functions
-	void GuiUpdate();
+	void GuiConfigUpdate();
 	bool SaveConfig(const JSON_Object * data);
 	bool LoadConfig(const JSON_Object * data);
 	const int GetVolume();

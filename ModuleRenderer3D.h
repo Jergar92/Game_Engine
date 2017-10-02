@@ -16,7 +16,9 @@ public:
 
 	bool Awake(const JSON_Object * data);
 	update_status PreUpdate(float dt);
-	void GuiUpdate();
+	void GuiConfigUpdate();
+	update_status GuiUpdate();
+
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool SaveConfig(const JSON_Object * data);

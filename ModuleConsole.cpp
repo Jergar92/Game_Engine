@@ -26,17 +26,6 @@ bool ModuleConsole::Start()
 	return ret;
 }
 
-update_status ModuleConsole::PreUpdate(float dt)
-{
-
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleConsole::Update(float dt)
-{
-	
-	return UPDATE_CONTINUE;
-}
 
 bool ModuleConsole::CleanUp()
 {

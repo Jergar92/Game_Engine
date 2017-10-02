@@ -14,8 +14,8 @@ public:
 	~ModuleMenuBar();
 
 	bool Start();
-	update_status Update(float dt);
-	update_status PreUpdate(float dt);
+	update_status GuiUpdate();
+
 	bool CleanUp();
 
 private:
@@ -31,6 +31,7 @@ private:
 	void Console();
 
 	void Configuration();
+	void Profiler();
 
 private:
 

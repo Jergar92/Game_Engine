@@ -21,7 +21,7 @@ public:
 	bool Awake(const JSON_Object * data);
 
 	update_status PreUpdate(float dt);
-	void GuiUpdate();
+	void GuiConfigUpdate();
 	bool CleanUp();
 
 	KEY_STATE GetKey(int id) const

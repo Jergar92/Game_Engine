@@ -172,14 +172,6 @@ update_status Application::Update()
 		item++;	
 	}
 
-
-	if (ret == UPDATE_CONTINUE && open_config_window) {
-
-		ImGui::ShowTestWindow();
-		profiler.DrawProfiler();
-		GuiUpdate();
-	}
-
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
@@ -188,6 +180,10 @@ update_status Application::Update()
 		item++;
 	}
 	
+	if (ret == UPDATE_CONTINUE) {
+		ret = GuiUpdate();
+	}
+
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
@@ -218,6 +214,12 @@ bool Application::CleanUp()
 void Application::LoadConfigWindows()
 {
 	open_config_window = !open_config_window;
+}
+
+void Application::LoadProfilerWindow()
+{
+	open_profiler_window = !open_profiler_window;
+
 }
 
 bool Application::LoadConfigNow()
@@ -284,16 +286,39 @@ void Application::AddModule(Module* mod)
 	list_modules.push_back(mod);
 }
 
-void Application::GuiUpdate()
+update_status Application::GuiUpdate()
 {
+	update_status ret = UPDATE_CONTINUE;
+	if (open_config_window) {
+		GuiConfigUpdate();
+	}
+	if (open_profiler_window) {
+		profiler.DrawProfiler();
+	}
 
+	//Last
+	std::list<Module*>::iterator item = list_modules.begin();
+	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+	{
+
+		ret = item._Ptr->_Myval->GuiUpdate();
+		item++;
+	}
+
+	return ret;
+
+	
+
+}
+
+void Application::GuiConfigUpdate()
+{
 
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 	ImGui::SetNextWindowSize(ImVec2(550, 800), ImGuiCond_Once);
-
 
 	if (!ImGui::Begin("Configuration", &open_config_window, window_flags))
 	{
@@ -309,14 +334,14 @@ void Application::GuiUpdate()
 
 		ImGui::InputText("Organization name", buff2, IM_ARRAYSIZE(buff2));
 		organization = buff2;
-		
-		ImGui::Text("FPS: %u",frames_on_last_update);
+
+		ImGui::Text("FPS: %u", frames_on_last_update);
 		ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120);
 		ImGui::PlotHistogram("FPS Histogram", fps_values, IM_ARRAYSIZE(fps_values), 0, NULL, 0.0f, 120.0f, ImVec2(0, 80));
 		ImGui::PlotHistogram("Millisecons Histogram", millisecons_values, IM_ARRAYSIZE(millisecons_values), 0, NULL, 0.0f, 60.0f, ImVec2(0, 80));
 
 		sMStats stats = m_getMemoryStatistics();
-		
+
 		ImGui::Text("Accumulated actual memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.accumulatedActualMemory);
 		ImGui::Text("Peak actual memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.peakActualMemory);
 		ImGui::Text("Total actual memory:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "%i", stats.totalActualMemory);
@@ -329,13 +354,13 @@ void Application::GuiUpdate()
 
 	}
 
-	
+
 	std::list<Module*>::iterator item = list_modules.begin();
 
 	while (item != list_modules.end())
 	{
-		
-		item._Ptr->_Myval->GuiUpdate();
+
+		item._Ptr->_Myval->GuiConfigUpdate();
 		item++;
 	}
 	ImGui::Separator();
@@ -352,6 +377,5 @@ void Application::GuiUpdate()
 
 	}
 	ImGui::End();
-
 
 }

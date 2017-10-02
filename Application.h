@@ -55,7 +55,7 @@ private:
 	std::list<Module*> list_modules;
 
 	bool open_config_window = false;
-
+	bool open_profiler_window = false;
 
 public:
 
@@ -64,9 +64,12 @@ public:
 	bool Awake();
 	bool Start();
 	update_status Update();
-	void GuiUpdate(); //void?
+	update_status GuiUpdate();
+	void GuiConfigUpdate();
+
 	bool CleanUp();
 	void LoadConfigWindows();
+	void LoadProfilerWindow();
 
 private:
 	char buff[128] = "Aplication Name";

@@ -137,12 +137,13 @@ update_status ModuleInput::PreUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
-void ModuleInput::GuiUpdate()
+
+void ModuleInput::GuiConfigUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-		ImGui::Text("Mouse position:"); ImGui::SameLine();ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%ix | %iy", mouse_x, mouse_y);
-	
+		ImGui::Text("Mouse position:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%ix | %iy", mouse_x, mouse_y);
+
 	}
 }
 
