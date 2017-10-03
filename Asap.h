@@ -10,7 +10,7 @@ class Asap
 public:
 	Asap();
 	~Asap();
-
+	bool LoadMesh(const char* path);
 private:
 
 };

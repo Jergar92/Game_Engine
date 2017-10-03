@@ -37,8 +37,14 @@
     <Filter Include="Sources\Parson">
       <UniqueIdentifier>{3b8acca4-b413-40f3-9e65-9b7ebb34db25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Brofiler">
+    <Filter Include="Sources\Profiler">
       <UniqueIdentifier>{78b59745-b2ff-4598-956f-b5fdbeb3e4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Assimp">
+      <UniqueIdentifier>{4b858c79-9f18-46a7-91c2-83b979dfca53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Assimp\scr">
+      <UniqueIdentifier>{028b42a4-2f56-469a-820e-1a965cd77bbd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -301,16 +307,34 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="mmgr\mmgr.h">
-      <Filter>Sources\Brofiler</Filter>
+      <Filter>Sources\Profiler</Filter>
     </ClInclude>
     <ClInclude Include="mmgr\nommgr.h">
-      <Filter>Sources\Brofiler</Filter>
+      <Filter>Sources\Profiler</Filter>
     </ClInclude>
     <ClInclude Include="Profiler.h">
-      <Filter>Sources\Brofiler</Filter>
+      <Filter>Sources\Profiler</Filter>
     </ClInclude>
     <ClInclude Include="Primitive_p.h">
       <Filter>Sources\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Asap.h">
+      <Filter>Sources\Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\postprocess.h">
+      <Filter>Sources\Assimp\scr</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\scene.h">
+      <Filter>Sources\Assimp\scr</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\cfileio.h">
+      <Filter>Sources\Assimp\scr</Filter>
+    </ClInclude>
+    <ClInclude Include="Assimp\include\cimport.h">
+      <Filter>Sources\Assimp\scr</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Sources\Assimp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -477,13 +501,19 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="mmgr\mmgr.cpp">
-      <Filter>Sources\Brofiler</Filter>
+      <Filter>Sources\Profiler</Filter>
     </ClCompile>
     <ClCompile Include="Profiler.cpp">
-      <Filter>Sources\Brofiler</Filter>
+      <Filter>Sources\Profiler</Filter>
     </ClCompile>
     <ClCompile Include="Primitive_p.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Asap.cpp">
+      <Filter>Sources\Assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Sources\Assimp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
