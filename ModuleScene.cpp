@@ -114,7 +114,11 @@ update_status ModuleScene::GuiUpdate()
 update_status ModuleScene::Update(float dt)
 {
     //Draw modes
-	warrior->Draw();
+	for (int i = 0; i < models.size(); i++)
+	{
+		models[i]->Draw();
+	}
+	//warrior->Draw();
 	
 	DrawElements();
 	cubeDirectMode();
@@ -319,6 +323,11 @@ void ModuleScene::CreateSphere(float3 position, int radius)
 	sphere.r = radius;
 	sphere.Triangulate(vertex_sphere,NULL,NULL,1536,false);
 	GLAllocateElement(vertex_sphere, sizeof(vertex_sphere));
+}
+
+void ModuleScene::LoadModel(const char * path)
+{
+	models.push_back(new Model(path));
 }
 
 PGeometry::PGeometry(GLuint buffer_id, float3* _vertex, int size) :buffer_id(buffer_id), size(size)

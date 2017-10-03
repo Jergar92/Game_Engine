@@ -120,6 +120,19 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_QUIT:
 				quit = true;
 				break;
+			case (SDL_DROPFILE): {      // In case if dropped file
+				dropped_filedir = e.drop.file;
+				// Shows directory of dropped file
+				SDL_ShowSimpleMessageBox(
+					SDL_MESSAGEBOX_INFORMATION,
+					"File dropped on window",
+					dropped_filedir,
+					App->window->window
+				);
+				App->scene->LoadModel(dropped_filedir);
+				SDL_free(dropped_filedir);    // Free dropped_filedir memory
+				break;
+			}
 
 			case SDL_WINDOWEVENT:
 			{

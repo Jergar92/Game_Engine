@@ -67,8 +67,9 @@ public:
 
 	void CreateCube(float3 position, int size);
 	void CreateSphere(float3 position, int radius);
-	
+	void LoadModel(const char* path);
 private:
+	std::vector<Model*> models;
 	Model* warrior = nullptr;
 	float3 vertex_cube[36] = {};
 	float3 vertex_sphere[1536] = {};
