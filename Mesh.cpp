@@ -4,6 +4,7 @@
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices, std::vector<Texture> textures) :vertices(vertices), indices(indices), textures(textures)
 {
+	SetupMesh();
 }
 
 Mesh::~Mesh()
@@ -31,4 +32,14 @@ void Mesh::SetupMesh()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(void*)offsetof(Vertex, Vertex::tex_coords));
 
 	glBindVertexArray(0);
+}
+
+void Mesh::Draw()
+{
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }

@@ -23,7 +23,7 @@ public:
 	~Mesh();
 
 	void SetupMesh();
-
+	void Draw();
 	
 private:
 public:

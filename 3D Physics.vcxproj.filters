@@ -336,6 +336,9 @@
     <ClInclude Include="Mesh.h">
       <Filter>Sources\Assimp</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Sources\Assimp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -513,6 +516,9 @@
       <Filter>Sources\Assimp</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
+      <Filter>Sources\Assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
       <Filter>Sources\Assimp</Filter>
     </ClCompile>
   </ItemGroup>
