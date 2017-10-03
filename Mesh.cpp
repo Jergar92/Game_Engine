@@ -7,6 +7,8 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices, std::vector<
 	SetupMesh();
 }
 
+
+
 Mesh::~Mesh()
 {
 }
@@ -28,16 +30,24 @@ void Mesh::SetupMesh()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 	//Normal data
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)6);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normals));
 	//Texture_cordenates data
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)8);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),(void*)offsetof(Vertex, tex_coords));
 
 	glBindVertexArray(0);
 }
 
 void Mesh::Draw()
 {
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+
+		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+	}
+
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 
@@ -47,6 +57,9 @@ void Mesh::Draw()
 
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_VERTEX_ARRAY);
+
+
+	glActiveTexture(GL_TEXTURE0);
 
 
 

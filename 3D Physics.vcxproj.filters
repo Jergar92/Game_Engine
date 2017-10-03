@@ -339,6 +339,9 @@
     <ClInclude Include="Model.h">
       <Filter>Sources\Assimp</Filter>
     </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Sources\Assimp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
