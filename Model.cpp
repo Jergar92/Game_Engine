@@ -11,7 +11,11 @@ Model::~Model()
 
 void Model::Draw()
 {
-	meshes[0].Draw();
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meshes[i].Draw();
+
+	}
 }
 
 bool Model::LoadModel(const char * path)
@@ -75,8 +79,8 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 		float2 tex_color;
 		if (mesh->HasTextureCoords(0))
 		{
-			tex_color.x = 0;
-			tex_color.y = 0;
+			tex_color.x = mesh->mTextureCoords[0][i].x;
+			tex_color.y = mesh->mTextureCoords[0][i].y;
 			vertex.tex_coords = tex_color;
 		}
 		vertices.push_back(vertex);
@@ -84,6 +88,8 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	for (uint i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
+
+
 		for (uint j = 0; j < face.mNumIndices; j++)
 		{
 			indices.push_back(face.mIndices[j]);

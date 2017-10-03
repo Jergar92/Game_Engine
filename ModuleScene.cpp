@@ -18,7 +18,8 @@ bool ModuleScene::Start()
 	bool ret = true;
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
-
+	warrior = new Model("nanosuit.obj");
+	
 	//Vertex
 	AABB cube;
 	float3 pos(15, 2.5, 2.5);
@@ -113,6 +114,8 @@ update_status ModuleScene::GuiUpdate()
 update_status ModuleScene::Update(float dt)
 {
     //Draw modes
+	warrior->Draw();
+	
 	DrawElements();
 	cubeDirectMode();
 	CubeVertexMode();
@@ -177,7 +180,7 @@ void ModuleScene::CubeVertexMode()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, array_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	glDrawArrays(GL_TRIANGLES, 0, array_size);
+	glDrawArrays(GL_TRIANGLES, 0, array_size/3);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
@@ -250,15 +253,19 @@ void ModuleScene::CubeIndexMode()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+
+	//glBindVertexArray(array_index_id);
+	//glDrawElements(GL_TRIANGLES, sizeof(GLushort) * 72 , GL_UNSIGNED_INT, 0);
+	//glBindVertexArray(0);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, array_index_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_id);
-	glDrawElements(GL_TRIANGLES, sizeof(GLushort) * 72, GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, sizeof(GLushort) * 72/3, GL_UNSIGNED_SHORT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
+	
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
@@ -287,7 +294,7 @@ void ModuleScene::DrawElements()
 
 		glBindBuffer(GL_ARRAY_BUFFER, item._Ptr->_Myval->buffer_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		glDrawArrays(GL_TRIANGLES, 0, item._Ptr->_Myval->size);
+		glDrawArrays(GL_TRIANGLES, 0, item._Ptr->_Myval->size/3);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
