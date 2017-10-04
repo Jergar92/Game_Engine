@@ -10,7 +10,6 @@ Application::Application()
 	audio = new ModuleAudio();
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
-	physics = new ModulePhysics3D();
 	scene = new ModuleScene();
 	console = new ModuleConsole();
 	menu_bar = new ModuleMenuBar();
@@ -23,7 +22,6 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
-	AddModule(physics);
 	AddModule(audio);
 
 	//console module

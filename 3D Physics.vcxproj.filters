@@ -46,6 +46,9 @@
     <Filter Include="Sources\Assimp\scr">
       <UniqueIdentifier>{028b42a4-2f56-469a-820e-1a965cd77bbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Devil">
+      <UniqueIdentifier>{78ed53e8-52d0-4e58-ae86-3fc6df6a5537}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -86,12 +89,6 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Sources\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="ModulePhysics3D.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysBody3D.h">
-      <Filter>Sources\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>Sources\imGui</Filter>
@@ -318,9 +315,6 @@
     <ClInclude Include="Primitive_p.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Asap.h">
-      <Filter>Sources\Assimp</Filter>
-    </ClInclude>
     <ClInclude Include="Assimp\include\postprocess.h">
       <Filter>Sources\Assimp\scr</Filter>
     </ClInclude>
@@ -341,6 +335,30 @@
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Sources\Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilut_config.h">
+      <Filter>Sources\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\config.h">
+      <Filter>Sources\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\devil_internal_exports.h">
+      <Filter>Sources\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\il.h">
+      <Filter>Sources\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\il_wrap.h">
+      <Filter>Sources\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilu.h">
+      <Filter>Sources\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilu_region.h">
+      <Filter>Sources\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilut.h">
+      <Filter>Sources\Devil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -381,12 +399,6 @@
       <Filter>Sources\Containers</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>Sources\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="ModulePhysics3D.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysBody3D.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -514,9 +526,6 @@
     </ClCompile>
     <ClCompile Include="Primitive_p.cpp">
       <Filter>Sources\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Asap.cpp">
-      <Filter>Sources\Assimp</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Sources\Assimp</Filter>

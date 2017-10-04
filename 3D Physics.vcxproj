@@ -79,12 +79,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Asap.h" />
     <ClInclude Include="Assimp\include\cfileio.h" />
     <ClInclude Include="Assimp\include\cimport.h" />
     <ClInclude Include="Assimp\include\postprocess.h" />
     <ClInclude Include="Assimp\include\scene.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Devil\include\config.h" />
+    <ClInclude Include="Devil\include\devil_internal_exports.h" />
+    <ClInclude Include="Devil\include\il.h" />
+    <ClInclude Include="Devil\include\ilu.h" />
+    <ClInclude Include="Devil\include\ilut.h" />
+    <ClInclude Include="Devil\include\ilut_config.h" />
+    <ClInclude Include="Devil\include\ilu_region.h" />
+    <ClInclude Include="Devil\include\il_wrap.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="mmgr\mmgr.h" />
     <ClInclude Include="mmgr\nommgr.h" />
@@ -161,7 +168,6 @@
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModuleHardware.h" />
     <ClInclude Include="ModuleMenuBar.h" />
-    <ClInclude Include="ModulePhysics3D.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleAudio.h" />
@@ -170,7 +176,6 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="p2Defs.h" />
     <ClInclude Include="Parson\parson.h" />
-    <ClInclude Include="PhysBody3D.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Primitive_p.h" />
     <ClInclude Include="Profiler.h" />
@@ -179,7 +184,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Asap.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="mmgr\mmgr.cpp" />
@@ -228,12 +232,10 @@
     <ClCompile Include="ModuleHardware.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleMenuBar.cpp" />
-    <ClCompile Include="ModulePhysics3D.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleScene.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="Parson\parson.c" />
-    <ClCompile Include="PhysBody3D.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Primitive_p.cpp" />
     <ClCompile Include="Profiler.cpp" />

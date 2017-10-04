@@ -8,6 +8,7 @@
 #include "MathGeoLib-1.5\src\Geometry\Ray.h"
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
 #include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
+#include "Primitive.h"
 #include "Model.h"
 struct PGeometry
 {

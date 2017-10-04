@@ -4,7 +4,6 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 #include "Mesh.h"
-
 #include <string>
 #include <vector>
 struct Texture;

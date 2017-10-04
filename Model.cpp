@@ -1,7 +1,9 @@
 #include "Model.h"
-#include "Application.h"
 #define STB_IMAGE_IMPLEMENTATION
+#include "Application.h"
 #include "stb_image.h"
+#pragma comment (lib, "Assimp/libx86/assimp.lib")
+
 Model::Model(const char* path)
 {
 	LoadModel(path);
