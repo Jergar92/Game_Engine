@@ -295,7 +295,6 @@ update_status Application::GuiUpdate()
 	if (open_profiler_window) {
 		profiler.DrawProfiler();
 	}
-	ImGui::ShowTestWindow();
 	//Last
 	std::list<Module*>::iterator item = list_modules.begin();
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)

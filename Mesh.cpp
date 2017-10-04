@@ -48,15 +48,15 @@ void Mesh::Draw()
 	}
 
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
+//	glEnableClientState(GL_VERTEX_ARRAY);
+//	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+//	glDisableClientState(GL_VERTEX_ARRAY);
 
 
 	glActiveTexture(GL_TEXTURE0);

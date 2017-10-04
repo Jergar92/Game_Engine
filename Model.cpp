@@ -1,6 +1,7 @@
 #include "Model.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "Application.h"
+#include "ModuleTexture.h"
 #include "stb_image.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -103,12 +104,19 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-		std::vector<Texture> diffuseMaps = loadMaterialTextures(material,
+			//Load diffuse data
+		std::vector<Texture> diffuse_map = loadMaterialTextures(material,
 			aiTextureType_DIFFUSE, "texture_diffuse");
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		std::vector<Texture> specularMaps = loadMaterialTextures(material,
+		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
+		//Load Specular data
+		std::vector<Texture> specular_map = loadMaterialTextures(material,
 			aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		textures.insert(textures.end(), specular_map.begin(), specular_map.end());
+		//Load Normal data
+		std::vector<Texture> normal_map = loadMaterialTextures(material,
+			aiTextureType_HEIGHT, "texture_normal");
+		textures.insert(textures.end(), normal_map.begin(), normal_map.end());
+
 	}
 	return Mesh(vertices, indices, textures);
 }
@@ -119,19 +127,22 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType
 	{
 		aiString str;
 		mat->GetTexture(type, i, &str);
-		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
+
+		//iterate texture_loaded if they have the same push back again the same texture avoid duplicate
 		bool skip = false;
 		for (unsigned int j = 0; j < textures_loaded.size(); j++)
 		{
 			if (std::strcmp(textures_loaded[j].path.c_str(), str.C_Str()) == 0)
 			{
 				textures.push_back(textures_loaded[j]);
-				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
+				//skip active this texture was loaded before
+				skip = true; 
 				break;
 			}
 		}
 		if (!skip)
-		{   // if texture hasn't been loaded already, load it
+		{   
+			//new texture
 			Texture texture;
 			texture.id = TextureFromFile(str.C_Str(), this->directory);
 			texture.type = typeName;
@@ -145,9 +156,11 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType
 
 uint Model::TextureFromFile(const char *path, const std::string &directory)
 {
+
 	std::string filename = std::string(path);
 	filename = directory + "textures/" + filename;
-
+	return App->texture->LoadTextureFromFile(filename.c_str());
+	/*
 	uint textureID;
 	glGenTextures(1, &textureID);
 
@@ -181,4 +194,5 @@ uint Model::TextureFromFile(const char *path, const std::string &directory)
 	}
 
 	return textureID;
+	*/
 }
