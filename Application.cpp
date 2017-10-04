@@ -9,6 +9,7 @@ Application::Application()
 	input = new ModuleInput();
 	audio = new ModuleAudio();
 	renderer3D = new ModuleRenderer3D();
+	texture = new ModuleTexture();
 	camera = new ModuleCamera3D();
 	scene = new ModuleScene();
 	console = new ModuleConsole();
@@ -23,6 +24,7 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(audio);
+	AddModule(texture);
 
 	//console module
 	AddModule(console);

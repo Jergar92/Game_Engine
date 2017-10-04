@@ -53,7 +53,8 @@ bool ModuleAudio::Awake(const JSON_Object * data)
 		}
 
 
-	
+		return ret;
+
 }
 
 

@@ -8,6 +8,7 @@
 #include "ModuleAudio.h"
 #include "ModuleConsole.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleTexture.h"
 #include "ModuleCamera3D.h"
 #include "ModuleScene.h"
 #include "ModuleMenuBar.h"
@@ -23,6 +24,8 @@ public:
 	ModuleInput*		input;
 	ModuleAudio*		audio;
 	ModuleRenderer3D*	renderer3D;
+	ModuleTexture*		texture;
+
 	ModuleCamera3D*		camera;
 	ModuleScene*		scene;
 	ModuleConsole*      console;
