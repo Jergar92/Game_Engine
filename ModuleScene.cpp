@@ -26,8 +26,9 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::GuiUpdate()
 {
-	ImGui::Begin("Colision Menu");
 	/*
+	ImGui::Begin("Colision Menu");
+	
 	static int element_1 = 0;
 	//------------------Sphere_1------------
 	ImGui::PushItemWidth(90);
@@ -63,9 +64,9 @@ update_status ModuleScene::GuiUpdate()
 			DrawElements();
 		}
 	}
-	*/
-	ImGui::End();
 
+	ImGui::End();
+	*/
 	return UPDATE_CONTINUE;
 }
 
