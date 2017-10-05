@@ -109,13 +109,13 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 			aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
 		//Load Specular data
-		std::vector<Texture> specular_map = loadMaterialTextures(material,
-			aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(textures.end(), specular_map.begin(), specular_map.end());
+	//	std::vector<Texture> specular_map = loadMaterialTextures(material,
+	//		aiTextureType_SPECULAR, "texture_specular");
+	//	textures.insert(textures.end(), specular_map.begin(), specular_map.end());
 		//Load Normal data
-		std::vector<Texture> normal_map = loadMaterialTextures(material,
-			aiTextureType_HEIGHT, "texture_normal");
-		textures.insert(textures.end(), normal_map.begin(), normal_map.end());
+	//	std::vector<Texture> normal_map = loadMaterialTextures(material,
+	//		aiTextureType_HEIGHT, "texture_normal");
+	//	textures.insert(textures.end(), normal_map.begin(), normal_map.end());
 
 	}
 	return Mesh(vertices, indices, textures);

@@ -91,9 +91,15 @@ void Mesh::Draw()
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
 	}
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, Cord_id);
+	glTexCoordPointer(2, GL_FLOAT, 0, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, Vector_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -105,6 +111,8 @@ void Mesh::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glBindTexture(GL_TEXTURE_2D,0);
 
 	
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
