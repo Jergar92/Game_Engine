@@ -32,6 +32,7 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
 	std::vector<Texture> textures;
+	std::vector<float3> final_vertex_normals;
 
 
 private:

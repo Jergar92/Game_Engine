@@ -57,12 +57,24 @@ void Mesh::Draw()
 	glBindTexture(GL_TEXTURE_2D,0);
 
 	
+	//Draw normals Sonic Mode
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
+	{
+
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			glBegin(GL_LINES);
+			glVertex3f(vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
+			glVertex3f(vertices[i].normals.x + vertices[i].position.x, vertices[i].normals.y + vertices[i].position.y, vertices[i].normals.z + vertices[i].position.z);			
+			glEnd();
+		}
+	}
+
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 
 
-
-
 }
+
