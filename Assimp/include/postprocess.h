@@ -66,7 +66,9 @@ enum aiPostProcessSteps
 {
 
     // -------------------------------------------------------------------------
-    /** <hr>Calculates the tangents and bitangents for the imported meshes.
+    /** <hr>Calculates the tangents and bitangents for the imported
+
+    es.
      *
      * Does nothing if a mesh does not have normals. You might want this post
      * processing step to be executed if you plan to use tangent space calculations

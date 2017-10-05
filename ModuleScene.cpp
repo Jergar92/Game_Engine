@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include"ModuleScene.h"
 #include "Primitive.h"
-
+#include "Primitive_p.h"
 
 
 ModuleScene::ModuleScene(bool start_enabled)
@@ -20,6 +20,8 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
+	Primitive_p primitive;
+	primitive.CreateCube();
 	//index
 	/*
 	GLfloat cube2[] =
@@ -230,7 +232,8 @@ update_status ModuleScene::Update(float dt)
 	for (int i = 0; i < models.size(); i++)
 	{
 		models[i]->Draw();
-	}	
+	}
+
 	cubeDirectMode();
 	CubeIndexMode();
 	plane.Render();
