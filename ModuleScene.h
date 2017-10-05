@@ -20,6 +20,8 @@ public:
 	bool Start();
 	update_status GuiUpdate();
 
+	void CubeIndexMode();
+
 	update_status Update(float dt);
 	bool CleanUp();
 
@@ -30,5 +32,10 @@ public:
 	void LoadModel(const char* path);
 private:
 	std::vector<Model*> models;
+
+	GLuint array_index_id;
+	uint   array_index_size;
+	GLuint buffer_element_id;
+	uint   buffer_element_size;
 
 };

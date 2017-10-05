@@ -20,8 +20,54 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
+	//index
+
+	GLfloat cube2[] =
+	{
+		8.0, -1.0, 7.0,
+		10.0,-1.0, 7.0,
+		10.0, 1.0, 7.0,
+		8.0,  1.0, 7.0,
+		// back
+		8.0, -1.0, 5.0,
+		10.0,-1.0, 5.0,
+		10.0, 1.0, 5.0,
+		8.0,  1.0, 5.0,
+	};
+	array_index_size = sizeof(cube2);
+
+	glGenBuffers(1, &array_index_id);
+	glBindBuffer(GL_ARRAY_BUFFER, array_index_id);
+	glBufferData(GL_ARRAY_BUFFER, array_index_size, cube2, GL_STATIC_DRAW);
 	
-	
+
+	GLushort cube_id[] =
+	{
+		0, 1, 2,
+		2, 3, 0,
+		// top
+		1, 5, 6,
+		6, 2, 1,
+		// back
+		7, 6, 5,
+		5, 4, 7,
+		// bottom
+		4, 0, 3,
+		3, 7, 4,
+		// left
+		4, 5, 1,
+		1, 0, 4,
+		// right
+		3, 2, 6,
+		6, 7, 3,
+	};
+
+	buffer_element_size = sizeof(cube_id);
+	glGenBuffers(1, &buffer_element_id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_element_size, cube_id, GL_STATIC_DRAW);
+
+
 	return ret;
 }
 
@@ -71,7 +117,24 @@ update_status ModuleScene::GuiUpdate()
 	return UPDATE_CONTINUE;
 }
 
+void ModuleScene::CubeIndexMode()
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 
+
+	glBindBuffer(GL_ARRAY_BUFFER, array_index_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_id);
+	glDrawElements(GL_TRIANGLES, sizeof(GLushort) * 72 / 3, GL_UNSIGNED_SHORT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+
+	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+}
 
 
 update_status ModuleScene::Update(float dt)
@@ -81,6 +144,7 @@ update_status ModuleScene::Update(float dt)
 	{
 		models[i]->Draw();
 	}	
+	CubeIndexMode();
 	plane.Render();
 
 	return UPDATE_CONTINUE;
