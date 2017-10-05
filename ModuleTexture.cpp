@@ -41,8 +41,8 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 	std::string filename = std::string(path);
 
 	ILuint textureID;
-	ilGenImages(1, &textureID);
-	ilBindImage(textureID);
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D,textureID);
 
 	ILenum error=IL_FALSE;
 
@@ -54,7 +54,7 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 		iluGetImageInfo(&ImageInfo);
 		
 
-		success = ilConvertImage(ImageInfo.Format, IL_UNSIGNED_BYTE);
+		success = ilConvertImage(ilGetInteger(IL_IMAGE_FORMAT), IL_UNSIGNED_BYTE);
 
 		// Quit out if we failed the conversion
 		if (!success)
@@ -67,7 +67,6 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 		glTexImage2D(GL_TEXTURE_2D, 		// Type of texture
 			0,								// Pyramid level (for mip-mapping) - 0 is the top level
 			ilGetInteger(IL_IMAGE_FORMAT),	// Internal pixel format to use. Can be a generic type like GL_RGB or GL_RGBA, or a sized type
@@ -82,8 +81,6 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 
 
 
-		ilBindImage(0);
-		ilDeleteImage(textureID);
 	}
 	else
 	{
@@ -97,6 +94,11 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 
 void ModuleTexture::CreateCheckMateTexture()
 {
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &checkID);
+	glBindTexture(GL_TEXTURE_2D, checkID);
+
+
 	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
 	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
 		for (int j = 0; j < CHECKERS_WIDTH; j++) {
@@ -108,9 +110,6 @@ void ModuleTexture::CreateCheckMateTexture()
 		}
 	}
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &checkID);
-	glBindTexture(GL_TEXTURE_2D, checkID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

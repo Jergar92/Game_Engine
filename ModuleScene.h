@@ -35,6 +35,7 @@ public:
 private:
 	std::vector<Model*> models;
 	GLuint texture;
+	GLuint lenna;
 
 	GLuint array_index_id;
 	uint   array_index_size;

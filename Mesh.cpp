@@ -88,11 +88,18 @@ void Mesh::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 
+	for (int i = 0; i < textures.size(); i++)
+	{
+		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, Vector_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
+
 	
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
