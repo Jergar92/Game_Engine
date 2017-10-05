@@ -1,7 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
-
+#define MAX_DISTANCE 100.0f
+#define MIN_DISTANCE 0.01f
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
 	name = "Camera";
@@ -47,26 +48,65 @@ update_status ModuleCamera3D::Update(float dt)
 	if (!ImGui::GetIO().WantCaptureKeyboard)
 	{
 		
-		vec3 newPos(0, 0, 0);
+		vec3 new_pos(0, 0, 0);
 		float speed = 3.0f * dt;
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			speed = 8.0f * dt;
 
-		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) new_pos.y += speed;
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) new_pos.y -= speed;
 
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos -= Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos += Z * speed;
 
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) new_pos -= X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) new_pos += X * speed;
 
-		Position += newPos;
-		Reference += newPos;
+		Position += new_pos;
+		Reference += new_pos;
+		// Mouse motion ----------------Wheel Zoom
+		float wheel_direction = (float)App->input->GetMouseZ();
 
-		// Mouse motion ----------------
+		Position -= Reference;
 
+		if (wheel_direction < 0 && length(Position) < MAX_DISTANCE)
+		{
+			Position += Position * 0.1f;
+		}
+
+		if (wheel_direction > 0 && length(Position) >MIN_DISTANCE)
+		{
+			Position -= Position * 0.1f;
+		}
+
+		Position += Reference;
+
+		// Mouse motion ----------------Wheel camera X Y position
+		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
+		{
+			int dx = -App->input->GetMouseXMotion();
+			int dy = -App->input->GetMouseYMotion();
+
+			float Sensitivity = 0.25f;
+
+			if (dx != 0)
+			{
+				float DeltaX = (float)dx * Sensitivity;
+
+				new_pos +=  (X * speed * DeltaX);
+			}
+			if (dy != 0)
+			{
+				float DeltaY = (float)dy * Sensitivity;
+
+				new_pos -= (Y* speed*DeltaY);
+			}
+			Position += new_pos;
+			Reference += new_pos;
+
+		}
+		// Mouse motion ----------------Rotate Camera
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
 			int dx = -App->input->GetMouseXMotion();
@@ -102,6 +142,7 @@ update_status ModuleCamera3D::Update(float dt)
 			Position = Reference + Z * length(Position);
 		}
 
+	
 	}
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
