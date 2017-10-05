@@ -20,6 +20,8 @@ public:
 	bool Start();
 	update_status GuiUpdate();
 
+	void cubeDirectMode();
+
 	void CubeIndexMode();
 
 	update_status Update(float dt);
@@ -32,6 +34,7 @@ public:
 	void LoadModel(const char* path);
 private:
 	std::vector<Model*> models;
+	GLuint texture;
 
 	GLuint array_index_id;
 	uint   array_index_size;

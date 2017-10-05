@@ -21,7 +21,7 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	
 	//index
-
+	/*
 	GLfloat cube2[] =
 	{
 		8.0, -1.0, 7.0,
@@ -67,7 +67,29 @@ bool ModuleScene::Start()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_element_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_element_size, cube_id, GL_STATIC_DRAW);
 
+	*/
+	
+	GLubyte checkImage[64][64][4];
+	for (int i = 0; i < 64; i++) {
+		for (int j = 0; j < 64; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
 
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 64,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	
 	return ret;
 }
 
@@ -116,9 +138,73 @@ update_status ModuleScene::GuiUpdate()
 	*/
 	return UPDATE_CONTINUE;
 }
-
-void ModuleScene::CubeIndexMode()
+void ModuleScene::cubeDirectMode()
 {
+
+	//TODO
+
+	glBindTexture(GL_TEXTURE_2D, App->texture->GetCheckID());
+	glBegin(GL_TRIANGLES);
+	//front
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(0.0f, 0.0f, 5.0f);
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(5.0f, 0.0f, 5.0f);
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(5.0f, 5.0f, 5.0f);
+
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(0.0f, 0.0f, 5.0f);
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(5.0f, 5.0f, 5.0f);
+	glTexCoord2d(1.0f,	0.0f);	glVertex3f(0.0f, 5.0f, 5.0f);
+
+	//Right
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(5.0f, 0.0f, 5.0f);
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(5.0f, 0.0f, 0.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(5.0f, 5.0f, 5.0f);
+
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(5.0f, 0.0f, 0.0f);
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(5.0f, 5.0f, 0.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(5.0f, 5.0f, 5.0f);
+
+	//Back
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(5.0f, 0.0f, 0.0f);
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(0.0f, 5.0f, 0.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(5.0f, 5.0f, 0.0f);
+
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(0.0f, 5.0f, 0.0f);
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(5.0f, 0.0f, 0.0f);
+
+	//left
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(0.0f, 0.0f, 5.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(0.0f, 5.0f, 0.0f);
+
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(0.0f, 0.0f, 5.0f);
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(0.0f, 5.0f, 5.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(0.0f, 5.0f, 0.0f);
+
+	//Up
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(5.0f, 5.0f, 5.0f);
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(5.0f, 5.0f, 0.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(0.0f, 5.0f, 0.0f);
+
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(5.0f, 5.0f, 5.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(0.0f, 5.0f, 0.0f);
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(0.0f, 5.0f, 5.0f);
+
+	//bottom
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(5.0f, 0.0f, 5.0f);
+	glTexCoord2d(0.0f, 1.0f);	glVertex3f(0.0f, 0.0f, 5.0f);
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(0.0f, 0.0f, 0.0f);
+
+	glTexCoord2d(1.0f, 1.0f);	glVertex3f(5.0f, 0.0f, 5.0f);
+	glTexCoord2d(0.0f, 0.0f);	glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2d(1.0f, 0.0f);	glVertex3f(5.0f, 0.0f, 0.0f);
+
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+}
+void ModuleScene::CubeIndexMode()
+{/*
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 
@@ -133,7 +219,7 @@ void ModuleScene::CubeIndexMode()
 
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
+	*/
 }
 
 
@@ -144,6 +230,7 @@ update_status ModuleScene::Update(float dt)
 	{
 		models[i]->Draw();
 	}	
+	cubeDirectMode();
 	CubeIndexMode();
 	plane.Render();
 
