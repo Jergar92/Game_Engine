@@ -84,6 +84,7 @@
     <ClInclude Include="Assimp\include\postprocess.h" />
     <ClInclude Include="Assimp\include\scene.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Devil\include\config.h" />
     <ClInclude Include="Devil\include\devil_internal_exports.h" />
     <ClInclude Include="Devil\include\il.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="Devil\include\ilut_config.h" />
     <ClInclude Include="Devil\include\ilu_region.h" />
     <ClInclude Include="Devil\include\il_wrap.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="mmgr\mmgr.h" />
     <ClInclude Include="mmgr\nommgr.h" />
@@ -186,6 +188,8 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="mmgr\mmgr.cpp" />
     <ClCompile Include="Model.cpp" />

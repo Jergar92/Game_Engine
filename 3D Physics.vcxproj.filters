@@ -49,6 +49,9 @@
     <Filter Include="Sources\Devil">
       <UniqueIdentifier>{78ed53e8-52d0-4e58-ae86-3fc6df6a5537}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObject">
+      <UniqueIdentifier>{1fe58289-fe7c-4aaa-a5cf-ff5a8d3f9266}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -363,6 +366,12 @@
     <ClInclude Include="Primitive.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -538,6 +547,12 @@
     </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
