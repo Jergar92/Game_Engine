@@ -124,7 +124,7 @@ void ModuleScene::cubeDirectMode()
 
 	//TODO
 
-	glBindTexture(GL_TEXTURE_2D, App->texture->GetCheckID());
+	glBindTexture(GL_TEXTURE_2D, lenna);
 	glBegin(GL_TRIANGLES);
 	//front
 	glTexCoord2d(0.0f, 0.0f);	glVertex3f(0.0f, 0.0f, 5.0f);
