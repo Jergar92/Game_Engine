@@ -88,16 +88,19 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 			tex_color.y = mesh->mTextureCoords[0][i].y;
 			vertex.tex_coords = tex_color;
 		}
+		else
+			vertex.tex_coords = float2(0.0f, 0.0f);
+
 		vertices.push_back(vertex);
 	}
+
 	for (uint i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
-
-
 		for (uint j = 0; j < face.mNumIndices; j++)
 		{
 			indices.push_back(face.mIndices[j]);
+			
 		}
 	}
 

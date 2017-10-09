@@ -52,7 +52,10 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
-		
+		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+		{
+			iluFlipImage();
+		}
 
 		success = ilConvertImage(ilGetInteger(IL_IMAGE_FORMAT), IL_UNSIGNED_BYTE);
 
