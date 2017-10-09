@@ -32,7 +32,6 @@ bool ModuleTexture::Awake(const JSON_Object * data)
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	CreateCheckMateTexture();
 	return ret;
 }
 
@@ -97,14 +96,9 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 
 void ModuleTexture::CreateCheckMateTexture()
 {
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &checkID);
-	glBindTexture(GL_TEXTURE_2D, checkID);
-
-
-	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
-	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
-		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+	GLubyte checkImage[CHECKERS_WIDTH][CHECKERS_HEIGHT][4];
+	for (int i = 0; i < CHECKERS_WIDTH; i++) {
+		for (int j = 0; j < CHECKERS_HEIGHT; j++) {
 			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
 			checkImage[i][j][0] = (GLubyte)c;
 			checkImage[i][j][1] = (GLubyte)c;
@@ -113,17 +107,31 @@ void ModuleTexture::CreateCheckMateTexture()
 		}
 	}
 
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &checkID);
+	glBindTexture(GL_TEXTURE_2D, checkID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	glTexImage2D(
+		GL_TEXTURE_2D, 
+		0,
+		GL_RGBA,
+		CHECKERS_WIDTH, 
+		CHECKERS_HEIGHT,
+		0, GL_RGBA,
+		GL_UNSIGNED_BYTE,
+		checkImage);
+
+	ilDeleteImages(1, &checkID);
+
 }
 
 bool ModuleTexture::Start()
 {
 	bool ret = true;
+	CreateCheckMateTexture();
 
 	return ret;
 }

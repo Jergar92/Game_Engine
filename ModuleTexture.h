@@ -9,9 +9,10 @@ public:
 	ModuleTexture(bool start_enabled = true);
 	~ModuleTexture();
 	bool Awake(const JSON_Object* data);
+	bool Start();
+
 	int LoadTextureFromFile(const char* filename);
 	void CreateCheckMateTexture();
-	bool Start();
 	bool CleanUp();
 	const GLuint GetCheckID() ;
 private:
