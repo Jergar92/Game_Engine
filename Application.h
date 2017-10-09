@@ -14,6 +14,7 @@
 #include "ModuleMenuBar.h"
 #include "ModuleHardware.h"
 #include "Profiler.h"
+#include "Primitive_p.h"
 //#include "Brofiler\Brofiler.h"
 #include <list>
 

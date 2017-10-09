@@ -10,6 +10,7 @@
 #include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 #include "Primitive.h"
 #include "Model.h"
+#include "Primitive_p.h"
 
 class ModuleScene : public Module
 {
@@ -28,6 +29,7 @@ public:
 	bool CleanUp();
 
 	Plane_p plane;
+	
 private:
 
 public:
@@ -41,5 +43,19 @@ private:
 	uint   array_index_size;
 	GLuint buffer_element_id;
 	uint   buffer_element_size;
+	
 
+	float sphere_x = 0;
+	float sphere_y = 0;
+	float sphere_z = 0;
+
+	float sphere_radius = 0;
+
+	float cube_pos_x = 0;
+	float cube_pos_y = 0;
+	float cube_pos_z = 0;
+
+	float cube_size = 0;
+
+	float3 vertex_cube[36] = {};
 };

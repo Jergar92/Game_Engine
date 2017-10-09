@@ -15,6 +15,7 @@ Application::Application()
 	console = new ModuleConsole();
 	menu_bar = new ModuleMenuBar();
 	hardware = new ModuleHardware();
+	
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
