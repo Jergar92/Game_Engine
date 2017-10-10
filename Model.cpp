@@ -1,8 +1,6 @@
 #include "Model.h"
-#define STB_IMAGE_IMPLEMENTATION
 #include "Application.h"
 #include "ModuleTexture.h"
-#include "stb_image.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
 Model::Model(const char* path)
@@ -27,6 +25,10 @@ void Model::OnGuiDraw()
 {
 	if (ImGui::TreeNode(name.c_str()))
 	{
+		for (int i = 0; i < meshes.size(); i++)
+		{
+			meshes[i].OnGuiDraw();
+		}
 		ImGui::TreePop();
 
 	}
@@ -38,7 +40,6 @@ bool Model::LoadModel(const char * path)
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		
 		ProcessNode(scene->mRootNode, scene);
 		GetInfo(scene->mRootNode);
@@ -69,6 +70,7 @@ void Model::ProcessNode(aiNode * node, const aiScene * scene)
 
 void Model::GetInfo(aiNode * node)
 {
+	
 	node->mTransformation.Decompose(position, rotation, scale);
 	name = node->mName.C_Str();
 }
@@ -112,10 +114,16 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	for (uint i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
-		for (uint j = 0; j < face.mNumIndices; j++)
+		if (face.mNumIndices != 3) {
+			LOG("Number of indices is not 3!")
+		}
+		else
 		{
-			indices.push_back(face.mIndices[j]);
-			
+			for (uint j = 0; j < face.mNumIndices; j++)
+			{
+				indices.push_back(face.mIndices[j]);
+
+			}
 		}
 	}
 
@@ -167,7 +175,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType
 			texture.type = typeName;
 			texture.path = str.C_Str();
 			textures.push_back(texture);
-			textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+			textures_loaded.push_back(texture);  // add on textures_loaded now we can check if this texture was loaded before
 		}
 	}
 	return textures;
@@ -179,39 +187,4 @@ uint Model::TextureFromFile(const char *path, const std::string &directory)
 	std::string filename = std::string(path);
 	filename = directory + "textures/" + filename;
 	return App->texture->LoadTextureFromFile(filename.c_str());
-	/*
-	uint textureID;
-	glGenTextures(1, &textureID);
-
-	int width, height, nrComponents;
-	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
-	}
-	else
-	{
-
-		stbi_image_free(data);
-	}
-
-	return textureID;
-	*/
 }

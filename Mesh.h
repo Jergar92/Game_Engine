@@ -4,6 +4,8 @@
 #include "MathGeoLib-1.5\src\Math\float2.h"
 #include <string>
 #include <vector>
+#include "Assimp\include\vector3.h"
+#include "Assimp\include\quaternion.h"
 struct Vertex
 {
 	float3 position;
@@ -26,7 +28,8 @@ public:
 
 	void SetupMesh();
 	void Draw();
-	
+	void OnGuiDraw();
+
 private:
 public:
 	std::vector<Vertex> vertices;
@@ -39,6 +42,9 @@ private:
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
 
+	aiVector3D position;
+	aiQuaternion rotation;
+	aiVector3D scale;
 
 };
 

@@ -182,7 +182,6 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Primitive_p.h" />
     <ClInclude Include="Profiler.h" />
-    <ClInclude Include="stb_image.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>

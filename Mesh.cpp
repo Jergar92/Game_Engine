@@ -78,3 +78,22 @@ void Mesh::Draw()
 
 }
 
+void Mesh::OnGuiDraw()
+{
+	if (ImGui::TreeNode("3!"))
+	{
+		if (ImGui::TreeNode("Textures"))
+		{
+			for (int i = 0; i < textures.size(); i++)
+			{
+				ImGui::Image((GLuint*)textures[i].id, ImVec2(32, 32), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+
+			}
+			ImGui::TreePop();
+
+		}
+		ImGui::TreePop();
+
+	}
+}
+
