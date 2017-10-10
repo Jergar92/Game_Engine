@@ -23,6 +23,15 @@ void Model::Draw()
 	}
 }
 
+void Model::OnGuiDraw()
+{
+	if (ImGui::TreeNode(name.c_str()))
+	{
+		ImGui::TreePop();
+
+	}
+}
+
 bool Model::LoadModel(const char * path)
 {
 	bool ret = true;
@@ -30,8 +39,9 @@ bool Model::LoadModel(const char * path)
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
-
+		
 		ProcessNode(scene->mRootNode, scene);
+		GetInfo(scene->mRootNode);
 
 		aiReleaseImport(scene);
 	}
@@ -46,7 +56,6 @@ bool Model::LoadModel(const char * path)
 
 void Model::ProcessNode(aiNode * node, const aiScene * scene)
 {
-
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -56,6 +65,12 @@ void Model::ProcessNode(aiNode * node, const aiScene * scene)
 	{
 		ProcessNode(node->mChildren[i], scene);
 	}
+}
+
+void Model::GetInfo(aiNode * node)
+{
+	node->mTransformation.Decompose(position, rotation, scale);
+	name = node->mName.C_Str();
 }
 
 Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
@@ -121,6 +136,7 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	//	textures.insert(textures.end(), normal_map.begin(), normal_map.end());
 
 	}
+
 	return Mesh(vertices, indices, textures);
 }
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)

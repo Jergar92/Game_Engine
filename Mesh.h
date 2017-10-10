@@ -36,12 +36,9 @@ public:
 
 
 private:
-	uint VAO;//Vertex Array Object 
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
-	uint Vector_id;//Element Buffer Object
-	uint Normal_id;//Element Buffer Object
-	uint Cord_id;//Element Buffer Object
+
 
 };
 

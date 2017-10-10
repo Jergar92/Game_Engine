@@ -3,6 +3,8 @@
 #include <string>
 
 #include "Component.h"
+class Component;
+enum ComponentType;
 class GameObject
 {
 public:

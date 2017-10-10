@@ -210,6 +210,9 @@ update_status ModuleScene::Update(float dt)
 	for (int i = 0; i < models.size(); i++)
 	{
 		models[i]->Draw();
+		ImGui::Begin("Colision Menu");
+		models[i]->OnGuiDraw();
+		ImGui::End();
 	}
 
 	cubeDirectMode();
