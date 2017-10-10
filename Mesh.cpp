@@ -1,6 +1,8 @@
 #include "Mesh.h"
 #include "Application.h"
 
+#define TEXTURE_SIZE 64
+#define TEXTURE_SIZE_HOVER 128
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices, std::vector<Texture> textures) :vertices(vertices), indices(indices), textures(textures)
 {
@@ -93,8 +95,13 @@ void Mesh::OnGuiDraw()
 
 			for (int i = 0; i < textures.size(); i++)
 			{
-				ImGui::Image((GLuint*)textures[i].id, ImVec2(32, 32), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
-
+				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+					ImGui::EndTooltip();
+				}
 			}
 
 	

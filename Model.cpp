@@ -34,6 +34,7 @@ void Model::OnGuiDraw()
 		for (int i = 0; i < meshes.size(); i++)
 		{
 			meshes[i].OnGuiDraw();
+		
 		}
 		ImGui::TreePop();
 
