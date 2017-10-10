@@ -80,20 +80,53 @@ void Mesh::Draw()
 
 void Mesh::OnGuiDraw()
 {
-	if (ImGui::TreeNode("3!"))
+	if (ImGui::TreeNode(name.c_str()))
 	{
-		if (ImGui::TreeNode("Textures"))
-		{
+		ImGui::Text("Position");
+		ImGui::Text("x %.2f y %.2f z %.2f", position.x, position.y, position.z);
+		ImGui::Text("Rotation");
+		ImGui::Text("x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
+		ImGui::Text("Scale");
+		ImGui::Text("x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
+
+		ImGui::Text("Texture");
+
 			for (int i = 0; i < textures.size(); i++)
 			{
 				ImGui::Image((GLuint*)textures[i].id, ImVec2(32, 32), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
 
 			}
-			ImGui::TreePop();
 
-		}
+	
 		ImGui::TreePop();
 
 	}
+}
+
+void Mesh::SetInfo(aiNode* node)
+{
+	node->mTransformation.Decompose(scale, rotation, position);
+	name = node->mName.C_Str();
+
+}
+
+const char * Mesh::GetName()
+{
+	return name.c_str();
+}
+
+const aiVector3D Mesh::GetPosition()
+{
+	return position;
+}
+
+const aiQuaternion Mesh::GetRotation()
+{
+	return rotation;
+}
+
+const aiVector3D Mesh::GetScale()
+{
+	return scale;
 }
 

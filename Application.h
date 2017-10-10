@@ -17,6 +17,7 @@
 #include "Primitive_p.h"
 //#include "Brofiler\Brofiler.h"
 #include <list>
+#define HISTOGRAM_LIMIT 40
 
 class Application
 {
@@ -43,8 +44,9 @@ private:
 	float	dt;
 	int		fps = 0;
 	int		fps_cap = 0;
-	float fps_values[40] = { 0 };
-	float millisecons_values[40] = { 0 };
+	//this +1 is for histogram loop
+	float fps_values[HISTOGRAM_LIMIT+1] = { 0 };
+	float millisecons_values[HISTOGRAM_LIMIT+1] = { 0 };
 
 	uint64_t frame_count = 0;
 	uint32_t last_sec_frame_count = 0;
@@ -72,6 +74,8 @@ public:
 	bool CleanUp();
 	void LoadConfigWindows();
 	void LoadProfilerWindow();
+	void CalculeFPSHistogram();
+	void CalculeMSHistogram();
 
 private:
 	char buff[128] = "Aplication Name";

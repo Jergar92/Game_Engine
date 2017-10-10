@@ -25,6 +25,12 @@ void Model::OnGuiDraw()
 {
 	if (ImGui::TreeNode(name.c_str()))
 	{
+		ImGui::Text("Position");
+		ImGui::Text("x %.2f y %.2f z %.2f", position.x, position.y, position.z);
+		ImGui::Text("Rotation");
+		ImGui::Text("x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
+		ImGui::Text("Scale");
+		ImGui::Text("x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
 		for (int i = 0; i < meshes.size(); i++)
 		{
 			meshes[i].OnGuiDraw();
@@ -42,7 +48,7 @@ bool Model::LoadModel(const char * path)
 	{
 		
 		ProcessNode(scene->mRootNode, scene);
-		GetInfo(scene->mRootNode);
+		SetInfo(scene->mRootNode);
 
 		aiReleaseImport(scene);
 	}
@@ -60,7 +66,9 @@ void Model::ProcessNode(aiNode * node, const aiScene * scene)
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(ProcessMesh(mesh, scene));
+		Mesh newMesh = ProcessMesh(mesh, scene);
+		newMesh.SetInfo(node);
+		meshes.push_back(newMesh);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
 	{
@@ -68,7 +76,7 @@ void Model::ProcessNode(aiNode * node, const aiScene * scene)
 	}
 }
 
-void Model::GetInfo(aiNode * node)
+void Model::SetInfo(aiNode * node)
 {
 	
 	node->mTransformation.Decompose(position, rotation, scale);

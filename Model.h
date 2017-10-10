@@ -19,7 +19,7 @@ public:
 private:
 	bool LoadModel(const char* path);
 	void ProcessNode(aiNode* node, const aiScene* scene);
-	void GetInfo(aiNode * node);
+	void SetInfo(aiNode * node);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 

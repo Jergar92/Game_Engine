@@ -45,7 +45,7 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	App->profiler.CreateCategory(name.c_str(), "Update");
 
-	if (!ImGui::GetIO().WantCaptureKeyboard)
+	if (!ImGui::GetIO().WantCaptureKeyboard&& !ImGui::IsMouseHoveringAnyWindow())
 	{
 		
 		vec3 new_pos(0, 0, 0);

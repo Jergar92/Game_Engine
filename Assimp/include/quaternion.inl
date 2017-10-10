@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef __cplusplus
 #include "quaternion.h"
-
+#define PI 3.14159265358979323846
 #include <cmath>
 
 // ---------------------------------------------------------------------------

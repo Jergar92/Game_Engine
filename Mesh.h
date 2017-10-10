@@ -6,6 +6,7 @@
 #include <vector>
 #include "Assimp\include\vector3.h"
 #include "Assimp\include\quaternion.h"
+#include "Assimp\include\matrix4x4.h"
 struct Vertex
 {
 	float3 position;
@@ -19,6 +20,8 @@ struct Texture
 	std::string path;
 
 };
+struct aiNode;
+
 class Mesh
 {
 public:
@@ -29,6 +32,13 @@ public:
 	void SetupMesh();
 	void Draw();
 	void OnGuiDraw();
+	//SetFunctions 
+	void SetInfo(aiNode* node);
+	//GetFunctions
+	const char* GetName();
+	const aiVector3D GetPosition();
+	const aiQuaternion GetRotation();
+	const aiVector3D GetScale();
 
 private:
 public:
@@ -41,7 +51,7 @@ public:
 private:
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
-
+	std::string name;
 	aiVector3D position;
 	aiQuaternion rotation;
 	aiVector3D scale;

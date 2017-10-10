@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "p2Defs.h"
 #include "mmgr\mmgr.h"
-
 Application::Application()
 {
 
@@ -126,25 +125,23 @@ void Application::FinishUpdate()
 
 	profiler.CreateCategory("Application", "FinishUpdate");
 
-	static int values_offset = 0;
 
-	static int millisecons_offset = 0;
 
 	if (last_sec_frame_time.Read() > 1000)
 	{
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
-		fps_values[values_offset] = prev_last_sec_frame_count;
-		values_offset = (values_offset + 1) % IM_ARRAYSIZE(fps_values);	
+		CalculeFPSHistogram();
 		last_sec_frame_count = 0;
 	}
 
 	float avg_fps = float(frame_count) / startup_time.ReadSec();
 	float seconds_since_startup = startup_time.ReadSec();
+	CalculeMSHistogram();
 	uint32_t last_frame_ms = frame_time.Read();
 	frames_on_last_update = prev_last_sec_frame_count;
-	millisecons_values[millisecons_offset] = last_frame_ms;
-	millisecons_offset = (millisecons_offset + 1) % IM_ARRAYSIZE(fps_values);
+
+
 	if (fps > 0 && last_frame_ms < fps)
 	{
 		SDL_Delay(fps - last_frame_ms);
@@ -221,6 +218,28 @@ void Application::LoadProfilerWindow()
 {
 	open_profiler_window = !open_profiler_window;
 
+}
+
+void Application::CalculeFPSHistogram()
+{
+
+	for (int i = 0; i <HISTOGRAM_LIMIT; i++)
+	{
+		fps_values[i] = fps_values[i + 1];
+	}
+	
+	fps_values[HISTOGRAM_LIMIT] = prev_last_sec_frame_count;
+
+}
+
+void Application::CalculeMSHistogram()
+{
+	uint32_t last_frame_ms = frame_time.Read();
+	for (int i = 0; i <HISTOGRAM_LIMIT; i++)
+	{
+		millisecons_values[i] = millisecons_values[i + 1];
+	}
+	millisecons_values[HISTOGRAM_LIMIT] = last_frame_ms;
 }
 
 bool Application::LoadConfigNow()
@@ -336,7 +355,10 @@ void Application::GuiConfigUpdate()
 		organization = buff2;
 
 		ImGui::Text("FPS: %u", frames_on_last_update);
-		ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120);
+		if (ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120))
+		{
+			SetFPSCap();
+		}
 		ImGui::PlotHistogram("FPS Histogram", fps_values, IM_ARRAYSIZE(fps_values), 0, NULL, 0.0f, 120.0f, ImVec2(0, 80));
 		ImGui::PlotHistogram("Millisecons Histogram", millisecons_values, IM_ARRAYSIZE(millisecons_values), 0, NULL, 0.0f, 60.0f, ImVec2(0, 80));
 
