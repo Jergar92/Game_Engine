@@ -230,5 +230,11 @@ bool ModuleScene::CleanUp()
 }
 void ModuleScene::LoadModel(const char * path)
 {
+	LOG("Drag Model path:%s", path);
 	models.push_back(new Model(path));
+}
+
+void ModuleScene::LoadTexture(const char * path)
+{
+	LOG("Drag Texture path:%s", path);
 }

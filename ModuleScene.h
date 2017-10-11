@@ -34,6 +34,8 @@ private:
 
 public:
 	void LoadModel(const char* path);
+	void LoadTexture(const char* path);
+
 private:
 	std::vector<Model*> models;
 	GLuint texture;

@@ -99,7 +99,8 @@ void Mesh::OnGuiDraw()
 				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 0), ImVec2(1, 1), *(ImVec4*)&textures[i].rgba_color);
 				ImGui::PushItemWidth(200);
 				ImGui::Text("Image RGBA");
-				ImGui::InputFloat4("##image_rgba", &textures[i].rgba_color[0],2);
+				//ImGui::InputFloat4("##image_rgba", &textures[i].rgba_color[0],2);
+				ImGui::ColorEdit4("##image_rgba", &textures[i].rgba_color.x);
 
 				ImGui::PopItemWidth();
 				if (ImGui::IsItemHovered())

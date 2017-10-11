@@ -122,15 +122,18 @@ update_status ModuleInput::PreUpdate(float dt)
 				break;
 			case (SDL_DROPFILE): {      // In case if dropped file
 				dropped_filedir = e.drop.file;
-				// Shows directory of dropped file
-				SDL_ShowSimpleMessageBox(
-					SDL_MESSAGEBOX_INFORMATION,
-					"File dropped on window",
-					dropped_filedir,
-					App->window->window
-				);
-				App->scene->LoadModel(dropped_filedir);
-				SDL_free(dropped_filedir);    // Free dropped_filedir memory
+			
+				std::size_t found = dropped_filedir.find_last_of('.');
+				if (dropped_filedir.substr(found + 1) == "png" || (dropped_filedir.substr(found + 1) == "jpg"))
+				{
+					App->scene->LoadTexture(dropped_filedir.c_str());
+
+				}
+				else
+				{
+					App->scene->LoadModel(dropped_filedir.c_str());
+				}
+				SDL_free(e.drop.file);   
 				break;
 			}
 
