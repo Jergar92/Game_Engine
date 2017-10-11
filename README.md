@@ -15,14 +15,17 @@ Is fixed at the top of the screen.
 Buttons info:
 
 *File ====>Open File submenu
+
 	*Quit ==> Quit the application
+	
 *View ====>Open View submenu
+
 	*Console ==> Open/Close the Console windows (Console info below)
-	*Configuration ==>Open/Close the Configuration windows
-(Configuration info below)
+	*Configuration ==>Open/Close the Configuration windows (Configuration info below)
 	*Profiler ==>Open/Close the Profiler windows(Profiler info below)
 
 *Help ====>Open Help submenu
+
 	*Documentation ==> Open a link to proyect wiki
 	*Download latest ==>Open a link to proyect releases
 	*Report a bug ==>Open a link to proyect github issues
@@ -34,22 +37,27 @@ This window shows important information about what happens when exporting a mode
 ### Configuration
 This window shows and allows to edit certain behaviors of the engine:
 *Application
+
 	*Application Name ==> Here you can change the name
 	*Application Organization ==> Here you can change the Organization 
 	*FPS ==> Here you can change the FPS 
 	*Histograms ==> Here you can see a visual report of the fps and ms during the time
 	*MemoryStatistics ==> Shows the memory in use and the memory used
 *Window
+
 	*Name ==> Change the name of the windows
 	*Windows Option 
 	*Windows Size ==> Change the size of the windows
 *Input
+
 	*Displays information about the mouse and keyboard like key down, key repeat, etc 
 *Audio
+
 	*Audio driver ==> Show audio drivers
 	*Audio device ==> Show audio device
 	*Volume ==> Change the volume
 *Hardware
+
 	*SDL_Version ==> Show SDL_Version 
 	*CPU's ==> Show the amount of CPU's
 	*System RAM ==> Show the system RAM
@@ -58,20 +66,28 @@ This window shows and allows to edit certain behaviors of the engine:
 	*GPU Version ==> Show the GPU drivers
 	*OpenGL Version ==> Show the openGL version
 *Render
+
 	*Vsync ==> Active/Desactive Vsync
+	
 	*Depth test ==> Active/Desactive Depth test 
+	
 	*Cull face ==> Active/Desactive Cull face 
 		*Front Culling ==> Active/Desactive Front Culling
 		*Back Culling ==> Active/Desactive Back Culling
+		
 	*Lighting ==> Active/Desactive Lighting
-	*Ambient ==> Change the Ambient light
+		*Ambient ==> Change the Ambient light
+	
 	*Color Material ==> Active/Desactive Color Material 
-	*Ambient ==> Change the Ambient color
+		*Ambient ==> Change the Ambient color
 		*Diffuse ==> Change the Diffuse color
+		
 	*Texture 2D ==> Active/Desactive Texture 2D 
+	
 	*FOG ==> Active/Desactive FOG
-	*Densisty ==> Change the FOG densisty
-	*Color==> Change the FOG color
+		*Densisty ==> Change the FOG densisty
+		*Color==> Change the FOG color
+	
 	*Wireframe ==> Active/Desactive Wireframe 
 
 ### Profiler 
