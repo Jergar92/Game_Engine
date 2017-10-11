@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include"ModuleScene.h"
 #include "Primitive_p.h"
-
+#include "ModuleCamera3D.h"
 
 ModuleScene::ModuleScene(bool start_enabled)
 {
@@ -213,6 +213,26 @@ update_status ModuleScene::Update(float dt)
 		ImGui::Begin("Colision Menu");
 		models[i]->OnGuiDraw();
 		ImGui::End();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		if (models.size() > 0)
+		{
+			AABB cube_model;
+			cube_model.SetNegativeInfinity();
+			for (int i = 0; i < models[0]->meshes.size(); i++)
+			{
+				for (int x = 0; x < models[0]->meshes[i].vertices.size(); x++)
+				{
+					cube_model.Enclose(models[0]->meshes[i].vertices[x].position);
+				}
+			}
+			float3 center = cube_model.CenterPoint();
+			vec3 tmp(center.x, center.y, center.z);
+			LOG("Focus Mesh");
+			App->camera->Focus(tmp);
+		}
 	}
 
 	cubeDirectMode();

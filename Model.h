@@ -27,8 +27,8 @@ private:
 
 
 public:
-private:
 	std::vector<Mesh> meshes;
+private:
 	std::string name;
 	std::string directory;
 
