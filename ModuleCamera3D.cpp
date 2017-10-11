@@ -191,6 +191,15 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 	CalculateViewMatrix();
 }
 
+//-------------------------------------------------------------------
+void ModuleCamera3D::Focus(const vec3 &focus)
+{
+	vec3 result;
+	result = focus - Reference;
+
+	Move(result);
+}
+
 // -----------------------------------------------------------------
 float* ModuleCamera3D::GetViewMatrix()
 {
