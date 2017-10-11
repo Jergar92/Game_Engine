@@ -85,7 +85,11 @@ void Model::ProcessNode(aiNode * node, const aiScene * scene)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		Mesh newMesh = ProcessMesh(mesh, scene);
-		newMesh.SetInfo(node);
+		//SetValues
+		newMesh.SetTransformation(node->mTransformation);
+		newMesh.SetName(node->mName.C_Str());
+		newMesh.SetTriangles(mesh->mNumFaces);
+		//Push new mesh
 		meshes.push_back(newMesh);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)

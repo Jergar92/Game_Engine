@@ -87,12 +87,14 @@ void Mesh::OnGuiDraw()
 {
 	if (ImGui::TreeNode(name.c_str()))
 	{
-		ImGui::Text("Position");
-		ImGui::Text("x %.2f y %.2f z %.2f", position.x, position.y, position.z);
-		ImGui::Text("Rotation");
-		ImGui::Text("x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
-		ImGui::Text("Scale");
-		ImGui::Text("x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
+		ImGui::Text("Transformation:");
+		ImGui::Text("Position x %.2f y %.2f z %.2f", position.x, position.y, position.z);
+		ImGui::Text("Rotation x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
+		ImGui::Text("Scale x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
+
+		ImGui::Text("Geometry");
+		ImGui::Text("Triangles %i",triangles);
+
 		ImGui::Text("Texture");
 			for (int i = 0; i < textures.size(); i++)
 			{
@@ -114,11 +116,22 @@ void Mesh::OnGuiDraw()
 	}
 }
 
-void Mesh::SetInfo(aiNode* node)
-{
-	node->mTransformation.Decompose(scale, rotation, position);
-	name = node->mName.C_Str();
 
+
+void Mesh::SetTransformation(aiMatrix4x4 matrix)
+{
+	matrix.Decompose(scale, rotation, position);
+}
+
+void Mesh::SetName(const char * set_name)
+{
+	name = set_name;
+
+}
+
+void Mesh::SetTriangles(uint set_triangles)
+{
+	triangles = set_triangles;
 }
 
 const char * Mesh::GetName()

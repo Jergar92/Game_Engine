@@ -39,7 +39,10 @@ public:
 	void CleanUp();
 
 	//SetFunctions 
-	void SetInfo(aiNode* node);
+	void SetTransformation(aiMatrix4x4 matrix);
+	void SetName(const char* set_name);
+
+	void SetTriangles(uint set_triangles);
 	//GetFunctions
 	const char* GetName();
 	const aiVector3D GetPosition();
@@ -60,7 +63,7 @@ private:
 	aiVector3D position;
 	aiQuaternion rotation;
 	aiVector3D scale;
-
+	uint triangles;
 
 };
 
