@@ -167,7 +167,7 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && enable == true)
-			Rotate(Reference.x, Reference.y);
+			Rotate(Reference.x,Reference.y);
 	}
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -225,35 +225,21 @@ void ModuleCamera3D::Focus(const vec3 &focus)
 	Move(result);
 }
 
-void ModuleCamera3D::Rotate(float dx, float dy)
+void ModuleCamera3D::Rotate(float dx,float dy)
 {
-	float Sensitivity = 1.0f;
+	float Sensitivity = 2.0f;
 	if (App->scene->GetModel()->meshes.size() != 0)
 	{
 		Position -= Reference;
-		if (dx != 0)
+		if (dx != 0 && dy != 0)
 		{
 			float DeltaX = (float)dx * Sensitivity;
-
 			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 		}
-		if (dy != 0)
-		{
-			float DeltaY = (float)dy * Sensitivity;
-
-			if (Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
-		}
-
 		Position = Reference + Z * length(Position);
-	}
-	
-
+	}		
 }
 
 // -----------------------------------------------------------------
