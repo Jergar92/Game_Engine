@@ -142,7 +142,15 @@ update_status ModuleCamera3D::Update(float dt)
 			Position = Reference + Z * length(Position);
 		}
 
-	
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		{
+			
+			if (App->scene->GetModel() != nullptr)
+			{
+				LOG("Focus Mesh");
+				App->camera->Focus(App->scene->GetModel()->GetCenter());
+			}
+		}
 	}
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

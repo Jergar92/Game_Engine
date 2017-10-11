@@ -21,10 +21,6 @@ public:
 	bool Start();
 	update_status GuiUpdate();
 
-	void cubeDirectMode();
-
-	void CubeIndexMode();
-
 	update_status Update(float dt);
 	bool CleanUp();
 
@@ -36,28 +32,9 @@ public:
 	void LoadModel(const char* path);
 	void LoadTexture(const char* path);
 
+	Model* GetModel();
 private:
-	std::vector<Model*> models;
-	GLuint texture;
-	GLuint lenna;
+	Model* model = nullptr;
 
-	GLuint array_index_id;
-	uint   array_index_size;
-	GLuint buffer_element_id;
-	uint   buffer_element_size;
-	
 
-	float sphere_x = 0;
-	float sphere_y = 0;
-	float sphere_z = 0;
-
-	float sphere_radius = 0;
-
-	float cube_pos_x = 0;
-	float cube_pos_y = 0;
-	float cube_pos_z = 0;
-
-	float cube_size = 0;
-
-	float3 vertex_cube[36] = {};
 };

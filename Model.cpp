@@ -41,6 +41,14 @@ void Model::OnGuiDraw()
 	}
 }
 
+vec3 Model::GetCenter()
+{
+	GenerateCubeModel();
+	float3 center = cube_model.CenterPoint();
+	vec3 tmp(center.x, center.y, center.z);
+	return tmp;
+}
+
 bool Model::LoadModel(const char * path)
 {
 	bool ret = true;
@@ -198,4 +206,16 @@ uint Model::TextureFromFile(const char *path, const std::string &directory)
 	std::string filename = std::string(path);
 	filename = directory + "textures/" + filename;
 	return App->texture->LoadTextureFromFile(filename.c_str());
+}
+
+void Model::GenerateCubeModel()
+{
+	cube_model.SetNegativeInfinity();
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		for (int x = 0; x < meshes[i].vertices.size(); x++)
+		{
+			cube_model.Enclose(meshes[i].vertices[x].position);
+		}
+	}
 }

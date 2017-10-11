@@ -6,6 +6,9 @@
 #include "Mesh.h"
 #include <string>
 #include <vector>
+#include "MathGeoLib-1.5\src\Math\float3.h"
+#include "MathGeoLib-1.5\src\Geometry\AABB.h"
+#include "glmath.h"
 struct Texture;
 class Model
 {
@@ -15,7 +18,7 @@ public:
 	void Draw();
 	void OnGuiDraw();
 	std::vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
-
+	vec3 GetCenter();
 private:
 	bool LoadModel(const char* path);
 	void ProcessNode(aiNode* node, const aiScene* scene);
@@ -25,12 +28,13 @@ private:
 
 	uint TextureFromFile(const char * path, const std::string & directory);
 
-
+	void GenerateCubeModel();
 public:
 	std::vector<Mesh> meshes;
 private:
 	std::string name;
 	std::string directory;
+	AABB cube_model;
 
 	aiVector3D position;
 	aiQuaternion rotation;
