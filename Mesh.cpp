@@ -88,12 +88,11 @@ void Mesh::OnGuiDraw()
 	if (ImGui::TreeNode(name.c_str()))
 	{
 		ImGui::Text("Transformation:");
-		ImGui::Text("Position x %.2f y %.2f z %.2f", position.x, position.y, position.z);
-		ImGui::Text("Rotation x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
-		ImGui::Text("Scale x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
-
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Position x %.2f y %.2f z %.2f", position.x, position.y, position.z);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Rotation x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Scale x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
 		ImGui::Text("Geometry");
-		ImGui::Text("Triangles %i",triangles);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Triangles %i", triangles);
 
 		ImGui::Text("Texture");
 			for (int i = 0; i < textures.size(); i++)
@@ -133,7 +132,10 @@ void Mesh::SetTriangles(uint set_triangles)
 {
 	triangles = set_triangles;
 }
-
+const uint Mesh::GetTriangles()
+{
+	return 	triangles;
+}
 const char * Mesh::GetName()
 {
 	return name.c_str();

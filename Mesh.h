@@ -44,6 +44,7 @@ public:
 	void SetName(const char* set_name);
 
 	void SetTriangles(uint set_triangles);
+	const uint GetTriangles();
 	//GetFunctions
 	const char* GetName();
 	const aiVector3D GetPosition();

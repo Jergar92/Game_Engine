@@ -5,6 +5,7 @@
 
 Model::Model(const char* path)
 {
+	triangles = 0;
 	LoadModel(path);
 }
 
@@ -25,12 +26,12 @@ void Model::OnGuiDraw()
 {
 	if (ImGui::TreeNode(name.c_str()))
 	{
-		ImGui::Text("Position");
-		ImGui::Text("x %.2f y %.2f z %.2f", position.x, position.y, position.z);
-		ImGui::Text("Rotation");
-		ImGui::Text("x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
-		ImGui::Text("Scale");
-		ImGui::Text("x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
+		ImGui::Text("Transformation:");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Position x %.2f y %.2f z %.2f", position.x, position.y, position.z);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Rotation x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Scale x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
+		ImGui::Text("Geometry");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Triangles %i", triangles);
 		for (int i = 0; i < meshes.size(); i++)
 		{
 			meshes[i].OnGuiDraw();
@@ -114,6 +115,12 @@ void Model::SetInfo(aiNode * node)
 	
 	node->mTransformation.Decompose(position, rotation, scale);
 	name = node->mName.C_Str();
+
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		triangles+=	meshes[i].GetTriangles();
+
+	}
 }
 
 Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
