@@ -17,7 +17,7 @@ public:
 	void LookAt(const vec3 &Spot);
 	void Move(const vec3 &Movement);
 	void Focus(const vec3 &focus);
-	void Rotate(float x, float y);
+	void Rotate(float dx,float dy);
 	float* GetViewMatrix();
 
 private:
@@ -29,6 +29,7 @@ public:
 	vec3 X, Y, Z, Position, Reference;
 	vec3 ViewVector;
 private:
+	
 	bool enable;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };
