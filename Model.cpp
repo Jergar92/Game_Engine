@@ -235,7 +235,7 @@ uint Model::TextureFromFile(const char *path, const std::string &directory)
 {
 
 	std::string filename = std::string(path);
-	filename = directory + filename;
+	filename = directory +"Textures/"+ filename;
 	return App->texture->LoadTextureFromFile(filename.c_str());
 }
 

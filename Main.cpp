@@ -37,7 +37,6 @@ int main(int argc, char ** argv)
 
 			LOG("-------------- Application Creation --------------");
 			App = new Application();
-
 			state = MAIN_START;
 			break;
 
@@ -68,7 +67,7 @@ int main(int argc, char ** argv)
 
 		case MAIN_UPDATE:
 		{
-			App->profiler.CreateFrame("Main_loop");
+			App->profiler->CreateFrame("Main_loop");
 
 
 			int update_return = App->Update();
@@ -101,8 +100,8 @@ int main(int argc, char ** argv)
 		}
 	}
 
-	
-	LOG("Exiting game '%s'...\n", App->window->GetTitle());
+	RELEASE(App);
+
+	LOG("Exiting game bye...\n");
 	return main_return;
-	delete App;
 }

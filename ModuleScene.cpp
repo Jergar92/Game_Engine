@@ -61,6 +61,7 @@ bool ModuleScene::CleanUp()
 	if (model != nullptr)
 	{
 		model->CleanUp();
+		RELEASE(model);
 	}
 	return ret;
 }

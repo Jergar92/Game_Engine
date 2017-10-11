@@ -57,7 +57,7 @@ bool Application::Awake()
 {
 	bool ret = true;
 	// Call Awake() in all modules
-
+	profiler = new Profiler;
 	JSON_Value * config_data = json_parse_file("config.json");
 	if (config_data == NULL)
 	{
@@ -121,9 +121,9 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	profiler.CreateTitle("Application", Title_chain::BACK);
+	profiler->CreateTitle("Application", Title_chain::BACK);
 
-	profiler.CreateCategory("Application", "FinishUpdate");
+	profiler->CreateCategory("Application", "FinishUpdate");
 
 
 
@@ -161,10 +161,10 @@ update_status Application::Update()
 	PrepareUpdate();
 	
 	std::list<Module*>::iterator item = list_modules.begin();
-	profiler.CreateTitle("Application");
+	profiler->CreateTitle("Application");
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		profiler.CreateTitle(item._Ptr->_Myval->name.c_str(),Title_chain::FRONT);
+		profiler->CreateTitle(item._Ptr->_Myval->name.c_str(),Title_chain::FRONT);
 
 		ret = item._Ptr->_Myval->PreUpdate(dt);
 		item++;	
@@ -173,7 +173,7 @@ update_status Application::Update()
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		profiler.CreateTitle(item._Ptr->_Myval->name.c_str());
+		profiler->CreateTitle(item._Ptr->_Myval->name.c_str());
 		ret = item._Ptr->_Myval->Update(dt);
 		item++;
 	}
@@ -185,7 +185,7 @@ update_status Application::Update()
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		profiler.CreateTitle(item._Ptr->_Myval->name.c_str(), Title_chain::BACK);
+		profiler->CreateTitle(item._Ptr->_Myval->name.c_str(), Title_chain::BACK);
 
 		ret = item._Ptr->_Myval->PostUpdate(dt);
 		item++;
@@ -198,9 +198,9 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
-	std::list<Module*>::iterator item = list_modules.end();
-	
+	RELEASE(profiler);
 
+	std::list<Module*>::iterator item = list_modules.end();
 	while(item != list_modules.end() && ret == true)
 	{
 		ret = item._Ptr->_Myval->CleanUp();
@@ -312,7 +312,7 @@ update_status Application::GuiUpdate()
 		GuiConfigUpdate();
 	}
 	if (open_profiler_window) {
-		profiler.DrawProfiler();
+		profiler->DrawProfiler();
 	}
 	//Last
 	std::list<Module*>::iterator item = list_modules.begin();

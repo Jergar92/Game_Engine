@@ -34,7 +34,7 @@ public:
 	ModuleMenuBar*		menu_bar;
 	ModuleHardware*		hardware;
 
-	Profiler profiler;
+	Profiler* profiler;
 
 private: 
 	std::string name;

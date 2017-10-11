@@ -7,6 +7,8 @@ Profiler::Profiler()
 
 Profiler::~Profiler()
 {
+	 current_title = nullptr;
+	 current_category = nullptr;
 	for (int i = 0; i < titles.size(); i++)
 	{
 		delete titles[i];

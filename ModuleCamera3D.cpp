@@ -43,7 +43,7 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	App->profiler.CreateCategory(name.c_str(), "Update");
+	App->profiler->CreateCategory(name.c_str(), "Update");
 
 	if (!ImGui::GetIO().WantCaptureKeyboard&& !ImGui::IsMouseHoveringAnyWindow())
 	{
