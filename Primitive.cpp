@@ -26,7 +26,7 @@ void Primitive::Render() const
 		// Draw Axis Grid
 		glLineWidth(2.0f);
 
-		//glBegin(GL_LINES);
+		glBegin(GL_LINES);
 
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 

@@ -141,3 +141,15 @@ const aiVector3D Mesh::GetScale()
 	return scale;
 }
 
+void Mesh::CleanUp()
+{
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+	for (int i = 0; i < textures.size(); i++)
+	{
+		glDeleteTextures(1, &textures[i].id);
+	}
+	vertices.clear();
+	indices.clear();
+	textures.clear();
+}

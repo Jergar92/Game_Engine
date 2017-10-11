@@ -17,6 +17,7 @@ public:
 	~Model();
 	void Draw();
 	void OnGuiDraw();
+	void CleanUp();
 	std::vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
 	vec3 GetCenter();
 private:

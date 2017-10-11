@@ -18,7 +18,6 @@ bool ModuleScene::Start()
 	bool ret = true;
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
-
 	return ret;
 }
 
@@ -55,7 +54,10 @@ update_status ModuleScene::Update(float dt)
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;
-
+	if (model != nullptr)
+	{
+		model->CleanUp();
+	}
 	return ret;
 }
 void ModuleScene::LoadModel(const char * path)
@@ -63,7 +65,7 @@ void ModuleScene::LoadModel(const char * path)
 	LOG("Drag Model path:%s", path);
 	if (model != nullptr)
 	{
-
+		model->CleanUp();
 	}
 	model=new Model(path);
 	App->camera->Focus(model->GetCenter());

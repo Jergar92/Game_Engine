@@ -36,6 +36,8 @@ public:
 	void SetupMesh();
 	void Draw();
 	void OnGuiDraw();
+	void CleanUp();
+
 	//SetFunctions 
 	void SetInfo(aiNode* node);
 	//GetFunctions
@@ -49,7 +51,6 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
 	std::vector<Texture> textures;
-	std::vector<float3> final_vertex_normals;
 
 
 private:
@@ -59,6 +60,7 @@ private:
 	aiVector3D position;
 	aiQuaternion rotation;
 	aiVector3D scale;
+
 
 };
 

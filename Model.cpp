@@ -41,6 +41,15 @@ void Model::OnGuiDraw()
 	}
 }
 
+void Model::CleanUp()
+{
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meshes[i].CleanUp();
+
+	}
+}
+
 vec3 Model::GetCenter()
 {
 	GenerateCubeModel();
