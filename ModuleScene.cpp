@@ -23,10 +23,14 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::GuiUpdate()
 {
-	
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
 	if (model != nullptr)
 	{
-		ImGui::Begin("Colision Menu");
+		ImGui::Begin("Colision Menu",(bool*)1, window_flags);
 
 		model->OnGuiDraw();
 		ImGui::End();
@@ -76,6 +80,16 @@ void ModuleScene::LoadModel(const char * path)
 void ModuleScene::LoadTexture(const char * path)
 {
 	LOG("Drag Texture path:%s", path);
+
+
+	if (model != nullptr)
+	{
+		model->OverlayTexture(path);
+	}
+	else
+	{
+		LOG("ERROR no model to overlay texture");
+	}
 }
 
 Model * ModuleScene::GetModel()

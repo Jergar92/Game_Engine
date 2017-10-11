@@ -20,6 +20,7 @@ ModuleTexture::~ModuleTexture()
 bool ModuleTexture::Awake(const JSON_Object * data)
 {
 	bool ret = true;
+	
 	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION ||
 		iluGetInteger(ILU_VERSION_NUM) < ILU_VERSION ||
 		ilutGetInteger(ILUT_VERSION_NUM) < ILUT_VERSION)
@@ -27,11 +28,12 @@ bool ModuleTexture::Awake(const JSON_Object * data)
 		LOG("DevIL version is different\n");
 		ret = false;
 	}
+	ilutRenderer(ILUT_OPENGL);
 	ilInit();
 	iluInit();
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
-
+	
 	return ret;
 }
 

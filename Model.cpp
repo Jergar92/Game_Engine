@@ -58,6 +58,17 @@ vec3 Model::GetCenter()
 	return tmp;
 }
 
+void Model::OverlayTexture(const char * path)
+{
+	
+	uint id=App->texture->LoadTextureFromFile(path);
+
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meshes[i].OverlayTexture(id);
+	}
+}
+
 bool Model::LoadModel(const char * path)
 {
 	bool ret = true;

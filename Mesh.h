@@ -37,7 +37,8 @@ public:
 	void Draw();
 	void OnGuiDraw();
 	void CleanUp();
-
+	void RemoveTextures();
+	void OverlayTexture(uint id);
 	//SetFunctions 
 	void SetTransformation(aiMatrix4x4 matrix);
 	void SetName(const char* set_name);

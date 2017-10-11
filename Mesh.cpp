@@ -158,11 +158,25 @@ void Mesh::CleanUp()
 {
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+	RemoveTextures();
+	vertices.clear();
+	indices.clear();
+	textures.clear();
+}
+
+void Mesh::RemoveTextures()
+{
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glDeleteTextures(1, &textures[i].id);
 	}
-	vertices.clear();
-	indices.clear();
-	textures.clear();
+}
+
+void Mesh::OverlayTexture(uint id)
+{
+	RemoveTextures();
+	for (int i = 0; i < textures.size(); i++)
+	{
+		textures[i].id = id;
+	}
 }
