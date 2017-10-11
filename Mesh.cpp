@@ -41,6 +41,7 @@ void Mesh::Draw()
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		glColor4f(textures[i].rgba_color.x, textures[i].rgba_color.y, textures[i].rgba_color.z, textures[i].rgba_color.w);
 
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -56,7 +57,6 @@ void Mesh::Draw()
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	glBindTexture(GL_TEXTURE_2D,0);
 
 	
 	//Draw normals Sonic Mode
@@ -71,6 +71,9 @@ void Mesh::Draw()
 			glEnd();
 		}
 	}
+	//Reset TextureColor
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
@@ -90,23 +93,23 @@ void Mesh::OnGuiDraw()
 		ImGui::Text("x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
 		ImGui::Text("Scale");
 		ImGui::Text("x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
-
 		ImGui::Text("Texture");
-
 			for (int i = 0; i < textures.size(); i++)
 			{
-				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 0), ImVec2(1, 1), *(ImVec4*)&textures[i].rgba_color);
+				ImGui::PushItemWidth(200);
+				ImGui::Text("Image RGBA");
+				ImGui::InputFloat4("##image_rgba", &textures[i].rgba_color[0],2);
+
+				ImGui::PopItemWidth();
 				if (ImGui::IsItemHovered())
 				{
 					ImGui::BeginTooltip();
-					ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+					ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 0), ImVec2(1, 1), *(ImVec4*)&textures[i].rgba_color);
 					ImGui::EndTooltip();
 				}
-			}
-
-	
+			}	
 		ImGui::TreePop();
-
 	}
 }
 

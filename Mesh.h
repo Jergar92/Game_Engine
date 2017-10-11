@@ -1,12 +1,15 @@
 #pragma once
 #include "Globals.h"
 #include "MathGeoLib-1.5\src\Math\float3.h"
+#include "MathGeoLib-1.5\src\Math\float4.h"
+
 #include "MathGeoLib-1.5\src\Math\float2.h"
 #include <string>
 #include <vector>
 #include "Assimp\include\vector3.h"
 #include "Assimp\include\quaternion.h"
 #include "Assimp\include\matrix4x4.h"
+
 struct Vertex
 {
 	float3 position;
@@ -18,6 +21,7 @@ struct Texture
 	uint id;
 	std::string type;
 	std::string path;
+	float4 rgba_color = { 1.0f,1.0f,1.0f,1.0f };
 
 };
 struct aiNode;

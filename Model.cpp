@@ -183,6 +183,8 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType
 			texture.id = TextureFromFile(str.C_Str(), this->directory);
 			texture.type = typeName;
 			texture.path = str.C_Str();
+			texture.rgba_color = { 1.0f,1.0f,1.0f,1.0f };
+
 			textures.push_back(texture);
 			textures_loaded.push_back(texture);  // add on textures_loaded now we can check if this texture was loaded before
 		}
