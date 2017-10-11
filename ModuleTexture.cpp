@@ -84,7 +84,7 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 
-
+		LOG("Load Texture on path %s with no errors", path);
 	}
 	else
 	{

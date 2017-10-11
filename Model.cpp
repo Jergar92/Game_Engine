@@ -79,7 +79,7 @@ bool Model::LoadModel(const char * path)
 		
 		ProcessNode(scene->mRootNode, scene);
 		SetInfo(scene->mRootNode);
-
+		LOG("The model %s with %i triangles was loaded correctly", name.c_str(), triangles);
 		aiReleaseImport(scene);
 	}
 	else
@@ -235,7 +235,7 @@ uint Model::TextureFromFile(const char *path, const std::string &directory)
 {
 
 	std::string filename = std::string(path);
-	filename = directory + "textures/" + filename;
+	filename = directory + filename;
 	return App->texture->LoadTextureFromFile(filename.c_str());
 }
 
