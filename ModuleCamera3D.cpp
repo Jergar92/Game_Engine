@@ -50,18 +50,32 @@ update_status ModuleCamera3D::Update(float dt)
 		
 		vec3 new_pos(0, 0, 0);
 		float speed = 3.0f * dt;
+
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		{
+			enable = true;
+		}
+		else
+		{
+			enable = false;
+		}
+
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			speed = 8.0f * dt;
 
-		/*if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) new_pos.y += speed;
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) new_pos.y -= speed;*/
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) 
+			new_pos.y += speed;
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) 
+			new_pos.y -= speed;
 
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) new_pos -= Z * speed;
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) new_pos += Z * speed;
-
-
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) new_pos -= X * speed;
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) new_pos += X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && enable == true)
+			new_pos -= Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && enable == true)
+			new_pos += Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && enable == true) 
+			new_pos -= X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && enable == true) 
+			new_pos += X * speed;
 
 		Position += new_pos;
 		Reference += new_pos;
@@ -206,6 +220,17 @@ void ModuleCamera3D::Focus(const vec3 &focus)
 	result = focus - Reference;
 
 	Move(result);
+}
+
+void ModuleCamera3D::Rotate(float dx, float dy)
+{
+	//float3 focus(X.x,Y.y,Z.z);
+	//float3 vector = Position - Reference;
+
+	//Quat qua_x(focus.unitX, dx * 0.003);
+	//Quat qua_y(focus.unitY, dy * 0.003);
+	//
+	//vector = qua_x.Transform(vector);
 }
 
 // -----------------------------------------------------------------
