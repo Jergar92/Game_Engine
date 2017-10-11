@@ -234,12 +234,11 @@ void Application::CalculeFPSHistogram()
 
 void Application::CalculeMSHistogram()
 {
-	uint32_t last_frame_ms = frame_time.Read();
 	for (int i = 0; i <HISTOGRAM_LIMIT; i++)
 	{
 		millisecons_values[i] = millisecons_values[i + 1];
 	}
-	millisecons_values[HISTOGRAM_LIMIT] = last_frame_ms;
+	millisecons_values[HISTOGRAM_LIMIT] = dt*1000;
 }
 
 bool Application::LoadConfigNow()
