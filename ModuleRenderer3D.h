@@ -25,6 +25,8 @@ public:
 	bool LoadConfig(const JSON_Object * data);
 	bool CleanUp();
 	void OnResize(int width, int height);
+private:
+	void RenderOptions();
 
 public:
 
@@ -32,7 +34,6 @@ public:
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-
 private:
 	int vsync = 0;
 	ImVec4 background_color = ImColor(114, 144, 154);

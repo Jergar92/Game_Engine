@@ -30,7 +30,7 @@ update_status ModuleScene::GuiUpdate()
 	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
 	if (model != nullptr)
 	{
-		ImGui::Begin("Colision Menu",(bool*)1, window_flags);
+		ImGui::Begin("Inspector",&inspector, window_flags);
 
 		model->OnGuiDraw();
 		ImGui::End();

@@ -145,12 +145,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 
 		lights[0].Active(true);
 
-		(depth_test) ?glEnable(GL_DEPTH_TEST): glDisable(GL_DEPTH_TEST)	;
-		(cull_face)? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
-		(lighting) ?glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
-		(color_material)? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
-		(texture_2d)? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
-
+		RenderOptions();
 	}
 
 	// Projection matrix for
@@ -246,6 +241,7 @@ void ModuleRenderer3D::GuiConfigUpdate()
 			(fog) ? glEnable(GL_FOG) : glDisable(GL_FOG);
 		if (fog)
 		{
+
 			if (ImGui::SliderFloat("FOG Density", &fog_density, 0.0f, 1.0f, "%0.3f"))
 			{
 				GLfloat GL_fog_density = fog_density;
@@ -407,4 +403,41 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::RenderOptions()
+{
+	(depth_test) ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+
+	(cull_face) ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+
+	if (cull_face)
+	{
+		(front_face) ? glFrontFace(GL_CCW) : glFrontFace(GL_CW);
+
+	}
+	(lighting) ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+
+	(color_material) ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+	if (color_material)
+	{
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, color_ambient);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color_diffuse);
+
+	}
+	(texture_2d) ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+
+	(fog) ? glEnable(GL_FOG) : glDisable(GL_FOG);
+
+
+
+	if (fog)
+	{
+		GLfloat GL_fog_density = fog_density;
+		glFogfv(GL_FOG_DENSITY, &GL_fog_density);
+		GLfloat GL_fog_color[4] = { fog_color[0],fog_color[1], fog_color[2], fog_color[3] };
+		glFogfv(GL_FOG_COLOR, GL_fog_color);
+	}
+	(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 }

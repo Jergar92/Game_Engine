@@ -27,7 +27,7 @@ public:
 	Plane_p plane;
 	
 private:
-
+	bool inspector = true;
 public:
 	void LoadModel(const char* path);
 	void LoadTexture(const char* path);
