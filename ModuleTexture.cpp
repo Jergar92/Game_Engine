@@ -126,7 +126,9 @@ void ModuleTexture::CreateCheckMateTexture()
 		GL_UNSIGNED_BYTE,
 		checkImage);
 
-	ilDeleteImages(1, &checkID);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	//	ilDeleteImages(1, &checkID);
 
 }
 
