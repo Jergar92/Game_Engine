@@ -115,6 +115,7 @@ bool ModuleRenderer3D::Awake(const JSON_Object* data)
 		}
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
 		glClearDepth(1.0f);
 		//Initialize clear color
 		glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);
@@ -159,8 +160,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	//BROFILER_CATEGORY("Module Render PreUpdate", Profiler::Color::AliceBlue);
 	App->profiler->CreateCategory(name.c_str(), "PreUpdate");
+	
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
@@ -385,7 +386,7 @@ bool ModuleRenderer3D::LoadConfig(const JSON_Object* data)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
-
+	ImGui_ImplSdlGL2_Shutdown();
 	SDL_GL_DeleteContext(context);
 
 	return true;

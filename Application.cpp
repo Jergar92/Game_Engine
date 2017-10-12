@@ -82,6 +82,8 @@ bool Application::Awake()
 			item++;
 		}
 	}
+	//Free memory
+	json_value_free((JSON_Value *)config_data);
 	return ret;
 }
 
@@ -200,11 +202,11 @@ bool Application::CleanUp()
 	bool ret = true;
 	RELEASE(profiler);
 
-	std::list<Module*>::iterator item = list_modules.end();
-	while(item != list_modules.end() && ret == true)
+	std::list<Module*>::reverse_iterator item = list_modules.rbegin();
+	while(item != list_modules.rend() && ret == true)
 	{
-		ret = item._Ptr->_Myval->CleanUp();
-		item--;
+		ret = (*item)->CleanUp();
+		item++;
 	}
 	return ret;
 }

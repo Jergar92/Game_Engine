@@ -4,7 +4,7 @@
 
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
-ModuleAudio::ModuleAudio(bool start_enabled) 
+ModuleAudio::ModuleAudio(bool start_enabled) : music (NULL)
 {
 	name = "Audio";
 }
@@ -20,7 +20,6 @@ bool ModuleAudio::Awake(const JSON_Object * data)
 		LOG("Loading Audio Mixer");
 		bool ret = true;
 		SDL_Init(0);
-
 		if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 		{
 			LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -68,13 +67,13 @@ bool ModuleAudio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	std::list<Mix_Chunk*>::iterator item;
 
-	for(item = fx.begin(); item._Ptr->_Myval != NULL; item++)
+	std::list<Mix_Chunk*>::iterator item = fx.begin();
+	while (item != fx.end())
 	{
 		Mix_FreeChunk(item._Ptr->_Myval);
+		item++;
 	}
-
 	fx.clear();
 	Mix_CloseAudio();
 	Mix_Quit();

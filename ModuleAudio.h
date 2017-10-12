@@ -34,7 +34,7 @@ public:
 
 private:
 
-	Mix_Music*			music;
+	Mix_Music*			music=NULL;
 	int                 volume = 0;
 	int                 audio_driver = 0;
 	int                 audio_device = 0;
