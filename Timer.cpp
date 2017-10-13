@@ -15,31 +15,48 @@ Timer::Timer()
 void Timer::Start()
 {
 	running = true;
-	started_at = SDL_GetTicks();
+	// start timer
+	LARGE_INTEGER time_start;
+	if (!QueryPerformanceFrequency(&time_start))
+		LOG("QueryPerformanceFrequency failed!");
+
+	ms_frecuency = double(time_start.QuadPart) / 1000.0;
+	second_frecuency = double(time_start.QuadPart);
+
+	QueryPerformanceCounter(&time_start);
+	CounterStart = time_start.QuadPart;
 }
 
 // ---------------------------------------------
 void Timer::Stop()
 {
 	running = false;
-	stopped_at = SDL_GetTicks();
+	// stop timer
+	LARGE_INTEGER time_stop;
+	QueryPerformanceCounter(&time_stop);
+	CounterStop = time_stop.QuadPart;
+
 }
 
 // ---------------------------------------------
-Uint32 Timer::Read()
+double Timer::Read()
 {
 	if(running == true)
 	{
-		return SDL_GetTicks() - started_at;
+		LARGE_INTEGER current_time;
+		QueryPerformanceCounter(&current_time);
+		return double(current_time.QuadPart - CounterStart) / ms_frecuency;
 	}
 	else
 	{
-		return stopped_at - started_at;
+		return CounterStop - CounterStart;
 	}
 }
-float Timer::ReadSec() const
+double Timer::ReadSec() const
 {
-	return float(SDL_GetTicks() - started_at) / 1000.0f;
+	LARGE_INTEGER current_time;
+	QueryPerformanceCounter(&current_time);
+	return double(current_time.QuadPart - CounterStart) / second_frecuency;
 }
 
 

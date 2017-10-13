@@ -205,7 +205,7 @@ void Title::TitleDraw(uint label)
 	ImGui::Columns(2);
 	bool node_open = ImGui::TreeNode((void*)(intptr_t)label, name.c_str());
 	ImGui::NextColumn();
-	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", GetFrameCount());
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms:  %.2f", GetFrameCount());
 	ImGui::Columns(1);
 
 	if (node_open)
@@ -219,7 +219,7 @@ void Title::TitleDraw(uint label)
 	}
 }
 
-uint Title::GetFrameCount()
+double Title::GetFrameCount()
 {
 	frame_count = 0;
 	for (int i= 0; i < categories.size(); i++)
@@ -291,7 +291,7 @@ void Category::CategoryDraw(uint label)
 	ImGui::Columns(2);
 	bool node_open = ImGui::TreeNode((void*)(intptr_t)label, name.c_str());
 	ImGui::NextColumn();
-	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", frame_count);
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms:  %.2f", frame_count);
 	if (node_open)
 	{
 	
@@ -300,7 +300,7 @@ void Category::CategoryDraw(uint label)
 	ImGui::Columns(1);
 }
 
-uint Category::GetFrameCount()
+double Category::GetFrameCount()
 {
 	return frame_count;
 }
@@ -334,7 +334,7 @@ void Frame::FrameDraw()
 	ImGui::Columns(2);
 	bool node_open = ImGui::TreeNode(name.c_str());
 	ImGui::NextColumn();
-	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", GetFrameCount());
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms:  %.2f", GetFrameCount());
 	ImGui::Columns(1);
 
 	if (node_open)
@@ -356,7 +356,7 @@ const char * Frame::GetName()
 	return name.c_str();
 }
 
-uint Frame::GetFrameCount()
+double Frame::GetFrameCount()
 {
 	frame_count = 0;
 	for (int i = 0; i < titles.size(); i++)

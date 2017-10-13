@@ -14,13 +14,18 @@ public:
 	void Start();
 	void Stop();
 
-	Uint32 Read();
-	float ReadSec() const;
+	double Read();
+	double ReadSec() const;
 private:
 
 	bool	running;
-	Uint32	started_at;
-	Uint32	stopped_at;
+
+	double ms_frecuency = 0.0;
+	double second_frecuency = 0.0;
+
+	Uint64 CounterStart = 0;
+	Uint64 CounterStop = 0;
+
 };
 
 #endif //__TIMER_H__

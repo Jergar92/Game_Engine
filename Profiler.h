@@ -16,13 +16,13 @@ struct Category
 	void StartTime();
 
 	void CategoryDraw(uint label);
-	uint GetFrameCount();
+	double GetFrameCount();
 	const char* GetName();
 	public:
 
 private:
 	Timer frame_time;
-	uint64_t frame_count = 0;
+	double frame_count = 0;
 	std::string name;
 
 };
@@ -33,7 +33,7 @@ public:
 	Title(const char* titlename);
 	Title(const Title&to_copy);
 	~Title();
-	uint GetFrameCount();
+	double GetFrameCount();
 	void TitleDraw(uint label);
 	Category* CategotyExist(const char* titlename);
 	void SetCategory(Category* set);
@@ -43,7 +43,7 @@ private:
 public:
 private:
 	std::string name;
-	uint64_t frame_count = 0;
+	double frame_count = 0;
 	std::vector<Category*> categories;
 
 
@@ -60,13 +60,13 @@ public:
 	const char* GetName();
 
 private:
-	uint GetFrameCount();
+	double GetFrameCount();
 
 public:
 	std::vector<Title*> titles;
 private:
 	std::string name;
-	uint64_t frame_count = 0;
+	double frame_count = 0;
 
 };
 class Profiler
