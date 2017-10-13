@@ -3,7 +3,7 @@
 #include "mmgr\mmgr.h"
 Application::Application()
 {
-
+	
 	window = new ModuleWindow();
 	input = new ModuleInput();
 	audio = new ModuleAudio();
@@ -18,26 +18,43 @@ Application::Application()
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
-
+	profiler = new Profiler;
+	profiler->CreateFrame("Application_Start");
 	// Main Modules
 	AddModule(window);
+	profiler->CreateTitle("Application_Start",window->name.c_str());
+
 	AddModule(camera);
+	profiler->CreateTitle("Application_Start",camera->name.c_str());
+
 	AddModule(input);
+	profiler->CreateTitle("Application_Start",input->name.c_str());
+
 	AddModule(audio);
+	profiler->CreateTitle("Application_Start",audio->name.c_str());
+
 	AddModule(texture);
+	profiler->CreateTitle("Application_Start",texture->name.c_str());
 
 	//console module
 	AddModule(console);
-	
+	profiler->CreateTitle("Application_Start",console->name.c_str());
+
 	//Scene Module
 	AddModule(scene);
+	profiler->CreateTitle("Application_Start",scene->name.c_str());
+
 	AddModule(hardware);
+	profiler->CreateTitle("Application_Start",hardware->name.c_str());
 
 	AddModule(menu_bar);
+	profiler->CreateTitle("Application_Start",menu_bar->name.c_str());
 
 	
 	// Renderer last!
 	AddModule(renderer3D);
+	profiler->CreateTitle("Application_Start",renderer3D->name.c_str());
+
 }
 
 Application::~Application()
@@ -57,7 +74,6 @@ bool Application::Awake()
 {
 	bool ret = true;
 	// Call Awake() in all modules
-	profiler = new Profiler;
 	JSON_Value * config_data = json_parse_file("config.json");
 	if (config_data == NULL)
 	{
@@ -76,11 +92,13 @@ bool Application::Awake()
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			//BROFILER_CATEGORY("%s Awake", item._Ptr->_Myval->name.c_str(), Profiler::Color::AliceBlue);
 
+			profiler->CreateCategory("Application_Start",item._Ptr->_Myval->name.c_str(), "Awake");
 			ret = item._Ptr->_Myval->Awake(object_data);
 			item++;
 		}
+		profiler->StopCurrentCategory();
+
 	}
 	//Free memory
 	json_value_free((JSON_Value *)config_data);
@@ -90,9 +108,6 @@ bool Application::Awake()
 bool Application::Start()
 {
 	bool ret = true;
-	//BROFILER_CATEGORY("Aplication Init", Profiler::Color::AliceBlue);
-
-	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");
 	std::list<Module*>::iterator item = list_modules.begin();
 
@@ -100,11 +115,15 @@ bool Application::Start()
 
 	while(item != list_modules.end() && ret == true)
 	{
-
+		profiler->CreateCategory("Application_Start",item._Ptr->_Myval->name.c_str(), "Start");
 		ret = item._Ptr->_Myval->Start();
 		item++;
 	}
-	
+	profiler->StopCurrentCategory();
+	profiler->CreateFrame("Application_Update");
+	profiler->CopyTitle("Application_Start","Application_Update");
+	profiler->CreateTitle("Application_Update", "FinishUpdate");
+
 	SetFPSCap();
 	startup_time.Start();
 	ms_timer.Start();
@@ -123,10 +142,9 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	profiler->CreateTitle("Application", Title_chain::BACK);
 
-	profiler->CreateCategory("Application", "FinishUpdate");
 
+	profiler->CreateCategory("Application_Update", "FinishUpdate", "delay");
 
 
 	if (last_sec_frame_time.Read() > 1000)
@@ -163,10 +181,9 @@ update_status Application::Update()
 	PrepareUpdate();
 	
 	std::list<Module*>::iterator item = list_modules.begin();
-	profiler->CreateTitle("Application");
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		profiler->CreateTitle(item._Ptr->_Myval->name.c_str(),Title_chain::FRONT);
+		profiler->CreateCategory("Application_Update",item._Ptr->_Myval->name.c_str(), "PreUpdate");
 
 		ret = item._Ptr->_Myval->PreUpdate(dt);
 		item++;	
@@ -175,7 +192,7 @@ update_status Application::Update()
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		profiler->CreateTitle(item._Ptr->_Myval->name.c_str());
+		profiler->CreateCategory("Application_Update",item._Ptr->_Myval->name.c_str(), "Update");
 		ret = item._Ptr->_Myval->Update(dt);
 		item++;
 	}
@@ -187,11 +204,12 @@ update_status Application::Update()
 	item = list_modules.begin();
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		profiler->CreateTitle(item._Ptr->_Myval->name.c_str(), Title_chain::BACK);
+		profiler->CreateCategory("Application_Update",item._Ptr->_Myval->name.c_str(), "PostUpdate");
 
 		ret = item._Ptr->_Myval->PostUpdate(dt);
 		item++;
 	}
+	profiler->StopCurrentCategory();
 
 	FinishUpdate();
 	return ret;
@@ -320,6 +338,7 @@ update_status Application::GuiUpdate()
 	std::list<Module*>::iterator item = list_modules.begin();
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
+		profiler->CreateCategory("Main_Update", item._Ptr->_Myval->name.c_str(), "Gui_Update");
 
 		ret = item._Ptr->_Myval->GuiUpdate();
 		item++;

@@ -4,12 +4,7 @@
 #include "Timer.h"
 #include "imgui\imgui.h"
 //TODO Add Subcategory
-enum Title_chain
-{
-	FRONT,
-	MIDDLE,
-	BACK
-};
+
 struct Category
 {
 	Category();
@@ -18,11 +13,16 @@ struct Category
 
 	~Category();
 	void GetTime();
+	void StartTime();
+
+	void CategoryDraw(uint label);
+	uint GetFrameCount();
+	const char* GetName();
 	public:
+
+private:
 	Timer frame_time;
 	uint64_t frame_count = 0;
-
-
 	std::string name;
 
 };
@@ -30,49 +30,69 @@ struct Title
 {
 public:
 	Title();
-	Title(const char* titlename, Title_chain chain_state = MIDDLE);
-
+	Title(const char* titlename);
+	Title(const Title&to_copy);
 	~Title();
-	void SetValue();
-	void SetStack();
-
-	void GetTime();
+	uint GetFrameCount();
+	void TitleDraw(uint label);
 	Category* CategotyExist(const char* titlename);
-public:
-	std::string name;
-	Timer frame_time;
-	uint64_t frame_count = 0;
-	uint64_t frame_stack = 0;
-	Title_chain current_chain_state = MIDDLE;
-	std::vector<Category*> categories;
-
+	void SetCategory(Category* set);
+	const char* GetName();
 private:
+
+public:
+private:
+	std::string name;
+	uint64_t frame_count = 0;
+	std::vector<Category*> categories;
 
 
 };
+class Frame
+{
+public:
 
+	Frame();
+
+	Frame(const char* titlename);
+	~Frame();
+	void FrameDraw();
+	const char* GetName();
+
+private:
+	uint GetFrameCount();
+
+public:
+	std::vector<Title*> titles;
+private:
+	std::string name;
+	uint64_t frame_count = 0;
+
+};
 class Profiler
 {
 public:
 	Profiler();
 	~Profiler();
 	void CreateFrame(const char* framename);
-	bool CreateTitle(const char* title, Title_chain chain = MIDDLE);
-	bool CreateCategory(const char* title,char*category);
+	void CreateTitles();
+	bool CreateTitle(const char* framename,const char* title);
+	bool CreateCategory(const char* framename, const char* title,char*category);
+	void StopCurrentCategory();
 	void DrawProfiler();
+	void CopyTitle(const char*from, const char*to);
 private:
 	bool FrameExist(const char* framename);
-	Title* TitleExist(const char* titlename);
+	Frame* FindFrame(const char* framename);
+
+	Title* TitleExist(Frame* frame,const char* titlename);
 
 private:
-	Timer frame_time;
-	uint64_t frame_count = 0;
 
-	float time = 0.0f;
 	Title* current_title = nullptr;
 	Category* current_category = nullptr;
 	std::string name;
-	std::vector<Title*> titles;
+	std::vector<Frame*> frames;
 	bool categoty_running = false;
 	bool frame = true;
 };

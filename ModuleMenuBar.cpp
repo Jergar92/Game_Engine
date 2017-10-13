@@ -28,7 +28,6 @@ bool ModuleMenuBar::Start()
 
 update_status ModuleMenuBar::GuiUpdate()
 {
-	App->profiler->CreateCategory(name.c_str(), "Update");
 
 	if (App->console->GetShowConsole())
 		App->console->Draw("Console Ready");
