@@ -73,8 +73,14 @@ void ModuleScene::LoadModel(const char * path)
 		model->CleanUp();
 		RELEASE(model);
 	}
-	model=new Model(path);
-	App->camera->Focus(model->GetCenter());
+	model=new Model();
+
+
+	if (model->LoadModel(path))
+		App->camera->Focus(model->GetCenter());
+	else
+		RELEASE(model);
+	
 
 }
 

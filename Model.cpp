@@ -3,10 +3,8 @@
 #include "ModuleTexture.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
-Model::Model(const char* path)
+Model::Model():triangles(0)
 {
-	triangles = 0;
-	LoadModel(path);
 }
 
 Model::~Model()
