@@ -52,11 +52,20 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
-			enable = true;
+			enable_right = true;
 		}
 		else
 		{
-			enable = false;
+			enable_right = false;
+		}
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		{
+			enable_left = true;
+		}
+		else
+		{
+			enable_left = false;
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
@@ -67,13 +76,13 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) 
 			new_pos.y -= speed;
 
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && enable == true)
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && enable_right == true)
 			new_pos -= Z * speed;
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && enable == true)
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && enable_right == true)
 			new_pos += Z * speed;
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && enable == true) 
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && enable_right == true)
 			new_pos -= X * speed;
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && enable == true) 
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && enable_right == true)
 			new_pos += X * speed;
 
 		Position += new_pos;
@@ -120,7 +129,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		}
 		// Mouse motion ----------------Rotate Camera
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		if (enable_right == true)
 		{
 			int dx = -App->input->GetMouseXMotion();
 			int dy = -App->input->GetMouseYMotion();
@@ -165,7 +174,7 @@ update_status ModuleCamera3D::Update(float dt)
 			}
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && enable_left == true)
 			Rotate(Reference.x,Reference.y);
 	}
 	// Recalculate matrix -------------
@@ -226,17 +235,22 @@ void ModuleCamera3D::Focus(const vec3 &focus)
 
 void ModuleCamera3D::Rotate(float dx,float dy)
 {
-	float Sensitivity = 2.0f;
-
-		Position -= Reference;
+	float Sensitivity = 0.25f;
+	dx = -App->input->GetMouseXMotion();
+	   
 		if (dx != 0 && dy != 0)
 		{
+			Position -= Reference;
+
 			if (dx == Reference.x, dy == Reference.y)
 			{
+				
 				float DeltaX = (float)dx * Sensitivity;
 				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+				
+		
 			}
 		Position = Reference + Z * length(Position);
 	}		

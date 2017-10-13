@@ -30,6 +30,7 @@ public:
 	vec3 ViewVector;
 private:
 	
-	bool enable;
+	bool enable_right;
+	bool enable_left;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };
