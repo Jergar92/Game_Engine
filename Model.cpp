@@ -132,6 +132,7 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	{
 		Vertex vertex;
 		float3 data;
+		//Vertices
 		if (mesh->HasPositions())
 		{
 			data.x = mesh->mVertices[i].x;
@@ -139,6 +140,8 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 			data.z = mesh->mVertices[i].z;
 			vertex.position = data;
 		}
+		//Normals
+		
 		if (mesh->HasNormals())
 		{
 			data.x = mesh->mNormals[i].x;
@@ -146,6 +149,7 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 			data.z = mesh->mNormals[i].z;
 			vertex.normals = data;
 		}
+		//Texture coordenate
 		float2 tex_color;
 		if (mesh->HasTextureCoords(0))
 		{
@@ -158,7 +162,7 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 
 		vertices.push_back(vertex);
 	}
-
+	//Indices
 	for (uint i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
@@ -174,7 +178,7 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 			}
 		}
 	}
-
+	//Material
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
@@ -182,14 +186,6 @@ Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 		std::vector<Texture> diffuse_map = loadMaterialTextures(material,
 			aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
-		//Load Specular data
-	//	std::vector<Texture> specular_map = loadMaterialTextures(material,
-	//		aiTextureType_SPECULAR, "texture_specular");
-	//	textures.insert(textures.end(), specular_map.begin(), specular_map.end());
-		//Load Normal data
-	//	std::vector<Texture> normal_map = loadMaterialTextures(material,
-	//		aiTextureType_HEIGHT, "texture_normal");
-	//	textures.insert(textures.end(), normal_map.begin(), normal_map.end());
 
 	}
 

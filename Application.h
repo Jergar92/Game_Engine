@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
+#include "ModuleFileSystem.h"
+
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
@@ -21,6 +23,7 @@
 class Application
 {
 public:
+	ModuleFileSystem*	file_system;
 	ModuleWindow*		window;
 	ModuleInput*		input;
 	ModuleAudio*		audio;
