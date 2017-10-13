@@ -9,7 +9,11 @@ Profiler::~Profiler()
 {
 	 current_title = nullptr;
 	 current_category = nullptr;
-
+	 for (int i = 0; i < frames.size(); i++)
+	 {
+		 delete frames[i];
+	 }
+	 frames.clear();
 }
 
 void Profiler::CreateFrame(const char * framename)
