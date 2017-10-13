@@ -84,7 +84,6 @@ public:
 private:
 	bool FrameExist(const char* framename);
 	Frame* FindFrame(const char* framename);
-
 	Title* TitleExist(Frame* frame,const char* titlename);
 
 private:

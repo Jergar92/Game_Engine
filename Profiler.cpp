@@ -97,6 +97,7 @@ void Profiler::DrawProfiler()
 		ImGui::End();
 		return;
 	}
+
 	for (int i = 0; i < frames.size(); i++)
 	{
 		Frame* frame_item = frames[i];
@@ -197,17 +198,18 @@ Title::~Title()
 
 void Title::TitleDraw(uint label)
 {
-	if (ImGui::TreeNode((void*)(intptr_t)label, name.c_str()))
+	ImGui::Columns(2);
+	bool node_open = ImGui::TreeNode((void*)(intptr_t)label, name.c_str());
+	ImGui::NextColumn();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", GetFrameCount());
+	ImGui::Columns(1);
+
+	if (node_open)
 	{
-
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", GetFrameCount());
-
 		for (int k = 0; k < categories.size(); k++)
 		{
 			Category* category_item = categories[k];
 			category_item->CategoryDraw(k);
-	
 		}
 		ImGui::TreePop();
 	}
@@ -282,12 +284,16 @@ void Category::StartTime()
 
 void Category::CategoryDraw(uint label)
 {
-	if (ImGui::TreeNode((void*)(intptr_t)label, name.c_str()))
+	ImGui::Columns(2);
+	bool node_open = ImGui::TreeNode((void*)(intptr_t)label, name.c_str());
+	ImGui::NextColumn();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", frame_count);
+	if (node_open)
 	{
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", frame_count);
+	
 		ImGui::TreePop();
 	}
+	ImGui::Columns(1);
 }
 
 uint Category::GetFrameCount()
@@ -320,21 +326,25 @@ Frame::~Frame()
 
 void Frame::FrameDraw()
 {
-	if (ImGui::TreeNode(name.c_str()))
+	//ImGui::Columns(3, "fsd", false);  // 3-ways, no border
+	ImGui::Columns(2);
+	bool node_open = ImGui::TreeNode(name.c_str());
+	ImGui::NextColumn();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", GetFrameCount());
+	ImGui::Columns(1);
+
+	if (node_open)
 	{
-
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "ms: %i", GetFrameCount());
-
 		for (int j = 0; j < titles.size(); j++)
 		{
 			Title* title_item = titles[j];
-			title_item->TitleDraw(j);
-			
+			title_item->TitleDraw(j);	
 		}
 		ImGui::TreePop();
 
 	}
+
+
 }
 
 const char * Frame::GetName()
