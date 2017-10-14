@@ -344,7 +344,8 @@ update_status Application::GuiUpdate()
 	std::list<Module*>::iterator item = list_modules.begin();
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		profiler->CreateCategory("Main_Update", item._Ptr->_Myval->name.c_str(), "Gui_Update");
+
+		profiler->CreateCategory("Application_Update", item._Ptr->_Myval->name.c_str(), "Gui_Update");
 
 		ret = item._Ptr->_Myval->GuiUpdate();
 		item++;
@@ -363,7 +364,7 @@ void Application::GuiConfigUpdate()
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
-	ImGui::SetNextWindowSize(ImVec2(550, 800), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(550, 600), ImGuiCond_Once);
 
 	if (!ImGui::Begin("Configuration", &open_config_window, window_flags))
 	{
