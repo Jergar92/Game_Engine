@@ -38,7 +38,7 @@ private:
 	bool  open_console = true;
 	bool  open = true;
 	bool  show_about_us = false;
-	ImVec2 window_about_us_window{ 510,260};
+	ImVec2 window_about_us_window{ 510,300};
 	bool selected[4] = {false,true,false,false};
 };
 

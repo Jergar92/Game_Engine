@@ -110,6 +110,10 @@ This engine use <a href="https://github.com/nlohmann/json"> JSON library </a>
 
 This engine use <a href="http://clb.demon.fi/MathGeoLib/nightly/"> MathGeolib </a>
 
+This engine use <a href="http://assimp.sourceforge.net/"> Assimp </a>
+
+This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
+
 ## Changelog
 #### v0.4.5
 
