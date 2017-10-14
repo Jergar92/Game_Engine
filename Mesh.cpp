@@ -162,7 +162,9 @@ void Mesh::DrawVertexNormals()
 	for (int i = 0; i < vertices.size(); i++)
 	{
 		glBegin(GL_LINES);
+		glColor3f(1.0f, 0.0, 0.0);
 		glVertex3f(vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
+		glColor3f(0.0f, 0.0, 1.0);
 		glVertex3f(vertices[i].normals.x + vertices[i].position.x, vertices[i].normals.y + vertices[i].position.y, vertices[i].normals.z + vertices[i].position.z);
 		glEnd();
 	}
@@ -182,18 +184,18 @@ void Mesh::DrawTriangleNormals()
 		vertexB = vertices[i+1].position;
 		vertexC = vertices[i+2].position;
 		
-		nx = (Cross(vertexA,vertexB) - Cross(vertexB,vertexC))/3;
-
+		nx = (((vertexA + vertexA)/3).Cross((vertexB + vertexB)/3).Cross((vertexC + vertexC)/3)); // centre of the triangles
+	
 		if (nx.Length() > 0)
 		{
-			nx.Normalize();
-			
+			nx.Normalize();	
 		}
+
 		glBegin(GL_LINES);
 		glColor3f(1.0f, 0.0, 0.0);
 		glVertex3f(nx.x, nx.y, nx.z);
 		glColor3f(0.0f, 0.0, 1.0);
-		glVertex3f(nx.x + vertexA.x, vertexA.y + nx.y, vertexA.z + nx.z);
+		glVertex3f(nx.x + vertices[i].normals.x, vertices[i].normals.y + nx.y, vertices[i].normals.z + nx.z);
 		glEnd();
 	}
 }
