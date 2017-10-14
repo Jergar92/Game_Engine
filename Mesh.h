@@ -50,13 +50,23 @@ public:
 	const aiVector3D GetPosition();
 	const aiQuaternion GetRotation();
 	const aiVector3D GetScale();
+	//Draw Normals function
+	void DrawVertexNormals();
+	void DrawTriangleNormals();
 
 private:
 public:
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
 	std::vector<Texture> textures;
-
+	
+	float3 vertexA;
+	float3 vertexB;
+	float3 vertexC;
+	
+	float3 nx;
+	float3 ny;
+	float3 nz;
 
 private:
 	uint VBO;//Vertex Buffer Object

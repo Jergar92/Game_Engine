@@ -59,18 +59,18 @@ void Mesh::Draw()
 
 
 	
-	//Draw normals Sonic Mode
+	//Draw normals
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
 	{
-
-		for (int i = 0; i < vertices.size(); i++)
-		{
-			glBegin(GL_LINES);
-			glVertex3f(vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
-			glVertex3f(vertices[i].normals.x + vertices[i].position.x, vertices[i].normals.y + vertices[i].position.y, vertices[i].normals.z + vertices[i].position.z);			
-			glEnd();
-		}
+		DrawVertexNormals();
 	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT)
+	{
+		DrawTriangleNormals();
+	}
+
+
 	//Reset TextureColor
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -132,6 +132,7 @@ void Mesh::SetTriangles(uint set_triangles)
 {
 	triangles = set_triangles;
 }
+
 const uint Mesh::GetTriangles()
 {
 	return 	triangles;
@@ -154,6 +155,47 @@ const aiQuaternion Mesh::GetRotation()
 const aiVector3D Mesh::GetScale()
 {
 	return scale;
+}
+
+void Mesh::DrawVertexNormals()
+{
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		glBegin(GL_LINES);
+		glVertex3f(vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
+		glVertex3f(vertices[i].normals.x + vertices[i].position.x, vertices[i].normals.y + vertices[i].position.y, vertices[i].normals.z + vertices[i].position.z);
+		glEnd();
+	}
+}
+
+void Mesh::DrawTriangleNormals()
+{
+	if (vertices.size() % 3 != 0)
+	{
+		LOG("not multiple of 3");
+		return;
+	}
+	for (int i = 0; i < vertices.size(); i+=3)
+	{
+		
+		vertexA = vertices[i].position;
+		vertexB = vertices[i+1].position;
+		vertexC = vertices[i+2].position;
+		
+		nx = (Cross(vertexA,vertexB) - Cross(vertexB,vertexC))/3;
+
+		if (nx.Length() > 0)
+		{
+			nx.Normalize();
+			
+		}
+		glBegin(GL_LINES);
+		glColor3f(1.0f, 0.0, 0.0);
+		glVertex3f(nx.x, nx.y, nx.z);
+		glColor3f(0.0f, 0.0, 1.0);
+		glVertex3f(nx.x + vertexA.x, vertexA.y + nx.y, vertexA.z + nx.z);
+		glEnd();
+	}
 }
 
 void Mesh::CleanUp()
