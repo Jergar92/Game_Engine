@@ -18,7 +18,7 @@ public:
 	void Draw();
 	void OnGuiDraw();
 	void CleanUp();
-	std::vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+	std::vector<Texture> textures_loaded;	// stores all the textures loaded, make sure textures aren't loaded more than once.
 	vec3 GetCenter();
 	void OverlayTexture(const char* path);
 	bool LoadModel(const char* path);

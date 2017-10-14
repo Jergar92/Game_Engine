@@ -97,19 +97,20 @@ void Mesh::OnGuiDraw()
 		ImGui::Text("Texture");
 			for (int i = 0; i < textures.size(); i++)
 			{
-				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 0), ImVec2(1, 1), *(ImVec4*)&textures[i].rgba_color);
+				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1,0), *(ImVec4*)&textures[i].rgba_color);
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0,1), ImVec2(1,0), *(ImVec4*)&textures[i].rgba_color);
+					ImGui::EndTooltip();
+				}
 				ImGui::PushItemWidth(200);
 				ImGui::Text("Image RGBA");
 				//ImGui::InputFloat4("##image_rgba", &textures[i].rgba_color[0],2);
 				ImGui::ColorEdit4("##image_rgba", &textures[i].rgba_color.x);
 
 				ImGui::PopItemWidth();
-				if (ImGui::IsItemHovered())
-				{
-					ImGui::BeginTooltip();
-					ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 0), ImVec2(1, 1), *(ImVec4*)&textures[i].rgba_color);
-					ImGui::EndTooltip();
-				}
+			
 			}	
 		ImGui::TreePop();
 	}
