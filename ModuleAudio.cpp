@@ -3,6 +3,8 @@
 #include "ModuleAudio.h"
 
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
+#define MIX_MAX_VOLUME 128
+#define MIX_MIN_VOLUME 0
 
 ModuleAudio::ModuleAudio(bool start_enabled) : music (NULL)
 {
@@ -29,7 +31,8 @@ bool ModuleAudio::Awake(const JSON_Object * data)
 		{
 			JSON_Object * audio_data = json_object_dotget_object(data, name.c_str());
 
-			volume = json_object_dotget_number(audio_data, "volume");
+			music_volume = json_object_dotget_number(audio_data, "music_volume");
+			fx_volume = json_object_dotget_number(audio_data, "fx_volume");
 
 			// load support for the OGG format
 			int flags = MIX_INIT_OGG;
@@ -50,7 +53,6 @@ bool ModuleAudio::Awake(const JSON_Object * data)
 
 			return true;
 		}
-
 
 		return ret;
 
@@ -91,7 +93,16 @@ void ModuleAudio::GuiConfigUpdate()
 		ImGui::Separator();
 		ImGui::Text("Audio Device:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", SDL_GetAudioDeviceName(audio_device, captured));
 		ImGui::Separator();
-		ImGui::SliderInt("Volume", &volume, 10, 100);
+
+		if (ImGui::SliderInt("Music Volume", &music_volume, MIX_MIN_VOLUME, MIX_MAX_VOLUME))
+		{
+			ChangeMusicVolume();
+
+		}
+		if (ImGui::SliderInt("FX Volume", &fx_volume, MIX_MIN_VOLUME, MIX_MAX_VOLUME))
+		{
+			ChangeFXVolume();
+		}
 	}
 }
 
@@ -100,7 +111,9 @@ bool ModuleAudio::SaveConfig(const JSON_Object * data)
 	bool ret = true;
 	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
 
-	json_object_dotset_number(audio_data,"volume",volume);
+	json_object_dotset_number(audio_data, "music_volume", music_volume);
+	json_object_dotset_number(audio_data, "fx_volume", fx_volume);
+
 
 	return ret;
 }
@@ -110,7 +123,8 @@ bool ModuleAudio::LoadConfig(const JSON_Object * data)
 	bool ret = true;
 	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
 
-	volume = json_object_dotget_number(audio_data, "volume");
+	music_volume = json_object_dotget_number(audio_data, "music_volume");
+	fx_volume = json_object_dotget_number(audio_data, "fx_volume");
 
 	return ret;
 	
@@ -162,7 +176,7 @@ bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 			}
 		}
 	}
-
+	Mix_VolumeMusic(music_volume);
 	LOG("Successfully playing %s", path);
 	return ret;
 }
@@ -181,6 +195,7 @@ unsigned int ModuleAudio::LoadFx(const char* path)
 	else
 	{
 		fx.push_back(chunk);
+		Mix_VolumeChunk(chunk, fx_volume);
 		ret = fx.size();
 	}
 
@@ -211,7 +226,25 @@ bool ModuleAudio::PlayFx(unsigned int id, int repeat)
 	return ret;
 }
 
-const int ModuleAudio::GetVolume()
+const int ModuleAudio::GetMusicVolume()
 {
-	return volume;
+	return music_volume;
+}
+
+
+
+void ModuleAudio::ChangeMusicVolume()
+{
+	Mix_VolumeMusic(music_volume);
+
+}
+
+void ModuleAudio::ChangeFXVolume()
+{
+	std::list<Mix_Chunk*>::iterator item = fx.begin();
+	while (item != fx.end())
+	{
+		Mix_VolumeChunk(item._Ptr->_Myval, fx_volume);
+		item++;
+	}
 }

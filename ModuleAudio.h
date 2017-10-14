@@ -30,12 +30,17 @@ public:
 	void GuiConfigUpdate();
 	bool SaveConfig(const JSON_Object * data);
 	bool LoadConfig(const JSON_Object * data);
-	const int GetVolume();
+	const int GetMusicVolume();
+private:
+	void ChangeMusicVolume();
+	void ChangeFXVolume();
 
 private:
 
 	Mix_Music*			music=NULL;
-	int                 volume = 0;
+	int                 music_volume = 0;
+	int                 fx_volume = 0;
+
 	int                 audio_driver = 0;
 	int                 audio_device = 0;
 	int                 captured = 0;
