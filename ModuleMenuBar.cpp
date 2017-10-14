@@ -61,35 +61,7 @@ void ModuleMenuBar::ShowMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Open"))
-			{
-
-			}
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("Save"))
-			{
-
 			
-			}
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("Save as"))
-			{
-
-
-			}
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("Load"))
-			{
-
-
-			}
-
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Quit", "alt+f4"))

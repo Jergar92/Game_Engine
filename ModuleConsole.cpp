@@ -63,7 +63,13 @@ void ModuleConsole::ClearLog()
 }
 void ModuleConsole::Draw(const char * tittle)
 {
-	ImGui::Begin(tittle);
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	ImGui::SetNextWindowSize(ImVec2(550, 600), ImGuiCond_Once);
+
+	ImGui::Begin(tittle, &show_app_console,window_flags);
 	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
 
 
