@@ -242,72 +242,54 @@ void Model::DrawBoundingBox()
 {
 	//--- pos z
 	glBegin(GL_LINES);
-	glNormal3f(0, 0, 1);
 	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
-	glNormal3f(0, 0, 1);
 	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
-	glNormal3f(0, 0, 1);
+
 	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
-	glNormal3f(0, 0, 1);
 	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
 	glEnd();
 	//--- pos x
 	glBegin(GL_LINES);
-	glNormal3f(1, 0, 0);
 	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
-	glNormal3f(1, 0, 0);
 	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
-	glNormal3f(1, 0, 0);
+
 	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
-	glNormal3f(1, 0, 0);
 	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
 	glEnd();
 
 	//---- pos y
 	glBegin(GL_LINES);
-	glNormal3f(0, 1, 0);
 	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
-	glNormal3f(0, 1, 0);
 	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
-	glNormal3f(0, 1, 0);
+
 	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
-	glNormal3f(0, 1, 0);
 	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
 	glEnd();
 
 	//--- neg z
 	glBegin(GL_LINES);
-	glNormal3f(0, 0, -1);
 	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
-	glNormal3f(0, 0, -1);
 	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
-	glNormal3f(0, 0, -1);
+
 	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
-	glNormal3f(0, 0, -1);
 	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
 	glEnd();
 
 	//--- neg y
 	glBegin(GL_LINES);
-	glNormal3f(0, -1, 0);
 	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
-	glNormal3f(0, -1, 0);
 	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
-	glNormal3f(0, -1, 0);
+
 	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
-	glNormal3f(0, -1, 0);
 	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
 	glEnd();
 
 	//--- neg x
 	glBegin(GL_LINES);
-	glNormal3f(-1, 0, 0);
 	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
-	glNormal3f(-1, 0, 0);
 	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
-	glNormal3f(-1, 0, 0);
+
 	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
-	glNormal3f(-1, 0, 0);
 	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
 	glEnd();
 }
