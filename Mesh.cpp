@@ -93,6 +93,7 @@ void Mesh::OnGuiDraw()
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Scale x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
 		ImGui::Text("Geometry");
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Triangles %i", triangles);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Vertices %i", vertices_count);
 
 		ImGui::Text("Texture");
 			for (int i = 0; i < textures.size(); i++)
@@ -133,10 +134,17 @@ void Mesh::SetTriangles(uint set_triangles)
 {
 	triangles = set_triangles;
 }
-
+void Mesh::SetVertices(uint set_vertices)
+{
+	vertices_count = set_vertices;
+}
 const uint Mesh::GetTriangles()
 {
 	return 	triangles;
+}
+const uint Mesh::GetVertices()
+{
+	return vertices_count;
 }
 const char * Mesh::GetName()
 {

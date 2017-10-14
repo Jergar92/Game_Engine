@@ -43,5 +43,6 @@ private:
 	aiQuaternion rotation;
 	aiVector3D scale;
 	uint triangles=0;
+	uint vertices = 0;
 };
 

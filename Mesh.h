@@ -42,11 +42,12 @@ public:
 	//SetFunctions 
 	void SetTransformation(aiMatrix4x4 matrix);
 	void SetName(const char* set_name);
-
 	void SetTriangles(uint set_triangles);
-	const uint GetTriangles();
+	void SetVertices(uint set_vertices);
 	//GetFunctions
 	const char* GetName();
+	const uint GetTriangles();
+	const uint GetVertices();
 	const aiVector3D GetPosition();
 	const aiQuaternion GetRotation();
 	const aiVector3D GetScale();
@@ -76,6 +77,7 @@ private:
 	aiQuaternion rotation;
 	aiVector3D scale;
 	uint triangles;
+	uint vertices_count;
 
 };
 

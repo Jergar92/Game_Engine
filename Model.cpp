@@ -35,6 +35,7 @@ void Model::OnGuiDraw()
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Scale x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
 		ImGui::Text("Geometry");
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Triangles %i", triangles);
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Vertices %i", vertices);
 
 		for (int i = 0; i < meshes.size(); i++)
 		{
@@ -104,6 +105,7 @@ void Model::ProcessNode(aiNode * node, const aiScene * scene)
 		newMesh.SetTransformation(node->mTransformation);
 		newMesh.SetName(node->mName.C_Str());
 		newMesh.SetTriangles(mesh->mNumFaces);
+		newMesh.SetVertices(mesh->mNumVertices);
 		//Push new mesh
 		meshes.push_back(newMesh);
 	}
@@ -122,8 +124,9 @@ void Model::SetInfo(aiNode * node)
 	for (int i = 0; i < meshes.size(); i++)
 	{
 		triangles+=	meshes[i].GetTriangles();
-
+		vertices += meshes[i].GetVertices();
 	}
+
 }
 
 Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
