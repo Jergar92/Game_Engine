@@ -186,28 +186,35 @@ void Mesh::DrawTriangleNormals()
 		LOG("not multiple of 3");
 		return;
 	}
-	for (int i = 0; i < vertices.size(); i+=3)
+	for (int i = 0; i < vertices.size(); i += 3)
 	{
-		
+
 		vertexA = vertices[i].position;
-		vertexB = vertices[i+1].position;
-		vertexC = vertices[i+2].position;
-		
-		nx = (((vertexA + vertexA)/3).Cross((vertexB + vertexB)/3).Cross((vertexC + vertexC)/3)); // centre of the triangles
-	
-		if (nx.Length() > 0)
-		{
-			nx.Normalize();	
-		}
+		vertexB = vertices[i + 1].position;
+		vertexC = vertices[i + 2].position;
+
+		float3 edge1 = vertexB - vertexA;
+		float3 edge2 = vertexC - vertexA;
+
+		float3 normal = Cross(edge1, edge2);
+
+		normal.Normalize();
+
+
+		float3 center_point(
+			((vertexA.x + vertexB.x + vertexC.x) / 3),
+			((vertexA.y + vertexB.y + vertexC.y) / 3),
+			((vertexA.z + vertexB.z + vertexC.z) / 3));
 
 		glBegin(GL_LINES);
 		glColor3f(1.0f, 0.0, 0.0);
-		glVertex3f(nx.x, nx.y, nx.z);
+		glVertex3f(center_point.x, center_point.y, center_point.z);
 		glColor3f(0.0f, 0.0, 1.0);
-		glVertex3f(nx.x + vertices[i].normals.x, vertices[i].normals.y + nx.y, vertices[i].normals.z + nx.z);
+		glVertex3f(center_point.x + vertices[i].normals.x, vertices[i].normals.y + center_point.y, vertices[i].normals.z + center_point.z);
 		glEnd();
 	}
 }
+
 
 void Mesh::CleanUp()
 {

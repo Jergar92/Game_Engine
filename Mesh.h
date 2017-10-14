@@ -72,6 +72,7 @@ public:
 private:
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
+	uint face_normalsID;
 	std::string name;
 	aiVector3D position;
 	aiQuaternion rotation;
