@@ -226,6 +226,26 @@ void ModuleMenuBar::AboutUsWindow()
 		ShellExecute(NULL, "open","https://github.com/nlohmann/json", NULL, NULL, SW_MINIMIZE);
 		LOG("Open Link");
 	}
+
+	if (ImGui::Selectable(" Assimp library v3.3.1 ", selected[3], ImGuiSelectableFlags_AllowDoubleClick))
+	{
+		if (ImGui::IsMouseDoubleClicked(0))
+		{
+			selected[3] = !selected[3];
+		}
+		ShellExecute(NULL, "open", "http://assimp.sourceforge.net/", NULL, NULL, SW_MINIMIZE);
+		LOG("Open Link");
+	}
+
+	if (ImGui::Selectable(" DevIL v1.4.0 ", selected[3], ImGuiSelectableFlags_AllowDoubleClick))
+	{
+		if (ImGui::IsMouseDoubleClicked(0))
+		{
+			selected[3] = !selected[3];
+		}
+		ShellExecute(NULL, "open", "http://openil.sourceforge.net/", NULL, NULL, SW_MINIMIZE);
+		LOG("Open Link");
+	}
 			
 		ImGui::End();
 }
