@@ -242,7 +242,7 @@ void Application::LoadConfigWindows()
 
 void Application::LoadProfilerWindow()
 {
-	open_profiler_window = !open_profiler_window;
+	profiler->OpenWindows();
 
 }
 
@@ -337,7 +337,7 @@ update_status Application::GuiUpdate()
 	if (open_config_window) {
 		GuiConfigUpdate();
 	}
-	if (open_profiler_window) {
+	if (profiler->CheckWindows()) {
 		profiler->DrawProfiler();
 	}
 	//Last

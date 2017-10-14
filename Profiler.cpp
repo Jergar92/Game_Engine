@@ -1,13 +1,12 @@
 #include"Profiler.h"
 
 
-Profiler::Profiler()
+Profiler::Profiler():frame(false)
 {
 }
 
 Profiler::~Profiler()
 {
-	 current_title = nullptr;
 	 current_category = nullptr;
 	 for (int i = 0; i < frames.size(); i++)
 	 {
@@ -136,6 +135,16 @@ void Profiler::CopyTitle(const char * from, const char * to)
 	}
 	
 	
+}
+
+void Profiler::OpenWindows()
+{
+	frame = !frame;
+}
+
+bool Profiler::CheckWindows()
+{
+	return frame == true;
 }
 
 bool Profiler::FrameExist(const char * framename)

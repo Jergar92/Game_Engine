@@ -81,6 +81,8 @@ public:
 	void StopCurrentCategory();
 	void DrawProfiler();
 	void CopyTitle(const char*from, const char*to);
+	void OpenWindows();
+	bool CheckWindows();
 private:
 	bool FrameExist(const char* framename);
 	Frame* FindFrame(const char* framename);
@@ -88,10 +90,8 @@ private:
 
 private:
 
-	Title* current_title = nullptr;
 	Category* current_category = nullptr;
 	std::string name;
 	std::vector<Frame*> frames;
-	bool categoty_running = false;
-	bool frame = true;
+	bool frame = false;
 };
