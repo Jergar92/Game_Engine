@@ -16,27 +16,32 @@ void Model::Draw()
 	for (int i = 0; i < meshes.size(); i++)
 	{
 		meshes[i].Draw();
-
 	}
+	if(bounding_box)
+	{
+		DrawBoundingBox();
+	}
+	
 }
 
 void Model::OnGuiDraw()
 {
 	if (ImGui::TreeNode(name.c_str()))
 	{
+		ImGui::Checkbox("Bounding Box##bounding box", &bounding_box);
 		ImGui::Text("Transformation:");
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Position x %.2f y %.2f z %.2f", position.x, position.y, position.z);
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Rotation x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Scale x %.2f y %.2f z %.2f", scale.x, scale.y, scale.z);
 		ImGui::Text("Geometry");
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Triangles %i", triangles);
+
 		for (int i = 0; i < meshes.size(); i++)
 		{
 			meshes[i].OnGuiDraw();
 		
 		}
 		ImGui::TreePop();
-
 	}
 }
 
@@ -231,6 +236,80 @@ uint Model::TextureFromFile(const char *path, const std::string &directory)
 	std::string filename = std::string(path);
 	filename = directory +"Textures/"+ filename;
 	return App->texture->LoadTextureFromFile(filename.c_str());
+}
+
+void Model::DrawBoundingBox()
+{
+	//--- pos z
+	glBegin(GL_LINES);
+	glNormal3f(0, 0, 1);
+	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
+	glNormal3f(0, 0, 1);
+	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
+	glNormal3f(0, 0, 1);
+	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
+	glNormal3f(0, 0, 1);
+	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
+	glEnd();
+	//--- pos x
+	glBegin(GL_LINES);
+	glNormal3f(1, 0, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
+	glNormal3f(1, 0, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
+	glNormal3f(1, 0, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
+	glNormal3f(1, 0, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
+	glEnd();
+
+	//---- pos y
+	glBegin(GL_LINES);
+	glNormal3f(0, 1, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
+	glNormal3f(0, 1, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
+	glNormal3f(0, 1, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
+	glNormal3f(0, 1, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
+	glEnd();
+
+	//--- neg z
+	glBegin(GL_LINES);
+	glNormal3f(0, 0, -1);
+	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
+	glNormal3f(0, 0, -1);
+	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
+	glNormal3f(0, 0, -1);
+	glVertex3f(cube_model.maxPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
+	glNormal3f(0, 0, -1);
+	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
+	glEnd();
+
+	//--- neg y
+	glBegin(GL_LINES);
+	glNormal3f(0, -1, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
+	glNormal3f(0, -1, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
+	glNormal3f(0, -1, 0);
+	glVertex3f(cube_model.maxPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
+	glNormal3f(0, -1, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
+	glEnd();
+
+	//--- neg x
+	glBegin(GL_LINES);
+	glNormal3f(-1, 0, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.minPoint.z);
+	glNormal3f(-1, 0, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.minPoint.y, cube_model.maxPoint.z);
+	glNormal3f(-1, 0, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.maxPoint.z);
+	glNormal3f(-1, 0, 0);
+	glVertex3f(cube_model.minPoint.x, cube_model.maxPoint.y, cube_model.minPoint.z);
+	glEnd();
 }
 
 void Model::GenerateCubeModel()

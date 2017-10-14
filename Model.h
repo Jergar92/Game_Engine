@@ -30,7 +30,7 @@ private:
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 
 	uint TextureFromFile(const char * path, const std::string & directory);
-
+	void DrawBoundingBox();
 	void GenerateCubeModel();
 public:
 	std::vector<Mesh> meshes;
@@ -38,7 +38,7 @@ private:
 	std::string name;
 	std::string directory;
 	AABB cube_model;
-
+	bool bounding_box = false;
 	aiVector3D position;
 	aiQuaternion rotation;
 	aiVector3D scale;
