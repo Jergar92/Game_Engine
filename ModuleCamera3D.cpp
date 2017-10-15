@@ -236,6 +236,7 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 void ModuleCamera3D::MovePosition(const vec3 &Movement)
 {
 	Position = Movement;
+
 	Position = Reference + Z * length(Position);
 
 
@@ -247,9 +248,10 @@ void ModuleCamera3D::Focus(const vec3 &focus)
 	//vec3 result;
 	//result = focus - Reference;
 	//App->scene->GetModel()->GetDistance();
+	Reference = focus;
+	MovePosition(focus+App->scene->GetModel()->GetDistance());
 	LookAt(focus);
 
-	MovePosition(focus+App->scene->GetModel()->GetDistance());
 }
 
 void ModuleCamera3D::Rotate(float dx,float dy)
