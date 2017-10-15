@@ -6,9 +6,13 @@ Drop the game folder inside the .zip somewhere in your computer and execute the 
 * Mouse Right Click Active camera movement:
 	* WASD keys for movement
 	* move the mouse to rotate
+* Mouse Left Click + Left Alt:
+	* move the camera arround a point
 * Press F to focus camera
-* Drag and Drop models to see them on the screen
-* Drag and Drop textures to change the texture of the model (only jpg and png formats suported)
+* Press F1 to see debug vertices normal
+* Press F2 to see debug surface normal
+* Drag and Drop models to see them on the screen (if you drag a model you can see the Inspector(Inspector info below)
+* Drag and Drop textures to change the texture of the model (only png formats suported)
 
 ### Main Menu
 Is fixed at the top of the screen.
@@ -55,7 +59,8 @@ This window shows and allows to edit certain behaviors of the engine:
 
 	*Audio driver ==> Show audio drivers
 	*Audio device ==> Show audio device
-	*Volume ==> Change the volume
+	*Music Volume ==> Change the music volume
+	*FX Volume ==> Change the fx volume
 *Hardware
 
 	*SDL_Version ==> Show SDL_Version 
@@ -93,11 +98,27 @@ This window shows and allows to edit certain behaviors of the engine:
 ### Profiler 
 Shows a numerical record of the current speed of each module, to use it you have to open the trees, these will show if they have other elements to show
 ### About us 
+
 	*Name ==> Name of the engine
 	*Description ==> Description of the engine
 	*Creators ==> Links to the github pages of the creators
 	*Licenses ==> Links to the libraries used in this proyect
 
+### Inspector
+Show information about the model and its meshes
+
+	*Model ==> Name of the first Tree can show mesh information
+		*Hide Model ==> Hide/Unhide the model
+		*Bounding Box ==> Hide/Unhide the bounding box of the model
+		*Transformation ==> See the position, rotation, scale of the model
+		*Geometry ==> See the count of triangles and vertices of all meshes
+		*Mesh Tree ==> Open/Close the tree of meshes
+	*Meshes ==> The tree name is the name of the current Mesh
+		*Hide Mesh ==> Hide/Unhide current mesh
+		*Transformation ==>  See the position, rotation, scale of the current mesh
+		*Geometry ==> See the count of triangles and vertices of the current mesh
+		*Texture ==> See the texture of the current mesh if you put the mouse hover the texture you can see it bigger
+		*Color Texture ==> Change the color of the texture
 #### Libraries 
 
 This engine use <a href="https://www.libsdl.org/" >SDL library </a>
@@ -115,6 +136,11 @@ This engine use <a href="http://assimp.sourceforge.net/"> Assimp </a>
 This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 ## Changelog
+#### v0.5.0
+
+* Added: Add Inspector
+* Added: Now you can can drag and drop textures
+
 #### v0.4.5
 
 * Added: DevIL library
@@ -122,6 +148,7 @@ This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 #### v0.4.0
 
+* Added: Assimp library
 * Added: Now we can load meshes
 * Added: Add drag and drop functionality
 
