@@ -99,6 +99,15 @@ bool Model::LoadModel(const char * path)
 	return ret;
 }
 
+const vec3 Model::GetDistance()
+{
+	float3 max = cube_model.maxPoint;
+	float3 min = cube_model.minPoint;
+	float3 distance = max - min;
+	vec3 tmp(distance.x, distance.y, distance.z);
+	return tmp;
+}
+
 const AABB Model::GetBoundingBox()
 {
 	return cube_model;

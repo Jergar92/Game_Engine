@@ -3,6 +3,7 @@
 #include "ModuleCamera3D.h"
 #define MAX_DISTANCE 100.0f
 #define MIN_DISTANCE 0.01f
+
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
 	name = "Camera";
@@ -131,6 +132,8 @@ update_status ModuleCamera3D::Update(float dt)
 		// Mouse motion ----------------Rotate Camera
 		if (enable_right||enable_left)
 		{
+			vec3 new_pos(0, 0, 0);
+
 			int dx = -App->input->GetMouseXMotion();
 			int dy = -App->input->GetMouseYMotion();
 
@@ -161,9 +164,15 @@ update_status ModuleCamera3D::Update(float dt)
 					Y = cross(Z, X);
 				}
 			}
+			
 
 			if (enable_left == true)
 				Position = Reference + Z * length(Position);
+			else
+			{
+				Reference = Position - Z *length(Position);
+			}
+		
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
@@ -224,14 +233,23 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 
 	CalculateViewMatrix();
 }
+void ModuleCamera3D::MovePosition(const vec3 &Movement)
+{
+	Position = Movement;
+	Position = Reference + Z * length(Position);
 
+
+	CalculateViewMatrix();
+}
 //-------------------------------------------------------------------
 void ModuleCamera3D::Focus(const vec3 &focus)
 {
-	vec3 result;
-	result = focus - Reference;
+	//vec3 result;
+	//result = focus - Reference;
+	//App->scene->GetModel()->GetDistance();
+	LookAt(focus);
 
-	Move(result);
+	MovePosition(focus+App->scene->GetModel()->GetDistance());
 }
 
 void ModuleCamera3D::Rotate(float dx,float dy)

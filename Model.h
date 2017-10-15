@@ -22,6 +22,8 @@ public:
 	const vec3 GetCenter();
 	void OverlayTexture(const char* path);
 	bool LoadModel(const char* path);
+	const vec3 GetDistance();
+
 	const AABB GetBoundingBox();
 private:
 	void ProcessNode(aiNode* node, const aiScene* scene);
