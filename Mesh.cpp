@@ -4,7 +4,7 @@
 #define TEXTURE_SIZE 64
 #define TEXTURE_SIZE_HOVER 128
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices, std::vector<Texture> textures) :vertices(vertices), indices(indices), textures(textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices, std::vector<Texture> textures) :vertices(vertices), indices(indices), textures(textures), surface_normals_succes(true)
 {
 	SetupMesh();
 }
@@ -19,6 +19,7 @@ void Mesh::SetupMesh()
 {
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
+	glGenBuffers(1, &surface_normals_id);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
@@ -26,6 +27,38 @@ void Mesh::SetupMesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), &indices[0], GL_STATIC_DRAW);
 
+
+	if (indices.size() % 3 != 0)
+	{
+		LOG("ERROR surface normals is Not multiple of 3!");
+		surface_normals_succes = false;
+	}
+	else {
+		std::vector<float3> surface_normals;
+
+		for (uint i= 0; i < indices.size(); i += 3)
+		{
+			vertexA = vertices[indices[i]].position;
+			vertexB = vertices[indices[i + 1]].position;
+			vertexC = vertices[indices[i + 2]].position;
+			float3 edge1 = vertexB - vertexA;
+			float3 edge2 = vertexC - vertexA;
+			float3 surface_normal = Cross(edge1, edge2);
+			surface_normal.Normalize();
+
+
+			float3 center_point(
+				((vertexA.x + vertexB.x + vertexC.x) / 3),
+				((vertexA.y + vertexB.y + vertexC.y) / 3),
+				((vertexA.z + vertexB.z + vertexC.z) / 3));
+
+			surface_normals.push_back(center_point);
+			surface_normals.push_back(center_point + surface_normal);
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, surface_normals_id);
+		glBufferData(GL_ARRAY_BUFFER, surface_normals.size() * sizeof(float3), &surface_normals[0], GL_STATIC_DRAW);
+	}
 }
 
 void Mesh::Draw()
@@ -65,7 +98,7 @@ void Mesh::Draw()
 		DrawVertexNormals();
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT&&surface_normals_succes)
 	{
 		DrawTriangleNormals();
 	}
@@ -168,51 +201,24 @@ const aiVector3D Mesh::GetScale()
 
 void Mesh::DrawVertexNormals()
 {
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < indices.size(); i++)
 	{
+		int indice_number = indices[i];
 		glBegin(GL_LINES);
 		glColor3f(1.0f, 0.0, 0.0);
-		glVertex3f(vertices[i].position.x, vertices[i].position.y, vertices[i].position.z);
+		glVertex3f(vertices[indice_number].position.x, vertices[indice_number].position.y, vertices[indice_number].position.z);
 		glColor3f(0.0f, 0.0, 1.0);
-		glVertex3f(vertices[i].normals.x + vertices[i].position.x, vertices[i].normals.y + vertices[i].position.y, vertices[i].normals.z + vertices[i].position.z);
+		glVertex3f(vertices[indice_number].normals.x + vertices[indice_number].position.x, vertices[indice_number].normals.y + vertices[indice_number].position.y, vertices[indice_number].normals.z + vertices[indice_number].position.z);
 		glEnd();
 	}
 }
 
 void Mesh::DrawTriangleNormals()
 {
-	if (vertices.size() % 3 != 0)
-	{
-		LOG("not multiple of 3");
-		return;
-	}
-	for (int i = 0; i < vertices.size(); i += 3)
-	{
-
-		vertexA = vertices[i].position;
-		vertexB = vertices[i + 1].position;
-		vertexC = vertices[i + 2].position;
-
-		float3 edge1 = vertexB - vertexA;
-		float3 edge2 = vertexC - vertexA;
-
-		float3 normal = Cross(edge1, edge2);
-
-		normal.Normalize();
-
-
-		float3 center_point(
-			((vertexA.x + vertexB.x + vertexC.x) / 3),
-			((vertexA.y + vertexB.y + vertexC.y) / 3),
-			((vertexA.z + vertexB.z + vertexC.z) / 3));
-
-		glBegin(GL_LINES);
-		glColor3f(1.0f, 0.0, 0.0);
-		glVertex3f(center_point.x, center_point.y, center_point.z);
-		glColor3f(0.0f, 0.0, 1.0);
-		glVertex3f(center_point.x + vertices[i].normals.x, vertices[i].normals.y + center_point.y, vertices[i].normals.z + center_point.z);
-		glEnd();
-	}
+	glBindBuffer(GL_ARRAY_BUFFER, surface_normals_id);
+	glVertexPointer(3, GL_FLOAT, sizeof(float3), NULL);
+	glDrawArrays(GL_LINES, 0, indices.size());
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 
@@ -220,6 +226,10 @@ void Mesh::CleanUp()
 {
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+
+	if (surface_normals_succes)
+		glDeleteBuffers(1, &surface_normals_id);
+	
 	RemoveTextures();
 	vertices.clear();
 	indices.clear();
