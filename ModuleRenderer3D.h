@@ -38,30 +38,26 @@ private:
 	int vsync = 0;
 	ImVec4 background_color = ImColor(114, 144, 154);
 
-
+	//Depth parameters
 	bool depth_test = true;
 	float depth = 1.0f;
-
+	//cull face parameters
 	bool cull_face = true;
 	int front_face = 1;
-
+	//light parameters
 	bool lighting = true;
 	float light_ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-
+	//color_material parameters
 	bool color_material = true;
 	float color_ambient[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
 	float color_diffuse[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
+	//Texture2D
 	bool texture_2d = true;
-
-	bool polygon_smooth = true;
-
+	//FOG parameters
 	bool fog = false;
 	float fog_density = 0.0f;
-
 	float fog_color[4] = { 0.0f, 0.0f,0.0f, 0.0f };
-
+	//wireframe parameters
 	bool wireframe = false;
 
 };

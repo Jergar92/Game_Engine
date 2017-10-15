@@ -96,7 +96,6 @@ void ModuleMenuBar::ShowMenuBar()
 				LOG("Create Profiler Window, no existing errors")
 
 			}
-			ImGui::Separator();
 
 			ImGui::EndMenu();
 		}

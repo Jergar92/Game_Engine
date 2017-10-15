@@ -19,7 +19,7 @@ public:
 public:
 	
 	void ActiveConsole();
-	bool GetShowConsole();
+	const bool GetShowConsole();
 
 	void AddLog(const char*fmt, ...);
 	void Draw(const char* tittle);

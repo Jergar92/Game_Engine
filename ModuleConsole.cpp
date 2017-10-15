@@ -114,7 +114,7 @@ void ModuleConsole::ActiveConsole()
    show_app_console = !show_app_console;
 }
 
-bool ModuleConsole::GetShowConsole()
+const bool ModuleConsole::GetShowConsole()
 {
 	return show_app_console;
 }

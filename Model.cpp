@@ -87,7 +87,7 @@ bool Model::LoadModel(const char * path)
 		
 		ProcessNode(scene->mRootNode, scene);
 		SetInfo(scene->mRootNode);
-		LOG("The model %s with %i triangles was loaded correctly", name.c_str(), triangles);
+		LOG("The model %s with %i triangles and %i was loaded correctly", name.c_str(), triangles,vertices);
 		aiReleaseImport(scene);
 	}
 	else

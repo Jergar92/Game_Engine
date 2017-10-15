@@ -151,9 +151,7 @@ void Mesh::OnGuiDraw()
 				}
 				ImGui::PushItemWidth(200);
 				ImGui::Text("Image RGBA");
-				//ImGui::InputFloat4("##image_rgba", &textures[i].rgba_color[0],2);
 				ImGui::ColorEdit4("##image_rgba", &textures[i].rgba_color.x);
-
 				ImGui::PopItemWidth();
 			
 			}	
