@@ -58,8 +58,8 @@ update_status ModuleCamera3D::Update(float dt)
 		{
 			enable_right = false;
 		}
-
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT
+			&& App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 		{
 			enable_left = true;
 		}
@@ -129,14 +129,15 @@ update_status ModuleCamera3D::Update(float dt)
 
 		}
 		// Mouse motion ----------------Rotate Camera
-		if (enable_right == true)
+		if (enable_right||enable_left)
 		{
 			int dx = -App->input->GetMouseXMotion();
 			int dy = -App->input->GetMouseYMotion();
 
 			float Sensitivity = 0.25f;
 
-			Position -= Reference;
+			if (enable_left == true)
+				Position -= Reference;
 
 			if (dx != 0)
 			{
@@ -161,7 +162,8 @@ update_status ModuleCamera3D::Update(float dt)
 				}
 			}
 
-			Position = Reference + Z * length(Position);
+			if (enable_left == true)
+				Position = Reference + Z * length(Position);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
@@ -174,8 +176,7 @@ update_status ModuleCamera3D::Update(float dt)
 			}
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && enable_left == true)
-			Rotate(Reference.x,Reference.y);
+	
 	}
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

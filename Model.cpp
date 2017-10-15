@@ -58,9 +58,10 @@ void Model::CleanUp()
 	}
 }
 
-vec3 Model::GetCenter()
+const vec3 Model::GetCenter()
 {
 	GenerateCubeModel();
+
 	float3 center = cube_model.CenterPoint();
 	vec3 tmp(center.x, center.y, center.z);
 	return tmp;
@@ -96,6 +97,11 @@ bool Model::LoadModel(const char * path)
 	}
 
 	return ret;
+}
+
+const AABB Model::GetBoundingBox()
+{
+	return cube_model;
 }
 
 void Model::ProcessNode(aiNode * node, const aiScene * scene)
