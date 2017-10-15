@@ -72,8 +72,9 @@ public:
 private:
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
+	uint vertex_normals_id;
 	uint surface_normals_id;
-	bool surface_normals_succes = true;
+	bool debug_normals_succes = true;
 	std::string name;
 	aiVector3D position;
 	aiQuaternion rotation;

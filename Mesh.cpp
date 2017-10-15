@@ -4,7 +4,7 @@
 #define TEXTURE_SIZE 64
 #define TEXTURE_SIZE_HOVER 128
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices, std::vector<Texture> textures) :vertices(vertices), indices(indices), textures(textures), surface_normals_succes(true)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<uint> indices, std::vector<Texture> textures) :vertices(vertices), indices(indices), textures(textures), debug_normals_succes(true)
 {
 	SetupMesh();
 }
@@ -19,6 +19,7 @@ void Mesh::SetupMesh()
 {
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
+	glGenBuffers(1, &vertex_normals_id);
 	glGenBuffers(1, &surface_normals_id);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -30,12 +31,22 @@ void Mesh::SetupMesh()
 
 	if (indices.size() % 3 != 0)
 	{
-		LOG("ERROR surface normals is Not multiple of 3!");
-		surface_normals_succes = false;
+		LOG("ERROR is Not multiple of 3!");
+		debug_normals_succes = false;
 	}
 	else {
+		std::vector<float3> vertex_normals;
 		std::vector<float3> surface_normals;
-
+		//vertex normal loop
+		for (uint i = 0; i < indices.size(); i ++)
+		{
+			int indice_number = indices[i];
+			vertex_normals.push_back(vertices[indice_number].position);
+			vertex_normals.push_back(vertices[indice_number].position+ vertices[indice_number].normals);
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_normals_id);
+		glBufferData(GL_ARRAY_BUFFER, vertex_normals.size() * sizeof(float3), &vertex_normals[0], GL_STATIC_DRAW);
+		//surface normal loop
 		for (uint i= 0; i < indices.size(); i += 3)
 		{
 			vertexA = vertices[indices[i]].position;
@@ -93,12 +104,12 @@ void Mesh::Draw()
 
 	
 	//Draw normals
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT&&debug_normals_succes)
 	{
 		DrawVertexNormals();
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT&&surface_normals_succes)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT&&debug_normals_succes)
 	{
 		DrawTriangleNormals();
 	}
@@ -201,23 +212,17 @@ const aiVector3D Mesh::GetScale()
 
 void Mesh::DrawVertexNormals()
 {
-	for (int i = 0; i < indices.size(); i++)
-	{
-		int indice_number = indices[i];
-		glBegin(GL_LINES);
-		glColor3f(1.0f, 0.0, 0.0);
-		glVertex3f(vertices[indice_number].position.x, vertices[indice_number].position.y, vertices[indice_number].position.z);
-		glColor3f(0.0f, 0.0, 1.0);
-		glVertex3f(vertices[indice_number].normals.x + vertices[indice_number].position.x, vertices[indice_number].normals.y + vertices[indice_number].position.y, vertices[indice_number].normals.z + vertices[indice_number].position.z);
-		glEnd();
-	}
+	glBindBuffer(GL_ARRAY_BUFFER, vertex_normals_id);
+	glVertexPointer(3, GL_FLOAT, sizeof(float3), NULL);
+	glDrawArrays(GL_LINES, 0, indices.size() * 2);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Mesh::DrawTriangleNormals()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, surface_normals_id);
 	glVertexPointer(3, GL_FLOAT, sizeof(float3), NULL);
-	glDrawArrays(GL_LINES, 0, indices.size());
+	glDrawArrays(GL_LINES, 0, indices.size()*2);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -227,9 +232,11 @@ void Mesh::CleanUp()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	if (surface_normals_succes)
+	if (debug_normals_succes)
+	{
+		glDeleteBuffers(1, &vertex_normals_id);
 		glDeleteBuffers(1, &surface_normals_id);
-	
+	}
 	RemoveTextures();
 	vertices.clear();
 	indices.clear();
