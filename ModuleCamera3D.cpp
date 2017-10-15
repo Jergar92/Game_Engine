@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
-#define MAX_DISTANCE 100.0f
+#define MAX_DISTANCE 500.0f
 #define MIN_DISTANCE 0.01f
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
@@ -36,7 +36,6 @@ bool ModuleCamera3D::Start()
 // -----------------------------------------------------------------
 bool ModuleCamera3D::CleanUp()
 {
-	LOG("Cleaning camera");
 
 	return true;
 }

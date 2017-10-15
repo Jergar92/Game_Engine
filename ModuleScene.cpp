@@ -74,7 +74,6 @@ void ModuleScene::LoadModel(const char * path)
 	}
 	model=new Model();
 
-
 	if (model->LoadModel(path))
 		App->camera->Focus(model->GetCenter());
 	else

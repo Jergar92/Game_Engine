@@ -77,7 +77,6 @@ void ModuleMenuBar::ShowMenuBar()
 			if (ImGui::MenuItem("Console"))
 			{
 				Console();
-				LOG("Create Console, no existing errors");
 			}
 			
 			ImGui::Separator();
@@ -85,7 +84,6 @@ void ModuleMenuBar::ShowMenuBar()
 			if (ImGui::MenuItem("Configuration"))
 			{
 				Configuration();
-				LOG("Create Configuration Window, no existing errors")
 
 			}
 
@@ -93,7 +91,6 @@ void ModuleMenuBar::ShowMenuBar()
 			if (ImGui::MenuItem("Profiler"))
 			{
 				Profiler();
-				LOG("Create Profiler Window, no existing errors")
 
 			}
 
