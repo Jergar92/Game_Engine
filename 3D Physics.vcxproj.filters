@@ -49,8 +49,8 @@
     <Filter Include="Sources\Devil">
       <UniqueIdentifier>{78ed53e8-52d0-4e58-ae86-3fc6df6a5537}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\GameObject">
-      <UniqueIdentifier>{1fe58289-fe7c-4aaa-a5cf-ff5a8d3f9266}</UniqueIdentifier>
+    <Filter Include="Sources\MeshModel">
+      <UniqueIdentifier>{496f27db-113f-41f2-9881-d45032d08faa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -312,9 +312,6 @@
     <ClInclude Include="Profiler.h">
       <Filter>Sources\Profiler</Filter>
     </ClInclude>
-    <ClInclude Include="Primitive_p.h">
-      <Filter>Sources\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="Assimp\include\postprocess.h">
       <Filter>Sources\Assimp\scr</Filter>
     </ClInclude>
@@ -326,12 +323,6 @@
     </ClInclude>
     <ClInclude Include="Assimp\include\cimport.h">
       <Filter>Sources\Assimp\scr</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Sources\Assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Sources\Assimp</Filter>
     </ClInclude>
     <ClInclude Include="Devil\include\ilut_config.h">
       <Filter>Sources\Devil</Filter>
@@ -363,23 +354,11 @@
     <ClInclude Include="Primitive.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Sources\GameObject</Filter>
+    <ClInclude Include="Mesh.h">
+      <Filter>Sources\MeshModel</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Sources\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleFileSystem.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentMesh.h">
-      <Filter>Sources\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentTexture.h">
-      <Filter>Sources\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentTransform.h">
-      <Filter>Sources\GameObject</Filter>
+    <ClInclude Include="Model.h">
+      <Filter>Sources\MeshModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -542,38 +521,17 @@
     <ClCompile Include="Profiler.cpp">
       <Filter>Sources\Profiler</Filter>
     </ClCompile>
-    <ClCompile Include="Primitive_p.cpp">
-      <Filter>Sources\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Sources\Assimp</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Sources\Assimp</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleTexture.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Sources\GameObject</Filter>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Sources\MeshModel</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Sources\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleFileSystem.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentMesh.cpp">
-      <Filter>Sources\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentTexture.cpp">
-      <Filter>Sources\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentTransform.cpp">
-      <Filter>Sources\GameObject</Filter>
+    <ClCompile Include="Model.cpp">
+      <Filter>Sources\MeshModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

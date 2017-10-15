@@ -10,7 +10,6 @@
 #include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 #include "Primitive.h"
 #include "Model.h"
-#include "Primitive_p.h"
 
 class ModuleScene : public Module
 {

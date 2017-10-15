@@ -3,7 +3,6 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
-#include "ModuleFileSystem.h"
 
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
@@ -16,14 +15,12 @@
 #include "ModuleMenuBar.h"
 #include "ModuleHardware.h"
 #include "Profiler.h"
-#include "Primitive_p.h"
 #include <list>
 #define HISTOGRAM_LIMIT 40
 
 class Application
 {
 public:
-	ModuleFileSystem*	file_system;
 	ModuleWindow*		window;
 	ModuleInput*		input;
 	ModuleAudio*		audio;

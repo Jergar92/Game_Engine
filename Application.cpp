@@ -3,7 +3,6 @@
 #include "mmgr\mmgr.h"
 Application::Application()
 {
-	file_system = new ModuleFileSystem();
 	window = new ModuleWindow();
 	input = new ModuleInput();
 	audio = new ModuleAudio();
@@ -20,11 +19,7 @@ Application::Application()
 	// They will CleanUp() in reverse order
 	profiler = new Profiler;
 	profiler->CreateFrame("Application_Start");
-
 	// Main Modules
-	
-	AddModule(file_system);
-	profiler->CreateTitle("Application_Start", file_system->name.c_str());
 
 	AddModule(window);
 	profiler->CreateTitle("Application_Start",window->name.c_str());

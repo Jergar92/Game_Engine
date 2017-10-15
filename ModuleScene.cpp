@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "Globals.h"
 #include"ModuleScene.h"
-#include "Primitive_p.h"
 #include "ModuleCamera3D.h"
 
 ModuleScene::ModuleScene(bool start_enabled)
