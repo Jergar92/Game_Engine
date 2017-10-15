@@ -2,15 +2,15 @@
 Drop the game folder inside the .zip somewhere in your computer and execute the .exe
 
 ### Game controls
-* Mouse Left Click to select a buttons
+* Mouse Left Click interact with buttons
 * Mouse Right Click Active camera movement:
 	* WASD keys for movement
 	* move the mouse to rotate
 * Mouse Left Click + Left Alt:
 	* move the camera arround a point
 * Press F to focus camera
-* Press F1 to see debug vertices normal
-* Press F2 to see debug surface normal
+* Press F1 to see debug vertices normal (you need a model)
+* Press F2 to see debug surface normal (you need a model)
 * Drag and Drop models to see them on the screen (if you drag a model you can see the Inspector(Inspector info below)
 * Drag and Drop textures to change the texture of the model (only png formats suported)
 
@@ -40,6 +40,7 @@ This window shows important information about what happens when exporting a mode
 
 ### Configuration
 This window shows and allows to edit certain behaviors of the engine:
+
 *Application
 
 	*Application Name ==> Here you can change the name
@@ -50,7 +51,7 @@ This window shows and allows to edit certain behaviors of the engine:
 *Window
 
 	*Name ==> Change the name of the windows
-	*Windows Option 
+	*Windows Option ==> Change the properti of the windows(some options need to restart the application)
 	*Windows Size ==> Change the size of the windows
 *Input
 
@@ -94,6 +95,9 @@ This window shows and allows to edit certain behaviors of the engine:
 		*Color==> Change the FOG color
 	
 	*Wireframe ==> Active/Desactive Wireframe 
+*Bottom Buttons
+	*Apply ==> Save the current configuration
+ 	*Discard ==> Load the preview configuration
 
 ### Profiler 
 Shows a numerical record of the current speed of each module, to use it you have to open the trees, these will show if they have other elements to show
