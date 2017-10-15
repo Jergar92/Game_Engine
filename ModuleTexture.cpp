@@ -92,6 +92,8 @@ int ModuleTexture::LoadTextureFromFile(const char* path)
 		LOG("ERROR on path:%s ERROR: %s", path, iluErrorString(error))
 	}
 	//ALWAYS delete
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	ilDeleteImages(1, &textureID);
 	return textureID;
 }

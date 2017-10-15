@@ -13,8 +13,10 @@ Model::~Model()
 
 void Model::Draw()
 {
-	for (int i = 0; i < meshes.size(); i++)
+	for (int i = 0; i < meshes.size()&& hide_model==false; i++)
 	{
+		if (meshes[i].IsHide())
+			continue;
 		meshes[i].Draw();
 	}
 	if(bounding_box)
@@ -28,6 +30,7 @@ void Model::OnGuiDraw()
 {
 	if (ImGui::TreeNode(name.c_str()))
 	{
+		ImGui::Checkbox("Hide Model##bounding box", &hide_model);
 		ImGui::Checkbox("Bounding Box##bounding box", &bounding_box);
 		ImGui::Text("Transformation:");
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Position x %.2f y %.2f z %.2f", position.x, position.y, position.z);

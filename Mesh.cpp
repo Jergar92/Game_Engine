@@ -131,6 +131,7 @@ void Mesh::OnGuiDraw()
 {
 	if (ImGui::TreeNode(name.c_str()))
 	{
+		ImGui::Checkbox("Hide Mesh##hide_mesh", &hide_mesh);
 		ImGui::Text("Transformation:");
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Position x %.2f y %.2f z %.2f", position.x, position.y, position.z);
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Rotation x %.2f y %.2f z %.2f", rotation.GetEuler().x, rotation.GetEuler().y, rotation.GetEuler().z);
@@ -138,7 +139,6 @@ void Mesh::OnGuiDraw()
 		ImGui::Text("Geometry");
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Triangles %i", triangles);
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Vertices %i", vertices_count);
-
 		ImGui::Text("Texture");
 			for (int i = 0; i < textures.size(); i++)
 			{
@@ -258,4 +258,9 @@ void Mesh::OverlayTexture(uint id)
 	{
 		textures[i].id = id;
 	}
+}
+
+bool Mesh::IsHide()
+{
+	return hide_mesh == true;
 }

@@ -39,6 +39,7 @@ public:
 	void CleanUp();
 	void RemoveTextures();
 	void OverlayTexture(uint id);
+	bool IsHide();
 	//SetFunctions 
 	void SetTransformation(aiMatrix4x4 matrix);
 	void SetName(const char* set_name);
@@ -75,6 +76,7 @@ private:
 	uint vertex_normals_id;
 	uint surface_normals_id;
 	bool debug_normals_succes = true;
+	bool hide_mesh = false;
 	std::string name;
 	aiVector3D position;
 	aiQuaternion rotation;

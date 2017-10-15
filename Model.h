@@ -39,6 +39,7 @@ private:
 	std::string directory;
 	AABB cube_model;
 	bool bounding_box = false;
+	bool hide_model = false;
 	aiVector3D position;
 	aiQuaternion rotation;
 	aiVector3D scale;
