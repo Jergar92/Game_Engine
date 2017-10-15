@@ -21,6 +21,10 @@ void Component::Update()
 {
 }
 
+void Component::GuiDraw()
+{
+}
+
 void Component::Disable()
 {
 	enable = false;

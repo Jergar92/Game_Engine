@@ -11,6 +11,8 @@ public:
 	GameObject();
 	~GameObject();
 	void Update();
+	void GuiUpdate();
+
 	void AddComponent(Component* component_to_add);
 	Component* FindComponent(ComponentType type,Component* component_to_find);
 	Component* FindComponent(ComponentType type);

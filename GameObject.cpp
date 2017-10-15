@@ -21,6 +21,15 @@ void GameObject::Update()
 	}
 }
 
+void GameObject::GuiUpdate()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+			item->GuiDraw();
+	}
+}
+
 void GameObject::AddComponent(Component * component_to_add)
 {
 	components.push_back(component_to_add);
