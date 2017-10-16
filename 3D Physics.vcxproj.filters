@@ -375,10 +375,13 @@
     <ClInclude Include="ComponentMesh.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentTexture.h">
+    <ClInclude Include="ComponentTransform.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentTransform.h">
+    <ClInclude Include="ComponentCamera.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMeshRenderer.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
@@ -569,10 +572,13 @@
     <ClCompile Include="ComponentMesh.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentTexture.cpp">
+    <ClCompile Include="ComponentTransform.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentTransform.cpp">
+    <ClCompile Include="ComponentCamera.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMeshRenderer.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>

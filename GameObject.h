@@ -20,6 +20,8 @@ public:
 
 public:
 	std::vector<Component*> components;
+	std::vector<GameObject*> childs;
+
 	std::string name;
 	bool enable;
 	GameObject* parent;
