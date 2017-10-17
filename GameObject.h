@@ -16,8 +16,11 @@ public:
 	GameObject(GameObject* parent);
 
 	~GameObject();
+	void CleanUp();
 	void Update();
 	void GuiUpdate();
+	void InspectorUpdate();
+
 	void SetParent(GameObject * parent);
 	void SetChild(GameObject * child);
 	void SetName(const char* name);
@@ -33,6 +36,8 @@ public:
 
 	std::string name;
 	bool enable;
+//	char input_name[128];
+
 	GameObject* parent;
 
 };

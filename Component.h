@@ -13,8 +13,10 @@ public:
 	Component(GameObject* my_go);
 	~Component();
 	virtual void Enable();
+	virtual void CleanUp();
 	virtual void Update();
-	virtual void GuiDraw();
+	virtual void GuiUpdate();
+	virtual void InspectorUpdate();
 
 	virtual void Disable();
 	bool isEnable();

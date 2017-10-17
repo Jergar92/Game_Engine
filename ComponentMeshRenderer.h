@@ -22,6 +22,8 @@ public:
 	ComponentMesh* mesh = nullptr;
 	void SetMesh(ComponentMesh* set_mesh);
 	void SetTexture(const std::vector<Texture>& texture);
+	void InspectorUpdate();
+
 private:
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object

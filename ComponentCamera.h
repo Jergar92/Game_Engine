@@ -9,6 +9,8 @@ public:
 	ComponentCamera(GameObject* my_go);
 	~ComponentCamera();
 	bool ObjectInside();
+	void InspectorUpdate();
+
 public:
 	Frustum camera_frustrum;
 };

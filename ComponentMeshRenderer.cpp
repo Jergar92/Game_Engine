@@ -3,10 +3,13 @@
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include "imgui\imgui.h"
+#define TEXTURE_SIZE 64
+#define TEXTURE_SIZE_HOVER 128
 
 ComponentMeshRenderer::ComponentMeshRenderer(GameObject* my_go) :Component(my_go)
 {
-
+	component_name = "Mesh Renderer";
 }
 
 
@@ -63,4 +66,30 @@ void ComponentMeshRenderer::SetMesh(ComponentMesh * set_mesh)
 void ComponentMeshRenderer::SetTexture(const std::vector<Texture>& texture)
 {
 	textures = texture;
+}
+
+void ComponentMeshRenderer::InspectorUpdate()
+{
+	bool node_open = ImGui::TreeNode(component_name.c_str());
+
+	if (node_open)
+	{
+		for (int i = 0; i < textures.size(); i++)
+		{
+			ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i].rgba_color);
+
+			if (ImGui::IsItemHovered())
+			{
+				ImGui::BeginTooltip();
+				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i].rgba_color);
+				ImGui::EndTooltip();
+			}
+			ImGui::PushItemWidth(200);
+			ImGui::Text("Image RGBA");
+			//ImGui::InputFloat4("##image_rgba", &textures[i].rgba_color[0],2);
+			ImGui::ColorEdit4("##image_rgba", &textures[i].rgba_color.x);
+		}
+		ImGui::TreePop();
+
+	}
 }

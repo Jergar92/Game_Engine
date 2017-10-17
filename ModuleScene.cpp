@@ -30,6 +30,23 @@ update_status ModuleScene::GuiUpdate()
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
+	if (!ImGui::Begin("Hierarchy", &hierarchy, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return UPDATE_CONTINUE;
+	}
+	
+	if (scene_go != nullptr)
+	{
+
+		scene_go->GuiUpdate();
+
+	}
+	ImGui::End();
+
+	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
+
 	if (!ImGui::Begin("Inspector", &inspector, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.
@@ -37,13 +54,13 @@ update_status ModuleScene::GuiUpdate()
 		return UPDATE_CONTINUE;
 	}
 
-	if (scene_go != nullptr)
+	if (selected_go != nullptr)
 	{
 
-		scene_go->GuiUpdate();
-		ImGui::End();
+		selected_go->InspectorUpdate();
 
 	}
+	ImGui::End();
 
 	return UPDATE_CONTINUE;
 }
@@ -66,34 +83,27 @@ update_status ModuleScene::Update(float dt)
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;
-	/*
-	if (model != nullptr)
+	
+	if (scene_go != nullptr)
 	{
-		model->CleanUp();
-		RELEASE(model);
+		scene_go->CleanUp();
+		RELEASE(scene_go);
 	}
-	*/
+	
 	return ret;
 }
 void ModuleScene::LoadModel(const char * path)
 {
 	LOG("Drag Model path:%s", path);
-	/*
-	if (model != nullptr)
-	{
-		model->CleanUp();
-		RELEASE(model);
-	}
-	model=new Model();
-	*/
+
 	
 	if (App->importer->LoadModel(path))
 	{
-		LOG("ASDSAD");
+		LOG("Load Model Succes");
 	}
 	else
 	{
-		RELEASE(scene_go);
+		LOG("Load Model Fail");
 	}
 
 }
@@ -118,5 +128,10 @@ void ModuleScene::LoadTexture(const char * path)
 void ModuleScene::SendGameObject(GameObject * go)
 {
 	go->SetParent(scene_go);
+}
+
+void ModuleScene::SetSelectedGameObject(GameObject * go)
+{
+	selected_go = go;
 }
 

@@ -3,7 +3,7 @@
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-
+#include "imgui\imgui.h"
 
 
 ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
@@ -28,8 +28,19 @@ void ComponentMesh::SetupMesh()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), &indices[0], GL_STATIC_DRAW);
 
 }
-void ComponentMesh::GuiDraw()
+void ComponentMesh::GuiUpdate()
 {
+}
+void ComponentMesh::InspectorUpdate()
+{
+	bool node_open = ImGui::TreeNode(component_name.c_str());
+
+	if (node_open)
+	{
+
+		ImGui::TreePop();
+
+	}
 }
 void ComponentMesh::SetData(const std::vector<Vertex>& set_vertices, const std::vector<uint>& set_indices)
 {

@@ -19,7 +19,9 @@ public:
 	~ComponentMesh();
 
 	void SetupMesh();
-	void GuiDraw();
+	void GuiUpdate();
+	void InspectorUpdate();
+
 	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices);
 	const std::vector<Vertex>& GetVertices();
 	const std::vector<uint>& GetIndices();

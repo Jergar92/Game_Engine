@@ -17,12 +17,19 @@ void Component::Enable()
 	enable = true;
 
 }
+void Component::CleanUp()
+{
+}
 
 void Component::Update()
 {
 }
 
-void Component::GuiDraw()
+void Component::GuiUpdate()
+{
+}
+
+void Component::InspectorUpdate()
 {
 }
 

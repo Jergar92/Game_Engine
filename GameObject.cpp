@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "GameObject.h"
 #include "imgui\imgui.h"
 
@@ -16,9 +17,25 @@ GameObject::GameObject(GameObject * parent)
 GameObject::~GameObject()
 {
 }
+void GameObject::CleanUp()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		item->CleanUp();
+	}
 
+	for (int i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		item->CleanUp();
+	}
+	parent = nullptr;
+}
 void GameObject::Update()
 {
+	if (!enable)
+		return;
 	for (int i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -37,6 +54,10 @@ void GameObject::GuiUpdate()
 
 	bool node_open = ImGui::TreeNode(name.c_str());
 
+	if (ImGui::IsItemClicked())
+	{
+		App->scene->SetSelectedGameObject(this);
+	}
 	if (node_open)
 	{
 		for (int i = 0; i < childs.size(); i++)
@@ -48,6 +69,24 @@ void GameObject::GuiUpdate()
 
 	}
 	
+}
+
+void GameObject::InspectorUpdate()
+{
+
+	 ImGui::Checkbox("##go_enable", &enable);
+	 ImGui::SameLine();
+	 ImGui::Text(name.c_str());
+//	 if (ImGui::InputText("##go_name", input_name, IM_ARRAYSIZE(input_name), ImGuiInputTextFlags_EnterReturnsTrue))
+	// {
+	//	 name = input_name;
+	// }
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		item->InspectorUpdate();
+	}	
 }
 
 void GameObject::SetParent(GameObject * set_parent)

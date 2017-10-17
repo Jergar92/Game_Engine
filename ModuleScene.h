@@ -27,13 +27,16 @@ public:
 	Plane_p plane;
 	
 private:
+	bool hierarchy = true;
 	bool inspector = true;
 public:
 	void LoadModel(const char* path);
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
+	void SetSelectedGameObject(GameObject* go);
 private:
 	GameObject* scene_go = nullptr;
+	GameObject* selected_go = nullptr;
 
 
 };
