@@ -6,8 +6,9 @@
 
 
 
-ComponentMesh::ComponentMesh()
+ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
 {
+
 	component_name = "Mesh";
 }
 
@@ -29,6 +30,20 @@ void ComponentMesh::SetupMesh()
 }
 void ComponentMesh::GuiDraw()
 {
+}
+void ComponentMesh::SetData(const std::vector<Vertex>& set_vertices, const std::vector<uint>& set_indices)
+{
+	vertices = set_vertices;
+	indices = set_indices;
+
+}
+const std::vector<Vertex>& ComponentMesh::GetVertices()
+{
+	return vertices;
+}
+const std::vector<uint>& ComponentMesh::GetIndices()
+{
+	return indices;
 }
 void ComponentMesh::Update()
 {

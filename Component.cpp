@@ -2,8 +2,9 @@
 
 
 
-Component::Component()
+Component::Component(GameObject* my_go)
 {
+	SetMyGO(my_go);
 }
 
 
@@ -33,4 +34,9 @@ void Component::Disable()
 bool Component::isEnable()
 {
 	return enable==true;
+}
+
+void Component::SetMyGO(GameObject * get)
+{
+	my_go = get;
 }

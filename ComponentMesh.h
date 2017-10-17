@@ -9,14 +9,19 @@ struct Vertex
 	float3 normals;
 	float2 tex_coords;
 };
+
 class ComponentMesh :public Component
 {
 public:
-	ComponentMesh();
+	ComponentMesh(GameObject* my_go);
 	~ComponentMesh();
 
 	void SetupMesh();
 	void GuiDraw();
+	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices);
+	const std::vector<Vertex>& GetVertices();
+	const std::vector<uint>& GetIndices();
+
 	void Update();
 public:
 	uint VBO;//Vertex Buffer Object

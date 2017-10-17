@@ -52,6 +52,9 @@
     <Filter Include="Sources\GameObject">
       <UniqueIdentifier>{1fe58289-fe7c-4aaa-a5cf-ff5a8d3f9266}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Importer">
+      <UniqueIdentifier>{cf5fd6d5-becd-4f94-8d21-5a18f96989c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -384,6 +387,9 @@
     <ClInclude Include="ComponentMeshRenderer.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Sources\Importer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -580,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="ComponentMeshRenderer.cpp">
       <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Importer.cpp">
+      <Filter>Sources\Importer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

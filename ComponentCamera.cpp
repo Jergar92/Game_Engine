@@ -2,7 +2,7 @@
 
 
 
-ComponentCamera::ComponentCamera()
+ComponentCamera::ComponentCamera(GameObject* my_go) :Component(my_go)
 {
 
 }

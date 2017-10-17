@@ -6,12 +6,12 @@ enum ComponentType
 {
 	TRANSFORM,
 	MESH,
-	MATERIAL
+	MESH_RENDER
 };
 class Component
 {
 public:
-	Component();
+	Component(GameObject* my_go);
 	~Component();
 	virtual void Enable();
 	virtual void Update();
@@ -19,12 +19,14 @@ public:
 
 	virtual void Disable();
 	bool isEnable();
+	void SetMyGO(GameObject* my_go);
 public:
-	GameObject* my_go=nullptr;
 	std::string component_name;
 	ComponentType type;
 	bool enable = true;
 	bool unique=true;
+private:
+	GameObject* my_go = nullptr;
 
 };
 
