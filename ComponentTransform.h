@@ -1,7 +1,9 @@
 #pragma once
 #include "Component.h"
+#include "GameObject.h"
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\Quat.h"
+
 class ComponentTransform:public Component
 {
 public:

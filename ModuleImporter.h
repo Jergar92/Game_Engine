@@ -1,4 +1,5 @@
 #pragma once
+#include "Module.h"
 #include "GameObject.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -6,8 +7,7 @@
 #include "Assimp/include/cfileio.h"
 
 struct Texture;
-
-class ModuleImporter
+class ModuleImporter:public Module
 {
 public:
 	ModuleImporter();

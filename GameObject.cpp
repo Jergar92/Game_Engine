@@ -1,13 +1,15 @@
 #include "GameObject.h"
-
+#include "imgui\imgui.h"
 
 
 GameObject::GameObject()
 {
+	name = "Scene";
 }
 
 GameObject::GameObject(GameObject * parent)
 {
+	SetParent(parent);
 }
 
 
@@ -23,15 +25,29 @@ void GameObject::Update()
 		if(item->isEnable())
 			item->Update();
 	}
+	for (int i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+			item->Update();
+	}
 }
 
 void GameObject::GuiUpdate()
 {
-	for (int i = 0; i < components.size(); i++)
+
+	bool node_open = ImGui::TreeNode(name.c_str());
+
+	if (node_open)
 	{
-		Component* item = components[i];
-			item->GuiDraw();
+		for (int i = 0; i < childs.size(); i++)
+		{
+			GameObject* item = childs[i];
+			item->GuiUpdate();
+		}
+		ImGui::TreePop();
+
 	}
+	
 }
 
 void GameObject::SetParent(GameObject * set_parent)
@@ -53,6 +69,11 @@ void GameObject::SetChild(GameObject * child)
 		return;
 	}
 	childs.push_back(child);
+}
+
+void GameObject::SetName(const char * set_name)
+{
+	name = set_name;
 }
 
 void GameObject::AddComponent(Component * component_to_add)

@@ -7,6 +7,7 @@ Application::Application()
 	window = new ModuleWindow();
 	input = new ModuleInput();
 	audio = new ModuleAudio();
+	importer = new ModuleImporter();
 	renderer3D = new ModuleRenderer3D();
 	texture = new ModuleTexture();
 	camera = new ModuleCamera3D();
@@ -40,6 +41,10 @@ Application::Application()
 
 	AddModule(texture);
 	profiler->CreateTitle("Application_Start",texture->name.c_str());
+
+
+	AddModule(importer);
+	profiler->CreateTitle("Application_Start", importer->name.c_str());
 
 	//console module
 	AddModule(console);

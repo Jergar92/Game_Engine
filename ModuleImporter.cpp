@@ -1,9 +1,12 @@
-#include "Importer.h"
+#include "Globals.h"
+#include "Application.h"
+#include "ModuleImporter.h"
 #include "ModuleTexture.h"
 #include "ComponentMeshRenderer.h"
-
+#pragma comment (lib, "Assimp/libx86/assimp.lib")
 ModuleImporter::ModuleImporter()
 {
+	name = "Importer";
 }
 
 
@@ -25,12 +28,13 @@ bool ModuleImporter::LoadModel(const char * path)
 
 		ProcessNode(scene->mRootNode, scene, main_go);
 		//SetInfo(scene->mRootNode);
-		//LOG("The model %s with %i triangles was loaded correctly", name.c_str(), triangles);
+		main_go->SetName(scene->mRootNode->mName.C_Str());
+		App->scene->SendGameObject(main_go);
 		aiReleaseImport(scene);
 	}
 	else
 	{
-	//	LOG("Error loading mesh path: %s", path);
+		LOG("Error loading mesh path: %s", path);
 		ret = false;
 	}
 
@@ -56,22 +60,18 @@ void ModuleImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObjec
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
 		GameObject* child_go = new GameObject(parent);
-
+		
 		ComponentTransform* transform = (ComponentTransform*)child_go->CreateComponent(ComponentType::TRANSFORM);
 		aiMatrix4x4 matrix = node->mTransformation;
 		ProcessTransform(matrix, transform, child_go);
 		
 
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+
+		child_go->SetName(mesh->mName.C_Str());
 		ProcessMesh(mesh, scene, child_go);
 
-		//SetValues
-		newMesh.SetTransformation(node->mTransformation);
-		newMesh.SetName(node->mName.C_Str());
-		newMesh.SetTriangles(mesh->mNumFaces);
-		newMesh.SetVertices(mesh->mNumVertices);
 
-		//Push new mesh
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
 	{
@@ -149,6 +149,10 @@ void ModuleImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObjec
 		std::vector<Texture> diffuse_map = loadMaterialTextures(material,
 			aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
+
+		component_mesh_renderer->SetTexture(textures);
+		component_mesh_renderer->SetMesh(component_mesh);
+		go->AddComponent(component_mesh_renderer);
 
 	}
 

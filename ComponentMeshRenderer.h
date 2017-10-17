@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "ComponentMesh.h"
+#include "GameObject.h"
 #include "MathGeoLib-1.5\src\Math\float4.h"
 struct Texture
 {
@@ -10,6 +10,8 @@ struct Texture
 	float4 rgba_color;
 
 };
+class ComponentMesh;
+
 class ComponentMeshRenderer:public Component
 {
 public:
@@ -18,7 +20,8 @@ public:
 public:
 	void Update();
 	ComponentMesh* mesh = nullptr;
-	void GetTexture(const std::vector<Texture>& texture);
+	void SetMesh(ComponentMesh* set_mesh);
+	void SetTexture(const std::vector<Texture>& texture);
 private:
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object

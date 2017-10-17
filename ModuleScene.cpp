@@ -18,6 +18,8 @@ bool ModuleScene::Start()
 	bool ret = true;
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+	scene_go = new GameObject();
+
 	return ret;
 }
 
@@ -28,11 +30,17 @@ update_status ModuleScene::GuiUpdate()
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
-	if (model != nullptr)
+	if (!ImGui::Begin("Inspector", &inspector, window_flags))
 	{
-		ImGui::Begin("Inspector",&inspector, window_flags);
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return UPDATE_CONTINUE;
+	}
 
-		model->OnGuiDraw();
+	if (scene_go != nullptr)
+	{
+
+		scene_go->GuiUpdate();
 		ImGui::End();
 
 	}
@@ -45,9 +53,9 @@ update_status ModuleScene::GuiUpdate()
 update_status ModuleScene::Update(float dt)
 {
     //Draw modes
-	if (model != nullptr)
+	if (scene_go != nullptr)
 	{
-		model->Draw();
+		scene_go->Update();
 
 	}
 	plane.Render();
@@ -58,29 +66,35 @@ update_status ModuleScene::Update(float dt)
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;
+	/*
 	if (model != nullptr)
 	{
 		model->CleanUp();
 		RELEASE(model);
 	}
+	*/
 	return ret;
 }
 void ModuleScene::LoadModel(const char * path)
 {
 	LOG("Drag Model path:%s", path);
+	/*
 	if (model != nullptr)
 	{
 		model->CleanUp();
 		RELEASE(model);
 	}
 	model=new Model();
-
-
-	if (model->LoadModel(path))
-		App->camera->Focus(model->GetCenter());
-	else
-		RELEASE(model);
+	*/
 	
+	if (App->importer->LoadModel(path))
+	{
+		LOG("ASDSAD");
+	}
+	else
+	{
+		RELEASE(scene_go);
+	}
 
 }
 
@@ -89,9 +103,11 @@ void ModuleScene::LoadTexture(const char * path)
 	LOG("Drag Texture path:%s", path);
 
 
-	if (model != nullptr)
+	if (scene_go != nullptr)
 	{
-		model->OverlayTexture(path);
+		LOG("ERROR no model to overlay texture");
+
+		//model->OverlayTexture(path);
 	}
 	else
 	{
@@ -99,7 +115,8 @@ void ModuleScene::LoadTexture(const char * path)
 	}
 }
 
-Model * ModuleScene::GetModel()
+void ModuleScene::SendGameObject(GameObject * go)
 {
-	return model;
+	go->SetParent(scene_go);
 }
+

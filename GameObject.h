@@ -8,7 +8,7 @@
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
 class Component;
-enum z;
+enum ComponentType;
 class GameObject
 {
 public:
@@ -20,7 +20,7 @@ public:
 	void GuiUpdate();
 	void SetParent(GameObject * parent);
 	void SetChild(GameObject * child);
-
+	void SetName(const char* name);
 	void AddComponent(Component* component_to_add);
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type,Component* component_to_find);

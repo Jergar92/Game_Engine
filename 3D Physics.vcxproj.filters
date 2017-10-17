@@ -330,12 +330,6 @@
     <ClInclude Include="Assimp\include\cimport.h">
       <Filter>Sources\Assimp\scr</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Sources\Assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Sources\Assimp</Filter>
-    </ClInclude>
     <ClInclude Include="Devil\include\ilut_config.h">
       <Filter>Sources\Devil</Filter>
     </ClInclude>
@@ -387,7 +381,7 @@
     <ClInclude Include="ComponentMeshRenderer.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Importer.h">
+    <ClInclude Include="ModuleImporter.h">
       <Filter>Sources\Importer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -554,12 +548,6 @@
     <ClCompile Include="Primitive_p.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Sources\Assimp</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Sources\Assimp</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleTexture.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
@@ -587,7 +575,7 @@
     <ClCompile Include="ComponentMeshRenderer.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Importer.cpp">
+    <ClCompile Include="ModuleImporter.cpp">
       <Filter>Sources\Importer</Filter>
     </ClCompile>
   </ItemGroup>

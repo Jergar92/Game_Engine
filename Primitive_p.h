@@ -9,7 +9,6 @@
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
 #include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 #include "Primitive.h"
-#include "Model.h"
 #include <vector>
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Geometry\AABB.h"

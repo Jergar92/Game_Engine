@@ -31,7 +31,7 @@ void ComponentMeshRenderer::Update()
 		glColor4f(textures[i].rgba_color.x, textures[i].rgba_color.y, textures[i].rgba_color.z, textures[i].rgba_color.w);
 
 	}
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->GetVertexBuffer());
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), NULL);
 	glNormalPointer(GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, normals));
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, tex_coords));
@@ -40,7 +40,7 @@ void ComponentMeshRenderer::Update()
 
 
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetElementBuffer());
 	glDrawElements(GL_TRIANGLES, mesh->GetIndices().size(), GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -55,7 +55,12 @@ void ComponentMeshRenderer::Update()
 	glDisableClientState(GL_NORMAL_ARRAY);
 }
 
-void ComponentMeshRenderer::GetTexture(const std::vector<Texture>& texture)
+void ComponentMeshRenderer::SetMesh(ComponentMesh * set_mesh)
+{
+	mesh = set_mesh;
+}
+
+void ComponentMeshRenderer::SetTexture(const std::vector<Texture>& texture)
 {
 	textures = texture;
 }

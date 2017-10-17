@@ -9,7 +9,7 @@
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
 #include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 #include "Primitive.h"
-#include "Model.h"
+#include "GameObject.h"
 #include "Primitive_p.h"
 
 class ModuleScene : public Module
@@ -31,10 +31,9 @@ private:
 public:
 	void LoadModel(const char* path);
 	void LoadTexture(const char* path);
-
-	Model* GetModel();
+	void SendGameObject(GameObject* go);
 private:
-	Model* model = nullptr;
+	GameObject* scene_go = nullptr;
 
 
 };

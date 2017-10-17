@@ -1,5 +1,4 @@
 #pragma once
-#include "GameObject.h"
 #include <string>
 class GameObject;
 enum ComponentType

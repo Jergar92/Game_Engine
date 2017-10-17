@@ -35,7 +35,7 @@ void ComponentMesh::SetData(const std::vector<Vertex>& set_vertices, const std::
 {
 	vertices = set_vertices;
 	indices = set_indices;
-
+	SetupMesh();
 }
 const std::vector<Vertex>& ComponentMesh::GetVertices()
 {
@@ -44,6 +44,14 @@ const std::vector<Vertex>& ComponentMesh::GetVertices()
 const std::vector<uint>& ComponentMesh::GetIndices()
 {
 	return indices;
+}
+const uint ComponentMesh::GetVertexBuffer()
+{
+	return VBO;
+}
+const uint ComponentMesh::GetElementBuffer()
+{
+	return EBO;
 }
 void ComponentMesh::Update()
 {

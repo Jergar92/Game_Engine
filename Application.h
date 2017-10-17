@@ -4,7 +4,7 @@
 #include "Timer.h"
 #include "Module.h"
 #include "ModuleFileSystem.h"
-
+#include "ModuleImporter.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
@@ -29,7 +29,7 @@ public:
 	ModuleAudio*		audio;
 	ModuleRenderer3D*	renderer3D;
 	ModuleTexture*		texture;
-
+	ModuleImporter*		importer;
 	ModuleCamera3D*		camera;
 	ModuleScene*		scene;
 	ModuleConsole*      console;

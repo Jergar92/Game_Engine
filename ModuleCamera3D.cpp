@@ -167,11 +167,7 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		{
 			
-			if (App->scene->GetModel() != nullptr)
-			{
-				LOG("Focus Mesh");
-				App->camera->Focus(App->scene->GetModel()->GetCenter());
-			}
+		
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && enable_left == true)
