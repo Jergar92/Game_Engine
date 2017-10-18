@@ -1,7 +1,11 @@
 #include "Application.h"
 #include "GameObject.h"
 #include "imgui\imgui.h"
-
+#include "Component.h"
+#include "ComponentTransform.h"
+#include "ComponentMesh.h"
+#include "ComponentMeshRenderer.h"
+#include "ComponentCamera.h"
 
 GameObject::GameObject()
 {
@@ -34,6 +38,15 @@ void GameObject::CleanUp()
 }
 void GameObject::Update()
 {
+	//Get Transform
+	ComponentTransform* transform = NULL;
+	transform = (ComponentTransform*)FindComponent(TRANSFORM);
+	if (transform != nullptr)
+	{
+		glPushMatrix();
+		glMultMatrixf((float*)&transform->GetInverseMatrix());
+	}
+
 	if (!enable)
 		return;
 	for (int i = 0; i < components.size(); i++)
@@ -46,6 +59,12 @@ void GameObject::Update()
 	{
 		GameObject* item = childs[i];
 			item->Update();
+
+	}
+	if (transform != nullptr)
+	{
+		//Pop Matrix
+		glPopMatrix();
 	}
 }
 
@@ -93,7 +112,7 @@ void GameObject::SetParent(GameObject * set_parent)
 {
 	if (set_parent == nullptr)
 	{
-		LOG("ERROR parent null")
+		LOG("ERROR parent null");
 		return;
 	}
 	parent = set_parent;

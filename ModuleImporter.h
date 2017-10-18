@@ -6,6 +6,7 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 
+class ComponentTransform;
 struct Texture;
 class ModuleImporter:public Module
 {

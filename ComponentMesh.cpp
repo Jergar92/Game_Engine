@@ -10,6 +10,7 @@ ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
 {
 
 	component_name = "Mesh";
+	type = MESH;
 }
 
 

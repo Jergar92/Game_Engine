@@ -5,6 +5,7 @@
 ComponentCamera::ComponentCamera(GameObject* my_go) :Component(my_go)
 {
 	component_name = "Camera";
+	type = CAMERA;
 }
 
 

@@ -5,7 +5,8 @@ enum ComponentType
 {
 	TRANSFORM,
 	MESH,
-	MESH_RENDER
+	MESH_RENDER,
+	CAMERA
 };
 class Component
 {
@@ -26,7 +27,8 @@ public:
 	ComponentType type;
 	bool enable = true;
 	bool unique=true;
-private:
+
+protected:
 	GameObject* my_go = nullptr;
 
 };

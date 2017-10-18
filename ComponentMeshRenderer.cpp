@@ -1,6 +1,9 @@
 #include "ComponentMeshRenderer.h"
+#include "ComponentTransform.h"
+#include "ComponentMesh.h"
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"
+#include "MathGeoLib-1.5\src\Math\float4x4.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "imgui\imgui.h"
@@ -10,6 +13,7 @@
 ComponentMeshRenderer::ComponentMeshRenderer(GameObject* my_go) :Component(my_go)
 {
 	component_name = "Mesh Renderer";
+	type = MESH_RENDER;
 }
 
 
@@ -26,6 +30,9 @@ void ComponentMeshRenderer::Update()
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+
+	
+
 
 
 	for (int i = 0; i < textures.size(); i++)
@@ -46,6 +53,7 @@ void ComponentMeshRenderer::Update()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetElementBuffer());
 	glDrawElements(GL_TRIANGLES, mesh->GetIndices().size(), GL_UNSIGNED_INT, NULL);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 
 
 	//Reset TextureColor

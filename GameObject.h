@@ -2,11 +2,7 @@
 #include <vector>
 #include <string>
 
-#include "Component.h"
-#include "ComponentTransform.h"
-#include "ComponentMesh.h"
-#include "ComponentMeshRenderer.h"
-#include "ComponentCamera.h"
+
 class Component;
 enum ComponentType;
 class GameObject

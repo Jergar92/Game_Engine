@@ -3,6 +3,8 @@
 #include "ModuleImporter.h"
 #include "ModuleTexture.h"
 #include "ComponentMeshRenderer.h"
+#include "ComponentTransform.h"
+#include "ComponentMesh.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 ModuleImporter::ModuleImporter()
 {
@@ -49,7 +51,7 @@ void ModuleImporter::ProcessTransform(aiMatrix4x4 matrix, ComponentTransform* tr
 	matrix.Decompose(scale, rotation, position);
 	//Change transform to mathgeolib
 	math::float3 math_scale(scale.x, scale.y, scale.z);
-	math::Quat math_rotation(rotation.w, rotation.x, rotation.y, rotation.z);
+	math::Quat math_rotation(rotation.x, rotation.y, rotation.z, rotation.w);
 	math::float3 math_position(position.x, position.y, position.z);
 	transform->SetTransform(math_scale, math_rotation, math_position);
 	go->AddComponent(transform);
@@ -124,7 +126,7 @@ void ModuleImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObjec
 	{
 		aiFace face = mesh->mFaces[i];
 		if (face.mNumIndices != 3) {
-			LOG("Number of indices is not 3!")
+			LOG("Number of indices is not 3!");
 		}
 		else
 		{

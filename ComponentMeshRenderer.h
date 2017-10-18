@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "GameObject.h"
+#include "Globals.h"
 #include "MathGeoLib-1.5\src\Math\float4.h"
 struct Texture
 {
