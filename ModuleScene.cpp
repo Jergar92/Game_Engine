@@ -1,9 +1,10 @@
 #include "Application.h"
 #include "Globals.h"
 #include"ModuleScene.h"
-#include "Primitive_p.h"
 #include "ModuleCamera3D.h"
-
+#include "imgui\imgui.h"
+#include "ModuleImporter.h"
+#include "p2Defs.h"
 ModuleScene::ModuleScene(bool start_enabled)
 {
 	name = "Scene";

@@ -14,7 +14,7 @@ public:
 	int LoadTextureFromFile(const char* filename);
 	void CreateCheckMateTexture();
 	bool CleanUp();
-	const GLuint GetCheckID() ;
+	const uint GetCheckID() ;
 private:
-	GLuint checkID;
+	uint checkID;
 };

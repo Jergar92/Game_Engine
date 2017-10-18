@@ -1,6 +1,19 @@
 #include "Application.h"
 #include "p2Defs.h"
 #include "mmgr\mmgr.h"
+#include "ModuleFileSystem.h"
+#include "ModuleImporter.h"
+#include "ModuleWindow.h"
+#include "ModuleInput.h"
+#include "ModuleAudio.h"
+#include "ModuleConsole.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleTexture.h"
+#include "ModuleCamera3D.h"
+#include "ModuleScene.h"
+#include "ModuleMenuBar.h"
+#include "ModuleHardware.h"
+#include "Profiler.h"
 Application::Application()
 {
 	file_system = new ModuleFileSystem();

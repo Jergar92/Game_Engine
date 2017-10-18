@@ -1,7 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "Application.h"
-
+#include "ModuleConsole.h"
 void log(const char* format, ...)
 {
 	static char tmp_string[4096];

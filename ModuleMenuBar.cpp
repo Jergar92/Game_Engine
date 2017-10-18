@@ -1,7 +1,9 @@
 #include "Application.h"
 #include "Globals.h"
 #include"ModuleMenuBar.h"
+#include "ModuleConsole.h"
 #include"p2Defs.h"
+#include "imgui\imgui.h"
 
 
 ModuleMenuBar::ModuleMenuBar(bool start_enabled)
@@ -157,8 +159,8 @@ void ModuleMenuBar::AboutUsWindow()
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
-	
-	ImGui::SetNextWindowSize(window_about_us_window, ImGuiCond_Once);
+
+	ImGui::SetNextWindowSize(ImVec2(510, 300), ImGuiCond_Once);
 	
 	ImGui::Begin("About Us", &show_about_us, window_flags);
 	ImGui::Text("\n Name: Frog Engine. ");

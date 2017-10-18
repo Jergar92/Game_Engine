@@ -1,5 +1,9 @@
 #include "Application.h"
 #include "ModuleTexture.h"
+#include "Glew\include\GL\glew.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 #include "Devil\include\il.h"
 #include "Devil\include\ilu.h"
 #include "Devil\include\ilut.h"

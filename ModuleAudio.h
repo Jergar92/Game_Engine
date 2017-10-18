@@ -1,5 +1,4 @@
-#ifndef __ModuleAudio_H__
-#define __ModuleAudio_H__
+#pragma once
 
 #include "Module.h"
 #include <list>
@@ -47,4 +46,3 @@ private:
 	std::list<Mix_Chunk*>	fx;
 };
 
-#endif // __ModuleAudio_H__

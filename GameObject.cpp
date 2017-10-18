@@ -1,6 +1,11 @@
 #include "Application.h"
 #include "GameObject.h"
 #include "imgui\imgui.h"
+#include "Glew\include\GL\glew.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include "ModuleScene.h"
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
@@ -23,13 +28,13 @@ GameObject::~GameObject()
 }
 void GameObject::CleanUp()
 {
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 		item->CleanUp();
 	}
 
-	for (int i = 0; i < childs.size(); i++)
+	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
 		item->CleanUp();
@@ -55,7 +60,7 @@ void GameObject::Update()
 		if(item->isEnable())
 			item->Update();
 	}
-	for (int i = 0; i < childs.size(); i++)
+	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
 			item->Update();
@@ -79,7 +84,7 @@ void GameObject::GuiUpdate()
 	}
 	if (node_open)
 	{
-		for (int i = 0; i < childs.size(); i++)
+		for (uint i = 0; i < childs.size(); i++)
 		{
 			GameObject* item = childs[i];
 			item->GuiUpdate();
@@ -101,7 +106,7 @@ void GameObject::InspectorUpdate()
 	//	 name = input_name;
 	// }
 
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 		item->InspectorUpdate();
@@ -163,7 +168,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 Component* GameObject::FindComponent(ComponentType type, Component * component_to_find)
 {
 	Component* ret = nullptr;
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 
@@ -176,13 +181,14 @@ Component* GameObject::FindComponent(ComponentType type, Component * component_t
 			}
 		}
 	}
+	
 	return ret;
 }
 
 Component* GameObject::FindComponent(ComponentType type)
 {
 	Component* ret = nullptr;
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 

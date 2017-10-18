@@ -4,6 +4,7 @@
 #include "glmath.h"
 #include "Light.h"
 #include "Glew\include\GL\glew.h"
+#include "imgui\imgui.h"
 
 
 #define MAX_LIGHTS 8

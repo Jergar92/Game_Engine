@@ -3,20 +3,22 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
-#include "ModuleFileSystem.h"
 #include "ModuleImporter.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleAudio.h"
-#include "ModuleConsole.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleTexture.h"
-#include "ModuleCamera3D.h"
-#include "ModuleScene.h"
-#include "ModuleMenuBar.h"
-#include "ModuleHardware.h"
-#include "Profiler.h"
-#include "Primitive_p.h"
+
+class ModuleFileSystem;
+class ModuleWindow;
+class ModuleInput;
+class ModuleAudio;
+class ModuleImporter;
+class ModuleRenderer3D;
+class ModuleTexture;
+class ModuleCamera3D;
+class ModuleScene;
+class ModuleConsole;
+class ModuleMenuBar;
+class ModuleHardware;
+class Profiler;
+
 #include <list>
 #define HISTOGRAM_LIMIT 40
 

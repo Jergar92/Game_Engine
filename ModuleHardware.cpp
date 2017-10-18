@@ -4,6 +4,8 @@
 #include "Glew\include\GL\glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include "imgui\imgui.h"
+
 ModuleHardware::ModuleHardware(bool start_enabled)
 {
 	name = "Hardware";

@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "imgui\imgui.h"
 #include "imgui\imgui_impl_sdl.h"
 
 ModuleWindow::ModuleWindow(bool start_enabled)
@@ -115,14 +116,14 @@ void ModuleWindow::GuiConfigUpdate()
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
 		SDL_SetWindowTitle(window, buff);
-		ImGui::InputText("Window Name", buff, IM_ARRAYSIZE(buff));
+		ImGui::InputText("Window Name", buff, sizeof(buff));
 		title = buff;
 
 		const char* windows_menu[] = { "Windowed","Full Screen", "Windowed Full Screen", "Borderless", "Window Resizable" };
 		static int windows_selected = 0;
-		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, IM_ARRAYSIZE(windows_menu)))
+		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, sizeof(windows_menu)))
 		{
-			for (int i = 1; i < IM_ARRAYSIZE(windows_menu); i++)
+			for (int i = 1; i < sizeof(windows_menu); i++)
 			{
 				windows_options[i - 1] = (i == windows_selected) ? true : false;
 			}
@@ -131,7 +132,7 @@ void ModuleWindow::GuiConfigUpdate()
 		const char* windows_size[] = { "1024x600","1152x768","1280x720", "1920x1080" };
 		static int windows_size_selected = 0;
 
-		if (ImGui::Combo("Windows Size", &windows_size_selected, windows_size, IM_ARRAYSIZE(windows_size)))
+		if (ImGui::Combo("Windows Size", &windows_size_selected, windows_size, sizeof(windows_size)))
 		{
 			width = window_s[windows_size_selected].width;
 			height = window_s[windows_size_selected].height;

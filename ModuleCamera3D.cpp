@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
+#include "imgui\imgui.h"
 #include "ModuleCamera3D.h"
+#include "ModuleInput.h"
 #define MAX_DISTANCE 100.0f
 #define MIN_DISTANCE 0.01f
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)

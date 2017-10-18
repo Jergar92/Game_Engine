@@ -2,9 +2,11 @@
 #include "Application.h"
 #include "ModuleImporter.h"
 #include "ModuleTexture.h"
+#include "ModuleScene.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "GameObject.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 ModuleImporter::ModuleImporter()
 {

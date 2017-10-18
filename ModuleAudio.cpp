@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleAudio.h"
-
+#include "imgui\imgui.h"
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 #define MIX_MAX_VOLUME 128
 #define MIX_MIN_VOLUME 0
