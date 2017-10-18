@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "imgui\imgui.h"
 #include "ModuleCamera3D.h"
+#include "ModuleScene.h"
 #include "ModuleInput.h"
 #define MAX_DISTANCE 100.0f
 #define MIN_DISTANCE 0.01f
@@ -178,11 +179,11 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 		{
 
-			if (App->scene->GetModel() != nullptr)
-			{
-				LOG("Focus Mesh");
-				App->camera->Focus(App->scene->GetModel()->GetCenter());
-			}
+			//if (App->scene->GetModel() != nullptr)
+			//{
+			//	LOG("Focus Mesh");
+			//	App->camera->Focus(App->scene->GetModel()->GetCenter());
+			//}
 		}
 
 
@@ -249,7 +250,7 @@ void ModuleCamera3D::Focus(const vec3 &focus)
 	//result = focus - Reference;
 	//App->scene->GetModel()->GetDistance();
 	Reference = focus;
-	MovePosition(focus + App->scene->GetModel()->GetDistance());
+	MovePosition(focus + App->scene->));
 	LookAt(focus);
 
 }
