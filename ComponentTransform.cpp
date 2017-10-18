@@ -40,7 +40,9 @@ void ComponentTransform::InspectorUpdate()
 	if (node_open)
 	{
 		rotation.ToEulerXYX();
-		ImGui::DragFloat3("Position##transform_position", &position.x, 3);
+		
+		if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
+			SetPosition(position);
 		
 		float3 tmp = gui_rotation;
 		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
@@ -69,9 +71,7 @@ float4x4 ComponentTransform::GetInverseMatrix()const
 void ComponentTransform::SetScale(float3 scale)
 {
 	this->scale = scale;
-	
 	UpdateMatrix();
-
 }
 
 void ComponentTransform::SetRotation(float3 rotation_angles)
@@ -83,4 +83,11 @@ void ComponentTransform::SetRotation(float3 rotation_angles)
 	gui_rotation = rotation_angles;
 	UpdateMatrix();
 	
+}
+
+void ComponentTransform::SetPosition(float3 Position)
+{
+	this->position = position;
+	UpdateMatrix();
+
 }

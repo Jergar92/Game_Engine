@@ -21,6 +21,7 @@ public:
 	//Setters
 	void SetScale(float3 scale);
 	void SetRotation(float3 rotation);
+	void SetPosition(float3 Position);
 
 public:
 	float3 scale;
