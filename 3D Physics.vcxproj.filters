@@ -369,9 +369,6 @@
     <ClInclude Include="ComponentMesh.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentTransform.h">
-      <Filter>Sources\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentCamera.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
@@ -564,9 +561,6 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="ComponentMesh.cpp">
-      <Filter>Sources\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentTransform.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="ComponentCamera.cpp">

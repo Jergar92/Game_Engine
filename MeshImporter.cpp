@@ -3,6 +3,8 @@
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ModuleTexture.h"
+#include "ModuleScene.h"
+#include "GameObject.h"
 
 MeshImporter::MeshImporter()
 {
@@ -20,11 +22,14 @@ bool MeshImporter::ImportMesh(const char * path)
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		GameObject* main_go = App->scene->GenerateGameObject();
+		aiMatrix4x4 matrix = scene->mRootNode->mTransformation;
+		ProcessTransform(matrix, main_go);
 
 
-		ProcessNode(scene->mRootNode, scene);
-		//SetInfo(scene->mRootNode);
-
+		ProcessNode(scene->mRootNode, scene, main_go);
+		main_go->SetName(scene->mRootNode->mName.C_Str());
+		App->scene->SendGameObject(main_go);
 		aiReleaseImport(scene);
 	}
 	else
@@ -33,7 +38,7 @@ bool MeshImporter::ImportMesh(const char * path)
 		ret = false;
 	}
 
-	return SaveMesh(path);
+	return ret;
 }
 
 bool MeshImporter::SaveMesh(const char * path)
@@ -55,50 +60,57 @@ bool MeshImporter::LoadMesh(const char * path, char*buffer)
 	// Load indices
 	cursor += bytes;
 	bytes = sizeof(Vertex) * num_vertices;
-	std::vector<Vertex> vertices;
-	vertices.reserve(bytes);
-
-	memcpy(vertices.data(), cursor, bytes);
+	std::vector<Vertex> vertices((Vertex*)cursor, (Vertex*)cursor + num_vertices);
 
 	cursor += bytes;
 	bytes = sizeof(uint) * num_indices;
-	std::vector<uint> indices;
-	indices.reserve(bytes);
-
-	memcpy(indices.data(), cursor, bytes);
+	std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
+	/*
+	cursor += bytes;
+	bytes = sizeof(Texture) * num_indices;
+	std::vector<Texture> textures((Texture*)cursor, (Texture*)cursor + num_textures);
+	*/
 	return false;
 }
-
-void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene)
+void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
+{
+	aiVector3D scale;
+	aiQuaternion rotation;
+	aiVector3D position;
+	matrix.Decompose(scale, rotation, position);
+	//Change transform to mathgeolib
+	math::float3 math_scale(scale.x, scale.y, scale.z);
+	math::Quat math_rotation(rotation.x, rotation.y, rotation.z, rotation.w);
+	math::float3 math_position(position.x, position.y, position.z);
+	go->SetTransform(math_scale, math_rotation, math_position);
+}
+void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
 {
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
+		GameObject* child_go = new GameObject(parent);
+		aiMatrix4x4 matrix = node->mTransformation;
+		ProcessTransform(matrix, child_go);
+
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		ProcessMesh(mesh, scene);
+		child_go->SetName(node->mName.C_Str());
+		ProcessMesh(mesh, scene, child_go);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
 	{
-		ProcessNode(node->mChildren[i], scene);
+		ProcessNode(node->mChildren[i], scene,parent);
 	}
 }
 
-void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene)
+void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go)
 {
 
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
-	uint ranges[2] = { mesh->mNumVertices,mesh->mNumFaces };
+	uint num_vertices = mesh->mNumVertices;
+	uint num_indices = mesh->mNumFaces;
 
-	uint size = sizeof(ranges) + sizeof(uint) * mesh->mNumFaces + sizeof(Vertex) * mesh->mNumVertices;
-	char* data = new char[size]; // Allocate
-	char* cursor = data;
-	uint bytes = sizeof(ranges); // First store ranges
-
-	memcpy(cursor, ranges, bytes);
-	cursor += bytes; // Store indices
-	bytes = sizeof(Vertex) * mesh->mNumVertices;
-
-	for (uint i = 0; i < mesh->mNumVertices; i++)
+	for (uint i = 0; i <num_vertices; i++)
 	{
 		Vertex vertex;
 		float3 data;
@@ -132,12 +144,10 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 
 		vertices.push_back(vertex);
 	}
-	memcpy(cursor, vertices.data(), bytes);
-	cursor += bytes; // Store indices
-	bytes = sizeof(uint) * mesh->mNumFaces;
+
 
 	//Indices
-	for (uint i = 0; i < mesh->mNumFaces; i++)
+	for (uint i = 0; i < num_indices; i++)
 	{
 		aiFace face = mesh->mFaces[i];
 		if (face.mNumIndices != 3) {
@@ -152,13 +162,10 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 			}
 		}
 	}
-	memcpy(cursor, indices.data(), bytes);
-
-
+	std::vector<Texture> textures;
 	//Material
 	if (mesh->mMaterialIndex >= 0)
 	{
-		std::vector<Texture> textures;
 
 		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 		//Load diffuse data
@@ -167,6 +174,39 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
 	}
 
+	//Create Mesh & MeshRenderer
+	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
+	component_mesh->SetData(vertices, indices);
+	go->AddComponent(component_mesh);
+	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
+	component_mesh_renderer->SetTexture(textures);
+	component_mesh_renderer->SetMesh(component_mesh);
+	go->AddComponent(component_mesh_renderer);
+
+	
+	//Set custom format
+
+	uint ranges[2] = { num_vertices,num_indices };
+	uint size = sizeof(ranges) + sizeof(uint) * mesh->mNumFaces + sizeof(Vertex) * mesh->mNumVertices;
+	char* data = new char[size]; // Allocate
+	char* cursor = data;
+	uint bytes = sizeof(ranges); // First store ranges
+	//ranges
+	memcpy(cursor, ranges, bytes);
+	cursor += bytes; // Store indices
+	bytes = sizeof(Vertex) *num_vertices;
+	//vertices-normals-cords
+	memcpy(cursor, vertices.data(), bytes);// Store vertices-normals-tex-cords
+	cursor += bytes; 
+	//indices
+	bytes = sizeof(uint) * num_indices;
+	memcpy(cursor, indices.data(), bytes);// Store indices
+	/*
+	cursor += bytes;
+	bytes = sizeof(Texture) * mesh->mMaterialIndex;
+	memcpy(cursor, textures.data(), bytes);// Store textures
+	*/
+	
 }
 
 std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)

@@ -1,8 +1,12 @@
 #include "Application.h"
 #include "Globals.h"
 #include "ModuleFileSystem.h"
-#include <direct.h>
-
+#include <iostream>
+#include <fstream>
+#define ASSETS_FOLDER "Assets"
+#define LIBRARY_FOLDER "Library"
+#define MESHES_FOLDER "Library/Meshes"
+#define MATERIAL_FOLDER "Library/Material"
 
 
 ModuleFileSystem::ModuleFileSystem()
@@ -18,12 +22,10 @@ ModuleFileSystem::~ModuleFileSystem()
 bool ModuleFileSystem::Awake(const JSON_Object * data)
 {
 	bool ret = true;
-	CreateFolder("Assets");
-	CreateFolder("Library");
-	CreateFolder("Library/Meshes");
-	CreateFolder("Library/Materials");
-
-
+	CreateFolder(ASSETS_FOLDER);
+	CreateFolder(LIBRARY_FOLDER);
+	CreateFolder(MESHES_FOLDER, true);
+	CreateFolder(MATERIAL_FOLDER,true);
 	
 	//Assets 
 	//Library / Meshes
@@ -31,17 +33,23 @@ bool ModuleFileSystem::Awake(const JSON_Object * data)
 	return ret;
 }
 
-void ModuleFileSystem::CreateFolder(const char * name)
+
+
+void ModuleFileSystem::CreateFolder(const char * name, bool hide)
 {
-	if (mkdir(name) == -1)
+
+	if(CreateDirectory(name, NULL))
+	if (hide)
 	{
-		if (errno == EEXIST) {
-			LOG("try already exist")
-				// alredy exists
-		}
-		else {
-			// something else
-			LOG("error exist")
+		SetFileAttributes(name, FILE_ATTRIBUTE_HIDDEN);
+	}
+	else
+	{
+		if (GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+
+			LOG("Directory (%s) already exists", name);
 		}
 	}
 }
+

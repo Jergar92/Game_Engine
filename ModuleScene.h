@@ -1,16 +1,8 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "MathGeoLib-1.5\src\Geometry\Sphere.h"
-#include "MathGeoLib-1.5\src\Geometry\AABB.h"
-#include "MathGeoLib-1.5\src\Geometry\OBB.h"
-#include "MathGeoLib-1.5\src\Geometry\Plane.h"
-#include "MathGeoLib-1.5\src\Geometry\Ray.h"
-#include "MathGeoLib-1.5\src\Geometry\Triangle.h"
-#include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 #include "Primitive.h"
-#include "GameObject.h"
-
+class GameObject;
 class ModuleScene : public Module
 {
 public:
@@ -23,13 +15,14 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	GameObject* GenerateGameObject(GameObject* parent = nullptr);
+	
 	Plane_p plane;
 	
 private:
 	bool hierarchy = true;
 	bool inspector = true;
 public:
-	void LoadModel(const char* path);
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
 	void SetSelectedGameObject(GameObject* go);

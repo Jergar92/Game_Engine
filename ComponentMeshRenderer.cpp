@@ -1,5 +1,4 @@
 #include "ComponentMeshRenderer.h"
-#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "Glew\include\GL\glew.h"
 #include "SDL\include\SDL_opengl.h"

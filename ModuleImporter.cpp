@@ -4,7 +4,6 @@
 #include "ModuleTexture.h"
 #include "ModuleScene.h"
 #include "ComponentMeshRenderer.h"
-#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "GameObject.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
@@ -39,11 +38,10 @@ bool ModuleImporter::LoadModel(const char * path)
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		GameObject* main_go = new GameObject();
+		GameObject* main_go = App->scene->GenerateGameObject();
 
-		ComponentTransform* transform = (ComponentTransform*)main_go->CreateComponent(ComponentType::TRANSFORM);
 		aiMatrix4x4 matrix = scene->mRootNode->mTransformation;
-		ProcessTransform(matrix, transform, main_go);
+		ProcessTransform(matrix, main_go);
 
 		ProcessNode(scene->mRootNode, scene, main_go);
 		//SetInfo(scene->mRootNode);
@@ -65,7 +63,7 @@ bool ModuleImporter::LoadTexture(const char * path)
 	return true;
 }
 
-void ModuleImporter::ProcessTransform(aiMatrix4x4 matrix, ComponentTransform* transform, GameObject * go)
+void ModuleImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 {
 	aiVector3D scale;
 	aiQuaternion rotation;
@@ -75,8 +73,7 @@ void ModuleImporter::ProcessTransform(aiMatrix4x4 matrix, ComponentTransform* tr
 	math::float3 math_scale(scale.x, scale.y, scale.z);
 	math::Quat math_rotation(rotation.x, rotation.y, rotation.z, rotation.w);
 	math::float3 math_position(position.x, position.y, position.z);
-	transform->SetTransform(math_scale, math_rotation, math_position);
-	go->AddComponent(transform);
+	go->SetTransform(math_scale, math_rotation, math_position);
 }
 
 void ModuleImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
@@ -85,9 +82,9 @@ void ModuleImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObjec
 	{
 		GameObject* child_go = new GameObject(parent);
 		
-		ComponentTransform* transform = (ComponentTransform*)child_go->CreateComponent(ComponentType::TRANSFORM);
+
 		aiMatrix4x4 matrix = node->mTransformation;
-		ProcessTransform(matrix, transform, child_go);
+		ProcessTransform(matrix, child_go);
 		
 
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];

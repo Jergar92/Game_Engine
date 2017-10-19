@@ -7,7 +7,6 @@
 #include <gl/GLU.h>
 #include "ModuleScene.h"
 #include "Component.h"
-#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
@@ -15,12 +14,19 @@
 GameObject::GameObject()
 {
 	name = "Scene";
+	SetTransform(float3(1, 1, 1), Quat(0, 0, 0, 0), float3(0, 0, 0));
+
 }
 
 GameObject::GameObject(GameObject * parent)
 {
+
 	SetParent(parent);
+
+
 }
+
+
 
 
 GameObject::~GameObject()
@@ -44,13 +50,10 @@ void GameObject::CleanUp()
 void GameObject::Update()
 {
 	//Get Transform
-	ComponentTransform* transform = NULL;
-	transform = (ComponentTransform*)FindComponent(TRANSFORM);
-	if (transform != nullptr)
-	{
-		glPushMatrix();
-		glMultMatrixf((float*)&transform->GetInverseMatrix());
-	}
+
+	glPushMatrix();
+	glMultMatrixf((float*)&GetInverseMatrix());
+	
 
 	if (!enable)
 		return;
@@ -66,11 +69,10 @@ void GameObject::Update()
 			item->Update();
 
 	}
-	if (transform != nullptr)
-	{
+
 		//Pop Matrix
 		glPopMatrix();
-	}
+	
 }
 
 void GameObject::GuiUpdate()
@@ -105,7 +107,18 @@ void GameObject::InspectorUpdate()
 	// {
 	//	 name = input_name;
 	// }
+	 rotation.ToEulerXYX();
 
+	 if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
+		 SetPosition(position);
+
+	 float3 tmp = gui_rotation;
+	 if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
+		 SetRotation(tmp);
+
+
+	 if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
+		 SetScale(scale);
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -113,25 +126,27 @@ void GameObject::InspectorUpdate()
 	}	
 }
 
+const char * GameObject::GetName()
+{
+	return name.c_str();
+}
+
 void GameObject::SetParent(GameObject * set_parent)
 {
-	if (set_parent == nullptr)
+	if (set_parent != nullptr)
 	{
-		LOG("ERROR parent null");
-		return;
+		parent = set_parent;
+		set_parent->SetChild(this);
 	}
-	parent = set_parent;
-	set_parent->SetChild(this);
 }
 
 void GameObject::SetChild(GameObject * child)
 {
-	if (child == nullptr)
+	if (child != nullptr)
 	{
-		LOG("ERROR child null");
-		return;
+		childs.push_back(child);
 	}
-	childs.push_back(child);
+
 }
 
 void GameObject::SetName(const char * set_name)
@@ -149,12 +164,8 @@ Component * GameObject::CreateComponent(ComponentType type)
 	Component* item = nullptr;
 	switch (type)
 	{
-	case TRANSFORM:
-		item = new ComponentTransform(this);
-		break;
 	case MESH:
 		item = new ComponentMesh(this);
-
 		break;
 	case MESH_RENDER:
 		item = new ComponentMeshRenderer(this);
@@ -199,4 +210,52 @@ Component* GameObject::FindComponent(ComponentType type)
 		}
 	}
 	return ret;
+}
+void GameObject::SetTransform(float3 set_scale, Quat set_rotation, float3 set_position)
+{
+	scale = set_scale;
+
+
+	rotation = set_rotation;
+	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
+
+	position = set_position;
+
+	UpdateMatrix();
+
+
+}
+void GameObject::UpdateMatrix()
+{
+	transform_matrix = float4x4::FromTRS(position, rotation, scale);
+	transform_matrix_inverse = transform_matrix.Transposed();
+}
+
+float4x4 GameObject::GetInverseMatrix()const
+{
+	return transform_matrix_inverse;
+}
+
+void GameObject::SetScale(float3 scale)
+{
+	this->scale = scale;
+	UpdateMatrix();
+}
+
+void GameObject::SetRotation(float3 rotation_angles)
+{
+	float3 delta = (rotation_angles - gui_rotation) * DEGTORAD;
+	Quat rotate_rotation = Quat::FromEulerXYZ(delta.x, delta.y, delta.z);
+
+	rotation = rotation * rotate_rotation;
+	gui_rotation = rotation_angles;
+	UpdateMatrix();
+
+}
+
+void GameObject::SetPosition(float3 Position)
+{
+	this->position = position;
+	UpdateMatrix();
+
 }

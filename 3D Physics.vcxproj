@@ -88,7 +88,6 @@
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentMeshRenderer.h" />
-    <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Devil\include\config.h" />
     <ClInclude Include="Devil\include\devil_internal_exports.h" />
     <ClInclude Include="Devil\include\il.h" />
@@ -196,7 +195,6 @@
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentMeshRenderer.cpp" />
-    <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MaterialImporter.cpp" />
     <ClCompile Include="MeshImporter.cpp" />

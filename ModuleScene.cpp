@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "imgui\imgui.h"
 #include "ModuleImporter.h"
+#include "GameObject.h"
 #include "p2Defs.h"
 ModuleScene::ModuleScene(bool start_enabled)
 {
@@ -93,21 +94,15 @@ bool ModuleScene::CleanUp()
 	
 	return ret;
 }
-void ModuleScene::LoadModel(const char * path)
+
+GameObject * ModuleScene::GenerateGameObject(GameObject * parent)
 {
-	LOG("Drag Model path:%s", path);
+	GameObject* new_go = new GameObject(parent);
 
-	
-	if (App->importer->LoadModel(path))
-	{
-		LOG("Load Model Succes");
-	}
-	else
-	{
-		LOG("Load Model Fail");
-	}
-
+	return new_go;
 }
+
+
 
 void ModuleScene::LoadTexture(const char * path)
 {
