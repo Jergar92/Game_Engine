@@ -18,6 +18,21 @@ ModuleImporter::~ModuleImporter()
 {
 }
 
+void ModuleImporter::Load(const char * path)
+{
+	dropped_filedir = path;
+	std::size_t found = dropped_filedir.find_last_of('.');
+	if (dropped_filedir.substr(found + 1) == "png" || dropped_filedir.substr(found + 1) == "jpg" || dropped_filedir.substr(found + 1) == "dds")
+	{
+		LoadTexture(dropped_filedir.c_str());
+
+	}
+	else
+	{
+		LoadModel(dropped_filedir.c_str());
+	}
+}
+
 bool ModuleImporter::LoadModel(const char * path)
 {
 	bool ret = true;
@@ -43,6 +58,11 @@ bool ModuleImporter::LoadModel(const char * path)
 	}
 
 	return ret;
+}
+
+bool ModuleImporter::LoadTexture(const char * path)
+{
+	return true;
 }
 
 void ModuleImporter::ProcessTransform(aiMatrix4x4 matrix, ComponentTransform* transform, GameObject * go)

@@ -1,5 +1,5 @@
 #pragma once
-#include "Module.h"
+#include "Globals.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
@@ -9,14 +9,15 @@
 class GameObject;
 class ComponentTransform;
 struct Texture;
-class ModuleImporter:public Module
+class MeshImporter
 {
 public:
-	ModuleImporter();
-	~ModuleImporter();
-	void Load(const char* path);
-	bool LoadModel(const char* path);
-	bool LoadTexture(const char* path);
+	MeshImporter();
+	~MeshImporter();
+
+	bool ImportMesh(const char* path);
+	bool SaveMesh(const char* path);
+	bool LoadMesh(const char* path);
 
 	std::vector<Texture> textures_loaded;	// stores all the textures loaded, make sure textures aren't loaded more than once.
 	void ProcessTransform(aiMatrix4x4 matrix, ComponentTransform* transform, GameObject* go);
@@ -25,8 +26,10 @@ public:
 	std::vector<Texture> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName);
 	uint TextureFromFile(const char * path, const std::string & directory);
 
-private:	
-	std::string directory;
-	std::string dropped_filedir;
+private:
+		std::string directory;
+
+
 
 };
+
