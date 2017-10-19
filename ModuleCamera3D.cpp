@@ -250,7 +250,7 @@ void ModuleCamera3D::Focus(const vec3 &focus)
 	//result = focus - Reference;
 	//App->scene->GetModel()->GetDistance();
 	Reference = focus;
-	MovePosition(focus + App->scene->));
+	//MovePosition(focus + App->scene->));
 	LookAt(focus);
 
 }

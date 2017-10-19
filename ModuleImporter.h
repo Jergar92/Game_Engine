@@ -4,6 +4,8 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
+#include "MeshImporter.h"
+#include "MaterialImporter.h"
 #include <vector>
 
 class GameObject;
@@ -24,6 +26,8 @@ public:
 	void ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go);
 	std::vector<Texture> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName);
 	uint TextureFromFile(const char * path, const std::string & directory);
+	MaterialImporter material;
+	MeshImporter mesh;
 
 private:	
 	std::string directory;
