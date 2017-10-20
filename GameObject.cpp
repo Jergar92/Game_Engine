@@ -80,13 +80,22 @@ void GameObject::Update()
 
 void GameObject::GuiUpdate()
 {
-
-	bool node_open = ImGui::TreeNode(name.c_str());
-
-	if (ImGui::IsItemClicked())
+	bool node_open = false;
+	//Set color white enable go grey disabled go
+	if (enable)
 	{
-		App->scene->SetSelectedGameObject(this);
+		node_open = ImGui::TreeNodeEx(name.c_str());
 	}
+	else
+	{
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+		node_open = ImGui::TreeNodeEx(name.c_str());
+		ImGui::PopStyleColor();
+	}
+	//Set item selected->InspectorUpdate
+	if (ImGui::IsItemClicked())
+		App->scene->SetSelectedGameObject(this);
+	
 	if (node_open)
 	{
 		for (uint i = 0; i < childs.size(); i++)
@@ -102,29 +111,20 @@ void GameObject::GuiUpdate()
 
 void GameObject::InspectorUpdate()
 {
-
+	//Enable//Disable Game Object
 	 ImGui::Checkbox("##go_enable", &enable);
 	 ImGui::SameLine();
-	 
+	 //Change name
 	 if (ImGui::InputText("##go_name", (char*)input_name.c_str(), MAX_NAME, ImGuiInputTextFlags_EnterReturnsTrue))
-	 {
-		SetName(input_name.c_str());
-	 }
+		SetName(input_name.c_str());	 
 	 ImGui::SameLine();
-	 
+	 //Enable//Disable Static Game Object
 	 if (ImGui::Checkbox("Static##static_go", &static_go))
-	 {
-		 gui_static = true;
-	 }
-
-	 if(gui_static)
-	 {
-
+	 	 gui_static = true;
+	  if(gui_static)
 		 OpenStaticQuestion();	
-	 }
+	//Start draw Elements 
 	 bool node_open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen);
-
-
 	 if (node_open)
 	 {
 		 rotation.ToEulerXYX();
@@ -155,8 +155,8 @@ void GameObject::OpenStaticQuestion()
 {
 	if (childs.empty())
 	{
-		SetStatic(static_go);
 		gui_static = false;
+		return;
 	}
 	ImGui::OpenPopup("Change to static?");
 	if (ImGui::BeginPopupModal("Change to static?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
@@ -179,7 +179,6 @@ void GameObject::OpenStaticQuestion()
 					item->SetStatic(static_go);
 				}
 			}
-			SetStatic(static_go);
 			gui_static = false;
 			ImGui::CloseCurrentPopup();
 		}
