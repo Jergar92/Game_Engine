@@ -10,8 +10,8 @@ enum ComponentType;
 class GameObject
 {
 public:
-	GameObject();
-	GameObject(GameObject* parent);
+	GameObject(float3 = float3::one, Quat = Quat(0, 0, 0, 0), float3 = float3::zero);
+	GameObject(GameObject* parent, float3 = float3::one,Quat = Quat(0,0,0,0), float3 = float3::zero);
 
 	~GameObject();
 	void CleanUp();
@@ -45,11 +45,15 @@ public:
 	std::vector<GameObject*> childs;
 
 	std::string name;
-	bool enable;
-	float3 scale;
-	Quat rotation;
-	float3 gui_rotation;
-	float3 position;
+	std::string input_name;
+
+	bool enable=true;
+	bool static_go=false;
+
+	float3 scale=float3::one;
+	Quat rotation=Quat(0,0,0,0);
+	float3 gui_rotation= float3::zero;
+	float3 position = float3::zero;
 
 private:
 	float4x4 transform_matrix;

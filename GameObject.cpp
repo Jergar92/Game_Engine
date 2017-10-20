@@ -10,19 +10,22 @@
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
-
-GameObject::GameObject()
+#define MAX_NAME 20
+GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale),rotation(rotation),position(position)
 {
 	name = "Scene";
-	SetTransform(float3(1, 1, 1), Quat(0, 0, 0, 0), float3(0, 0, 0));
+	input_name = name;
+	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
+	UpdateMatrix();
 
 }
 
-GameObject::GameObject(GameObject * parent)
+GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation,float3 position) :scale(scale), rotation(rotation), position(position)
 {
 
 	SetParent(parent);
-
+	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
+	UpdateMatrix();
 
 }
 
@@ -102,23 +105,32 @@ void GameObject::InspectorUpdate()
 
 	 ImGui::Checkbox("##go_enable", &enable);
 	 ImGui::SameLine();
-	 ImGui::Text(name.c_str());
-//	 if (ImGui::InputText("##go_name", input_name, IM_ARRAYSIZE(input_name), ImGuiInputTextFlags_EnterReturnsTrue))
-	// {
-	//	 name = input_name;
-	// }
-	 rotation.ToEulerXYX();
+	 
+	 if (ImGui::InputText("##go_name", (char*)input_name.c_str(), MAX_NAME, ImGuiInputTextFlags_EnterReturnsTrue))
+	 {
+		SetName(input_name.c_str());
+	 }
+	 ImGui::SameLine();
 
-	 if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
-		 SetPosition(position);
+	 ImGui::Checkbox("Static##static_go", &static_go);
 
-	 float3 tmp = gui_rotation;
-	 if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
-		 SetRotation(tmp);
+	 bool node_open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen);
 
 
-	 if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
-		 SetScale(scale);
+	 if (node_open)
+	 {
+		 rotation.ToEulerXYX();
+		 if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
+			 SetPosition(position);
+		 float3 tmp = gui_rotation;
+		 if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
+			 SetRotation(tmp);
+		 if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
+			 SetScale(scale);
+		 ImGui::TreePop();
+	 }
+
+	
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -152,6 +164,7 @@ void GameObject::SetChild(GameObject * child)
 void GameObject::SetName(const char * set_name)
 {
 	name = set_name;
+	input_name = name;
 }
 
 void GameObject::AddComponent(Component * component_to_add)

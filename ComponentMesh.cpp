@@ -34,7 +34,7 @@ void ComponentMesh::GuiUpdate()
 }
 void ComponentMesh::InspectorUpdate()
 {
-	bool node_open = ImGui::TreeNode(component_name.c_str());
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
 
 	if (node_open)
 	{
