@@ -111,9 +111,17 @@ void GameObject::InspectorUpdate()
 		SetName(input_name.c_str());
 	 }
 	 ImGui::SameLine();
+	 
+	 if (ImGui::Checkbox("Static##static_go", &static_go))
+	 {
+		 gui_static = true;
+	 }
 
-	 ImGui::Checkbox("Static##static_go", &static_go);
+	 if(gui_static)
+	 {
 
+		 OpenStaticQuestion();	
+	 }
 	 bool node_open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen);
 
 
@@ -141,6 +149,52 @@ void GameObject::InspectorUpdate()
 const char * GameObject::GetName()
 {
 	return name.c_str();
+}
+
+void GameObject::OpenStaticQuestion()
+{
+	if (childs.empty())
+	{
+		SetStatic(static_go);
+		gui_static = false;
+	}
+	ImGui::OpenPopup("Change to static?");
+	if (ImGui::BeginPopupModal("Change to static?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("Change children to?");
+		ImGui::Separator();
+
+		static bool children_to = false;
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+		ImGui::Checkbox("Yes", &children_to);
+		ImGui::PopStyleVar();
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			if (children_to)
+			{
+				for (uint i = 0; i < childs.size(); i++)
+				{
+					GameObject* item = childs[i];
+					item->SetStatic(static_go);
+				}
+			}
+			SetStatic(static_go);
+			gui_static = false;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0)))
+		{ 
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void GameObject::SetStatic(bool set)
+{
+	static_go = set;
 }
 
 void GameObject::SetParent(GameObject * set_parent)

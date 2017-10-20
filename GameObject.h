@@ -20,7 +20,8 @@ public:
 	void InspectorUpdate();
 
 	const char* GetName();
-
+	void OpenStaticQuestion();
+	void SetStatic(bool set);
 	void SetParent(GameObject * parent);
 	void SetChild(GameObject * child);
 	void SetName(const char* name);
@@ -49,6 +50,7 @@ public:
 
 	bool enable=true;
 	bool static_go=false;
+	bool gui_static = false;
 
 	float3 scale=float3::one;
 	Quat rotation=Quat(0,0,0,0);
