@@ -5,7 +5,8 @@
 #include "ModuleTexture.h"
 #include "ModuleScene.h"
 #include "GameObject.h"
-
+#include "ModuleFileSystem.h"
+#include "p2Defs.h"
 MeshImporter::MeshImporter()
 {
 }
@@ -41,11 +42,11 @@ bool MeshImporter::ImportMesh(const char * path)
 	return ret;
 }
 
-bool MeshImporter::SaveMesh(const char * path)
-{
-	return false;
-}
 
+bool MeshImporter::SaveMesh(const char * name, char * buffer, int buffer_size,const char * path)
+{
+	return App->file_system->CreateOwnFile(name, buffer, buffer_size, path);;
+}
 bool MeshImporter::LoadMesh(const char * path, char*buffer)
 {
 	char* cursor = buffer;
@@ -72,6 +73,7 @@ bool MeshImporter::LoadMesh(const char * path, char*buffer)
 	*/
 	return false;
 }
+
 void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 {
 	aiVector3D scale;
@@ -206,7 +208,11 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	bytes = sizeof(Texture) * mesh->mMaterialIndex;
 	memcpy(cursor, textures.data(), bytes);// Store textures
 	*/
-	
+	if (SaveMesh(go->name.c_str(), data, size, App->file_system->GetMeshesFolder()))
+	{
+		LOG("Save %s", go->name.c_str());
+	}
+
 }
 
 std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)
