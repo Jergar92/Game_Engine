@@ -21,6 +21,8 @@ ModuleTexture::~ModuleTexture()
 {
 }
 
+
+
 bool ModuleTexture::Awake(const JSON_Object * data)
 {
 	bool ret = true;

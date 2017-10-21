@@ -26,8 +26,6 @@ bool MeshImporter::ImportMesh(const char * path)
 		GameObject* main_go = App->scene->GenerateGameObject();
 		aiMatrix4x4 matrix = scene->mRootNode->mTransformation;
 		ProcessTransform(matrix, main_go);
-
-
 		ProcessNode(scene->mRootNode, scene, main_go);
 		main_go->SetName(scene->mRootNode->mName.C_Str());
 		App->scene->SendGameObject(main_go);
@@ -45,7 +43,7 @@ bool MeshImporter::ImportMesh(const char * path)
 
 bool MeshImporter::SaveMesh(const char * name, char * buffer, int buffer_size,const char * path)
 {
-	return App->file_system->CreateOwnFile(name, buffer, buffer_size, path);;
+	return App->file_system->CreateOwnFile(name, buffer, buffer_size, path,"frog");;
 }
 bool MeshImporter::LoadMesh(const char * path, char*buffer)
 {
@@ -93,7 +91,6 @@ void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject*
 		GameObject* child_go = new GameObject(parent);
 		aiMatrix4x4 matrix = node->mTransformation;
 		ProcessTransform(matrix, child_go);
-
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		child_go->SetName(node->mName.C_Str());
 		ProcessMesh(mesh, scene, child_go);
@@ -256,5 +253,5 @@ uint MeshImporter::TextureFromFile(const char *path, const std::string &director
 
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
-	return App->texture->LoadTextureFromFile(filename.c_str());
+	return App->importer->material.ImportTexture(filename.c_str());
 }

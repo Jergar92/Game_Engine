@@ -16,6 +16,7 @@ class ModuleImporter:public Module
 public:
 	ModuleImporter();
 	~ModuleImporter();
+	bool Start();
 	void Load(const char* path);
 	bool LoadModel(const char* path);
 	bool LoadTexture(const char* path);

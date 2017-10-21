@@ -17,6 +17,14 @@ ModuleImporter::~ModuleImporter()
 {
 }
 
+bool ModuleImporter::Start()
+{
+	bool ret = true;
+	if (!material.Init())
+		ret = false;
+	return ret;
+}
+
 void ModuleImporter::Load(const char * path)
 {
 	dropped_filedir = path;
@@ -220,5 +228,6 @@ uint ModuleImporter::TextureFromFile(const char *path, const std::string &direct
 
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
-	return App->texture->LoadTextureFromFile(filename.c_str());
+	return App->importer->material.ImportTexture(filename.c_str());
+
 }
