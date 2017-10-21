@@ -24,6 +24,7 @@ bool ModuleScene::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	scene_go = new GameObject();
 	GameObject* camera = new GameObject(scene_go);
+	camera->SetName("Camera Main");
 	ComponentCamera* component_cmera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
 	camera->AddComponent(component_cmera);
 	

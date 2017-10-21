@@ -56,20 +56,9 @@ void ComponentCamera::InspectorUpdate()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", GetAspectRatio());
 
-
 		ImGui::DragFloat("Near Distance", &camera_frustrum.nearPlaneDistance, 0.1, 0.0, camera_frustrum.farPlaneDistance);
 
 		ImGui::DragFloat("Far Distance", &camera_frustrum.farPlaneDistance, 0.1);
-
-
-		static int selected_option = 0;
-		if (ImGui::Combo("Perspective type", &selected_option, "Perspective\0Orthographic", 2))
-		{
-			if (selected_option == 0)
-				camera_frustrum.type = PerspectiveFrustum;
-			else if (selected_option == 1)
-				camera_frustrum.type = OrthographicFrustum;
-		}
 
 
 		if (ImGui::DragFloat("Field of View", &camera_frustrum.verticalFov, 0.1, 0.1))
