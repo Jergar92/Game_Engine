@@ -208,6 +208,11 @@ const char * ModuleWindow::GetTitle()
 	return title.c_str();
 }
 
+SDL_Window * ModuleWindow::GetActualWindow()
+{
+	return window;
+}
+
 const int ModuleWindow::GetWidth()
 {
 	return width;

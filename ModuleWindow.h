@@ -35,6 +35,7 @@ public:
 
 	void SetTitle(const char* title);
 	const char* GetTitle();
+	SDL_Window * GetActualWindow();
 	const int GetWidth();
 	const int GetHeight();
 private:

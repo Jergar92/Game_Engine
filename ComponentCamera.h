@@ -8,10 +8,11 @@
 class ComponentCamera :public Component
 {
 public:
-	ComponentCamera(GameObject* my_go,float near_distance,float far_distance,bool active);
+	ComponentCamera(GameObject* my_go);
 	~ComponentCamera();
 	bool ObjectInside();
 	void InspectorUpdate();
+	void Update();
 
 	//Getters
 	float GetNearDistance();
@@ -33,7 +34,6 @@ private:
 	float3 up{ 0,1,0 };
 	float3 pos{ 0,0,0 };
 	float vertical_fov = 1.0f;
-	SDL_DisplayMode current;
 	float window_aspect_ratio;
 };
 

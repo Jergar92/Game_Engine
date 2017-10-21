@@ -236,6 +236,9 @@ Component * GameObject::CreateComponent(ComponentType type)
 	case MESH_RENDER:
 		item = new ComponentMeshRenderer(this);
 		break;
+	case CAMERA:
+		item = new ComponentCamera(this);
+		break;
 	default:
 		break;
 	}
