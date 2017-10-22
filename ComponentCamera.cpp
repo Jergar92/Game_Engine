@@ -42,7 +42,7 @@ void ComponentCamera::Update()
 void ComponentCamera::InspectorUpdate()
 {
 	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
-
+	ImGui::Checkbox("Enabled##enable_active", &enable);
 	if (node_open)
 	{
 

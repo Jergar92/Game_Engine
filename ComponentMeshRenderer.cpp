@@ -22,17 +22,13 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 void ComponentMeshRenderer::Update()
 {
-	if (mesh == nullptr)
+	if (mesh == nullptr||!mesh->isEnable())
 		return;
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-
-	
-
-
 
 	for (int i = 0; i < textures.size(); i++)
 	{
@@ -78,6 +74,7 @@ void ComponentMeshRenderer::SetTexture(const std::vector<Texture>& texture)
 void ComponentMeshRenderer::InspectorUpdate()
 {
 	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+	ImGui::Checkbox("Enabled##enable_active", &enable);
 
 	if (node_open)
 	{

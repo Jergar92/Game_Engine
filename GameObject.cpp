@@ -53,19 +53,21 @@ void GameObject::CleanUp()
 void GameObject::Update()
 {
 	//Get Transform
-
 	glPushMatrix();
 	glMultMatrixf((float*)&GetInverseMatrix());
 	
 
 	if (!enable)
 		return;
+
+
 	for (int i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 		if(item->isEnable())
 			item->Update();
 	}
+
 	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
@@ -73,8 +75,8 @@ void GameObject::Update()
 
 	}
 
-		//Pop Matrix
-		glPopMatrix();
+	//Pop Matrix
+	glPopMatrix();
 	
 }
 
@@ -184,7 +186,8 @@ void GameObject::OpenStaticQuestion()
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel", ImVec2(120, 0)))
-		{ 
+		{
+			gui_static = false;
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();

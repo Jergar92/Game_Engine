@@ -6,6 +6,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "ModuleFileSystem.h"
+#include "MathGeoLib-1.5\src\Geometry\AABB.h"
 #include "p2Defs.h"
 MeshImporter::MeshImporter()
 {
@@ -120,6 +121,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			data.y = mesh->mVertices[i].y;
 			data.z = mesh->mVertices[i].z;
 			vertex.position = data;
+			LOG("x%.2f,y%.2f,z%.2f", vertex.position.x, vertex.position.y, vertex.position.z);
 		}
 		//Normals
 
@@ -175,7 +177,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 
 	//Create Mesh & MeshRenderer
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
-	component_mesh->SetData(vertices, indices);
+	component_mesh->SetData(vertices, indices, num_vertices, num_indices);
 	go->AddComponent(component_mesh);
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
 	component_mesh_renderer->SetTexture(textures);
