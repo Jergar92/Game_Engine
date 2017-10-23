@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Quadtree.h"
 class GameObject;
 class ModuleScene : public Module
 {
@@ -16,7 +17,7 @@ public:
 	bool CleanUp();
 
 	GameObject* GenerateGameObject(GameObject* parent = nullptr);
-	
+	QuadTree<GameObject*> quadtree;
 	Plane_p plane;
 	
 private:
@@ -26,9 +27,11 @@ public:
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
 	void SetSelectedGameObject(GameObject* go);
+	void SendToQuad(GameObject* go);
 private:
 	GameObject* scene_go = nullptr;
 	GameObject* selected_go = nullptr;
+
 
 
 };

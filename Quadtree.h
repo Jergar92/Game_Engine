@@ -45,7 +45,7 @@ struct QuadAABB
 		}
 				
 				
-				return ret;
+			return ret;
 
 	}
 };
@@ -54,8 +54,8 @@ template <class T>
 struct Data
 {
 	QuadPoint pos;
-	T* data = nullptr;
-	Data(QuadPoint pos, T* data) :pos(pos), data(data)
+	T data = nullptr;
+	Data(QuadPoint pos, T data) :pos(pos), data(data)
 	{}
 };
 
@@ -79,7 +79,7 @@ public:
 	QuadAABB boundaris;
 	std::vector<Data<T>> objects;
 private:
-	QuadTree<T>* north_west=nullptr;
+	QuadTree<T>* north_west = nullptr;
 	QuadTree<T>* north_east = nullptr;
 	QuadTree<T>* south_west = nullptr;
 	QuadTree<T>* south_east = nullptr;
@@ -184,6 +184,5 @@ std::vector<Data<T>> QuadTree<T>::QueryRange(QuadAABB range)
 	temp = south_east->queryRange(range);
 	pInRange.insert(pInRange.end(), temp.begin(), temp.end());
 	
-
 	return ret;
 }
