@@ -136,9 +136,9 @@ void ModuleScene::SetSelectedGameObject(GameObject * go)
 {
 	selected_go = go;
 }
-
+/*
 void ModuleScene::SendToQuad(GameObject * go)
 {
 	quadtree.Insert(Data<GameObject*>(QuadPoint(go->position.x, go->position.z), go));
 }
-
+*/

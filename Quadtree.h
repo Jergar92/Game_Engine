@@ -64,7 +64,6 @@ class QuadTree
 {
 public:
 	QuadTree<T>(QuadAABB boundaris);
-	QuadTree<T>();	
 
 	~QuadTree<T>();
 
@@ -86,10 +85,6 @@ private:
 
 };
 
-template <class T>
-QuadTree<T>::QuadTree()
-{
-}
 
 template<class T>
 QuadTree<T>::QuadTree(QuadAABB boundaris):boundaris(boundaris), north_west(nullptr), north_east(nullptr), south_west(nullptr), south_east(nullptr)
@@ -105,13 +100,13 @@ QuadTree<T>::~QuadTree()
 template<class T>
 bool QuadTree<T>::Insert(Data<T> data)
 {
-	if (boundaris.centre(d.pos)
+	if (boundaris.Contains(data.pos))
 		return false;
 	
 		if (objects.size() < capacity)
 		{
 			objects.push_back(data);
-			return true
+			return true;
 		}
 
 		if(north_west==nullptr)
@@ -136,19 +131,19 @@ template<class T>
 void QuadTree<T>::Subdivide()
 {
 	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y - quad_size;
+	QuadPoint quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y - quad_size)
 	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
 
 	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y - quad_size;
+	QuadPoint quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y - quad_size);
 	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
 
 	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y + quad_size;
+	QuadPoint quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y + quad_size);
 	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
 
 	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y + quad_size;
+	QuadPoint quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y + quad_size);
 	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
 }
 
