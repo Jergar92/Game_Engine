@@ -17,15 +17,19 @@ public:
 	//Getters
 	float GetNearDistance();
 	float GetFardistance();
-	int   GetAspectRatio();
+	float3 GetPosition();
+	float   GetAspectRatio();
 
 	//Setters
 	void SetNearDistance(float distance);
 	void SetFarDistance(float distance);
 
+	//Draw
+	void DebugDraw();
 
 
 public:
+	
 	Frustum camera_frustrum;
 
 private:

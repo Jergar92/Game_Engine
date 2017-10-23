@@ -23,10 +23,12 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	scene_go = new GameObject();
+	
+	//Create Component Camera
 	GameObject* camera = new GameObject(scene_go);
 	camera->SetName("Camera Main");
-	ComponentCamera* component_cmera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
-	camera->AddComponent(component_cmera);
+	ComponentCamera* component_camera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
+	camera->AddComponent(component_camera);
 	
 	return ret;
 }
