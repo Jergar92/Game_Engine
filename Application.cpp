@@ -8,7 +8,6 @@
 #include "ModuleAudio.h"
 #include "ModuleConsole.h"
 #include "ModuleRenderer3D.h"
-#include "ModuleTexture.h"
 #include "ModuleCamera3D.h"
 #include "ModuleScene.h"
 #include "ModuleMenuBar.h"
@@ -22,7 +21,6 @@ Application::Application()
 	audio = new ModuleAudio();
 	importer = new ModuleImporter();
 	renderer3D = new ModuleRenderer3D();
-	texture = new ModuleTexture();
 	camera = new ModuleCamera3D();
 	scene = new ModuleScene();
 	console = new ModuleConsole();
@@ -51,9 +49,6 @@ Application::Application()
 
 	AddModule(audio);
 	profiler->CreateTitle("Application_Start",audio->name.c_str());
-
-	AddModule(texture);
-	profiler->CreateTitle("Application_Start",texture->name.c_str());
 
 
 	AddModule(importer);

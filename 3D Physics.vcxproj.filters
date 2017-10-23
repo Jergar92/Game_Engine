@@ -351,9 +351,6 @@
     <ClInclude Include="Devil\include\ilut.h">
       <Filter>Sources\Devil</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleTexture.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Primitive.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
@@ -383,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="MaterialImporter.h">
       <Filter>Sources\Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadtree.h">
+      <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -544,9 +544,6 @@
     </ClCompile>
     <ClCompile Include="Profiler.cpp">
       <Filter>Sources\Profiler</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleTexture.cpp">
-      <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>Sources\Helpers</Filter>

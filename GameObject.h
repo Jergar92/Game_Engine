@@ -31,7 +31,6 @@ public:
 	Component* FindComponent(ComponentType type);
 
 	void SetTransform(math::float3 scale, math::Quat rotation, math::float3 position);
-
 	//Update Matrix
 	void UpdateMatrix();
 	float4x4 GetInverseMatrix() const;
@@ -48,9 +47,7 @@ public:
 	std::string name;
 	std::string input_name;
 
-	bool enable=true;
-	bool static_go=false;
-	bool gui_static = false;
+
 
 	float3 scale=float3::one;
 	Quat rotation=Quat(0,0,0,0);
@@ -58,6 +55,10 @@ public:
 	float3 position = float3::zero;
 
 private:
+	bool enable = true;
+	bool static_go = false;
+	bool gui_static = false;
+
 	float4x4 transform_matrix;
 	float4x4 transform_matrix_inverse;
 

@@ -1,7 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleImporter.h"
-#include "ModuleTexture.h"
 #include "ModuleScene.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentMesh.h"

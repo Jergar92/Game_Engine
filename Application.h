@@ -11,7 +11,6 @@ class ModuleInput;
 class ModuleAudio;
 class ModuleImporter;
 class ModuleRenderer3D;
-class ModuleTexture;
 class ModuleCamera3D;
 class ModuleScene;
 class ModuleConsole;
@@ -30,7 +29,6 @@ public:
 	ModuleInput*		input;
 	ModuleAudio*		audio;
 	ModuleRenderer3D*	renderer3D;
-	ModuleTexture*		texture;
 	ModuleImporter*		importer;
 	ModuleCamera3D*		camera;
 	ModuleScene*		scene;
