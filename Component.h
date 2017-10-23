@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Globals.h"
 class GameObject;
 enum ComponentType
 {
@@ -18,6 +19,8 @@ public:
 	virtual void Update();
 	virtual void GuiUpdate();
 	virtual void InspectorUpdate();
+	virtual void Save();
+	virtual void Load();
 
 	virtual void Disable();
 	bool isEnable();
@@ -30,6 +33,7 @@ public:
 
 protected:
 	GameObject* my_go = nullptr;
+	uint UUID = 0;
 
 };
 

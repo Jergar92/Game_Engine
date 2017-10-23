@@ -33,6 +33,14 @@ void Component::InspectorUpdate()
 {
 }
 
+void Component::Save()
+{
+}
+
+void Component::Load()
+{
+}
+
 void Component::Disable()
 {
 	enable = false;
