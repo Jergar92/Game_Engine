@@ -4,7 +4,6 @@
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\Quat.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
-
 class Component;
 enum ComponentType;
 class GameObject
@@ -26,6 +25,8 @@ public:
 	void SetChild(GameObject * child);
 	void SetName(const char* name);
 	void AddComponent(Component* component_to_add);
+
+	void SaveGameObject(JSON_Object* data);
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type,Component* component_to_find);
 	Component* FindComponent(ComponentType type);
@@ -63,7 +64,7 @@ private:
 	float4x4 transform_matrix_inverse;
 
 
-	GameObject* parent;
+	GameObject* parent=nullptr;
 
 };
 

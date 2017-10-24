@@ -54,7 +54,6 @@ update_status ModuleScene::GuiUpdate()
 
 	}
 	ImGui::End();
-
 	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
 
 	if (!ImGui::Begin("Inspector", &inspector, window_flags))

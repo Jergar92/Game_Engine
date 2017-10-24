@@ -10,6 +10,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
+
 #define MAX_NAME 20
 GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale),rotation(rotation),position(position)
 {
@@ -226,6 +227,49 @@ void GameObject::SetName(const char * set_name)
 void GameObject::AddComponent(Component * component_to_add)
 {
 	components.push_back(component_to_add);
+}
+
+void GameObject::SaveGameObject(JSON_Object * data)
+{
+	//JSON_Value *root_value = json_value_init_object();
+	//JSON_Object *root_object = json_value_get_object(root_value);
+	/*
+{
+"Game Objects":[
+{
+"UID":1642009359,
+"ParentUID":1619219037,
+"Name":"RootNode",
+"Translation":[0,0,0],
+"Scale":[1,1,1],
+"Rotation":[0,0,0,1],
+"Components":[]
+},
+	*/
+	JSON_Object *root_object = data;
+	char *serialized_string = NULL;
+	
+	json_object_dotset_string(root_object, "Name", name.c_str());
+	json_object_dotset_number(root_object, "UUID", UUID);
+	if(parent!=nullptr)
+		json_object_dotset_number(root_object, "UUID", parent->UUID);
+	json_object_dotset_boolean(root_object, "Enable", UUID);
+	json_object_dotset_boolean(root_object, "Static", UUID);
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		item->SaveComponent(root_object);
+	}
+
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		item->SaveGameObject(root_object);
+
+	}
+	//Send to filesystem//	JSON_Status json_serialize_to_file(const JSON_Value *value, const char *filename);
+
 }
 
 Component * GameObject::CreateComponent(ComponentType type)

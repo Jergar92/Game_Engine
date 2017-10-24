@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Globals.h"
+#include "Parson\parson.h"
 class GameObject;
 enum ComponentType
 {
@@ -19,7 +20,8 @@ public:
 	virtual void Update();
 	virtual void GuiUpdate();
 	virtual void InspectorUpdate();
-	virtual void Save();
+	virtual bool SaveComponent(const JSON_Object* data);
+	
 	virtual void Load();
 
 	virtual void Disable();

@@ -33,9 +33,11 @@ void Component::InspectorUpdate()
 {
 }
 
-void Component::Save()
+bool Component::SaveComponent(const JSON_Object * data)
 {
+	return false;
 }
+
 
 void Component::Load()
 {

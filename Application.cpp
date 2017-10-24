@@ -311,6 +311,7 @@ bool Application::LoadConfigNow()
 bool Application::SaveConfigNow()
 {
 	bool ret = true;
+
 	JSON_Value * config_data = json_parse_file("config.json");
 
 	if (config_data == NULL)
