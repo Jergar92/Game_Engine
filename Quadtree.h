@@ -69,6 +69,7 @@ public:
 
 	bool Insert(Data<T> data);
 	void Subdivide();
+	void SendDataToChilds();
 	std::vector<Data<T>> QueryRange(QuadAABB range);
 	
 private:
@@ -103,7 +104,7 @@ bool QuadTree<T>::Insert(Data<T> data)
 	if (boundaris.Contains(data.pos))
 		return false;
 	
-		if (objects.size() < capacity)
+		if (objects.size() < capacity && north_west == nullptr)
 		{
 			objects.push_back(data);
 			return true;
@@ -112,6 +113,7 @@ bool QuadTree<T>::Insert(Data<T> data)
 		if(north_west==nullptr)
 		{
 			Subdivide();
+			SendDataToChilds();
 		}
 
 		if (north_west->Insert(data))
@@ -131,20 +133,36 @@ template<class T>
 void QuadTree<T>::Subdivide()
 {
 	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y - quad_size)
-	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
 
-	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y - quad_size);
-	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
+	QuadPoint north_west_quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y - quad_size)
+	north_west = new Quadtree(QuadAABB(north_west_quad_pos, quad_size));
 
-	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y + quad_size);
-	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
+	QuadPoint north_east_quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y - quad_size);
+	north_east = new Quadtree(QuadAABB(north_east_quad_pos, quad_size));
 
-	float quad_size = boundaris.half_dimension*0.5;
-	QuadPoint quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y + quad_size);
-	north_west = new Quadtree(QuadAABB(quad_pos, quad_size));
+	QuadPoint south_west_quad_pos = QuadAABB(boundary.centre.x - quad_size, boundary.centre.y + quad_size);
+	south_west = new Quadtree(QuadAABB(south_west_quad_pos, quad_size));
+
+	QuadPoint south_east_quad_pos = QuadAABB(boundary.centre.x + quad_size, boundary.centre.y + quad_size);
+	south_east = new Quadtree(QuadAABB(south_east_quad_pos, quad_size));
+}
+
+template<class T>
+inline void QuadTree<T>::SendDataToChilds()
+{
+	std::vector<Data<T>>::iterator it = objects.begin();
+	while (it != res.end())
+	{
+		it = res.erase(it);
+		if (north_west->Insert(data))
+			return true;
+		if (north_east->Insert(data))
+			return true;
+		if (south_west->Insert(data))
+			return true;
+		if (south_east->Insert(data))
+			return true;
+	}
 }
 
 template<class T>
