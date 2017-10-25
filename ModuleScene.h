@@ -2,7 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "Primitive.h"
-//#include "Quadtree.h"
+#include "Quadtree.h"
 class GameObject;
 class ModuleScene : public Module
 {
@@ -17,7 +17,8 @@ public:
 	bool CleanUp();
 
 	GameObject* GenerateGameObject(GameObject* parent = nullptr);
-	//QuadTree<GameObject*> quadtree;
+
+	QuadTree<GameObject*> quadtree;
 	Plane_p plane;
 	
 private:

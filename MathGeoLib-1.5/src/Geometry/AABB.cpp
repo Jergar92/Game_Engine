@@ -61,6 +61,10 @@ AABB::AABB(const Sphere &s)
 	SetFrom(s);
 }
 
+AABB::AABB(const float3 &center, const float &size)
+{
+	SetFromCenterAndSize(center, size);
+}
 void AABB::SetNegativeInfinity()
 {
 	minPoint.SetFromScalar(FLOAT_INF);
@@ -73,7 +77,12 @@ void AABB::SetFromCenterAndSize(const float3 &center, const float3 &size)
 	minPoint = center - halfSize;
 	maxPoint = center + halfSize;
 }
-
+void AABB::SetFromCenterAndSize(const float3 &center, const float &size)
+{
+	float halfSize = 0.5f * size;
+	minPoint = center - float3(halfSize, halfSize, halfSize);
+	maxPoint = center + float3(halfSize, halfSize, halfSize);
+}
 void AABB::SetFrom(const OBB &obb)
 {
 	float3 halfSize = Abs(obb.axis[0]*obb.r[0]) + Abs(obb.axis[1]*obb.r[1]) + Abs(obb.axis[2]*obb.r[2]);

@@ -87,6 +87,8 @@ public:
 	float MaxY() const { return maxPoint.y; } ///< [similarOverload: MaxX]
 	float MaxZ() const { return maxPoint.z; } ///< [similarOverload: MaxX]
 
+	AABB(const float3 & center, const float & size);
+
 	/// Sets this structure to a degenerate AABB that does not have any volume.
 	/** This function is useful for initializing the AABB to "null" before a loop of calls to Enclose(),
 		which incrementally expands the bounds of this AABB to enclose the given objects.
@@ -98,6 +100,8 @@ public:
 		@param size A vector that specifies the size of this AABB in x, y and z directions.
 		@see SetFrom(), FromCenterAndSize(). */
 	void SetFromCenterAndSize(const float3 &center, const float3 &size);
+
+	void SetFromCenterAndSize(const float3 & center, const float & size);
 
 	/// Sets this AABB to enclose the given OBB.
 	/** This function computes the minimal axis-aligned bounding box for the given oriented bounding box. If the orientation
