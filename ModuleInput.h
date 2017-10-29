@@ -18,7 +18,7 @@ public:
 	
 	ModuleInput(bool start_enabled = true);
 	~ModuleInput();
-	bool Awake(const JSON_Object * data);
+	bool Awake(const JSONConfig& data);
 
 	update_status PreUpdate(float dt);
 	void GuiConfigUpdate();

@@ -16,7 +16,7 @@ ModuleAudio::~ModuleAudio()
 {}
 // Called before render is available
 
-bool ModuleAudio::Awake(const JSON_Object * data)
+bool ModuleAudio::Awake(const JSONConfig& data)
 {
 	
 		LOG("Loading Audio Mixer");
@@ -29,10 +29,9 @@ bool ModuleAudio::Awake(const JSON_Object * data)
 		}
 		else
 		{
-			JSON_Object * audio_data = json_object_dotget_object(data, name.c_str());
 
-			music_volume = json_object_dotget_number(audio_data, "music_volume");
-			fx_volume = json_object_dotget_number(audio_data, "fx_volume");
+			music_volume = data.GetInt("music_volume");
+			fx_volume = data.GetInt("fx_volume"); 
 
 			// load support for the OGG format
 			int flags = MIX_INIT_OGG;
@@ -108,26 +107,28 @@ void ModuleAudio::GuiConfigUpdate()
 
 bool ModuleAudio::SaveConfig(const JSON_Object * data)
 {
+	/*
 	bool ret = true;
 	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
 
 	json_object_dotset_number(audio_data, "music_volume", music_volume);
 	json_object_dotset_number(audio_data, "fx_volume", fx_volume);
+	*/
 
-
-	return ret;
+	return true;
 }
 
 bool ModuleAudio::LoadConfig(const JSON_Object * data)
 {
+	/*
 	bool ret = true;
 	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
 
 	music_volume = json_object_dotget_number(audio_data, "music_volume");
 	fx_volume = json_object_dotget_number(audio_data, "fx_volume");
+	*/
+	return true;
 
-	return ret;
-	
 }
 
 // Play a music file

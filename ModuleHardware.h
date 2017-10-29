@@ -10,7 +10,6 @@ public:
 	ModuleHardware(bool start_enabled = true);
 	~ModuleHardware();
 
-	bool Awake(const JSON_Object* data);
 	bool Start();
 	bool CleanUp();
 	void GuiConfigUpdate();

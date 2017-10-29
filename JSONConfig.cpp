@@ -34,7 +34,7 @@ JSONConfig JSONConfig::GetFocus(const char * name)
 	return json_object_dotget_object(object, name);
 }
 
-float3 JSONConfig::GetFloat3(const char * name)
+float3 JSONConfig::GetFloat3(const char * name)const
 {
 	JSON_Array* array = json_object_get_array(object, name);
 	float set[3];
@@ -52,7 +52,7 @@ float3 JSONConfig::GetFloat3(const char * name)
 	return ret;
 }
 
-float2 JSONConfig::GetFloat2(const char * name)
+float2 JSONConfig::GetFloat2(const char * name)const
 {
 	JSON_Array* array = json_object_get_array(object, name);
 	float set[2];
@@ -69,28 +69,35 @@ float2 JSONConfig::GetFloat2(const char * name)
 	return ret;
 }
 
-float JSONConfig::GetFloat(const char * name)
+float JSONConfig::GetFloat(const char * name)const
 {
 	JSON_Value* value = json_object_get_value(object, name);
 
 	return (float)json_value_get_number(value);
 }
 
-int JSONConfig::GetInt(const char * name)
+int JSONConfig::GetInt(const char * name)const
 {
 	JSON_Value* value = json_object_get_value(object, name);
 
 	return (int)json_value_get_number(value);
 }
 
-bool JSONConfig::GetBool(const char * name)
+bool JSONConfig::GetBool(const char * name)const
 {
 	JSON_Value* value = json_object_get_value(object, name);
 
 	return json_value_get_boolean(value);
 }
 
-Quat JSONConfig::GetQuaternion(const char * name)
+const char * JSONConfig::GetString(const char * name)const
+{
+	JSON_Value* value = json_object_get_value(object, name);
+
+	return json_value_get_string(value);
+}
+
+Quat JSONConfig::GetQuaternion(const char * name)const
 {
 	JSON_Array* array = json_object_get_array(object, name);
 	float set[4];

@@ -26,7 +26,7 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
-	bool Awake(const JSON_Object * data);
+	bool Awake(const JSONConfig& data);
 
 	void GuiConfigUpdate();
 	bool SaveConfig(const JSON_Object * data);

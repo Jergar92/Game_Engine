@@ -21,7 +21,7 @@ ModuleFileSystem::~ModuleFileSystem()
 {
 }
 
-bool ModuleFileSystem::Awake(const JSON_Object * data)
+bool ModuleFileSystem::Awake(const JSONConfig& data)
 {
 	bool ret = true;
 	meshes = MESHES_FOLDER;

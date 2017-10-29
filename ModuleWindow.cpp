@@ -16,8 +16,9 @@ ModuleWindow::ModuleWindow(bool start_enabled)
 ModuleWindow::~ModuleWindow()
 {
 }
+
 // Called before render is available
-bool ModuleWindow::Awake(const JSON_Object * data)
+bool ModuleWindow::Awake(const JSONConfig& data)
 {
 	//BROFILER_CATEGORY("Module Window Awake", Profiler::Color::AliceBlue);
 
@@ -34,18 +35,18 @@ bool ModuleWindow::Awake(const JSON_Object * data)
 	else
 	{
 
-		JSON_Object * window_data = json_object_dotget_object(data, name.c_str());
 		
 		SetWindowSize();
 		//Create window
-		title = json_object_dotget_string(window_data, "title");
-		width = json_object_dotget_number(window_data, "width") * SCREEN_SIZE;
-		height = json_object_dotget_number(window_data, "height") * SCREEN_SIZE;
+		title = data.GetString("title");
+		width = data.GetInt("width") * SCREEN_SIZE;
+		height = data.GetInt("height")  * SCREEN_SIZE;
 		int i = 0;
-		windows_options[i++] = json_object_dotget_boolean(window_data, "full_screen");
-		windows_options[i++] = json_object_dotget_boolean(window_data, "window_full_screen");
-		windows_options[i++] = json_object_dotget_boolean(window_data, "window_borderless");
-		windows_options[i++] = json_object_dotget_boolean(window_data, "window_resizable");
+		//TODO make arraybool
+		windows_options[i++] = data.GetBool("full_screen");
+		windows_options[i++] = data.GetBool("window_full_screen");
+		windows_options[i++] = data.GetBool("window_borderless");
+		windows_options[i++] = data.GetBool("window_resizable");
 
 
 		//Use OpenGL 2.1
@@ -145,6 +146,7 @@ void ModuleWindow::GuiConfigUpdate()
 bool ModuleWindow::SaveConfig(const JSON_Object* data)
 {
 	bool ret = true;
+	/*
 	JSON_Object* window_data = json_object_dotget_object(data, name.c_str());
 
 	json_object_dotset_string(window_data, "title", title.c_str());
@@ -157,13 +159,14 @@ bool ModuleWindow::SaveConfig(const JSON_Object* data)
 	json_object_dotset_boolean(window_data, "window_borderless", windows_options[i++]);
 	json_object_dotset_boolean(window_data, "window_resizable", windows_options[i++]);
 
-
+	*/
 	return ret;
 }
 
 bool ModuleWindow::LoadConfig(const JSON_Object* data)
 {
 	bool ret = true;
+	/*
 	JSON_Object * window_data = json_object_dotget_object(data, name.c_str());
 	//Create window
 	title = json_object_dotget_string(window_data, "title");
@@ -177,7 +180,7 @@ bool ModuleWindow::LoadConfig(const JSON_Object* data)
 	Uint32 flags = 0;
 	SetWindowsFlags(flags);
 	SDL_SetWindowFullscreen(window, flags);
-
+	*/
 	return ret;
 }
 // Called before quitting

@@ -21,12 +21,15 @@ public:
 
 	bool ParseFile(const char* name);
 	JSONConfig GetFocus(const char* name);
-	float3 GetFloat3(const char* name);
-	float2 GetFloat2(const char* name);
-	float GetFloat(const char* name);
-	int GetInt(const char* name);
-	bool GetBool(const char* name);
-	Quat GetQuaternion(const char* name);
+
+	float3 GetFloat3(const char* name)const;
+	float2 GetFloat2(const char* name)const;
+	float GetFloat(const char* name)const;
+	int GetInt(const char* name)const;
+	bool GetBool(const char* name)const;
+	const char* GetString(const char* name)const;
+
+	Quat GetQuaternion(const char* name)const;
 	
 	//Set Functions
 	void SetFloat3(float3 value, const char* name);

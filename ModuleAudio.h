@@ -12,7 +12,7 @@ public:
 
 	ModuleAudio(bool start_enabled = true);
 	~ModuleAudio();
-	bool Awake(const JSON_Object * data);
+	bool Awake(const JSONConfig& data);
 
 	bool CleanUp();
 

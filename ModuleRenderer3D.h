@@ -15,7 +15,7 @@ public:
 	ModuleRenderer3D(bool start_enabled = true);
 	~ModuleRenderer3D();
 
-	bool Awake(const JSON_Object * data);
+	bool Awake(const JSONConfig& data);
 	update_status PreUpdate(float dt);
 	void GuiConfigUpdate();
 	update_status GuiUpdate();

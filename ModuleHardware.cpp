@@ -15,11 +15,7 @@ ModuleHardware::~ModuleHardware()
 {
 }
 
-bool ModuleHardware::Awake(const JSON_Object * data)
-{
-	bool ret = true;
-	return ret;
-}
+
 
 bool ModuleHardware::Start()
 {

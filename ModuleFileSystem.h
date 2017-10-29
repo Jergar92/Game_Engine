@@ -6,7 +6,7 @@ class ModuleFileSystem:public Module
 public:
 	ModuleFileSystem();
 	~ModuleFileSystem();
-	bool Awake(const JSON_Object* data);
+	bool Awake(const JSONConfig& data);
 	bool CreateOwnFile(const char * name, char * buffer,int buffer_int, const char * directory,const char* extension);
 	const char* GetMeshesFolder();
 	const char* GetMaterialFolder();

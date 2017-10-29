@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Parson\parson.h"
+#include "JSONConfig.h"
 class Application;
 
 class Module
@@ -17,7 +17,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Awake(const JSON_Object* data)
+	virtual bool Awake(JSONConfig& data)
 	{
 		return true;
 	}

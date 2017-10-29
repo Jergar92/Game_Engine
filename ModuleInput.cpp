@@ -24,7 +24,7 @@ ModuleInput::~ModuleInput()
 	delete[] keyboard;
 }
 
-bool ModuleInput::Awake(const JSON_Object * data)
+bool ModuleInput::Awake(const JSONConfig& data)
 {
 
 
