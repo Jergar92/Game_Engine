@@ -15,7 +15,12 @@ class JSONConfig
 {
 public:
 	JSONConfig();
+	JSONConfig(JSON_Object * object);
+
 	~JSONConfig();
+
+	bool ParseFile(const char* name);
+	JSONConfig GetFocus(const char* name);
 	float3 GetFloat3(const char* name);
 	float2 GetFloat2(const char* name);
 	float GetFloat(const char* name);

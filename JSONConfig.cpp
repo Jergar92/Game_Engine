@@ -6,9 +6,32 @@ JSONConfig::JSONConfig()
 {
 }
 
+JSONConfig::JSONConfig(JSON_Object * object):object(object)
+{
+}
+
 
 JSONConfig::~JSONConfig()
 {
+	json_value_free((JSON_Value *)value);
+}
+
+bool JSONConfig::ParseFile(const char * name)
+{
+	bool ret = true;
+	value = json_parse_file("config.json");
+	if (value == NULL)
+	{
+		ret = false;
+	}
+	object = json_value_get_object(value);
+
+	return ret;
+}
+
+JSONConfig JSONConfig::GetFocus(const char * name)
+{
+	return json_object_dotget_object(object, name);
 }
 
 float3 JSONConfig::GetFloat3(const char * name)

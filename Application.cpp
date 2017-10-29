@@ -13,6 +13,7 @@
 #include "ModuleMenuBar.h"
 #include "ModuleHardware.h"
 #include "Profiler.h"
+#include "JSONConfig.h"
 Application::Application()
 {
 	file_system = new ModuleFileSystem();
