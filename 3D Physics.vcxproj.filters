@@ -384,6 +384,9 @@
     <ClInclude Include="Quadtree.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="JSONConfig.h">
+      <Filter>Sources\Parson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -574,6 +577,9 @@
     </ClCompile>
     <ClCompile Include="MaterialImporter.cpp">
       <Filter>Sources\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="JSONConfig.cpp">
+      <Filter>Sources\Parson</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
