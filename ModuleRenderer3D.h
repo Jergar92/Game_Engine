@@ -22,8 +22,8 @@ public:
 
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
-	bool SaveConfig(const JSON_Object * data);
-	bool LoadConfig(const JSON_Object * data);
+	bool SaveConfig(const JSONConfig& data);
+	bool LoadConfig(const JSONConfig& data);
 	bool CleanUp();
 	void OnResize(int width, int height);
 private:

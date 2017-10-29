@@ -105,7 +105,7 @@ void ModuleAudio::GuiConfigUpdate()
 	}
 }
 
-bool ModuleAudio::SaveConfig(const JSON_Object * data)
+bool ModuleAudio::SaveConfig(const JSONConfig& data)
 {
 	/*
 	bool ret = true;
@@ -118,7 +118,7 @@ bool ModuleAudio::SaveConfig(const JSON_Object * data)
 	return true;
 }
 
-bool ModuleAudio::LoadConfig(const JSON_Object * data)
+bool ModuleAudio::LoadConfig(const JSONConfig& data)
 {
 	/*
 	bool ret = true;

@@ -229,7 +229,7 @@ void GameObject::AddComponent(Component * component_to_add)
 	components.push_back(component_to_add);
 }
 
-void GameObject::SaveGameObject(JSON_Object * data)
+void GameObject::SaveGameObject(const JSONConfig& data)
 {
 	//JSON_Value *root_value = json_value_init_object();
 	//JSON_Object *root_object = json_value_get_object(root_value);
@@ -246,6 +246,7 @@ void GameObject::SaveGameObject(JSON_Object * data)
 "Components":[]
 },
 	*/
+	/*
 	JSON_Object *root_object = data;
 	char *serialized_string = NULL;
 	
@@ -268,6 +269,7 @@ void GameObject::SaveGameObject(JSON_Object * data)
 		item->SaveGameObject(root_object);
 
 	}
+	*/
 	//Send to filesystem//	JSON_Status json_serialize_to_file(const JSON_Value *value, const char *filename);
 
 }

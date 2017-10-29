@@ -291,7 +291,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 }
 
 // PostUpdate present buffer to screen
-bool ModuleRenderer3D::SaveConfig(const JSON_Object* data)
+bool ModuleRenderer3D::SaveConfig(const JSONConfig& data)
 {
 	bool ret = true;
 	/*
@@ -337,7 +337,7 @@ bool ModuleRenderer3D::SaveConfig(const JSON_Object* data)
 	return ret;
 }
 
-bool ModuleRenderer3D::LoadConfig(const JSON_Object* data)
+bool ModuleRenderer3D::LoadConfig(const JSONConfig& data)
 {
 	bool ret = true;
 	/*

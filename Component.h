@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include "Globals.h"
-#include "Parson\parson.h"
+#include "JSONConfig.h"
+
 class GameObject;
+
 enum ComponentType
 {
 	TRANSFORM,
@@ -20,7 +22,7 @@ public:
 	virtual void Update();
 	virtual void GuiUpdate();
 	virtual void InspectorUpdate();
-	virtual bool SaveComponent(const JSON_Object* data);
+	virtual bool SaveComponent(const JSONConfig& data);
 	
 	virtual void Load();
 

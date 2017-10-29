@@ -17,7 +17,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Awake(JSONConfig& data)
+	virtual bool Awake(const JSONConfig& data)
 	{
 		return true;
 	}
@@ -50,12 +50,12 @@ public:
 	{
 		return;
 	}
-	virtual bool LoadConfig(const JSON_Object* data)
+	virtual bool LoadConfig(const JSONConfig& data)
 	{
 		return true;
 	}
 
-	virtual bool SaveConfig(const JSON_Object* data)
+	virtual bool SaveConfig(const JSONConfig& data)
 	{
 		return true;
 	}

@@ -20,8 +20,6 @@ ModuleWindow::~ModuleWindow()
 // Called before render is available
 bool ModuleWindow::Awake(const JSONConfig& data)
 {
-	//BROFILER_CATEGORY("Module Window Awake", Profiler::Color::AliceBlue);
-
 	LOG("Init SDL window & surface");
 	bool ret = true;
 
@@ -122,7 +120,7 @@ void ModuleWindow::GuiConfigUpdate()
 
 		const char* windows_menu[] = { "Windowed","Full Screen", "Windowed Full Screen", "Borderless", "Window Resizable" };
 		static int windows_selected = 0;
-		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, sizeof(windows_menu)))
+		if (ImGui::Combo("Windows Option", &windows_selected, windows_menu, 4))
 		{
 			for (int i = 1; i < sizeof(windows_menu); i++)
 			{
@@ -133,7 +131,7 @@ void ModuleWindow::GuiConfigUpdate()
 		const char* windows_size[] = { "1024x600","1152x768","1280x720", "1920x1080" };
 		static int windows_size_selected = 0;
 
-		if (ImGui::Combo("Windows Size", &windows_size_selected, windows_size, sizeof(windows_size)))
+		if (ImGui::Combo("Windows Size", &windows_size_selected, windows_size, 4))
 		{
 			width = window_s[windows_size_selected].width;
 			height = window_s[windows_size_selected].height;
@@ -143,7 +141,7 @@ void ModuleWindow::GuiConfigUpdate()
 	}
 }
 
-bool ModuleWindow::SaveConfig(const JSON_Object* data)
+bool ModuleWindow::SaveConfig(const JSONConfig& data)
 {
 	bool ret = true;
 	/*
@@ -163,7 +161,7 @@ bool ModuleWindow::SaveConfig(const JSON_Object* data)
 	return ret;
 }
 
-bool ModuleWindow::LoadConfig(const JSON_Object* data)
+bool ModuleWindow::LoadConfig(const JSONConfig& data)
 {
 	bool ret = true;
 	/*

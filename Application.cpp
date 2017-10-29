@@ -13,7 +13,6 @@
 #include "ModuleMenuBar.h"
 #include "ModuleHardware.h"
 #include "Profiler.h"
-#include "JSONConfig.h"
 Application::Application()
 {
 	file_system = new ModuleFileSystem();
@@ -94,7 +93,7 @@ bool Application::Awake()
 	bool ret = true;
 	JSONConfig config;
 	// Call Awake() in all modules
-	if (config.ParseFile("config.json"))
+	if (!config.ParseFile("config.json"))
 	{
 		ret = false;
 	}
