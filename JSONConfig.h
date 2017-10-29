@@ -16,14 +16,21 @@ class JSONConfig
 public:
 	JSONConfig();
 	~JSONConfig();
-
-	void AddFloat3(float3 value, const char* name);
-	void AddFloat2(float2 value, const char* name);
-	void AddFloat(float value, const char* name);
-	void AddBool(bool value, const char* name);
-
-	void AddQuaternion(Quat value, const char* name);
-
+	float3 GetFloat3(const char* name);
+	float2 GetFloat2(const char* name);
+	float GetFloat(const char* name);
+	int GetInt(const char* name);
+	bool GetBool(const char* name);
+	Quat GetQuaternion(const char* name);
+	
+	//Set Functions
+	void SetFloat3(float3 value, const char* name);
+	void SetFloat2(float2 value, const char* name);
+	void SetFloat(float value, const char* name);
+	void SetInt(int value, const char* name);
+	void SetBool(bool value, const char* name);
+	void SetQuaternion(Quat value, const char* name);
+	//TODO Array floats for ModuleRender
 private:
 	JSON_Object* object = nullptr;
 	JSON_Array* array = nullptr;
