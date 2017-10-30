@@ -37,7 +37,7 @@ public:
 	void SetFloat(float value, const char* name);
 	void SetInt(int value, const char* name);
 	void SetBool(bool value, const char* name);
-	void SetString(const char* value, const char* name);
+	void SetString(std::string value, const char* name);
 
 	void SetQuaternion(Quat value, const char* name);
 	//TODO Array floats for ModuleRender

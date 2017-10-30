@@ -233,6 +233,15 @@ void GameObject::SaveGameObject(const JSONConfig& data)
 {
 	//JSON_Value *root_value = json_value_init_object();
 	//JSON_Object *root_object = json_value_get_object(root_value);
+	JSONConfig config;
+	config.SetInt(UID, "UID");
+	if(parent!=nullptr)
+		config.SetInt(parent->UID, "ParentUID");
+	config.SetString(name, "ParentUID");
+	config.SetFloat3(position, "Translation");
+	config.SetQuaternion(rotation, "Rotation");
+	config.SetFloat3(scale, "Scale");
+	
 	/*
 {
 "Game Objects":[

@@ -157,9 +157,9 @@ void JSONConfig::SetBool(bool value, const char * name)
 
 }
 
-void JSONConfig::SetString(const char * value, const char * name)
+void JSONConfig::SetString(std::string value, const char * name)
 {
-	json_object_set_string(object, name, value);
+	json_object_set_string(object, name, value.c_str());
 
 }
 

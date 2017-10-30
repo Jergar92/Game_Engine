@@ -105,28 +105,17 @@ void ModuleAudio::GuiConfigUpdate()
 	}
 }
 
-bool ModuleAudio::SaveConfig(const JSONConfig& data)
+bool ModuleAudio::SaveConfig(JSONConfig& data)
 {
-	/*
-	bool ret = true;
-	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
-
-	json_object_dotset_number(audio_data, "music_volume", music_volume);
-	json_object_dotset_number(audio_data, "fx_volume", fx_volume);
-	*/
-
+	data.SetInt(music_volume, "music_volume");
+	data.SetInt(fx_volume, "fx_volume");
 	return true;
 }
 
 bool ModuleAudio::LoadConfig(const JSONConfig& data)
 {
-	/*
-	bool ret = true;
-	JSON_Object* audio_data = json_object_dotget_object(data, name.c_str());
-
-	music_volume = json_object_dotget_number(audio_data, "music_volume");
-	fx_volume = json_object_dotget_number(audio_data, "fx_volume");
-	*/
+	music_volume = data.GetInt("music_volume");
+	fx_volume = data.GetInt("fx_volume");
 	return true;
 
 }

@@ -291,101 +291,103 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 }
 
 // PostUpdate present buffer to screen
-bool ModuleRenderer3D::SaveConfig(const JSONConfig& data)
+bool ModuleRenderer3D::SaveConfig(JSONConfig& data)
 {
 	bool ret = true;
-	/*
-	JSON_Object* render_data = json_object_dotget_object(data, name.c_str());
 
-	json_object_dotset_number(render_data, "vsync", vsync);
-	json_object_dotset_number(render_data, "background_r", background_color.x);
-	json_object_dotset_number(render_data, "background_g", background_color.y);
-	json_object_dotset_number(render_data, "background_b", background_color.z);
+	data.SetInt(vsync,"vsync");
+
+
+	data.SetFloat(background_color.x, "background_r");
+	data.SetFloat(background_color.y, "background_g");
+	data.SetFloat(background_color.z, "background_b");
 	//OpenGL Enable/Disable
-	json_object_dotset_boolean(render_data, "depth_test", depth_test);
-	json_object_dotset_number(render_data, "depth", depth);
 
-	json_object_dotset_boolean(render_data, "cull_face", cull_face);
-	json_object_dotset_number(render_data, "front_face", front_face);
+	data.SetBool(depth_test, "depth_test");
+	data.SetFloat(depth, "depth");
 
-	json_object_dotset_boolean(render_data, "lighting", lighting);
-	json_object_dotset_number(render_data, "light_ambient_r", light_ambient[0]);
-	json_object_dotset_number(render_data, "light_ambient_g", light_ambient[1]);
-	json_object_dotset_number(render_data, "light_ambient_b", light_ambient[2]);
-	json_object_dotset_number(render_data, "light_ambient_a", light_ambient[3]);
+	data.SetBool(cull_face, "cull_face");
+	data.SetFloat(front_face, "front_face");
 
-	json_object_dotset_boolean(render_data, "color_material", color_material);
-	json_object_dotset_number(render_data, "color_ambient_r", color_ambient[0]);
-	json_object_dotset_number(render_data, "color_ambient_g", color_ambient[1]);
-	json_object_dotset_number(render_data, "color_ambient_b", color_ambient[2]);
-	json_object_dotset_number(render_data, "color_ambient_a", color_ambient[3]);
+	data.SetBool(lighting, "lighting");
+	data.SetFloat(light_ambient[0], "light_ambient_r");
+	data.SetFloat(light_ambient[1], "light_ambient_g");
+	data.SetFloat(light_ambient[2], "light_ambient_b");
+	data.SetFloat(light_ambient[3], "light_ambient_a");
 
-	json_object_dotset_number(render_data, "color_diffuse_r", color_diffuse[0]);
-	json_object_dotset_number(render_data, "color_diffuse_g", color_diffuse[1]);
-	json_object_dotset_number(render_data, "color_diffuse_b", color_diffuse[2]);
-	json_object_dotset_number(render_data, "color_diffuse_a", color_diffuse[3]);
+	data.SetBool(color_material, "color_material");
+	data.SetFloat(color_ambient[0], "color_ambient_r");
+	data.SetFloat(color_ambient[1], "color_ambient_g");
+	data.SetFloat(color_ambient[2], "color_ambient_b");
+	data.SetFloat(color_ambient[3], "color_ambient_a");
+	data.SetFloat(color_diffuse[0], "color_diffuse_r");
+	data.SetFloat(color_diffuse[1], "color_diffuse_g");
+	data.SetFloat(color_diffuse[2], "color_diffuse_b");
+	data.SetFloat(color_diffuse[3], "color_diffuse_a");
 
-	json_object_dotset_boolean(render_data, "texture_2d", texture_2d);
+	data.SetBool(texture_2d, "texture_2d");
 
-	json_object_dotset_boolean(render_data, "fog", fog);
-	json_object_dotset_number(render_data, "fog_density", fog_density);
-	json_object_dotset_number(render_data, "fog_color_r", fog_color[0]);
-	json_object_dotset_number(render_data, "fog_color_g", fog_color[1]);
-	json_object_dotset_number(render_data, "fog_color_b", fog_color[2]);
-	json_object_dotset_number(render_data, "fog_color_a", fog_color[3]);
-	*/
+	data.SetBool(fog,"fog");
+	data.SetFloat(fog_density,"fog_density");
+	data.SetFloat(fog_color[0], "fog_color_r");
+	data.SetFloat(fog_color[1], "fog_color_g");
+	data.SetFloat(fog_color[2], "fog_color_b");
+	data.SetFloat(fog_color[3], "fog_color_a");
+
+
 	return ret;
 }
 
 bool ModuleRenderer3D::LoadConfig(const JSONConfig& data)
 {
 	bool ret = true;
-	/*
-	JSON_Object * render_data = json_object_dotget_object(data, name.c_str());
-	int vsync = json_object_dotget_number(render_data, "vsync");
-	background_color.x = json_object_dotget_number(render_data, "background_r");
-	background_color.y = json_object_dotget_number(render_data, "background_g");
-	background_color.z = json_object_dotget_number(render_data, "background_b");
+	vsync = data.GetInt("vsync");
+
+	background_color.x = data.GetFloat("background_r");
+	background_color.y = data.GetFloat("background_g");
+	background_color.z = data.GetFloat("background_b");
+
 
 	//OpenGL Enable/Disable
-	depth_test = json_object_dotget_boolean(render_data, "depth_test");
-	depth = json_object_dotget_number(render_data, "depth");
+	depth_test = data.GetBool("depth_test");
+	depth = data.GetFloat("depth");
 
-	cull_face = json_object_dotget_boolean(render_data, "cull_face");
-	front_face = json_object_dotget_number(render_data, "front_face");
+	cull_face = data.GetBool("cull_face");
+	front_face = data.GetFloat("front_face");
 
-	lighting = json_object_dotget_boolean(render_data, "lighting");
-	light_ambient[0] = json_object_dotget_number(render_data, "light_ambient_r");
-	light_ambient[1] = json_object_dotget_number(render_data, "light_ambient_g");
-	light_ambient[2] = json_object_dotget_number(render_data, "light_ambient_b");
-	light_ambient[3] = json_object_dotget_number(render_data, "light_ambient_a");
+	lighting = data.GetBool("lighting");
+	light_ambient[0] = data.GetFloat("light_ambient_r");
+	light_ambient[1] = data.GetFloat("light_ambient_g");
+	light_ambient[2] = data.GetFloat("light_ambient_b");
+	light_ambient[3] = data.GetFloat("light_ambient_a");
 
-	color_material = json_object_dotget_boolean(render_data, "color_material");
-	color_ambient[0] = json_object_dotget_number(render_data, "color_ambient_r");
-	color_ambient[1] = json_object_dotget_number(render_data, "color_ambient_g");
-	color_ambient[2] = json_object_dotget_number(render_data, "color_ambient_b");
-	color_ambient[3] = json_object_dotget_number(render_data, "color_ambient_a");
+	color_material = data.GetBool("color_material");
+	color_ambient[0] = data.GetFloat("color_ambient_r");
+	color_ambient[1] = data.GetFloat("color_ambient_g");
+	color_ambient[2] = data.GetFloat("color_ambient_b");
+	color_ambient[3] = data.GetFloat("color_ambient_a");
 
-	color_diffuse[0] = json_object_dotget_number(render_data, "color_diffuse_r");
-	color_diffuse[1] = json_object_dotget_number(render_data, "color_diffuse_g");
-	color_diffuse[2] = json_object_dotget_number(render_data, "color_diffuse_b");
-	color_diffuse[3] = json_object_dotget_number(render_data, "color_diffuse_a");
+	color_diffuse[0] = data.GetFloat("color_diffuse_r");
+	color_diffuse[1] = data.GetFloat("color_diffuse_g");
+	color_diffuse[2] = data.GetFloat("color_diffuse_b");
+	color_diffuse[3] = data.GetFloat("color_diffuse_a");
 
-	texture_2d = json_object_dotget_boolean(render_data, "texture_2d");
+	texture_2d = data.GetBool("texture_2d");
 
-	fog = json_object_dotget_boolean(render_data, "fog");
-	fog_density = json_object_dotget_number(render_data, "fog_density");
-	fog_color[0] = json_object_dotget_number(render_data, "fog_color_r");
-	fog_color[1] = json_object_dotget_number(render_data, "fog_color_g");
-	fog_color[2] = json_object_dotget_number(render_data, "fog_color_b");
-	fog_color[3] = json_object_dotget_number(render_data, "fog_color_a");
+	fog = data.GetBool("fog");
+	fog_density = data.GetFloat("fog_density");
+	fog_color[0] = data.GetFloat("fog_color_r");
+	fog_color[1] = data.GetFloat("fog_color_g");
+	fog_color[2] = data.GetFloat("fog_color_b");
+	fog_color[3] = data.GetFloat("fog_color_a");
+
 
 	//Initialize clear color
 	glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);
 	//Use Vsync
 	if (SDL_GL_SetSwapInterval(vsync) < 0)
 		LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-		*/
+		
 	return ret;
 }
 // Called before quitting

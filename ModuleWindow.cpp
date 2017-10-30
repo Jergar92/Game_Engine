@@ -141,44 +141,40 @@ void ModuleWindow::GuiConfigUpdate()
 	}
 }
 
-bool ModuleWindow::SaveConfig(const JSONConfig& data)
+bool ModuleWindow::SaveConfig(JSONConfig& data)
 {
 	bool ret = true;
-	/*
-	JSON_Object* window_data = json_object_dotget_object(data, name.c_str());
-
-	json_object_dotset_string(window_data, "title", title.c_str());
-	json_object_dotset_number(window_data, "width", width);
-	json_object_dotset_number(window_data, "height", height);
-
+	data.SetString(title, "title");
+	data.SetInt(width, "width");
+	data.SetInt(height, "height");
 	int i = 0;
-	json_object_dotset_boolean(window_data, "full_screen", windows_options[i++]);
-	json_object_dotset_boolean(window_data, "window_full_screen", windows_options[i++]);
-	json_object_dotset_boolean(window_data, "window_borderless", windows_options[i++]);
-	json_object_dotset_boolean(window_data, "window_resizable", windows_options[i++]);
+	//TODO make arraybool
 
-	*/
+	data.SetBool(windows_options[i++],"full_screen");
+	data.SetBool(windows_options[i++], "window_full_screen");
+	data.SetBool(windows_options[i++], "window_borderless");
+	data.SetBool(windows_options[i++], "window_resizable");
 	return ret;
 }
 
 bool ModuleWindow::LoadConfig(const JSONConfig& data)
 {
 	bool ret = true;
-	/*
-	JSON_Object * window_data = json_object_dotget_object(data, name.c_str());
 	//Create window
-	title = json_object_dotget_string(window_data, "title");
-	width = json_object_dotget_number(window_data, "width") * SCREEN_SIZE;
-	height = json_object_dotget_number(window_data, "height") * SCREEN_SIZE;
+	title = data.GetString("title");
+	width = data.GetInt("width") * SCREEN_SIZE;
+	height = data.GetInt("height")  * SCREEN_SIZE;
 	int i = 0;
-	windows_options[i++] = json_object_dotget_boolean(window_data, "full_screen");
-	windows_options[i++] = json_object_dotget_boolean(window_data, "window_full_screen");
-	windows_options[i++] = json_object_dotget_boolean(window_data, "window_borderless");
-	windows_options[i++] = json_object_dotget_boolean(window_data, "window_resizable");
+	//TODO make arraybool
+	windows_options[i++] = data.GetBool("full_screen");
+	windows_options[i++] = data.GetBool("window_full_screen");
+	windows_options[i++] = data.GetBool("window_borderless");
+	windows_options[i++] = data.GetBool("window_resizable");
+
 	Uint32 flags = 0;
 	SetWindowsFlags(flags);
 	SDL_SetWindowFullscreen(window, flags);
-	*/
+	
 	return ret;
 }
 // Called before quitting

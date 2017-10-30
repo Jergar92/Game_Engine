@@ -282,7 +282,6 @@ bool Application::LoadConfigNow()
 	bool ret = true;
 	
 	JSONConfig config;
-	// Call Awake() in all modules
 	if (!config.ParseFile("config.json"))
 	{
 		ret = false;
@@ -321,8 +320,8 @@ bool Application::SaveConfigNow()
 	{
 		JSONConfig app_config = config.GetFocus("App");
 
-		app_config.SetString(name.c_str(), "name");
-		app_config.SetString(organization.c_str(), "organization");
+		app_config.SetString(name, "name");
+		app_config.SetString(organization, "organization");
 		app_config.SetInt(fps_cap, "frame_cap");
 
 		std::list<Module*>::iterator item = list_modules.begin();

@@ -59,7 +59,7 @@ private:
 	bool enable = true;
 	bool static_go = false;
 	bool gui_static = false;
-	uint UUID = 0;
+	uint UID = 0;
 	float4x4 transform_matrix;
 	float4x4 transform_matrix_inverse;
 

@@ -29,7 +29,7 @@ public:
 	bool Awake(const JSONConfig& data);
 
 	void GuiConfigUpdate();
-	bool SaveConfig(const JSONConfig& data);
+	bool SaveConfig(JSONConfig& data);
 	bool LoadConfig(const JSONConfig& data);
 	bool CleanUp();
 
