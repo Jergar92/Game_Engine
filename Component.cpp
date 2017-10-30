@@ -33,9 +33,11 @@ void Component::InspectorUpdate()
 {
 }
 
+
+
 bool Component::SaveComponent(JSONConfig& data)const
 {
-	return false;
+	return true;
 }
 
 

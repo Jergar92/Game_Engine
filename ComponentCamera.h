@@ -30,6 +30,9 @@ public:
 	void SetFarDistance(float distance);
 	void SetAspectRatio();
 
+	//Save&Load
+	bool SaveComponent(JSONConfig& data)const;
+
 	//Draw
 	void DebugDraw();
 

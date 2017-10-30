@@ -166,3 +166,27 @@ void ComponentCamera::SetAspectRatio()
 
 	window_aspect_ratio = DEFAULT_WITH / DEFAULT_HEITH;
 }
+
+bool ComponentCamera::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
+
+	/*
+	bool enable = false;
+	float3 front{ 0, 0, 1 };
+	float3 up{ 0,1,0 };
+	float3 pos{ 0,0,0 };
+	float vertical_fov = 1.0f;
+	float window_aspect_ratio;
+	GameObject* scene;
+	*/
+	config.SetBool(my_go->GetUID(), "GameObject UID");
+	config.SetBool(enable, "Enable");
+	config.SetFloat3(front, "Front");
+	config.SetFloat3(up, "Up");
+	config.SetFloat3(pos, "Position");
+	config.SetFloat(vertical_fov, "Vertical FOV");
+	config.SetFloat(window_aspect_ratio, "Windows aspect ratio");
+
+	return ret;
+}

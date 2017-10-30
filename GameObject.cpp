@@ -229,10 +229,21 @@ void GameObject::AddComponent(Component * component_to_add)
 	components.push_back(component_to_add);
 }
 
+void GameObject::LoadGameObject(const JSONConfig & data)
+{
+
+	UID=data.GetInt("UID");
+	if (parent != nullptr)
+		parent->UID=data.GetInt("ParentUID");
+
+	name=data.GetString("ParentUID");
+	position=data.GetFloat3("Translation");
+	rotation=data.GetQuaternion("Rotation");
+	scale=data.GetFloat3("Scale");
+}
+
 void GameObject::SaveGameObject(JSONConfig& data)const
 {
-	//JSON_Value *root_value = json_value_init_object();
-	//JSON_Object *root_object = json_value_get_object(root_value);
 	JSONConfig config;
 	config.SetInt(UID, "UID");
 	if(parent!=nullptr)
@@ -241,47 +252,25 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 	config.SetFloat3(position, "Translation");
 	config.SetQuaternion(rotation, "Rotation");
 	config.SetFloat3(scale, "Scale");
+
 	//Set ARRAY components
-
-
-	/*
-{
-"Game Objects":[
-{
-"UID":1642009359,
-"ParentUID":1619219037,
-"Name":"RootNode",
-"Translation":[0,0,0],
-"Scale":[1,1,1],
-"Rotation":[0,0,0,1],
-"Components":[]
-},
-	*/
-	/*
-	JSON_Object *root_object = data;
-	char *serialized_string = NULL;
-	
-	json_object_dotset_string(root_object, "Name", name.c_str());
-	json_object_dotset_number(root_object, "UUID", UUID);
-	if(parent!=nullptr)
-		json_object_dotset_number(root_object, "UUID", parent->UUID);
-	json_object_dotset_boolean(root_object, "Enable", UUID);
-	json_object_dotset_boolean(root_object, "Static", UUID);
-
-	for (int i = 0; i < components.size(); i++)
+	config.OpenArray("Components");
+	std::vector<Component*>::const_iterator comp_it = components.begin();
+	while (comp_it != components.end())
 	{
-		Component* item = components[i];
-		item->SaveComponent(root_object);
+		JSONConfig config_component;
+		(*comp_it)->SaveComponent(config_component);
+		config.CloseArray(config_component);
+		comp_it++;
 	}
 
-	for (uint i = 0; i < childs.size(); i++)
+	std::vector<GameObject*>::const_iterator go_it = childs.begin();
+	while (go_it != childs.end())
 	{
-		GameObject* item = childs[i];
-		item->SaveGameObject(root_object);
-
+		JSONConfig go_component;
+		(*go_it)->SaveGameObject(go_component);
+		go_it++;
 	}
-	*/
-	//Send to filesystem//	JSON_Status json_serialize_to_file(const JSON_Value *value, const char *filename);
 
 }
 
@@ -305,7 +294,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 	return item;
 }
 
-Component* GameObject::FindComponent(ComponentType type, Component * component_to_find)
+Component* GameObject::FindComponent(ComponentType type, Component * component_to_find)const
 {
 	Component* ret = nullptr;
 	for (uint i = 0; i < components.size(); i++)
@@ -325,7 +314,7 @@ Component* GameObject::FindComponent(ComponentType type, Component * component_t
 	return ret;
 }
 
-Component* GameObject::FindComponent(ComponentType type)
+Component* GameObject::FindComponent(ComponentType type)const
 {
 	Component* ret = nullptr;
 	for (int i = 0; i < components.size(); i++)
@@ -339,6 +328,10 @@ Component* GameObject::FindComponent(ComponentType type)
 		}
 	}
 	return ret;
+}
+uint GameObject::GetUID() const
+{
+	return UID;
 }
 void GameObject::SetTransform(float3 set_scale, Quat set_rotation, float3 set_position)
 {

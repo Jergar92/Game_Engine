@@ -39,6 +39,9 @@ public:
 	void SetBool(bool value, const char* name);
 	void SetString(std::string value, const char* name);
 
+	void OpenArray(const char* name);
+	void CloseArray(const JSONConfig& child);
+
 	void SetQuaternion(Quat value, const char* name);
 	//TODO Array floats for ModuleRender
 private:

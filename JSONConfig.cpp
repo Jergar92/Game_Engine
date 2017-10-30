@@ -128,9 +128,9 @@ void JSONConfig::SetFloat3(float3 value, const char * name)
 	JSON_Value* va = json_value_init_array();
 	array = json_value_get_array(va);
 	json_object_set_value(object, name, va);
-	json_array_append_boolean(array, value.x);
-	json_array_append_boolean(array, value.y);
-	json_array_append_boolean(array, value.z);
+	json_array_append_number(array, value.x);
+	json_array_append_number(array, value.y);
+	json_array_append_number(array, value.z);
 }
 
 void JSONConfig::SetFloat2(float2 value, const char * name)
@@ -138,8 +138,8 @@ void JSONConfig::SetFloat2(float2 value, const char * name)
 	JSON_Value* va = json_value_init_array();
 	array = json_value_get_array(va);
 	json_object_set_value(object, name, va);
-	json_array_append_boolean(array, value.x);
-	json_array_append_boolean(array, value.y);
+	json_array_append_number(array, value.x);
+	json_array_append_number(array, value.y);
 }
 
 void JSONConfig::SetFloat(float value, const char * name)
@@ -162,6 +162,27 @@ void JSONConfig::SetString(std::string value, const char * name)
 	json_object_set_string(object, name, value.c_str());
 
 }
+
+void JSONConfig::OpenArray(const char * name)
+{
+	JSON_Value* new_array = json_value_init_array();
+	array = json_value_get_array(new_array);
+	json_object_set_value(object, name, new_array);
+}
+
+void JSONConfig::CloseArray(const JSONConfig & child)
+{
+	if (array != nullptr)
+	{
+		json_array_append_value(array, child.value);
+	}
+	else
+	{
+		LOG("Array nullptr, open Array");
+	}
+}
+
+
 
 
 void JSONConfig::SetQuaternion(Quat value, const char * name)

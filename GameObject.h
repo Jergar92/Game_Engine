@@ -18,28 +18,34 @@ public:
 	void GuiUpdate();
 	void InspectorUpdate();
 
-	const char* GetName();
+
 	void OpenStaticQuestion();
+
+
+	void AddComponent(Component* component_to_add);
+	void LoadGameObject(const JSONConfig& data);
+
+	void SaveGameObject(JSONConfig& data)const;
+	Component* CreateComponent(ComponentType type);
+	Component* FindComponent(ComponentType type,Component* component_to_find)const;
+	Component* FindComponent(ComponentType type)const;
+	uint GetUID()const;
+	const char* GetName();
+	//Setters
+	void SetScale(float3 scale);
+	void SetRotation(float3 rotation);
+	void SetPosition(float3 Position);
+
 	void SetStatic(bool set);
 	void SetParent(GameObject * parent);
 	void SetChild(GameObject * child);
 	void SetName(const char* name);
-	void AddComponent(Component* component_to_add);
-
-	void SaveGameObject(JSONConfig& data)const;
-	Component* CreateComponent(ComponentType type);
-	Component* FindComponent(ComponentType type,Component* component_to_find);
-	Component* FindComponent(ComponentType type);
-
 	void SetTransform(math::float3 scale, math::Quat rotation, math::float3 position);
 	//Update Matrix
 	void UpdateMatrix();
 	float4x4 GetInverseMatrix() const;
 
-	//Setters
-	void SetScale(float3 scale);
-	void SetRotation(float3 rotation);
-	void SetPosition(float3 Position);
+
 
 public:
 	std::vector<Component*> components;
