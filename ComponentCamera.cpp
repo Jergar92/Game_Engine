@@ -20,7 +20,7 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go),enable(true
 
 	camera_frustrum.pos = pos;
 	camera_frustrum.verticalFov = vertical_fov;
-	GetAspectRatio();
+	SetAspectRatio();
 
 	camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
 	
@@ -90,26 +90,25 @@ void ComponentCamera::DebugDraw()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-float ComponentCamera::GetNearDistance()
+float ComponentCamera::GetNearDistance()const
 {
 	return camera_frustrum.nearPlaneDistance;
 }
 
-float ComponentCamera::GetFardistance()
+float ComponentCamera::GetFardistance()const
 {
 	return camera_frustrum.farPlaneDistance;
 }
 
-float3 ComponentCamera::GetPosition()
+float3 ComponentCamera::GetPosition()const
 {
 	return camera_frustrum.pos;
 }
 
-float ComponentCamera::GetAspectRatio()
+float ComponentCamera::GetAspectRatio()const
 {
-	float w = 16.f;
-	float h = 9.f;
-	 return window_aspect_ratio = w/h;
+	
+	 return window_aspect_ratio;
 }
 
 void ComponentCamera::SetNearDistance(float distance)
@@ -120,4 +119,11 @@ void ComponentCamera::SetNearDistance(float distance)
 void ComponentCamera::SetFarDistance(float distance)
 {
 	camera_frustrum.farPlaneDistance = distance;
+}
+
+void ComponentCamera::SetAspectRatio()
+{
+	float w = 16.f;
+	float h = 9.f;
+	window_aspect_ratio = w / h;
 }

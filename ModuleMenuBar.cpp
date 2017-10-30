@@ -253,7 +253,7 @@ void ModuleMenuBar::AboutUsWindow()
 }
 
 
-bool ModuleMenuBar::GetAboutUsStatus()
+bool ModuleMenuBar::GetAboutUsStatus()const
 {
 	return show_about_us;
 }

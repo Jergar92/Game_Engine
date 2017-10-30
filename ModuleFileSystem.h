@@ -8,9 +8,9 @@ public:
 	~ModuleFileSystem();
 	bool Awake(const JSONConfig& data);
 	bool CreateOwnFile(const char * name, char * buffer,int buffer_int, const char * directory,const char* extension);
-	const char* GetMeshesFolder();
-	const char* GetMaterialFolder();
-	const char* GetAssetsFolder();
+	const char* GetMeshesFolder()const;
+	const char* GetMaterialFolder()const;
+	const char* GetAssetsFolder()const;
 
 private:
 	void CreateFolder(const char* name,  bool hide = false);

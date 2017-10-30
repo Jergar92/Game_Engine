@@ -15,14 +15,15 @@ public:
 	void Update();
 
 	//Getters
-	float GetNearDistance();
-	float GetFardistance();
-	float3 GetPosition();
-	float   GetAspectRatio();
+	float GetNearDistance() const;
+	float GetFardistance()const;
+	float3 GetPosition()const;
+	float   GetAspectRatio()const;
 
 	//Setters
 	void SetNearDistance(float distance);
 	void SetFarDistance(float distance);
+	void SetAspectRatio();
 
 	//Draw
 	void DebugDraw();

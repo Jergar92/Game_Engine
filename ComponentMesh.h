@@ -24,10 +24,10 @@ public:
 	void InspectorUpdate();
 
 	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices,const int num_indices);
-	const std::vector<Vertex>& GetVertices();
-	const std::vector<uint>& GetIndices();
-	const uint GetVertexBuffer();
-	const uint GetElementBuffer();
+	const std::vector<Vertex>& GetVertices()const;
+	const std::vector<uint>& GetIndices()const;
+	const uint GetVertexBuffer()const;
+	const uint GetElementBuffer()const;
 	void GenerateBoudingBox();
 	void SetAABB(const AABB set_bounding_box);
 

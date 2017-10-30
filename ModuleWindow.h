@@ -34,10 +34,10 @@ public:
 	bool CleanUp();
 
 	void SetTitle(const char* title);
-	const char* GetTitle();
-	SDL_Window * GetActualWindow();
-	const int GetWidth();
-	const int GetHeight();
+	const char* GetTitle()const;
+	SDL_Window * GetActualWindow()const;
+	const int GetWidth()const;
+	const int GetHeight()const;
 private:
 	void SetWindowsFlags(Uint32& flags);
 	void  SetWindowSize();

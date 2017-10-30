@@ -26,7 +26,7 @@ private:
 
 	void AboutUs();
 	void AboutUsWindow();
-	bool GetAboutUsStatus();
+	bool GetAboutUsStatus()const;
 
 	void Console();
 

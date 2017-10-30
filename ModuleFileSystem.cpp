@@ -63,17 +63,17 @@ bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_s
 	return ret;
 }
 
-const char * ModuleFileSystem::GetMeshesFolder()
+const char * ModuleFileSystem::GetMeshesFolder()const
 {
 	return meshes.c_str();
 }
 
-const char * ModuleFileSystem::GetMaterialFolder()
+const char * ModuleFileSystem::GetMaterialFolder()const
 {
 	return materials.c_str();
 }
 
-const char * ModuleFileSystem::GetAssetsFolder()
+const char * ModuleFileSystem::GetAssetsFolder()const
 {
 	return assets.c_str();
 }
