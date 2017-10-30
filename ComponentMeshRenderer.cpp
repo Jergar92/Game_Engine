@@ -72,6 +72,16 @@ void ComponentMeshRenderer::SetTexture(const std::vector<Texture>& texture)
 	textures = texture;
 }
 
+bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
+
+	config.SetInt(type, "Type");
+	config.SetBool(my_go->GetUID(), "GameObject UID");
+	config.SetBool(enable, "Enable");
+	return ret;
+}
+
 void ComponentMeshRenderer::InspectorUpdate()
 {
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;

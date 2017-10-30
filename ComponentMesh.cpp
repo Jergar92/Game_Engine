@@ -110,6 +110,17 @@ void ComponentMesh::Update()
 
 }
 
+bool ComponentMesh::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
+	config.SetInt(type, "Type");
+	config.SetBool(my_go->GetUID(), "GameObject UID");
+	config.SetBool(enable, "Enable");
+
+	//save the path of the mesh.frog
+	return ret;
+}
+
 void ComponentMesh::RenderBoundingBox()
 {
 	//--- pos z

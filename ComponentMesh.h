@@ -22,16 +22,20 @@ public:
 	void Update();
 	void SetupMesh();
 	void InspectorUpdate();
+	void GenerateBoudingBox();
 
-	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices,const int num_indices);
+	//Getters
 	const std::vector<Vertex>& GetVertices()const;
 	const std::vector<uint>& GetIndices()const;
 	const uint GetVertexBuffer()const;
 	const uint GetElementBuffer()const;
-	void GenerateBoudingBox();
 	AABB GetBoundingBox() const;
+	//Setters
+	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices, const int num_indices);
 	void SetAABB(const AABB set_bounding_box);
 
+	//Save&Load
+	bool SaveComponent(JSONConfig& data)const;
 private:
 	void RenderBoundingBox();
 

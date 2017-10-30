@@ -2,7 +2,7 @@
 
 
 
-Component::Component(GameObject* my_go)
+Component::Component(GameObject* my_go):enable(true)
 {
 	SetMyGO(my_go);
 }

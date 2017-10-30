@@ -13,7 +13,7 @@
 #define DEFAULT_WITH 16.f
 #define DEFAULT_HEITH 9.f
 
-ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go),enable(true)
+ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go)
 {
 	component_name = "Camera";
 	type = CAMERA;
@@ -170,16 +170,7 @@ void ComponentCamera::SetAspectRatio()
 bool ComponentCamera::SaveComponent(JSONConfig & config) const
 {
 	bool ret = true;
-
-	/*
-	bool enable = false;
-	float3 front{ 0, 0, 1 };
-	float3 up{ 0,1,0 };
-	float3 pos{ 0,0,0 };
-	float vertical_fov = 1.0f;
-	float window_aspect_ratio;
-	GameObject* scene;
-	*/
+	config.SetInt(type, "Type");
 	config.SetBool(my_go->GetUID(), "GameObject UID");
 	config.SetBool(enable, "Enable");
 	config.SetFloat3(front, "Front");

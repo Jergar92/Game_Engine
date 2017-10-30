@@ -42,7 +42,6 @@ public:
 	Frustum camera_frustrum;
 	
 private:
-	bool enable = false;
 	float3 front{ 0, 0, 1 };
 	float3 up{ 0,1,0 };
 	float3 pos{ 0,0,0 };

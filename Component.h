@@ -7,10 +7,12 @@ class GameObject;
 
 enum ComponentType
 {
+
 	TRANSFORM,
 	MESH,
 	MESH_RENDER,
-	CAMERA
+	CAMERA,
+	NO_COMPONENT
 };
 class Component
 {

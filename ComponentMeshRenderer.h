@@ -20,12 +20,13 @@ public:
 	~ComponentMeshRenderer();
 public:
 	void Update();
-	ComponentMesh* mesh = nullptr;
+	void InspectorUpdate();
 	void SetMesh(ComponentMesh* set_mesh);
 	void SetTexture(const std::vector<Texture>& texture);
-	void InspectorUpdate();
-
+	//Save&Load
+	bool SaveComponent(JSONConfig& data)const;
 private:
+	ComponentMesh* mesh = nullptr;
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
 	std::vector<Texture> textures;
