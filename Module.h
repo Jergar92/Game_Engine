@@ -55,7 +55,7 @@ public:
 		return true;
 	}
 
-	virtual bool SaveConfig(JSONConfig& data)
+	virtual bool SaveConfig(JSONConfig& data)const 
 	{
 		return true;
 	}

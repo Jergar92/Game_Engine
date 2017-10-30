@@ -141,7 +141,7 @@ void ModuleWindow::GuiConfigUpdate()
 	}
 }
 
-bool ModuleWindow::SaveConfig(JSONConfig& data)
+bool ModuleWindow::SaveConfig(JSONConfig& data)const
 {
 	bool ret = true;
 	data.SetString(title, "title");

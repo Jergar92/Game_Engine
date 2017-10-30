@@ -26,7 +26,7 @@ public:
 	void SetName(const char* name);
 	void AddComponent(Component* component_to_add);
 
-	void SaveGameObject(const JSONConfig& data);
+	void SaveGameObject(JSONConfig& data)const;
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type,Component* component_to_find);
 	Component* FindComponent(ComponentType type);

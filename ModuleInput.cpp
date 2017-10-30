@@ -3,7 +3,7 @@
 #include "ModuleInput.h"
 #include "ModuleScene.h"
 #include "ModuleRenderer3D.h"
-#include "imgui\imgui_impl_sdl.h"
+#include "imgui/imgui_impl_sdl.h"
 #include "imgui\imgui.h"
 
 #define MAX_KEYS 300

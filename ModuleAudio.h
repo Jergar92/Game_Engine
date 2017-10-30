@@ -27,7 +27,7 @@ public:
 
 	//Volume functions
 	void GuiConfigUpdate();
-	bool SaveConfig(JSONConfig& data);
+	bool SaveConfig(JSONConfig& data)const;
 	bool LoadConfig(const JSONConfig& data);
 	const int GetMusicVolume();
 private:

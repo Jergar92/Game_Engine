@@ -22,7 +22,7 @@ public:
 	virtual void Update();
 	virtual void GuiUpdate();
 	virtual void InspectorUpdate();
-	virtual bool SaveComponent(const JSONConfig& data);
+	virtual bool SaveComponent(JSONConfig& data)const;
 	
 	virtual void Load();
 

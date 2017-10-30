@@ -33,7 +33,7 @@ void Component::InspectorUpdate()
 {
 }
 
-bool Component::SaveComponent(const JSONConfig& data)
+bool Component::SaveComponent(JSONConfig& data)const
 {
 	return false;
 }

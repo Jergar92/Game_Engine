@@ -291,7 +291,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 }
 
 // PostUpdate present buffer to screen
-bool ModuleRenderer3D::SaveConfig(JSONConfig& data)
+bool ModuleRenderer3D::SaveConfig(JSONConfig& data)const
 {
 	bool ret = true;
 

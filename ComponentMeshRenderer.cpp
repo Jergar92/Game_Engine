@@ -44,11 +44,12 @@ void ComponentMeshRenderer::Update()
 
 
 
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetElementBuffer());
-	glDrawElements(GL_TRIANGLES, mesh->GetIndices().size(), GL_UNSIGNED_INT, NULL);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
+	if (mesh->GetIndices().size() != 0)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetElementBuffer());
+		glDrawElements(GL_TRIANGLES, mesh->GetIndices().size(), GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
 
 
 	//Reset TextureColor

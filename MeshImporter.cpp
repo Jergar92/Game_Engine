@@ -62,8 +62,11 @@ bool MeshImporter::LoadMesh(const char * path, char*buffer)
 	std::vector<Vertex> vertices((Vertex*)cursor, (Vertex*)cursor + num_vertices);
 
 	cursor += bytes;
-	bytes = sizeof(uint) * num_indices;
-	std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
+	if (num_indices != 0)
+	{
+		bytes = sizeof(uint) * num_indices;
+		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
+	}
 	/*
 	cursor += bytes;
 	bytes = sizeof(Texture) * num_indices;
@@ -108,7 +111,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	std::vector<uint> indices;
 	uint num_vertices = mesh->mNumVertices;
 	uint num_indices = mesh->mNumFaces;
-
+	bool  indices_error = false;
 	for (uint i = 0; i <num_vertices; i++)
 	{
 		Vertex vertex;
@@ -152,6 +155,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 		aiFace face = mesh->mFaces[i];
 		if (face.mNumIndices != 3) {
 			LOG("Number of indices is not 3!");
+			num_indices=0;
 		}
 		else
 		{
@@ -198,9 +202,10 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	//vertices-normals-cords
 	memcpy(cursor, vertices.data(), bytes);// Store vertices-normals-tex-cords
 	cursor += bytes; 
-	//indices
+	//indices		
 	bytes = sizeof(uint) * num_indices;
 	memcpy(cursor, indices.data(), bytes);// Store indices
+	
 	/*
 	cursor += bytes;
 	bytes = sizeof(Texture) * mesh->mMaterialIndex;

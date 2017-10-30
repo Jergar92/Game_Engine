@@ -105,7 +105,7 @@ void ModuleAudio::GuiConfigUpdate()
 	}
 }
 
-bool ModuleAudio::SaveConfig(JSONConfig& data)
+bool ModuleAudio::SaveConfig(JSONConfig& data)const
 {
 	data.SetInt(music_volume, "music_volume");
 	data.SetInt(fx_volume, "fx_volume");

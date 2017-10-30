@@ -229,7 +229,7 @@ void GameObject::AddComponent(Component * component_to_add)
 	components.push_back(component_to_add);
 }
 
-void GameObject::SaveGameObject(const JSONConfig& data)
+void GameObject::SaveGameObject(JSONConfig& data)const
 {
 	//JSON_Value *root_value = json_value_init_object();
 	//JSON_Object *root_object = json_value_get_object(root_value);
@@ -241,7 +241,9 @@ void GameObject::SaveGameObject(const JSONConfig& data)
 	config.SetFloat3(position, "Translation");
 	config.SetQuaternion(rotation, "Rotation");
 	config.SetFloat3(scale, "Scale");
-	
+	//Set ARRAY components
+
+
 	/*
 {
 "Game Objects":[

@@ -22,7 +22,7 @@ public:
 
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
-	bool SaveConfig(JSONConfig& data);
+	bool SaveConfig(JSONConfig& data)const;
 	bool LoadConfig(const JSONConfig& data);
 	bool CleanUp();
 	void OnResize(int width, int height);
