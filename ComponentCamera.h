@@ -14,6 +14,11 @@ public:
 	void InspectorUpdate();
 	void Update();
 
+	//Culling
+	void Culling();
+	GameObject SetElementsOnScene();
+	void CheckForMesh(GameObject* scene);
+
 	//Getters
 	float GetNearDistance() const;
 	float GetFardistance()const;
@@ -32,7 +37,7 @@ public:
 public:
 	
 	Frustum camera_frustrum;
-
+	
 private:
 	bool enable = false;
 	float3 front{ 0, 0, 1 };
@@ -40,5 +45,6 @@ private:
 	float3 pos{ 0,0,0 };
 	float vertical_fov = 1.0f;
 	float window_aspect_ratio;
+	GameObject* scene;
 };
 

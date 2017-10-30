@@ -328,7 +328,7 @@ Component* GameObject::FindComponent(ComponentType type, Component * component_t
 Component* GameObject::FindComponent(ComponentType type)
 {
 	Component* ret = nullptr;
-	for (uint i = 0; i < components.size(); i++)
+	for (int i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 

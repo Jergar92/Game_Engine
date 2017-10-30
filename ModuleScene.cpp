@@ -111,6 +111,11 @@ GameObject * ModuleScene::GenerateGameObject(GameObject * parent)
 
 
 
+GameObject ModuleScene::GetScene()const 
+{
+	return scene_go;
+}
+
 void ModuleScene::LoadTexture(const char * path)
 {
 	LOG("Drag Texture path:%s", path);

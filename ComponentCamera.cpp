@@ -1,4 +1,8 @@
 #include "ComponentCamera.h"
+#include "ComponentMesh.h"
+#include "GameObject.h"
+#include "ComponentMeshRenderer.h"
+#include "ModuleScene.h"
 #include "Application.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include "SDL\include\SDL_opengl.h"
@@ -6,6 +10,9 @@
 #include <math.h>
 
 #define NUM_EDGES 12
+#define DEFAULT_WITH 16.f
+#define DEFAULT_HEITH 9.f
+
 ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go),enable(true)
 {
 	component_name = "Camera";
@@ -38,6 +45,46 @@ bool ComponentCamera::ObjectInside()
 void ComponentCamera::Update()
 {
 	DebugDraw();
+	Culling();
+}
+
+void ComponentCamera::Culling()
+{
+	CheckForMesh(scene);
+
+}
+
+GameObject ComponentCamera::SetElementsOnScene()
+{
+	return scene = &App->scene->GetScene();
+}
+
+void ComponentCamera::CheckForMesh(GameObject * scene_go)
+{
+	  
+	//scene_go = &SetElementsOnScene();
+	//if (scene_go == nullptr)
+	//{
+	//	ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
+	//	if (mesh != nullptr)
+	//	{
+
+	//		for (int i = 0; i < scene->childs.size(); i++)
+	//		{
+	//			GameObject * tmp = scene_go->childs[i];
+	//			CheckForMesh(tmp);
+	//		}
+
+	//		if (camera_frustrum.Contains(mesh->GetBoundingBox()))
+	//		{
+	//			mesh->SetupMesh();
+	//		}
+	//		else
+	//		{
+	//			
+	//		}
+	//	}
+	//}	
 }
 
 
@@ -115,7 +162,6 @@ void ComponentCamera::SetFarDistance(float distance)
 
 void ComponentCamera::SetAspectRatio()
 {
-	float w = 16.f;
-	float h = 9.f;
-	window_aspect_ratio = w / h;
+
+	window_aspect_ratio = DEFAULT_WITH / DEFAULT_HEITH;
 }

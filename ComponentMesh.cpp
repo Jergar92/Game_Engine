@@ -89,6 +89,12 @@ void ComponentMesh::GenerateBoudingBox()
 		bounding_box.Enclose(vertices[i].position);
 	}
 }
+
+AABB ComponentMesh::GetBoundingBox() const
+{
+	return bounding_box;
+}
+
 void ComponentMesh::SetAABB(const AABB set_bounding_box)
 {
 	bounding_box = set_bounding_box;

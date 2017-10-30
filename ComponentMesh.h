@@ -29,6 +29,7 @@ public:
 	const uint GetVertexBuffer()const;
 	const uint GetElementBuffer()const;
 	void GenerateBoudingBox();
+	AABB GetBoundingBox() const;
 	void SetAABB(const AABB set_bounding_box);
 
 private:
