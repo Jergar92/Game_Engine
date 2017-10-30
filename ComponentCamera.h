@@ -16,7 +16,7 @@ public:
 
 	//Culling
 	void Culling();
-	GameObject SetElementsOnScene();
+	GameObject* SetElementsOnScene();
 	void CheckForMesh(GameObject* scene);
 
 	//Getters

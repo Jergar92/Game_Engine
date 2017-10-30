@@ -30,6 +30,7 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go),enable(true
 	SetAspectRatio();
 
 	camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
+	scene = SetElementsOnScene();
 	
 }
 
@@ -54,37 +55,37 @@ void ComponentCamera::Culling()
 
 }
 
-GameObject ComponentCamera::SetElementsOnScene()
+GameObject* ComponentCamera::SetElementsOnScene()
 {
-	return scene = &App->scene->GetScene();
+	return App->scene->GetScene();
 }
 
 void ComponentCamera::CheckForMesh(GameObject * scene_go)
 {
 	  
-	//scene_go = &SetElementsOnScene();
-	//if (scene_go == nullptr)
-	//{
-	//	ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
-	//	if (mesh != nullptr)
-	//	{
+	
+	if (scene_go == nullptr)
+	{
+		ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
+		if (mesh != nullptr)
+		{
+			if (camera_frustrum.Contains(mesh->GetBoundingBox()))
+			{
 
-	//		for (int i = 0; i < scene->childs.size(); i++)
-	//		{
-	//			GameObject * tmp = scene_go->childs[i];
-	//			CheckForMesh(tmp);
-	//		}
+			}
+			else
+			{
 
-	//		if (camera_frustrum.Contains(mesh->GetBoundingBox()))
-	//		{
-	//			mesh->SetupMesh();
-	//		}
-	//		else
-	//		{
-	//			
-	//		}
-	//	}
-	//}	
+			}
+			for (int i = 0; i < scene->childs.size(); i++)
+			{
+				GameObject * tmp = scene_go->childs[i];
+				CheckForMesh(tmp);
+			}
+
+
+		}
+	}	
 }
 
 

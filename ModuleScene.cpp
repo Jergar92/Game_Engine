@@ -111,7 +111,7 @@ GameObject * ModuleScene::GenerateGameObject(GameObject * parent)
 
 
 
-GameObject ModuleScene::GetScene()const 
+GameObject* ModuleScene::GetScene()const 
 {
 	return scene_go;
 }

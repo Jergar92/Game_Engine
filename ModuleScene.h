@@ -25,7 +25,7 @@ private:
 	bool hierarchy = true;
 	bool inspector = true;
 public:
-	GameObject GetScene() const;
+	GameObject* GetScene() const;
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
 	void SetSelectedGameObject(GameObject* go);
