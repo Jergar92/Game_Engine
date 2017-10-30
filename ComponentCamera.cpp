@@ -43,32 +43,24 @@ void ComponentCamera::Update()
 
 void ComponentCamera::InspectorUpdate()
 {
-	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
-	
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
 	if (node_open)
 	{
+		ImGui::TextWrapped("Aspect ratio:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", GetAspectRatio());
 
-		ImGui::TreePop();
-		
-		if (enable == true)
+		ImGui::DragFloat("Near Distance", &camera_frustrum.nearPlaneDistance, 0.1, 0.0, camera_frustrum.farPlaneDistance);
+
+		ImGui::DragFloat("Far Distance", &camera_frustrum.farPlaneDistance, 0.1);
+
+		if (ImGui::DragFloat("Field of View", &camera_frustrum.verticalFov, 0.1, 0.1))
 		{
-			ImGui::TextWrapped("Aspect ratio:");
-			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", GetAspectRatio());
-
-			ImGui::Checkbox("Enabled##enable_active", &enable);
-
-			ImGui::DragFloat("Near Distance", &camera_frustrum.nearPlaneDistance, 0.1, 0.0, camera_frustrum.farPlaneDistance);
-
-			ImGui::DragFloat("Far Distance", &camera_frustrum.farPlaneDistance, 0.1);
-
-
-			if (ImGui::DragFloat("Field of View", &camera_frustrum.verticalFov, 0.1, 0.1))
-			{
-				camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
-			}
+			camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
 		}
-
+		
+		ImGui::TreePop();
 	}
 
 }

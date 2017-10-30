@@ -280,63 +280,61 @@ void Application::CalculeMSHistogram()
 bool Application::LoadConfigNow()
 {
 	bool ret = true;
-	/*
-	JSON_Value * config_data = json_parse_file("config.json");
-
-	if (config_data == NULL)
+	
+	JSONConfig config;
+	// Call Awake() in all modules
+	if (!config.ParseFile("config.json"))
 	{
 		ret = false;
 	}
 
 	if (ret == true)
 	{
-		JSON_Object * object_data = json_value_get_object(config_data);
-		JSON_Object * application_data = json_object_dotget_object(object_data, "App");
-		name = json_object_dotget_string(application_data, "name");
-		organization = json_object_dotget_string(application_data, "organization");
-		fps_cap = json_object_get_number(application_data, "frame_cap");
+		JSONConfig app_config=config.GetFocus("App");
+		name = app_config.GetString("name");
+		organization = app_config.GetString("organization");
+		fps_cap = app_config.GetInt("frame_cap");
 		SetFPSCap();
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			ret = item._Ptr->_Myval->LoadConfig(object_data);
+			ret = item._Ptr->_Myval->LoadConfig(config.GetFocus(item._Ptr->_Myval->name.c_str()));
 			item++;
 		}
 	}
-	*/
+	
 	return ret;
 }
 
 bool Application::SaveConfigNow()
 {
 	bool ret = true;
-	/*
-	JSON_Value * config_data = json_parse_file("config.json");
-
-	if (config_data == NULL)
+	JSONConfig config;
+	// Call Awake() in all modules
+	if (!config.ParseFile("config.json"))
 	{
 		ret = false;
 	}
 
+
 	if (ret == true)
 	{
-		JSON_Object * object_data = json_value_get_object(config_data);
-		JSON_Object* application_data = json_object_dotget_object(object_data, "App");
+		JSONConfig app_config = config.GetFocus("App");
 
-		json_object_dotset_string(application_data, "name",name.c_str());
-		json_object_dotset_string(application_data, "organization",organization.c_str());
-		json_object_dotset_number(application_data, "frame_cap",fps_cap);
+		app_config.SetString(name.c_str(), "name");
+		app_config.SetString(organization.c_str(), "organization");
+		app_config.SetInt(fps_cap, "frame_cap");
 
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			ret = item._Ptr->_Myval->SaveConfig(object_data);
+			ret = item._Ptr->_Myval->SaveConfig(config.GetFocus(item._Ptr->_Myval->name.c_str()));
 			item++;
 		}
-		json_serialize_to_file(config_data, "config.json");
+		config.SerializeFile("config.json");
 
 	}
-	*/
+	
 	return ret;
 }
 

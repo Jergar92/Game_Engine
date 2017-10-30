@@ -73,8 +73,8 @@ void ComponentMeshRenderer::SetTexture(const std::vector<Texture>& texture)
 
 void ComponentMeshRenderer::InspectorUpdate()
 {
-	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
-	ImGui::Checkbox("Enabled##enable_active", &enable);
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
 
 	if (node_open)
 	{

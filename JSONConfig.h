@@ -20,6 +20,7 @@ public:
 	~JSONConfig();
 
 	bool ParseFile(const char* name);
+	bool SerializeFile(const char* name);
 	JSONConfig GetFocus(const char* name);
 
 	float3 GetFloat3(const char* name)const;
@@ -28,7 +29,6 @@ public:
 	int GetInt(const char* name)const;
 	bool GetBool(const char* name)const;
 	const char* GetString(const char* name)const;
-
 	Quat GetQuaternion(const char* name)const;
 	
 	//Set Functions
@@ -37,6 +37,8 @@ public:
 	void SetFloat(float value, const char* name);
 	void SetInt(int value, const char* name);
 	void SetBool(bool value, const char* name);
+	void SetString(const char* value, const char* name);
+
 	void SetQuaternion(Quat value, const char* name);
 	//TODO Array floats for ModuleRender
 private:

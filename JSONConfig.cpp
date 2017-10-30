@@ -29,6 +29,12 @@ bool JSONConfig::ParseFile(const char * name)
 	return ret;
 }
 
+bool JSONConfig::SerializeFile(const char * name)
+{
+	return json_serialize_to_file(value, name)== JSONSuccess;
+	
+}
+
 JSONConfig JSONConfig::GetFocus(const char * name)
 {
 	return json_object_dotget_object(object, name);
@@ -148,6 +154,12 @@ void JSONConfig::SetInt(int value, const char * name)
 void JSONConfig::SetBool(bool value, const char * name)
 {
 	json_object_set_boolean(object, name, value);
+
+}
+
+void JSONConfig::SetString(const char * value, const char * name)
+{
+	json_object_set_string(object, name, value);
 
 }
 

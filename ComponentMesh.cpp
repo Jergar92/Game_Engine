@@ -33,8 +33,10 @@ void ComponentMesh::SetupMesh()
 
 void ComponentMesh::InspectorUpdate()
 {
-	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), ImGuiTreeNodeFlags_DefaultOpen);
-	ImGui::Checkbox("Enabled##enable_active", &enable);
+	//ImGui::Checkbox("Enabled##enable_active", &enable);
+	//ImGui::SameLine();
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen|ImGuiTreeNodeFlags_CheckBox;
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(),flags,&enable);
 	if (node_open)
 	{
 		
