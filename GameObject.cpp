@@ -241,7 +241,7 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 	config.SetInt(UID, "UID");
 	if(parent!=nullptr)
 		config.SetInt(parent->UID, "ParentUID");
-	config.SetString(name, "ParentUID");
+	config.SetString(name, "Name");
 	config.SetFloat3(position, "Translation");
 	config.SetQuaternion(rotation, "Rotation");
 	config.SetFloat3(scale, "Scale");
@@ -256,6 +256,7 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 		config.CloseArray(config_component);
 		comp_it++;
 	}
+	data.CloseArray(config);
 
 	std::vector<GameObject*>::const_iterator go_it = childs.begin();
 	while (go_it != childs.end())
@@ -264,6 +265,8 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 		(*go_it)->SaveGameObject(go_component);
 		go_it++;
 	}
+
+
 
 }
 

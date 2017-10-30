@@ -18,9 +18,10 @@ public:
 	JSONConfig(JSON_Object * object);
 
 	~JSONConfig();
-
+	void CleanUp();
 	bool ParseFile(const char* name);
 	bool SerializeFile(const char* name);
+	int Serialize(char** buffer);
 	JSONConfig GetFocus(const char* name);
 
 	float3 GetFloat3(const char* name)const;

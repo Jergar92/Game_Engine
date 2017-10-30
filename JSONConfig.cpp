@@ -4,6 +4,8 @@
 
 JSONConfig::JSONConfig()
 {
+	value = json_value_init_object();
+	object = json_value_get_object(value);
 }
 
 JSONConfig::JSONConfig(JSON_Object * object):object(object)
@@ -13,14 +15,19 @@ JSONConfig::JSONConfig(JSON_Object * object):object(object)
 
 JSONConfig::~JSONConfig()
 {
-	json_value_free((JSON_Value *)value);
+	//json_value_free(value);
+}
+
+void JSONConfig::CleanUp()
+{
+	json_value_free(value);
 }
 
 bool JSONConfig::ParseFile(const char * name)
 {
 	bool ret = true;
-	value = json_parse_file("config.json");
-	if (value == NULL)
+	value = json_parse_file(name);
+	if (value == nullptr)
 	{
 		ret = false;
 	}
@@ -33,6 +40,13 @@ bool JSONConfig::SerializeFile(const char * name)
 {
 	return json_serialize_to_file(value, name)== JSONSuccess;
 	
+}
+
+int JSONConfig::Serialize(char ** buffer)
+{
+	*(buffer)=json_serialize_to_string_pretty(value);
+
+	return json_serialization_size(value);
 }
 
 JSONConfig JSONConfig::GetFocus(const char * name)

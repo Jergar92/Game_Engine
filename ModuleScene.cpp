@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleImporter.h"
 #include "ModuleMenuBar.h"
+#include "ModuleFileSystem.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentCamera.h"
@@ -105,6 +106,18 @@ void ModuleScene::LoadTexture(const char * path)
 void ModuleScene::SendGameObject(GameObject * go)
 {
 	go->SetParent(scene_go);
+}
+
+void ModuleScene::SaveScene()
+{
+	JSONConfig config;
+	
+	config.OpenArray("GameObject");
+	scene_go->SaveGameObject(config);
+	char* buffer;
+	uint size=config.Serialize(&buffer);
+	App->file_system->CreateOwnFile("scene", buffer, size, App->file_system->GetAssetsFolder(), "json");
+	config.CleanUp();
 }
 
 

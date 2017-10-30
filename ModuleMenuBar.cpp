@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include"ModuleMenuBar.h"
+#include "ModuleScene.h"
 #include "ModuleConsole.h"
 #include"p2Defs.h"
 #include "imgui\imgui.h"
@@ -116,7 +117,7 @@ bool ModuleMenuBar::ShowMenuBar()
 			ImGui::Separator();
 			if (ImGui::MenuItem("Save"))
 			{
-
+				App->scene->SaveScene();
 			}
 			if (ImGui::MenuItem("Load"))
 			{

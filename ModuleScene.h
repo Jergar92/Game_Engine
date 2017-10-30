@@ -25,6 +25,8 @@ public:
 	GameObject* GetScene() const;
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
+	void SaveScene();
+
 private:
 	GameObject* scene_go = nullptr;
 	GameObject* selected_go = nullptr;
