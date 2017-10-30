@@ -20,16 +20,11 @@ public:
 
 	QuadTree<GameObject*> quadtree;
 	Plane_p plane;
-	
-private:
-	bool hierarchy = true;
-	bool inspector = true;
+
 public:
 	GameObject* GetScene() const;
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
-	void SetSelectedGameObject(GameObject* go);
-//	void SendToQuad(GameObject* go);
 private:
 	GameObject* scene_go = nullptr;
 	GameObject* selected_go = nullptr;

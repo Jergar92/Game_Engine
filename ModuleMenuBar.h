@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include"p2Defs.h"
 
-
+class GameObject;
 class ModuleMenuBar : public Module
 {
 public:
@@ -18,9 +18,14 @@ public:
 
 	bool CleanUp();
 
+	void SetSceneGameObject(GameObject* set);
+	void SetSelectedGameObject(GameObject* set);
 private:
+	bool ShowEditor();
+	bool ShowInspector();
+	bool ShowHierarchy();
 
-	void ShowMenuBar();
+	bool ShowMenuBar();
 
 	bool Draw(bool open);
 
@@ -33,8 +38,14 @@ private:
 	void Configuration();
 	void Profiler();
 
-private:
 
+private:
+	GameObject* scene_go=nullptr;
+	GameObject* selected_go = nullptr;
+	bool inspector = true;
+	bool hierarchy = true;
+
+	
 	bool  open_console = true;
 	bool  open = true;
 	bool  show_about_us = false;

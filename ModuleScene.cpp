@@ -1,12 +1,14 @@
 #include "Application.h"
 #include "Globals.h"
-#include "Component.h"
-#include "ComponentCamera.h"
 #include"ModuleScene.h"
 #include "ModuleCamera3D.h"
-#include "imgui\imgui.h"
 #include "ModuleImporter.h"
+#include "ModuleMenuBar.h"
 #include "GameObject.h"
+#include "Component.h"
+#include "ComponentCamera.h"
+#include "imgui\imgui.h"
+
 #include "p2Defs.h"
 ModuleScene::ModuleScene(bool start_enabled)
 {
@@ -23,53 +25,20 @@ bool ModuleScene::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	scene_go = new GameObject();
-	
 	//Create Component Camera
 	GameObject* camera = new GameObject(scene_go);
 	camera->SetName("Camera Main");
 	ComponentCamera* component_camera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
 	camera->AddComponent(component_camera);
 	
+	App->menu_bar->SetSceneGameObject(scene_go);
+
 	return ret;
 }
 
 update_status ModuleScene::GuiUpdate()
 {
-	ImGuiWindowFlags window_flags = 0;
-	window_flags |= ImGuiWindowFlags_ShowBorders;
-	window_flags |= ImGuiWindowFlags_NoResize;
-	window_flags |= ImGuiWindowFlags_NoCollapse;
-	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
-	if (!ImGui::Begin("Hierarchy", &hierarchy, window_flags))
-	{
-		// Early out if the window is collapsed, as an optimization.
-		ImGui::End();
-		return UPDATE_CONTINUE;
-	}
 	
-	if (scene_go != nullptr)
-	{
-
-		scene_go->GuiUpdate();
-
-	}
-	ImGui::End();
-	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
-
-	if (!ImGui::Begin("Inspector", &inspector, window_flags))
-	{
-		// Early out if the window is collapsed, as an optimization.
-		ImGui::End();
-		return UPDATE_CONTINUE;
-	}
-
-	if (selected_go != nullptr)
-	{
-
-		selected_go->InspectorUpdate();
-
-	}
-	ImGui::End();
 
 	return UPDATE_CONTINUE;
 }
@@ -138,10 +107,7 @@ void ModuleScene::SendGameObject(GameObject * go)
 	go->SetParent(scene_go);
 }
 
-void ModuleScene::SetSelectedGameObject(GameObject * go)
-{
-	selected_go = go;
-}
+
 /*
 void ModuleScene::SendToQuad(GameObject * go)
 {

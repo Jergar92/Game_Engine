@@ -4,9 +4,9 @@
 #include "ModuleConsole.h"
 #include"p2Defs.h"
 #include "imgui\imgui.h"
+#include "GameObject.h"
 
-
-ModuleMenuBar::ModuleMenuBar(bool start_enabled)
+ModuleMenuBar::ModuleMenuBar(bool start_enabled):scene_go(nullptr), selected_go(nullptr)
 {
 	name = "Menu Bar";
 }
@@ -37,11 +37,8 @@ update_status ModuleMenuBar::GuiUpdate()
 	if (GetAboutUsStatus())
 		AboutUsWindow();
 
-	if (Draw(open))
-	{
-		ShowMenuBar();
-	}
-	else
+	
+	if (!ShowEditor())
 		return UPDATE_STOP;
 
 
@@ -57,7 +54,59 @@ bool ModuleMenuBar::CleanUp()
 }
 
 
-void ModuleMenuBar::ShowMenuBar()
+bool ModuleMenuBar::ShowEditor()
+{
+	bool ret = true;
+	ShowInspector();
+	ShowHierarchy();
+	ret = ShowMenuBar();
+
+	return ret;
+}
+
+bool ModuleMenuBar::ShowInspector()
+{
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
+	if (!ImGui::Begin("Inspector", &inspector, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return UPDATE_CONTINUE;
+	}
+	if (selected_go != nullptr)
+	{
+		selected_go->InspectorUpdate();
+	}
+	ImGui::End();
+	return true;
+}
+
+bool ModuleMenuBar::ShowHierarchy()
+{
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
+	if (!ImGui::Begin("Hierarchy", &hierarchy, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return UPDATE_CONTINUE;
+	}
+	if (scene_go != nullptr)
+	{
+		scene_go->GuiUpdate();
+	}
+	ImGui::End();
+	return true;
+}
+
+bool ModuleMenuBar::ShowMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -65,10 +114,17 @@ void ModuleMenuBar::ShowMenuBar()
 		{
 			
 			ImGui::Separator();
+			if (ImGui::MenuItem("Save"))
+			{
 
+			}
+			if (ImGui::MenuItem("Load"))
+			{
+
+			}
 			if (ImGui::MenuItem("Quit", "alt+f4"))
 			{
-				open = false;
+				return false;
 			}
 			ImGui::EndMenu();
 		}
@@ -145,7 +201,7 @@ void ModuleMenuBar::ShowMenuBar()
 		
 	}
 	
-	
+	return true;
 }
 
 void ModuleMenuBar::AboutUs()
@@ -286,4 +342,14 @@ void ModuleMenuBar::Profiler()
 {
 	App->LoadProfilerWindow();
 
+}
+
+void ModuleMenuBar::SetSceneGameObject(GameObject * set)
+{
+	scene_go = set;
+}
+
+void ModuleMenuBar::SetSelectedGameObject(GameObject * set)
+{
+	selected_go = set;
 }

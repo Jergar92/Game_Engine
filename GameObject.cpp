@@ -6,6 +6,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "ModuleScene.h"
+#include "ModuleMenuBar.h"
 #include "Component.h"
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
@@ -56,29 +57,21 @@ void GameObject::Update()
 	//Get Transform
 	glPushMatrix();
 	glMultMatrixf((float*)&GetInverseMatrix());
-	
-
 	if (!enable)
 		return;
-
-
 	for (int i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 		if(item->isEnable())
 			item->Update();
 	}
-
 	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
-			item->Update();
-
+		item->Update();
 	}
-
 	//Pop Matrix
-	glPopMatrix();
-	
+	glPopMatrix();	
 }
 
 void GameObject::GuiUpdate()
@@ -97,7 +90,7 @@ void GameObject::GuiUpdate()
 	}
 	//Set item selected->InspectorUpdate
 	if (ImGui::IsItemClicked())
-		App->scene->SetSelectedGameObject(this);
+		App->menu_bar->SetSelectedGameObject(this);
 	
 	if (node_open)
 	{
