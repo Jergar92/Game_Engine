@@ -227,12 +227,18 @@ void GameObject::LoadGameObject(const JSONConfig & data)
 
 	UID=data.GetInt("UID");
 	if (parent != nullptr)
-		parent->UID=data.GetInt("ParentUID");
+	{
+		parent->UID = data.GetInt("ParentUID");
+		//find parent by UID and set parent child
+	}
 
-	name=data.GetString("ParentUID");
+	name=data.GetString("Name");
 	position=data.GetFloat3("Translation");
 	rotation=data.GetQuaternion("Rotation");
 	scale=data.GetFloat3("Scale");
+	UpdateMatrix();
+
+	//Create and Set all components
 }
 
 void GameObject::SaveGameObject(JSONConfig& data)const

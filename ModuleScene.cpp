@@ -122,7 +122,20 @@ void ModuleScene::SaveScene()
 
 void ModuleScene::LoadScene()
 {
+	JSONConfig config;
+	config.SetFocus(App->file_system->GetPathFile("scene.json", App->file_system->GetAssetsFolder()));
+	uint size = config.GetArraySize("Game Objects");
+	for (int i = 0; i < size; i++)
+	{
+		JSONConfig config_item = config.SetFocusArray("Game Objects", i);
+		GameObject* item = new GameObject();
+		
 
+		item->LoadGameObject(config_item);
+
+		if (i == 0)
+			scene_go = item;
+	}
 
 }
 /*
