@@ -68,17 +68,10 @@ JSONConfig JSONConfig::SetFocusArray(const char * name, uint index)
 float3 JSONConfig::GetFloat3(const char * name)const
 {
 	JSON_Array* array = json_object_get_array(object, name);
-	float set[3];
-	for (int i = 0; i < 3; i++)
-	{
-		JSON_Value* value = json_array_get_value(array, i);
-
-		set[i] = (float)json_value_get_number(value);
-	}
 	float3 ret;
-	ret.x = set[0];
-	ret.y = set[1];
-	ret.z = set[2];
+	ret.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	ret.y = (float)json_value_get_number(json_array_get_value(array, 1));
+	ret.z = (float)json_value_get_number(json_array_get_value(array, 2));
 
 	return ret;
 }
@@ -86,16 +79,9 @@ float3 JSONConfig::GetFloat3(const char * name)const
 float2 JSONConfig::GetFloat2(const char * name)const
 {
 	JSON_Array* array = json_object_get_array(object, name);
-	float set[2];
-	for (int i = 0; i < 2; i++)
-	{
-		JSON_Value* value = json_array_get_value(array, i);
-
-		set[i] = (float)json_value_get_number(value);
-	}
 	float2 ret;
-	ret.x = set[0];
-	ret.y = set[1];
+	ret.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	ret.y = (float)json_value_get_number(json_array_get_value(array, 1));
 
 	return ret;
 }
@@ -131,19 +117,11 @@ const char * JSONConfig::GetString(const char * name)const
 Quat JSONConfig::GetQuaternion(const char * name)const
 {
 	JSON_Array* array = json_object_get_array(object, name);
-	float set[4];
-	for (int i = 0; i < 4; i++)
-	{
-		JSON_Value* value = json_array_get_value(array, i);
-
-		set[i] = (float)json_value_get_number(value);
-	}
 	Quat ret;
-
-	ret.w = set[0];
-	ret.x = set[1];
-	ret.y = set[2];
-	ret.z = set[3];
+	ret.w = (float)json_value_get_number(json_array_get_value(array, 0));
+	ret.x = (float)json_value_get_number(json_array_get_value(array, 1));
+	ret.y = (float)json_value_get_number(json_array_get_value(array, 2));
+	ret.z = (float)json_value_get_number(json_array_get_value(array, 3));
 
 	return ret;
 }

@@ -11,10 +11,13 @@
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
+#include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 
 #define MAX_NAME 20
 GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale),rotation(rotation),position(position)
 {
+	LCG uid_creator;
+	UID = uid_creator.Int();
 	name = "Scene";
 	input_name = name;
 	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
@@ -24,7 +27,8 @@ GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scal
 
 GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation,float3 position) :scale(scale), rotation(rotation), position(position)
 {
-
+	LCG uid_creator;
+	UID = uid_creator.Int();
 	SetParent(parent);
 	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
 	UpdateMatrix();
