@@ -1,16 +1,18 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
-#include "imgui\imgui_impl_sdl.h"
-#include "imgui\imgui.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
-#include "Glew\include\GL\glew.h"
-#include "SDL\include\SDL_opengl.h"
+
+#include "Glew/include/GL/glew.h"
+#include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
+#include "imgui/imgui_impl_sdl.h"
+
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
+#pragma comment (lib, "Glew/lib/Release/Win32/glew32.lib") /* link glew32 lib   */
 
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled) 
 {
@@ -29,46 +31,6 @@ bool ModuleRenderer3D::Awake(const JSONConfig& data)
 
 	LOG("Creating 3D Renderer context");
 	bool ret = true;
-
-	vsync = data.GetInt("vsync");
-	
-	background_color.x = data.GetFloat("background_r");
-	background_color.y = data.GetFloat("background_g");
-	background_color.z = data.GetFloat("background_b");
-
-
-	//OpenGL Enable/Disable
-	depth_test = data.GetBool("depth_test");
-	depth = data.GetFloat( "depth");
-
-	cull_face = data.GetBool("cull_face");
-	front_face = data.GetFloat("front_face");
-
-	lighting = data.GetBool("lighting");
-	light_ambient[0] = data.GetFloat("light_ambient_r");
-	light_ambient[1] = data.GetFloat("light_ambient_g");
-	light_ambient[2] = data.GetFloat("light_ambient_b");
-	light_ambient[3] = data.GetFloat("light_ambient_a");
-
-	color_material = data.GetBool("color_material");
-	color_ambient[0] = data.GetFloat("color_ambient_r");
-	color_ambient[1] = data.GetFloat("color_ambient_g");
-	color_ambient[2] = data.GetFloat("color_ambient_b");
-	color_ambient[3] = data.GetFloat("color_ambient_a");
-
-	color_diffuse[0] = data.GetFloat("color_diffuse_r");
-	color_diffuse[1] = data.GetFloat("color_diffuse_g");
-	color_diffuse[2] = data.GetFloat("color_diffuse_b");
-	color_diffuse[3] = data.GetFloat("color_diffuse_a");
-
-	texture_2d = data.GetBool("texture_2d");
-
-	fog = data.GetBool("fog");
-	fog_density = data.GetFloat("fog_density");
-	fog_color[0] = data.GetFloat("fog_color_r");
-	fog_color[1] = data.GetFloat("fog_color_g");
-	fog_color[2] = data.GetFloat("fog_color_b");
-	fog_color[3] = data.GetFloat("fog_color_a");
 
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
@@ -98,6 +60,7 @@ bool ModuleRenderer3D::Awake(const JSONConfig& data)
 			ret = false;
 		}
 		
+
 		//Check for error
 		error = glGetError();
 		if (error != GL_NO_ERROR)
@@ -152,7 +115,7 @@ bool ModuleRenderer3D::Awake(const JSONConfig& data)
 
 		RenderOptions();
 	}
-
+	LoadConfig(data);
 	// Projection matrix for
 	OnResize(App->window->GetWidth(), App->window->GetHeight());
 
@@ -381,7 +344,7 @@ bool ModuleRenderer3D::LoadConfig(const JSONConfig& data)
 	fog_color[2] = data.GetFloat("fog_color_b");
 	fog_color[3] = data.GetFloat("fog_color_a");
 
-
+	RenderOptions();
 	//Initialize clear color
 	glClearColor(background_color.x, background_color.y, background_color.z, background_color.w);
 	//Use Vsync
@@ -408,6 +371,8 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+
+//	ProjectionMatrix = float4x4::D3DPerspProjLH(0.125f, 512.0f, width, height);
 	glLoadMatrixf(&ProjectionMatrix);
 
 	glMatrixMode(GL_MODELVIEW);

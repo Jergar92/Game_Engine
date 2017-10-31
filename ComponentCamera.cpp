@@ -5,7 +5,7 @@
 #include "ModuleScene.h"
 #include "Application.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
-#include "SDL\include\SDL_opengl.h"
+#include "Glew\include\GL\glew.h"
 #include "imgui\imgui.h"
 #include <math.h>
 
@@ -115,7 +115,6 @@ void ComponentCamera::InspectorUpdate()
 
 void ComponentCamera::DebugDraw()
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_LINES);
 	glLineWidth(1.0f);
 	glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
@@ -125,9 +124,9 @@ void ComponentCamera::DebugDraw()
 		glVertex3f(camera_frustrum.Edge(i).a.x, camera_frustrum.Edge(i).a.y, camera_frustrum.Edge(i).a.z);
 		glVertex3f(camera_frustrum.Edge(i).b.x, camera_frustrum.Edge(i).b.y, camera_frustrum.Edge(i).b.z);
 	}
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	glEnd();
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 float ComponentCamera::GetNearDistance()const

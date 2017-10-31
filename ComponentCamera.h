@@ -1,10 +1,9 @@
 #pragma once
 #include "Component.h"
-#include "GameObject.h"
 #include "Globals.h"
 #include "MathGeoLib-1.5\src\Geometry\Frustum.h"
 #include "SDL\include\SDL.h"
-
+class GameObject;
 class ComponentCamera :public Component
 {
 public:

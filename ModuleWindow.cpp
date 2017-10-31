@@ -65,7 +65,6 @@ bool ModuleWindow::Awake(const JSONConfig& data)
 		
 
 		window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
-		glcontext = SDL_GL_CreateContext(window);
 
 		if (window == NULL)
 		{
@@ -186,7 +185,6 @@ bool ModuleWindow::CleanUp()
 	if(window != NULL)
 	{
 		ImGui_ImplSdlGL2_Shutdown();
-		SDL_GL_DeleteContext(glcontext);
 		SDL_DestroyWindow(window);
 	}
 

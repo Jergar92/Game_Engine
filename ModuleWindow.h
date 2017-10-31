@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Module.h"
-#include "SDL/include/SDL.h"
 #define WINDOWS_OPTIONS 4
 class Application;
 
@@ -16,7 +15,8 @@ public:
 	int width = 0;
 	int height = 0;
 };
-
+struct SDL_Surface;
+struct SDL_Window;
 class ModuleWindow : public Module
 {
 public:
@@ -45,7 +45,6 @@ private:
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;
-	SDL_GLContext glcontext;
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
 private:

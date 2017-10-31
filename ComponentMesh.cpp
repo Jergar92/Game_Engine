@@ -1,8 +1,5 @@
 #include "ComponentMesh.h"
 #include "Glew\include\GL\glew.h"
-#include "SDL\include\SDL_opengl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
 
@@ -36,8 +33,7 @@ void ComponentMesh::SetupMesh()
 
 void ComponentMesh::InspectorUpdate()
 {
-	//ImGui::Checkbox("Enabled##enable_active", &enable);
-	//ImGui::SameLine();
+	
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen|ImGuiTreeNodeFlags_CheckBox;
 	bool node_open = ImGui::TreeNodeEx(component_name.c_str(),flags,&enable);
 	if (node_open)

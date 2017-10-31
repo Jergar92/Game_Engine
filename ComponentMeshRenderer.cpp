@@ -1,11 +1,8 @@
 #include "ComponentMeshRenderer.h"
 #include "ComponentMesh.h"
-#include "Glew\include\GL\glew.h"
-#include "SDL\include\SDL_opengl.h"
-#include "MathGeoLib-1.5\src\Math\float4x4.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
 #include "imgui\imgui.h"
+#include "MathGeoLib-1.5\src\Math\float4x4.h"
+#include "Glew\include\GL\glew.h"
 #define TEXTURE_SIZE 64
 #define TEXTURE_SIZE_HOVER 128
 
@@ -24,7 +21,7 @@ void ComponentMeshRenderer::Update()
 {
 	if (mesh == nullptr||!mesh->isEnable())
 		return;
-
+	return;
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -60,6 +57,7 @@ void ComponentMeshRenderer::Update()
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
+
 }
 
 void ComponentMeshRenderer::SetMesh(ComponentMesh * set_mesh)
