@@ -101,7 +101,7 @@ bool Application::Awake()
 	if (ret == true)
 	{
 		open_config_window = false;
-		JSONConfig app_config = config.GetFocus("App");
+		JSONConfig app_config = config.SetFocus("App");
 
 		name = app_config.GetString("name");
 		organization = app_config.GetString("organization");
@@ -112,7 +112,7 @@ bool Application::Awake()
 		{
 
 			profiler->CreateCategory("Application_Start",item._Ptr->_Myval->name.c_str(), "Awake");
-			ret = item._Ptr->_Myval->Awake(config.GetFocus(item._Ptr->_Myval->name.c_str()));
+			ret = item._Ptr->_Myval->Awake(config.SetFocus(item._Ptr->_Myval->name.c_str()));
 			item++;
 		}
 		profiler->StopCurrentCategory();
@@ -289,7 +289,7 @@ bool Application::LoadConfigNow()
 
 	if (ret == true)
 	{
-		JSONConfig app_config=config.GetFocus("App");
+		JSONConfig app_config=config.SetFocus("App");
 		name = app_config.GetString("name");
 		organization = app_config.GetString("organization");
 		fps_cap = app_config.GetInt("frame_cap");
@@ -297,7 +297,7 @@ bool Application::LoadConfigNow()
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			ret = item._Ptr->_Myval->LoadConfig(config.GetFocus(item._Ptr->_Myval->name.c_str()));
+			ret = item._Ptr->_Myval->LoadConfig(config.SetFocus(item._Ptr->_Myval->name.c_str()));
 			item++;
 		}
 	}
@@ -318,7 +318,7 @@ bool Application::SaveConfigNow()
 
 	if (ret == true)
 	{
-		JSONConfig app_config = config.GetFocus("App");
+		JSONConfig app_config = config.SetFocus("App");
 
 		app_config.SetString(name, "name");
 		app_config.SetString(organization, "organization");
@@ -327,7 +327,7 @@ bool Application::SaveConfigNow()
 		std::list<Module*>::iterator item = list_modules.begin();
 		while (item != list_modules.end() && ret == true)
 		{
-			ret = item._Ptr->_Myval->SaveConfig(config.GetFocus(item._Ptr->_Myval->name.c_str()));
+			ret = item._Ptr->_Myval->SaveConfig(config.SetFocus(item._Ptr->_Myval->name.c_str()));
 			item++;
 		}
 		config.SerializeFile("config.json");

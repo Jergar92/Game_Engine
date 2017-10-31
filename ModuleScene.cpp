@@ -120,7 +120,11 @@ void ModuleScene::SaveScene()
 	config.CleanUp();
 }
 
+void ModuleScene::LoadScene()
+{
 
+
+}
 /*
 void ModuleScene::SendToQuad(GameObject * go)
 {

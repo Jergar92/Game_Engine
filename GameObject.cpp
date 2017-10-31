@@ -261,8 +261,8 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 	std::vector<GameObject*>::const_iterator go_it = childs.begin();
 	while (go_it != childs.end())
 	{
-		JSONConfig go_component;
-		(*go_it)->SaveGameObject(go_component);
+		config.OpenArray("GameObject");
+		(*go_it)->SaveGameObject(data);
 		go_it++;
 	}
 

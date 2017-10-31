@@ -27,6 +27,8 @@ public:
 	void SendGameObject(GameObject* go);
 	void SaveScene();
 
+	void LoadScene();
+
 private:
 	GameObject* scene_go = nullptr;
 	GameObject* selected_go = nullptr;

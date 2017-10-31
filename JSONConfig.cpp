@@ -44,14 +44,25 @@ bool JSONConfig::SerializeFile(const char * name)
 
 int JSONConfig::Serialize(char ** buffer)
 {
-	*(buffer)=json_serialize_to_string_pretty(value);
+	*(buffer)=json_serialize_to_string_pretty(json_value_deep_copy(value));
 
-	return json_serialization_size(value);
+	return strlen(*(buffer));
 }
 
-JSONConfig JSONConfig::GetFocus(const char * name)
+JSONConfig JSONConfig::SetFocus(const char * name)
 {
 	return json_object_dotget_object(object, name);
+}
+
+JSONConfig JSONConfig::SetFocusArray(const char * name, uint index)
+{
+	JSONConfig ret=nullptr;
+	JSON_Array* array = json_object_get_array(object, name);
+	if (array != nullptr)
+	{
+		ret.object = json_array_get_object(array, index);
+	}
+	return ret;
 }
 
 float3 JSONConfig::GetFloat3(const char * name)const
@@ -137,6 +148,11 @@ Quat JSONConfig::GetQuaternion(const char * name)const
 	return ret;
 }
 
+uint JSONConfig::GetArraySize(const char * name) const
+{
+	return json_array_get_count(array);
+}
+
 void JSONConfig::SetFloat3(float3 value, const char * name)
 {
 	JSON_Value* va = json_value_init_array();
@@ -188,7 +204,7 @@ void JSONConfig::CloseArray(const JSONConfig & child)
 {
 	if (array != nullptr)
 	{
-		json_array_append_value(array, child.value);
+		json_array_append_value(array, json_value_deep_copy(child.value));
 	}
 	else
 	{
@@ -205,9 +221,9 @@ void JSONConfig::SetQuaternion(Quat value, const char * name)
 	JSON_Value* va = json_value_init_array();
 	array = json_value_get_array(va);
 	json_object_set_value(object, name, va);
-	json_array_append_boolean(array, value.w);
-	json_array_append_boolean(array, value.x);
-	json_array_append_boolean(array, value.y);
-	json_array_append_boolean(array, value.z);
+	json_array_append_number(array, value.w);
+	json_array_append_number(array, value.x);
+	json_array_append_number(array, value.y);
+	json_array_append_number(array, value.z);
 
 }

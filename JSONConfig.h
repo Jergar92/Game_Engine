@@ -22,7 +22,10 @@ public:
 	bool ParseFile(const char* name);
 	bool SerializeFile(const char* name);
 	int Serialize(char** buffer);
-	JSONConfig GetFocus(const char* name);
+	JSONConfig SetFocus(const char* name);
+
+	JSONConfig SetFocusArray(const char* name,uint index);
+
 
 	float3 GetFloat3(const char* name)const;
 	float2 GetFloat2(const char* name)const;
@@ -31,7 +34,8 @@ public:
 	bool GetBool(const char* name)const;
 	const char* GetString(const char* name)const;
 	Quat GetQuaternion(const char* name)const;
-	
+	uint GetArraySize(const char* name)const;
+
 	//Set Functions
 	void SetFloat3(float3 value, const char* name);
 	void SetFloat2(float2 value, const char* name);

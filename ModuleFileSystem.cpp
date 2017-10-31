@@ -44,15 +44,13 @@ bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_s
 	bool ret = true;
 	std::string file_name = FILE_EXTENSION(name, extension);
 	std::string complete_path= PATH(directory, file_name.c_str());
-	//std::fstream file_stream(complete_path.c_str(), std::fstream::in | std::fstream::out | std::fstream::binary);
-	//	file_stream.write(buffer, buffer_size);
 
-	std::ofstream outfile(complete_path.c_str(), std::ofstream::binary);
+	std::ofstream save_file(complete_path.c_str(), std::ofstream::binary);
 
-	if (outfile.good())
+	if (save_file.good())
 	{
-		outfile.write(buffer, buffer_size);
-		outfile.close();
+		save_file.write(buffer, buffer_size);
+		save_file.close();
 	}
 	else
 	{
@@ -61,6 +59,13 @@ bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_s
 	}
 
 	return ret;
+}
+
+const char * ModuleFileSystem::GetPathFile(const char * name, const char * directory)
+{
+	std::string file_name = FILE_EXTENSION(name, directory);
+
+	return file_name.c_str();
 }
 
 const char * ModuleFileSystem::GetMeshesFolder()const
