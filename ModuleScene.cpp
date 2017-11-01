@@ -9,7 +9,7 @@
 #include "Component.h"
 #include "ComponentCamera.h"
 #include "imgui\imgui.h"
-
+#include "Primitive.h"
 #include "p2Defs.h"
 ModuleScene::ModuleScene(bool start_enabled)
 {
@@ -23,6 +23,7 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Start()
 {
 	bool ret = true;
+	plane = new Plane_p;
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	scene_go = new GameObject();
@@ -54,7 +55,7 @@ update_status ModuleScene::Update(float dt)
 		scene_go->Update();
 
 	}
-	plane.Render();
+	plane->Render();
 
 	return UPDATE_CONTINUE;
 }
@@ -62,7 +63,7 @@ update_status ModuleScene::Update(float dt)
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;
-	
+	delete plane;
 	if (scene_go != nullptr)
 	{
 		scene_go->CleanUp();

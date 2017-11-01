@@ -194,6 +194,7 @@ void Application::SetFPSCap()
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
+
 	PrepareUpdate();
 	
 	std::list<Module*>::iterator item = list_modules.begin();

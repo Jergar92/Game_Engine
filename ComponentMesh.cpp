@@ -27,8 +27,12 @@ void ComponentMesh::SetupMesh()
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), &indices[0], GL_STATIC_DRAW);
-	}
+		//set bind buffer glBindBuffer to 0
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+	}
+	//set bind buffer glBindBuffer to 0
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void ComponentMesh::InspectorUpdate()

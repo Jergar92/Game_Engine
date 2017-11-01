@@ -14,12 +14,12 @@ struct Data
 };
 
 template <class T>
-class QuadTree
+class MyQuadTree
 {
 public:
-	QuadTree<T>(AABB boundaris);
-	QuadTree<T>();
-	~QuadTree<T>();
+	MyQuadTree<T>(AABB boundaris);
+	MyQuadTree<T>();
+	~MyQuadTree<T>();
 
 	bool Insert(Data<T> data);
 	void Subdivide();
@@ -33,32 +33,32 @@ public:
 	AABB boundaris;
 	std::vector<Data<T>> objects;
 private:
-	QuadTree<T>* north_west = nullptr;
-	QuadTree<T>* north_east = nullptr;
-	QuadTree<T>* south_west = nullptr;
-	QuadTree<T>* south_east = nullptr;
+	MyQuadTree<T>* north_west = nullptr;
+	MyQuadTree<T>* north_east = nullptr;
+	MyQuadTree<T>* south_west = nullptr;
+	MyQuadTree<T>* south_east = nullptr;
 
 };
 
 
 template<class T>
-QuadTree<T>::QuadTree(AABB boundaris):boundaris(boundaris), north_west(nullptr), north_east(nullptr), south_west(nullptr), south_east(nullptr)
+MyQuadTree<T>::MyQuadTree(AABB boundaris):boundaris(boundaris), north_west(nullptr), north_east(nullptr), south_west(nullptr), south_east(nullptr)
 {
 
 }
 template<class T>
-QuadTree<T>::QuadTree() : north_west(nullptr), north_east(nullptr), south_west(nullptr), south_east(nullptr)
+MyQuadTree<T>::MyQuadTree() : north_west(nullptr), north_east(nullptr), south_west(nullptr), south_east(nullptr)
 {
 
 }
 
 template <class T>
-QuadTree<T>::~QuadTree()
+MyQuadTree<T>::~MyQuadTree()
 {
 }
 
 template<class T>
-bool QuadTree<T>::Insert(Data<T> data)
+bool MyQuadTree<T>::Insert(Data<T> data)
 {
 	if (boundaris.Contains(data.pos))
 		return false;
@@ -89,7 +89,7 @@ bool QuadTree<T>::Insert(Data<T> data)
 }
 
 template<class T>
-void QuadTree<T>::Subdivide()
+void MyQuadTree<T>::Subdivide()
 {
 	float quad_size = boundaris.half_dimension*0.5;
 
@@ -108,7 +108,7 @@ void QuadTree<T>::Subdivide()
 }
 
 template<class T>
-inline void QuadTree<T>::SendDataToChilds()
+inline void MyQuadTree<T>::SendDataToChilds()
 {
 	std::vector<Data<T>>::iterator it = objects.begin();
 	while (it != res.end())
@@ -126,7 +126,7 @@ inline void QuadTree<T>::SendDataToChilds()
 }
 
 template<class T>
-std::vector<Data<T>> QuadTree<T>::QueryRange(AABB range)
+std::vector<Data<T>> MyQuadTree<T>::QueryRange(AABB range)
 {
 	std::vector<Data<T>> ret;
 	ret.clear();

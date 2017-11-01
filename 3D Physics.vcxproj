@@ -89,7 +89,7 @@
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentMeshRenderer.h" />
     <ClInclude Include="JSONConfig.h" />
-    <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="MyQuadTree.h" />
     <ClInclude Include="Devil\include\config.h" />
     <ClInclude Include="Devil\include\devil_internal_exports.h" />
     <ClInclude Include="Devil\include\il.h" />

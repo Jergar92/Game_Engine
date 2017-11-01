@@ -231,9 +231,6 @@ void ModuleRenderer3D::GuiConfigUpdate()
 }
 update_status ModuleRenderer3D::GuiUpdate()
 {
-	if (lighting)glDisable(GL_LIGHTING);
-	ImGui::Render();
-	if (lighting)glEnable(GL_LIGHTING);
 
 	return UPDATE_CONTINUE;
 }
@@ -246,7 +243,9 @@ update_status ModuleRenderer3D::Update(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-
+	if (lighting)glDisable(GL_LIGHTING);
+	ImGui::Render();
+	if (lighting)glEnable(GL_LIGHTING);
 
 	SDL_GL_SwapWindow(App->window->window);	
 

@@ -1,9 +1,9 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "Primitive.h"
-#include "Quadtree.h"
+#include "MyQuadTree.h"
 class GameObject;
+class Plane_p;
 class ModuleScene : public Module
 {
 public:
@@ -18,8 +18,8 @@ public:
 
 	GameObject* GenerateGameObject(GameObject* parent = nullptr);
 
-	QuadTree<GameObject*> quadtree;
-	Plane_p plane;
+	MyQuadTree<GameObject*> quadtree;
+	Plane_p* plane;
 
 public:
 	GameObject* GetScene() const;
