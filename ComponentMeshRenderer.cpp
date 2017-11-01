@@ -81,14 +81,24 @@ bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
 	bool ret = true;
 
 	config.SetInt(type, "Type");
-	config.SetBool(my_go->GetUID(), "GameObject UID");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+	
+	config.SetInt(mesh->GetUID(), "Mesh UID");
 	config.SetBool(enable, "Enable");
 	return ret;
 }
 
-bool ComponentMeshRenderer::LoadComponent(const JSONConfig & data)
+bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 {
 
+
+	if (config.GetInt("Mesh UID") != 0)
+	{
+		//find mesh component
+		SetMesh((ComponentMesh*)my_go->FindComponent(ComponentType::MESH));
+	}
+	//SetMaterials
+	enable = config.GetBool("Enable");
 	return false;
 }
 

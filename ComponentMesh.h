@@ -44,7 +44,7 @@ private:
 	void RenderBoundingBox();
 
 private:
-	uint UID;// ID mesh
+	uint UID=0;// ID mesh
 	uint VBO=0;//Vertex Buffer Object
 	uint EBO=0;//Element Buffer Object
 	std::string name;

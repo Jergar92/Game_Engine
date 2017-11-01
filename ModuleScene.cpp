@@ -34,7 +34,8 @@ bool ModuleScene::Start()
 	ComponentCamera* component_camera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
 	camera->AddComponent(component_camera);
 	
-	
+	App->menu_bar->SetSceneGameObject(scene_go);
+
 	return ret;
 }
 
