@@ -46,7 +46,7 @@ bool ComponentCamera::ObjectInside()
 void ComponentCamera::Update()
 {
 	DebugDraw();
-	Culling();
+	//Culling();
 }
 
 void ComponentCamera::Culling()
@@ -62,28 +62,24 @@ GameObject* ComponentCamera::SetElementsOnScene()
 
 void ComponentCamera::CheckForMesh(GameObject * scene_go)
 {
-	  
-	
-	if (scene_go == nullptr)
+	if (scene_go != nullptr)
 	{
 		ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
 		if (mesh != nullptr)
 		{
 			if (camera_frustrum.Contains(mesh->GetBoundingBox()))
 			{
-
+				mesh->Enable();
 			}
 			else
 			{
-
+				mesh->Disable();
 			}
-			for (int i = 0; i < scene->childs.size(); i++)
-			{
-				GameObject * tmp = scene_go->childs[i];
-				CheckForMesh(tmp);
-			}
-
-
+        }
+		for (int i = 0; i < scene_go->childs.size(); i++)
+		{
+			GameObject * tmp = scene_go->childs[i];
+			CheckForMesh(tmp);
 		}
 	}	
 }
