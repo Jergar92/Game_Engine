@@ -64,6 +64,7 @@ void ComponentMesh::SetData(const std::vector<Vertex>& set_vertices, const std::
 	num_vertices = num_ver;
 	num_indices = num_ind;
 	SetupMesh();
+	GenerateBoudingBox();
 }
 const std::vector<Vertex>& ComponentMesh::GetVertices()const
 {
@@ -101,13 +102,8 @@ void ComponentMesh::SetAABB(const AABB set_bounding_box)
 }
 void ComponentMesh::Update()
 {
-
-	GenerateBoudingBox();
-
 	if (show_bounding_box)
 		RenderBoundingBox();
-
-
 }
 
 bool ComponentMesh::SaveComponent(JSONConfig & config) const
