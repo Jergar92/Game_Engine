@@ -11,6 +11,7 @@
 class GameObject;
 class ComponentTransform;
 class ComponentMesh;
+class ComponentMeshRenderer;
 struct Texture;
 class ModuleImporter:public Module
 {
@@ -20,6 +21,8 @@ public:
 	bool Start();
 	void Import(const char* path);
 	void LoadMesh(const char* path , ComponentMesh* component);
+	int LoadTexture(const char* path, ComponentMeshRenderer* component);
+
 	MaterialImporter material;
 	MeshImporter mesh;
 

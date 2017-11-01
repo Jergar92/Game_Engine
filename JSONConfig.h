@@ -1,5 +1,7 @@
 #pragma once
 #include "Globals.h"
+#include "MathGeoLib-1.5\src\Math\float4.h"
+
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
 #include "MathGeoLib-1.5\src\Math\Quat.h"
@@ -26,6 +28,7 @@ public:
 
 	JSONConfig SetFocusArray(const char* name,uint index)const;
 
+	float4 GetFloat4(const char* name)const;
 
 	float3 GetFloat3(const char* name)const;
 	float2 GetFloat2(const char* name)const;
@@ -37,6 +40,8 @@ public:
 	uint GetArraySize(const char* name)const;
 
 	//Set Functions
+	void SetFloat4(float4 value, const char* name);
+
 	void SetFloat3(float3 value, const char* name);
 	void SetFloat2(float2 value, const char* name);
 	void SetFloat(float value, const char* name);

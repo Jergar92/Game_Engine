@@ -1,4 +1,5 @@
 #include "ComponentMeshRenderer.h"
+#include "Application.h"
 #include "ComponentMesh.h"
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
@@ -82,7 +83,18 @@ bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
 
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
-	
+	config.OpenArray("Textures");
+	std::vector<Texture>::const_iterator it = textures.begin();
+	while (it != textures.end())
+	{
+		JSONConfig texture_config;
+		texture_config.SetInt(it->UID, "Texture UID");
+		texture_config.SetString(it->path, "path");
+		texture_config.SetFloat4(it->rgba_color, "RGBA color");
+
+		config.CloseArray(texture_config);
+		it++;
+	}
 	config.SetInt(mesh->GetUID(), "Mesh UID");
 	config.SetBool(enable, "Enable");
 	return ret;
@@ -97,7 +109,19 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 		//find mesh component
 		SetMesh((ComponentMesh*)my_go->FindComponent(ComponentType::MESH));
 	}
+
 	//SetMaterials
+	uint size = config.GetArraySize("Textures");
+	for (int i = 0; i < size; i++)
+	{
+		JSONConfig config_item = config.SetFocusArray("Textures", i);
+		Texture text;
+		text.id=App->importer->LoadTexture(std::to_string(config_item.GetInt("Texture UID")).c_str(), this);
+		text.UID = config_item.GetInt("Texture UID");
+		text.rgba_color = config_item.GetFloat4("RGBA color");
+
+		textures.push_back(text);
+	}
 	enable = config.GetBool("Enable");
 	return false;
 }

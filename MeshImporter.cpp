@@ -247,7 +247,8 @@ std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiText
 		{
 			//new texture
 			Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), this->directory);
+			texture.UID = App->GenerateRandom();
+			texture.id = TextureFromFile(str.C_Str(), this->directory, texture.UID);
 			texture.type = typeName;
 			texture.path = str.C_Str();
 			texture.rgba_color = { 1.0f,1.0f,1.0f,1.0f };
@@ -259,10 +260,10 @@ std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiText
 	return textures;
 }
 
-uint MeshImporter::TextureFromFile(const char *path, const std::string &directory)
+uint MeshImporter::TextureFromFile(const char *path, const std::string &directory, uint UID)
 {
 
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
-	return App->importer->material.ImportTexture(filename.c_str());
+	return App->importer->material.ImportTexture(filename.c_str(),  UID);
 }

@@ -6,6 +6,7 @@
 struct Texture
 {
 	uint id;
+	uint UID;
 	std::string type;
 	std::string path;
 	float4 rgba_color;

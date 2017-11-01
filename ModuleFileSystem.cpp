@@ -96,12 +96,17 @@ void ModuleFileSystem::LoadFile(const char * name, char ** buffer, const char * 
 	}
 
 }
-
-const char * ModuleFileSystem::SetPathFile(const char * name, const char * directory)
+std::string ModuleFileSystem::SetExtension(const char * name, const char * extension)
 {
-	std::string file_name = PATH(directory,name);
-
-	return file_name.c_str();
+	
+	std::string file_name(FILE_EXTENSION(name, extension));
+	return file_name;
+}
+std::string ModuleFileSystem::SetPathFile(const char * name, const char * directory)
+{
+	
+	std::string file_name(PATH(directory, name));
+	return file_name;
 }
 
 const char * ModuleFileSystem::GetMeshesFolder()const

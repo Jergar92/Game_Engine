@@ -12,7 +12,9 @@ public:
 	bool CreateJSONFile(const char * name, JSON_Value* value);
 
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
-	const char* SetPathFile(const char * name, const char * directory);
+	std::string SetExtension(const char * name, const char * extension);
+
+	std::string SetPathFile(const char * name, const char * directory);
 
 	const char* GetMeshesFolder()const;
 	const char* GetMaterialFolder()const;

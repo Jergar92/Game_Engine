@@ -25,7 +25,7 @@ public:
 	void ProcessNode(aiNode* node, const aiScene* scene, GameObject* parent);
 	void ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go);
 	std::vector<Texture> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName);
-	uint TextureFromFile(const char * path, const std::string & directory);
+	uint TextureFromFile(const char * path, const std::string & directory,uint UID);
 
 private:
 	std::string directory;

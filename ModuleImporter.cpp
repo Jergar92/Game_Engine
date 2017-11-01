@@ -40,10 +40,19 @@ void ModuleImporter::Import(const char * path)
 	}
 }
 
-void ModuleImporter::LoadMesh(const char * path, ComponentMesh * component)
+void ModuleImporter::LoadMesh(const char * name, ComponentMesh * component)
 {
 	char* buffer=nullptr;
-	App->file_system->LoadFile(path, &buffer, App->file_system->GetMeshesFolder(), "frog");
+	App->file_system->LoadFile(name, &buffer, App->file_system->GetMeshesFolder(), "frog");
 	mesh.LoadMesh(buffer,component);
+
+}
+int ModuleImporter::LoadTexture(const char * name, ComponentMeshRenderer * component)
+{
+	char* buffer = nullptr;
+	App->file_system->LoadFile(name, &buffer, App->file_system->GetMaterialFolder(), "dds");
+	std::string full_path(App->file_system->SetExtension(name, "dds"));
+	full_path = App->file_system->SetPathFile(full_path.c_str(), App->file_system->GetMaterialFolder());
+	return material.LoadTexture(full_path.c_str());
 
 }

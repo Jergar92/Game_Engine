@@ -8,8 +8,9 @@ public:
 
 	bool Init();
 
-	int ImportTexture(const char* filename);
+	int ImportTexture(const char* filename, uint UID);
 	void SaveTexture(const char * name, char*buffer, int buffer_size);
+	int LoadTexture(const char * name);
 
 	void CreateCheckMateTexture();
 	bool CleanUp();

@@ -67,7 +67,17 @@ JSONConfig JSONConfig::SetFocusArray(const char * name, uint index)const
 	}
 	return ret;
 }
+float4 JSONConfig::GetFloat4(const char * name)const
+{
+	JSON_Array* array = json_object_get_array(object, name);
+	float4 ret;
+	ret.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	ret.y = (float)json_value_get_number(json_array_get_value(array, 1));
+	ret.z = (float)json_value_get_number(json_array_get_value(array, 2));
+	ret.w = (float)json_value_get_number(json_array_get_value(array, 3));
 
+	return ret;
+}
 float3 JSONConfig::GetFloat3(const char * name)const
 {
 	JSON_Array* array = json_object_get_array(object, name);
@@ -133,6 +143,17 @@ uint JSONConfig::GetArraySize(const char * name) const
 {
 	JSON_Array* array = json_object_get_array(object, name);
 	return json_array_get_count(array);
+}
+void JSONConfig::SetFloat4(float4 value, const char * name)
+{
+	JSON_Value* va = json_value_init_array();
+	array = json_value_get_array(va);
+	json_object_set_value(object, name, va);
+	json_array_append_number(array, value.x);
+	json_array_append_number(array, value.y);
+	json_array_append_number(array, value.z);
+	json_array_append_number(array, value.w);
+
 }
 
 void JSONConfig::SetFloat3(float3 value, const char * name)

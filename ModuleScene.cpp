@@ -24,6 +24,7 @@ bool ModuleScene::Start()
 {
 	bool ret = true;
 	plane = new Plane_p;
+
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
@@ -35,7 +36,7 @@ bool ModuleScene::Start()
 	camera->AddComponent(component_camera);
 	
 	App->menu_bar->SetSceneGameObject(scene_go);
-
+	
 	return ret;
 }
 
@@ -148,7 +149,7 @@ void ModuleScene::LoadScene()
 		item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
 
 	}
-	App->menu_bar->SetSceneGameObject(scene_go);
+	//App->menu_bar->SetSceneGameObject(scene_go);
 
 }
 GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go, int UID_to_find) const
