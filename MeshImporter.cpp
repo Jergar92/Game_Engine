@@ -45,9 +45,10 @@ bool MeshImporter::SaveMesh(const char * name, char * buffer, int buffer_size,co
 {
 	return App->file_system->CreateOwnFile(name, buffer, buffer_size, path,"frog");;
 }
-bool MeshImporter::LoadMesh(const char * path, char*buffer)
+bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 {
 	char* cursor = buffer;
+
 	// amount of indices / vertices / colors / normals / texture_coords
 	uint ranges[2];
 	uint bytes = sizeof(ranges);
@@ -66,13 +67,17 @@ bool MeshImporter::LoadMesh(const char * path, char*buffer)
 	{
 		bytes = sizeof(uint) * num_indices;
 		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
+		mesh->SetData(vertices, indices, num_vertices, num_indices);
+		return true;
 	}
+	mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
+
 	/*
 	cursor += bytes;
 	bytes = sizeof(Texture) * num_indices;
 	std::vector<Texture> textures((Texture*)cursor, (Texture*)cursor + num_textures);
 	*/
-	return false;
+	return true;
 }
 
 void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
@@ -189,7 +194,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 
 	
 	//Set custom format
-
+	std::string id = std::to_string(component_mesh->GetUID());
 	uint ranges[2] = { num_vertices,num_indices };
 	uint size = sizeof(ranges) + sizeof(uint) * mesh->mNumFaces + sizeof(Vertex) * mesh->mNumVertices;
 	char* data = new char[size]; // Allocate
@@ -211,7 +216,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	bytes = sizeof(Texture) * mesh->mMaterialIndex;
 	memcpy(cursor, textures.data(), bytes);// Store textures
 	*/
-	if (SaveMesh(go->name.c_str(), data, size, App->file_system->GetMeshesFolder()))
+	if (SaveMesh(id.c_str(), data, size, App->file_system->GetMeshesFolder()))
 	{
 		LOG("Save %s", go->name.c_str());
 	}

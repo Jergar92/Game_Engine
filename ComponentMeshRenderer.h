@@ -25,6 +25,8 @@ public:
 	void SetTexture(const std::vector<Texture>& texture);
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
+	bool LoadComponent(const JSONConfig& data);
+
 private:
 	ComponentMesh* mesh = nullptr;
 	uint VBO;//Vertex Buffer Object

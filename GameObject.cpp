@@ -11,13 +11,11 @@
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
-#include "MathGeoLib-1.5\src\Algorithm\Random\LCG.h"
 
 #define MAX_NAME 20
 GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale),rotation(rotation),position(position)
 {
-	LCG uid_creator;
-	UID = uid_creator.Int();
+	UID =App->GenerateRandom();
 	name = "Scene";
 	input_name = name;
 	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
@@ -27,8 +25,7 @@ GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scal
 
 GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation,float3 position) :scale(scale), rotation(rotation), position(position)
 {
-	LCG uid_creator;
-	UID = uid_creator.Int();
+	UID = App->GenerateRandom();
 	SetParent(parent);
 	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
 	UpdateMatrix();
@@ -201,6 +198,7 @@ void GameObject::SetParent(GameObject * set_parent)
 {
 	if (set_parent != nullptr)
 	{
+		parent_UID = set_parent->GetUID();
 		parent = set_parent;
 		set_parent->SetChild(this);
 	}
@@ -230,18 +228,24 @@ void GameObject::LoadGameObject(const JSONConfig & data)
 {
 
 	UID=data.GetInt("UID");
-	if (parent != nullptr)
-	{
-		parent->UID = data.GetInt("ParentUID");
-		//find parent by UID and set parent child
-	}
+	
+	parent_UID = data.GetInt("ParentUID");
+	
 
-	name=data.GetString("Name");
+	SetName(data.GetString("Name"));
 	position=data.GetFloat3("Translation");
 	rotation=data.GetQuaternion("Rotation");
 	scale=data.GetFloat3("Scale");
 	UpdateMatrix();
 
+	uint size = data.GetArraySize("Components");
+	for (int i = 0; i < size; i++)
+	{
+		JSONConfig config_item = data.SetFocusArray("Components", i);
+		Component*item=CreateComponent((ComponentType)config_item.GetInt("Type"));
+		item->LoadComponent(config_item);	
+		AddComponent(item);
+	}
 	//Create and Set all components
 }
 
@@ -249,8 +253,7 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 {
 	JSONConfig config;
 	config.SetInt(UID, "UID");
-	if(parent!=nullptr)
-		config.SetInt(parent->UID, "ParentUID");
+	config.SetInt(parent_UID, "ParentUID");
 	config.SetString(name, "Name");
 	config.SetFloat3(position, "Translation");
 	config.SetQuaternion(rotation, "Rotation");
@@ -338,6 +341,12 @@ Component* GameObject::FindComponent(ComponentType type)const
 uint GameObject::GetUID() const
 {
 	return UID;
+}
+uint GameObject::GetParentUID() const
+{
+
+	return parent_UID;
+
 }
 void GameObject::SetTransform(float3 set_scale, Quat set_rotation, float3 set_position)
 {

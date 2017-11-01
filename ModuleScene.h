@@ -18,16 +18,19 @@ public:
 
 	GameObject* GenerateGameObject(GameObject* parent = nullptr);
 
-	MyQuadTree<GameObject*> quadtree;
-	Plane_p* plane;
-
-public:
 	GameObject* GetScene() const;
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
 	void SaveScene();
 
 	void LoadScene();
+	GameObject* FindGameObjectByID(const std::vector<GameObject*> & go, int UID_to_find)const ;
+private:
+
+public:
+
+	MyQuadTree<GameObject*> quadtree;
+	Plane_p* plane;
 
 private:
 	GameObject* scene_go = nullptr;

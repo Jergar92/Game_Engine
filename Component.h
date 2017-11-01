@@ -25,8 +25,8 @@ public:
 	virtual void GuiUpdate();
 	virtual void InspectorUpdate();
 	virtual bool SaveComponent(JSONConfig& data)const;
+	virtual bool LoadComponent(const JSONConfig & data);
 	
-	virtual void Load();
 
 	virtual void Disable();
 	bool isEnable();

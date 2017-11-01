@@ -1,4 +1,6 @@
 #include "ComponentMesh.h"
+#include "Application.h"
+
 #include "Glew\include\GL\glew.h"
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
@@ -6,7 +8,7 @@
 
 ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
 {
-
+	UID = App->GenerateRandom();
 	component_name = "Mesh";
 	type = MESH;
 }
@@ -95,6 +97,11 @@ AABB ComponentMesh::GetBoundingBox() const
 	return bounding_box;
 }
 
+int ComponentMesh::GetUID() const
+{
+	return UID;
+}
+
 void ComponentMesh::SetAABB(const AABB set_bounding_box)
 {
 	bounding_box = set_bounding_box;
@@ -114,10 +121,25 @@ bool ComponentMesh::SaveComponent(JSONConfig & config) const
 {
 	bool ret = true;
 	config.SetInt(type, "Type");
-	config.SetBool(my_go->GetUID(), "GameObject UID");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+	config.SetInt(UID, "Mesh UID");
+
 	config.SetBool(enable, "Enable");
 
 	//save the path of the mesh.frog
+	return ret;
+}
+
+bool ComponentMesh::LoadComponent(const JSONConfig & config)
+{
+	bool ret = true;
+
+	UID = config.GetInt("Mesh UID");
+
+	std::string id_name = std::to_string(UID);
+	App->importer->LoadMesh(id_name.c_str(), this);
+	enable= config.GetBool( "Enable");
+
 	return ret;
 }
 

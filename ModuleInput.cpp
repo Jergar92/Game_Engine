@@ -133,7 +133,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				}
 				else
 				{
-					App->importer->Load(dropped_filedir.c_str());
+					App->importer->Import(dropped_filedir.c_str());
 				}
 				SDL_free(e.drop.file);   
 				break;

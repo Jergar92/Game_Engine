@@ -30,16 +30,21 @@ public:
 	const uint GetVertexBuffer()const;
 	const uint GetElementBuffer()const;
 	AABB GetBoundingBox() const;
+	int GetUID()const;
+
 	//Setters
 	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices, const int num_indices);
 	void SetAABB(const AABB set_bounding_box);
 
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
+	bool LoadComponent(const JSONConfig& data);
+
 private:
 	void RenderBoundingBox();
 
 private:
+	uint UID;// ID mesh
 	uint VBO=0;//Vertex Buffer Object
 	uint EBO=0;//Element Buffer Object
 	std::string name;

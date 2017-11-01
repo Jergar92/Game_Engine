@@ -86,6 +86,12 @@ bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
 	return ret;
 }
 
+bool ComponentMeshRenderer::LoadComponent(const JSONConfig & data)
+{
+
+	return false;
+}
+
 void ComponentMeshRenderer::InspectorUpdate()
 {
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;

@@ -24,7 +24,7 @@ public:
 	int Serialize(char** buffer);
 	JSONConfig SetFocus(const char* name);
 
-	JSONConfig SetFocusArray(const char* name,uint index);
+	JSONConfig SetFocusArray(const char* name,uint index)const;
 
 
 	float3 GetFloat3(const char* name)const;
@@ -48,6 +48,8 @@ public:
 	void CloseArray(const JSONConfig& child);
 
 	void SetQuaternion(Quat value, const char* name);
+
+	bool Save(const char* name);
 	//TODO Array floats for ModuleRender
 private:
 	JSON_Object* object = nullptr;

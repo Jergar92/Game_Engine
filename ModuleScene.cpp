@@ -26,6 +26,7 @@ bool ModuleScene::Start()
 	plane = new Plane_p;
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+	
 	scene_go = new GameObject();
 	//Create Component Camera
 	GameObject* camera = new GameObject(scene_go);
@@ -33,8 +34,7 @@ bool ModuleScene::Start()
 	ComponentCamera* component_camera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
 	camera->AddComponent(component_camera);
 	
-	App->menu_bar->SetSceneGameObject(scene_go);
-
+	
 	return ret;
 }
 
@@ -117,27 +117,50 @@ void ModuleScene::SaveScene()
 	scene_go->SaveGameObject(config);
 	char* buffer;
 	uint size=config.Serialize(&buffer);
-	App->file_system->CreateOwnFile("scene", buffer, size, App->file_system->GetAssetsFolder(), "json");
+	config.Save("scene.json");
 	config.CleanUp();
 }
 
 void ModuleScene::LoadScene()
 {
+
 	JSONConfig config;
-	config.SetFocus(App->file_system->GetPathFile("scene.json", App->file_system->GetAssetsFolder()));
-	uint size = config.GetArraySize("Game Objects");
+	config.ParseFile("scene.json");
+
+	uint size = config.GetArraySize("GameObject");
+	std::vector < GameObject*> tmp_go;
 	for (int i = 0; i < size; i++)
 	{
-		JSONConfig config_item = config.SetFocusArray("Game Objects", i);
+		JSONConfig config_item = config.SetFocusArray("GameObject", i);
 		GameObject* item = new GameObject();
 		
 
 		item->LoadGameObject(config_item);
-
+		tmp_go.push_back(item);
 		if (i == 0)
 			scene_go = item;
-	}
 
+	}
+	for (int i = 0; i < tmp_go.size(); i++)
+	{
+		GameObject* item = tmp_go[i];
+		item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
+
+	}
+	App->menu_bar->SetSceneGameObject(scene_go);
+
+}
+GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go, int UID_to_find) const
+{
+	for (int i = 0; i < go.size(); i++)
+	{
+		GameObject* item = go[i];
+		if (item->GetUID() == UID_to_find)
+		{
+			return item;
+		}
+	}
+	return nullptr;
 }
 /*
 void ModuleScene::SendToQuad(GameObject * go)

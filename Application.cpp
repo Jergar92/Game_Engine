@@ -278,6 +278,11 @@ void Application::CalculeMSHistogram()
 	millisecons_values[HISTOGRAM_LIMIT] = dt*1000;
 }
 
+int Application::GenerateRandom()
+{
+	return random.Int();
+}
+
 bool Application::LoadConfigNow()
 {
 	bool ret = true;

@@ -30,6 +30,9 @@ public:
 	Component* FindComponent(ComponentType type,Component* component_to_find)const;
 	Component* FindComponent(ComponentType type)const;
 	uint GetUID()const;
+	uint GetParentUID()const;
+
+	
 	const char* GetName();
 	//Setters
 	void SetScale(float3 scale);
@@ -66,6 +69,8 @@ private:
 	bool static_go = false;
 	bool gui_static = false;
 	uint UID = 0;
+	uint parent_UID = 0;
+
 	float4x4 transform_matrix;
 	float4x4 transform_matrix_inverse;
 

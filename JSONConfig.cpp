@@ -1,11 +1,14 @@
+#include "Application.h"
+#include "ModuleFileSystem.h"
 #include "JSONConfig.h"
 #include "Parson\parson.h"
-
 
 JSONConfig::JSONConfig()
 {
 	value = json_value_init_object();
 	object = json_value_get_object(value);
+	array =  json_value_get_array(value);
+
 }
 
 JSONConfig::JSONConfig(JSON_Object * object):object(object)
@@ -54,7 +57,7 @@ JSONConfig JSONConfig::SetFocus(const char * name)
 	return json_object_dotget_object(object, name);
 }
 
-JSONConfig JSONConfig::SetFocusArray(const char * name, uint index)
+JSONConfig JSONConfig::SetFocusArray(const char * name, uint index)const
 {
 	JSONConfig ret=nullptr;
 	JSON_Array* array = json_object_get_array(object, name);
@@ -128,6 +131,7 @@ Quat JSONConfig::GetQuaternion(const char * name)const
 
 uint JSONConfig::GetArraySize(const char * name) const
 {
+	JSON_Array* array = json_object_get_array(object, name);
 	return json_array_get_count(array);
 }
 
@@ -196,12 +200,18 @@ void JSONConfig::CloseArray(const JSONConfig & child)
 void JSONConfig::SetQuaternion(Quat value, const char * name)
 {
 	
-	JSON_Value* va = json_value_init_array();
-	array = json_value_get_array(va);
-	json_object_set_value(object, name, va);
+	JSON_Value* item = json_value_init_array();
+	array = json_value_get_array(item);
+	json_object_set_value(object, name, item);
 	json_array_append_number(array, value.w);
 	json_array_append_number(array, value.x);
 	json_array_append_number(array, value.y);
 	json_array_append_number(array, value.z);
+
+}
+
+bool JSONConfig::Save(const char * name)
+{
+	return App->file_system->CreateJSONFile("scene.json",value);
 
 }

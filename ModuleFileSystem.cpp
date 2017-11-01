@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Globals.h"
 #include "ModuleFileSystem.h"
+#include "Parson\parson.h"
+
 #include "p2Defs.h"
 #include <iostream>
 #include <fstream>
@@ -61,9 +63,43 @@ bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_s
 	return ret;
 }
 
-const char * ModuleFileSystem::GetPathFile(const char * name, const char * directory)
+bool ModuleFileSystem::CreateJSONFile(const char * name, JSON_Value * value)
 {
-	std::string file_name = FILE_EXTENSION(name, directory);
+	return json_serialize_to_file(value, name);;
+}
+
+void ModuleFileSystem::LoadFile(const char * name, char ** buffer, const char * directory, const char * extension)
+{
+	std::string file_name = FILE_EXTENSION(name, extension);
+	std::string complete_path = PATH(directory, file_name.c_str());
+
+	std::ifstream load_file(complete_path.c_str(), std::ifstream::binary);
+	int size = 0;
+
+	if (load_file.good())
+	{
+	
+		load_file.seekg(0, load_file.end);
+		std::streamsize size = load_file.tellg();
+		load_file.seekg(0, load_file.beg);
+
+		*buffer = new char[size];
+
+		load_file.read(*buffer, size);
+
+		load_file.close();
+		
+	}
+	else
+	{
+		LOG("Error on Load the file")
+	}
+
+}
+
+const char * ModuleFileSystem::SetPathFile(const char * name, const char * directory)
+{
+	std::string file_name = PATH(directory,name);
 
 	return file_name.c_str();
 }

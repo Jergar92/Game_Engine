@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 
+typedef struct json_value_t  JSON_Value;
 class ModuleFileSystem:public Module
 {
 public:
@@ -8,7 +9,10 @@ public:
 	~ModuleFileSystem();
 	bool Awake(const JSONConfig& data);
 	bool CreateOwnFile(const char * name, char * buffer,int buffer_int, const char * directory,const char* extension);
-	const char* GetPathFile(const char * name, const char * directory);
+	bool CreateJSONFile(const char * name, JSON_Value* value);
+
+	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
+	const char* SetPathFile(const char * name, const char * directory);
 
 	const char* GetMeshesFolder()const;
 	const char* GetMaterialFolder()const;

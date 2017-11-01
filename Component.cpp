@@ -40,10 +40,11 @@ bool Component::SaveComponent(JSONConfig& data)const
 	return true;
 }
 
-
-void Component::Load()
+bool Component::LoadComponent(const JSONConfig& data)
 {
+	return true;
 }
+
 
 void Component::Disable()
 {

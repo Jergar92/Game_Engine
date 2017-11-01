@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleFileSystem.h"
 #include "ModuleImporter.h"
 #include "ModuleScene.h"
 #include "ComponentMeshRenderer.h"
@@ -24,7 +25,7 @@ bool ModuleImporter::Start()
 	return ret;
 }
 
-void ModuleImporter::Load(const char * path)
+void ModuleImporter::Import(const char * path)
 {
 	dropped_filedir = path;
 	std::size_t found = dropped_filedir.find_last_of('.');
@@ -37,4 +38,12 @@ void ModuleImporter::Load(const char * path)
 		//mesh.LoadMesh(dropped_filedir.c_str());
 
 	}
+}
+
+void ModuleImporter::LoadMesh(const char * path, ComponentMesh * component)
+{
+	char* buffer=nullptr;
+	App->file_system->LoadFile(path, &buffer, App->file_system->GetMeshesFolder(), "frog");
+	mesh.LoadMesh(buffer,component);
+
 }
