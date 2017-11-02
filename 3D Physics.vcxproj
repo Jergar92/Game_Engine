@@ -188,6 +188,11 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Profiler.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UI_About.h" />
+    <ClInclude Include="UI_Console.h" />
+    <ClInclude Include="UI_Hierarchy.h" />
+    <ClInclude Include="UI_Inspector.h" />
+    <ClInclude Include="UI_Windows.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -254,6 +259,11 @@
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UI_About.cpp" />
+    <ClCompile Include="UI_Console.cpp" />
+    <ClCompile Include="UI_Hierarchy.cpp" />
+    <ClCompile Include="UI_Inspector.cpp" />
+    <ClCompile Include="UI_Windows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib-1.5\src\Geometry\KDTree.inl" />

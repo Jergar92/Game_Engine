@@ -10,6 +10,7 @@ UI_Inspector::UI_Inspector()
 
 UI_Inspector::~UI_Inspector()
 {
+	selected_go = nullptr;
 }
 
 bool UI_Inspector::Draw()
@@ -34,4 +35,5 @@ bool UI_Inspector::Draw()
 
 void UI_Inspector::SetSelectedGameObject(GameObject * set)
 {
+	selected_go = set;
 }

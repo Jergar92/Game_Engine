@@ -9,6 +9,7 @@ UI_Hierarchy::UI_Hierarchy()
 
 UI_Hierarchy::~UI_Hierarchy()
 {
+	scene_go = nullptr;
 }
 
 bool UI_Hierarchy::Draw()

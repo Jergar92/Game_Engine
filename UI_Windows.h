@@ -7,6 +7,9 @@ public:
 
 
 	virtual bool Draw();
+	bool IsActive()const;
+	void ChangeActive();
+
 public:
 	bool active_draw = true;
 };

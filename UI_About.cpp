@@ -4,6 +4,7 @@
 
 UI_About::UI_About()
 {
+	active_draw = false;
 }
 
 

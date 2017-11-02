@@ -5,7 +5,8 @@
 #include "MathGeoLib-1.5\src\Math\Quat.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
 #include "MathGeoLib-1.5\src\Geometry\OBB.h"
-
+#include "p2Defs.h"
+#include "JSONConfig.h"
 class Component;
 enum ComponentType;
 class GameObject

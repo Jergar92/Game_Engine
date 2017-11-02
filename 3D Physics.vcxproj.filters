@@ -55,6 +55,9 @@
     <Filter Include="Sources\Importer">
       <UniqueIdentifier>{cf5fd6d5-becd-4f94-8d21-5a18f96989c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\UIWindows">
+      <UniqueIdentifier>{fe20d0c8-fafa-486d-aa78-e888680b697d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -387,6 +390,21 @@
     <ClInclude Include="MyQuadTree.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Hierarchy.h">
+      <Filter>Sources\UIWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Inspector.h">
+      <Filter>Sources\UIWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Windows.h">
+      <Filter>Sources\UIWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_About.h">
+      <Filter>Sources\UIWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Console.h">
+      <Filter>Sources\UIWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -580,6 +598,21 @@
     </ClCompile>
     <ClCompile Include="JSONConfig.cpp">
       <Filter>Sources\Parson</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Hierarchy.cpp">
+      <Filter>Sources\UIWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Inspector.cpp">
+      <Filter>Sources\UIWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Windows.cpp">
+      <Filter>Sources\UIWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_About.cpp">
+      <Filter>Sources\UIWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Console.cpp">
+      <Filter>Sources\UIWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -8,8 +8,9 @@ class GameObject;
 class UI_Windows;
 class UI_Inspector;
 class UI_Hierarchy;
-class Ui_About;
-class UI_MenuBar;
+class UI_About;
+class UI_Console;
+
 class ModuleMenuBar : public Module
 {
 public:
@@ -25,28 +26,20 @@ public:
 
 	void SetSceneGameObject(GameObject* set);
 	void SetSelectedGameObject(GameObject* set);
+	void AddLog(const char*fmt, ...);
+
 private:
-	bool ShowEditor();
-	bool ShowInspector();
-	bool ShowHierarchy();
 
 	bool ShowMenuBar();
-
-	bool Draw(bool open);
-
-	void AboutUs();
-	void AboutUsWindow();
-	bool GetAboutUsStatus()const;
-
-	void Console();
-
 	void Configuration();
 	void Profiler();
-
-
 private:
-	GameObject* scene_go=nullptr;
-	GameObject* selected_go = nullptr;
+	std::vector<UI_Windows*> ui_windows;
+	UI_Inspector* ui_inspector;
+	UI_Hierarchy* ui_hierarchy;
+	UI_About* ui_about;
+	UI_Console* ui_console;
+
 	bool inspector = true;
 	bool hierarchy = true;
 
