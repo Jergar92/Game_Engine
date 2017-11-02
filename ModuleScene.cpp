@@ -153,6 +153,7 @@ void ModuleScene::LoadScene()
 		{
 			item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
 		}
+		item->UpdateMatrix();
 
 	}
 	//App->menu_bar->SetSceneGameObject(scene_go);

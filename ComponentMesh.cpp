@@ -40,6 +40,9 @@ void ComponentMesh::SetupMesh()
 		debug_normals_succes = false;
 	}
 	else {
+		glGenBuffers(1, &vertex_normals_id);
+		glGenBuffers(1, &surface_normals_id);
+
 		std::vector<float3> vertex_normals;
 		std::vector<float3> surface_normals;
 		//vertex normal loop

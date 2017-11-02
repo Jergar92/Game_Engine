@@ -56,6 +56,7 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 
 	uint num_vertices = ranges[0];
 	uint num_indices = ranges[1];
+	LOG("Save custom format with:\n num_vertices = %i \n num_indices = %i", num_vertices, num_indices);
 
 	// Load indices
 	cursor += bytes;
@@ -114,10 +115,9 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
-	uint num_vertices = mesh->mNumVertices;
-	uint num_indices = mesh->mNumFaces;
+
 	bool  indices_error = false;
-	for (uint i = 0; i <num_vertices; i++)
+	for (uint i = 0; i <mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
 		float3 data;
@@ -128,7 +128,6 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			data.y = mesh->mVertices[i].y;
 			data.z = mesh->mVertices[i].z;
 			vertex.position = data;
-			LOG("x%.2f,y%.2f,z%.2f", vertex.position.x, vertex.position.y, vertex.position.z);
 		}
 		//Normals
 
@@ -153,14 +152,14 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 		vertices.push_back(vertex);
 	}
 
-
+	
 	//Indices
-	for (uint i = 0; i < num_indices; i++)
+	for (uint i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
 		if (face.mNumIndices != 3) {
 			LOG("Number of indices is not 3!");
-			num_indices=0;
+			indices_error = true;
 		}
 		else
 		{
@@ -182,7 +181,8 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
 	}
-
+	uint num_vertices = vertices.size();
+	uint num_indices = (indices_error)?0:indices.size();
 	//Create Mesh & MeshRenderer
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
 	component_mesh->SetData(vertices, indices, num_vertices, num_indices);
@@ -196,14 +196,14 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	//Set custom format
 	std::string id = std::to_string(component_mesh->GetUID());
 	uint ranges[2] = { num_vertices,num_indices };
-	uint size = sizeof(ranges) + sizeof(uint) * mesh->mNumFaces + sizeof(Vertex) * mesh->mNumVertices;
+	uint size = sizeof(ranges) + sizeof(uint) * num_indices + sizeof(Vertex) * num_vertices;
 	char* data = new char[size]; // Allocate
 	char* cursor = data;
 	uint bytes = sizeof(ranges); // First store ranges
 	//ranges
 	memcpy(cursor, ranges, bytes);
 	cursor += bytes; // Store indices
-	bytes = sizeof(Vertex) *num_vertices;
+	bytes = sizeof(Vertex) * num_vertices;
 	//vertices-normals-cords
 	memcpy(cursor, vertices.data(), bytes);// Store vertices-normals-tex-cords
 	cursor += bytes; 

@@ -64,12 +64,12 @@ void ComponentMeshRenderer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT&&mesh->GetDebugNormal())
 	{
-		//		DrawVertexNormals();
+		DrawVertexNormals();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT&&mesh->GetDebugNormal())
 	{
-		//		DrawTriangleNormals();
+		DrawTriangleNormals();
 	}
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
