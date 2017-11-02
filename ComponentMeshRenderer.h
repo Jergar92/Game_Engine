@@ -27,6 +27,9 @@ public:
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
 	bool LoadComponent(const JSONConfig& data);
+private:
+	void DrawVertexNormals();
+	void DrawTriangleNormals();
 
 private:
 	ComponentMesh* mesh = nullptr;

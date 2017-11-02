@@ -29,6 +29,11 @@ public:
 	const std::vector<uint>& GetIndices()const;
 	const uint GetVertexBuffer()const;
 	const uint GetElementBuffer()const;
+	const uint GetVertexNormalID()const;
+	const uint GetSurfaceNormalID()const;
+
+	const bool GetDebugNormal()const;
+
 	AABB GetBoundingBox() const;
 	int GetUID()const;
 
@@ -46,7 +51,9 @@ private:
 private:
 	uint UID=0;// ID mesh
 	uint VBO=0;//Vertex Buffer Object
-	uint EBO=0;//Element Buffer Object
+	uint EBO=0;//Element Buffer Object+
+	uint vertex_normals_id = 0;//vertex_normals_id
+	uint surface_normals_id = 0;//surface_normals_id
 	std::string name;
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
@@ -54,5 +61,7 @@ private:
 	uint num_indices=0;
 	AABB bounding_box;
 	bool show_bounding_box=false;
+	bool debug_normals_succes = true;
+
 };
 
