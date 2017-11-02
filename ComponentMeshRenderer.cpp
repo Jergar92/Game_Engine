@@ -26,7 +26,10 @@ void ComponentMeshRenderer::Update()
 {
 	if (mesh == nullptr||!mesh->isEnable())
 		return;
-	
+	//Get Transform
+	glPushMatrix();
+	glMultMatrixf((float*)&my_go->GetTransposedMatrix());
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -73,7 +76,8 @@ void ComponentMeshRenderer::Update()
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	
-
+	//Pop Matrix
+	glPopMatrix();
 
 
 }

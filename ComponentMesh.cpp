@@ -201,31 +201,34 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 
 void ComponentMesh::RenderBoundingBox()
 {
+	OBB obb = my_go->global_bounding_box;
+
+	
 	//--- pos z
-	glBegin(GL_LINES);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.maxPoint.y, bounding_box.maxPoint.z);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.minPoint.y, bounding_box.maxPoint.z);
+	//glBegin(GL_LINES);
+	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.maxPoint.z);
+	//glVertex3f(obb.maxPoint.x, obb.minPoint.y, obb.maxPoint.z);
 
-	glVertex3f(bounding_box.minPoint.x, bounding_box.minPoint.y, bounding_box.maxPoint.z);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.maxPoint.y, bounding_box.maxPoint.z);
-	glEnd();
-	//--- pos x
-	glBegin(GL_LINES);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.minPoint.y, bounding_box.maxPoint.z);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.minPoint.y, bounding_box.minPoint.z);
+	//glVertex3f(obb.minPoint.x, obb.minPoint.y, obb.maxPoint.z);
+	//glVertex3f(obb.minPoint.x, obb.maxPoint.y, obb.maxPoint.z);
+	//glEnd();
+	////--- pos x
+	//glBegin(GL_LINES);
+	//glVertex3f(obb.maxPoint.x, obb.minPoint.y, obb.maxPoint.z);
+	//glVertex3f(obb.maxPoint.x, obb.minPoint.y, obb.minPoint.z);
 
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.maxPoint.y, bounding_box.minPoint.z);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.maxPoint.y, bounding_box.maxPoint.z);
-	glEnd();
+	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.minPoint.z);
+	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.maxPoint.z);
+	//glEnd();
 
-	//---- pos y
-	glBegin(GL_LINES);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.maxPoint.y, bounding_box.maxPoint.z);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.maxPoint.y, bounding_box.maxPoint.z);
+	////---- pos y
+	//glBegin(GL_LINES);
+	//glVertex3f(obb.minPoint.x, obb.maxPoint.y, obb.maxPoint.z);
+	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.maxPoint.z);
 
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.maxPoint.y, bounding_box.minPoint.z);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.maxPoint.y, bounding_box.minPoint.z);
-	glEnd();
+	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.minPoint.z);
+	//glVertex3f(obb.minPoint.x, obb.maxPoint.y, obb.minPoint.z);
+	//glEnd();
 
 	//--- neg z
 	glBegin(GL_LINES);
