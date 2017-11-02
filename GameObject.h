@@ -4,13 +4,15 @@
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\Quat.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
+#include "MathGeoLib-1.5\src\Geometry\OBB.h"
+
 class Component;
 enum ComponentType;
 class GameObject
 {
 public:
-	GameObject(float3 = float3::one, Quat = Quat(0, 0, 0, 0), float3 = float3::zero);
-	GameObject(GameObject* parent, float3 = float3::one,Quat = Quat(0,0,0,0), float3 = float3::zero);
+	GameObject(float3 = float3::one, Quat = Quat::identity, float3 = float3::zero);
+	GameObject(GameObject* parent, float3 = float3::one,Quat = Quat::identity, float3 = float3::zero);
 
 	~GameObject();
 	void CleanUp();
@@ -44,9 +46,10 @@ public:
 	void SetChild(GameObject * child);
 	void SetName(const char* name);
 	void SetTransform(math::float3 scale, math::Quat rotation, math::float3 position);
+	
 	//Update Matrix
 	void UpdateMatrix();
-	float4x4 GetInverseMatrix() const;
+	float4x4 GetTransposedMatrix() const;
 
 
 
@@ -60,9 +63,11 @@ public:
 
 
 	float3 scale=float3::one;
-	Quat rotation=Quat(0,0,0,0);
+	Quat rotation=Quat::identity;
 	float3 gui_rotation= float3::zero;
 	float3 position = float3::zero;
+
+	OBB global_bounding_box;
 
 private:
 	bool enable = true;
@@ -71,8 +76,13 @@ private:
 	uint UID = 0;
 	uint parent_UID = 0;
 
-	float4x4 transform_matrix;
-	float4x4 transform_matrix_inverse;
+	float4x4 transform_matrix = float4x4::identity;
+	
+	//globals transforms
+	float4x4 global_transform_matrix = float4x4::identity;
+	float4x4 global_transform_matrix_transposed = float4x4::identity;
+
+	
 
 
 	GameObject* parent=nullptr;

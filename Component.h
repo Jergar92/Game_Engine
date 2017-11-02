@@ -26,7 +26,7 @@ public:
 	virtual void InspectorUpdate();
 	virtual bool SaveComponent(JSONConfig& data)const;
 	virtual bool LoadComponent(const JSONConfig & data);
-	
+	virtual void OnUpdateMatrix(const float4x4 & matrix);
 
 	virtual void Disable();
 	bool isEnable();

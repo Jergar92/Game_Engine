@@ -12,6 +12,7 @@ public:
 	bool ObjectInside();
 	void InspectorUpdate();
 	void Update();
+	void OnUpdateMatrix(const float4x4 & matrix);
 
 	//Culling
 	void Culling();
@@ -41,9 +42,6 @@ public:
 	Frustum camera_frustrum;
 	
 private:
-	float3 front{ 0, 0, 1 };
-	float3 up{ 0,1,0 };
-	float3 pos{ 0,0,0 };
 	float vertical_fov = 1.0f;
 	float window_aspect_ratio;
 	GameObject* scene;

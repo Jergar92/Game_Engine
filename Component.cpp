@@ -45,6 +45,10 @@ bool Component::LoadComponent(const JSONConfig& data)
 	return true;
 }
 
+void Component::OnUpdateMatrix(const float4x4 & matrix)
+{
+}
+
 
 void Component::Disable()
 {

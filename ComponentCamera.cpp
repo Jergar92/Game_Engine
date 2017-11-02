@@ -22,10 +22,10 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go)
 	camera_frustrum.farPlaneDistance = 10.0f;
 
 	camera_frustrum.type = PerspectiveFrustum;
-	camera_frustrum.front = front;
-	camera_frustrum.up = up;
+	camera_frustrum.front = {0,0,1};
+	camera_frustrum.up = { 0,1,0 };
 
-	camera_frustrum.pos = pos;
+	camera_frustrum.pos = {0,0,0};
 	camera_frustrum.verticalFov = vertical_fov;
 	SetAspectRatio();
 
@@ -47,6 +47,13 @@ void ComponentCamera::Update()
 {
 	DebugDraw();
 	//Culling();
+}
+
+void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
+{
+	camera_frustrum.pos = matrix.TranslatePart();
+	camera_frustrum.front = matrix.WorldZ().Normalized();
+	camera_frustrum.up = matrix.WorldY().Normalized();
 }
 
 void ComponentCamera::Culling()
@@ -168,9 +175,7 @@ bool ComponentCamera::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetBool(my_go->GetUID(), "GameObject UID");
 	config.SetBool(enable, "Enable");
-	config.SetFloat3(front, "Front");
-	config.SetFloat3(up, "Up");
-	config.SetFloat3(pos, "Position");
+	//Save pos,up,front
 	config.SetFloat(vertical_fov, "Vertical FOV");
 	config.SetFloat(window_aspect_ratio, "Windows aspect ratio");
 

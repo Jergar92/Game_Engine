@@ -55,9 +55,7 @@ void GameObject::CleanUp()
 }
 void GameObject::Update()
 {
-	//Get Transform
-	glPushMatrix();
-	glMultMatrixf((float*)&GetInverseMatrix());
+
 	if (!enable)
 		return;
 	for (int i = 0; i < components.size(); i++)
@@ -71,8 +69,7 @@ void GameObject::Update()
 		GameObject* item = childs[i];
 		item->Update();
 	}
-	//Pop Matrix
-	glPopMatrix();	
+		
 }
 
 void GameObject::GuiUpdate()
@@ -365,12 +362,36 @@ void GameObject::SetTransform(float3 set_scale, Quat set_rotation, float3 set_po
 void GameObject::UpdateMatrix()
 {
 	transform_matrix = float4x4::FromTRS(position, rotation, scale);
-	transform_matrix_inverse = transform_matrix.Transposed();
+	if (parent != nullptr)
+	{
+		global_transform_matrix = parent->global_transform_matrix * transform_matrix;
+	}
+	else
+	{
+		global_transform_matrix = transform_matrix;
+	}
+	
+	global_transform_matrix_transposed = global_transform_matrix.Transposed();
+	
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->OnUpdateMatrix(global_transform_matrix);
+		if (components[i]->type == MESH)
+		{
+			ComponentMesh * mesh = (ComponentMesh*)components[i];
+			global_bounding_box = mesh->GetBoundingBox().Transform(global_transform_matrix.Float3x3Part());
+		}
+	}
+
+	for (int i = 0; i < childs.size(); i++)
+	{
+		childs[i]->UpdateMatrix();
+	}
 }
 
-float4x4 GameObject::GetInverseMatrix()const
+float4x4 GameObject::GetTransposedMatrix()const
 {
-	return transform_matrix_inverse;
+	return global_transform_matrix_transposed;
 }
 
 void GameObject::SetScale(float3 scale)
