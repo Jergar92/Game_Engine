@@ -4,6 +4,7 @@
 #include "Glew\include\GL\glew.h"
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
+#include "MathGeoLib-1.5\src\MathGeoLib.h"
 
 
 ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
@@ -201,59 +202,13 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 
 void ComponentMesh::RenderBoundingBox()
 {
-	OBB obb = my_go->global_bounding_box;
-
-	
-	//--- pos z
-	//glBegin(GL_LINES);
-	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.maxPoint.z);
-	//glVertex3f(obb.maxPoint.x, obb.minPoint.y, obb.maxPoint.z);
-
-	//glVertex3f(obb.minPoint.x, obb.minPoint.y, obb.maxPoint.z);
-	//glVertex3f(obb.minPoint.x, obb.maxPoint.y, obb.maxPoint.z);
-	//glEnd();
-	////--- pos x
-	//glBegin(GL_LINES);
-	//glVertex3f(obb.maxPoint.x, obb.minPoint.y, obb.maxPoint.z);
-	//glVertex3f(obb.maxPoint.x, obb.minPoint.y, obb.minPoint.z);
-
-	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.minPoint.z);
-	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.maxPoint.z);
-	//glEnd();
-
-	////---- pos y
-	//glBegin(GL_LINES);
-	//glVertex3f(obb.minPoint.x, obb.maxPoint.y, obb.maxPoint.z);
-	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.maxPoint.z);
-
-	//glVertex3f(obb.maxPoint.x, obb.maxPoint.y, obb.minPoint.z);
-	//glVertex3f(obb.minPoint.x, obb.maxPoint.y, obb.minPoint.z);
-	//glEnd();
-
-	//--- neg z
+	OBB box = my_go->global_bounding_box;
 	glBegin(GL_LINES);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.minPoint.y, bounding_box.minPoint.z);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.maxPoint.y, bounding_box.minPoint.z);
+		for (uint i = 0; i < 12; i++)
+		{
+			glVertex3f(box.Edge(i).a.x, box.Edge(i).a.y, box.Edge(i).a.z);
+			glVertex3f(box.Edge(i).b.x, box.Edge(i).b.y, box.Edge(i).b.z);
+		}
+		glEnd();
 
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.maxPoint.y, bounding_box.minPoint.z);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.minPoint.y, bounding_box.minPoint.z);
-	glEnd();
-
-	//--- neg y
-	glBegin(GL_LINES);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.minPoint.y, bounding_box.minPoint.z);
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.minPoint.y, bounding_box.minPoint.z);
-
-	glVertex3f(bounding_box.maxPoint.x, bounding_box.minPoint.y, bounding_box.maxPoint.z);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.minPoint.y, bounding_box.maxPoint.z);
-	glEnd();
-
-	//--- neg x
-	glBegin(GL_LINES);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.minPoint.y, bounding_box.minPoint.z);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.minPoint.y, bounding_box.maxPoint.z);
-
-	glVertex3f(bounding_box.minPoint.x, bounding_box.maxPoint.y, bounding_box.maxPoint.z);
-	glVertex3f(bounding_box.minPoint.x, bounding_box.maxPoint.y, bounding_box.minPoint.z);
-	glEnd();
 }
