@@ -14,7 +14,7 @@ class ModuleRenderer3D;
 class ModuleCamera3D;
 class ModuleScene;
 class ModuleConsole;
-class ModuleMenuBar;
+class ModuleEditorWindows;
 class ModuleHardware;
 class Profiler;
 
@@ -59,7 +59,7 @@ public:
 	ModuleCamera3D*		camera;
 	ModuleScene*		scene;
 	ModuleConsole*      console;
-	ModuleMenuBar*		menu_bar;
+	ModuleEditorWindows* editor_window;
 	ModuleHardware*		hardware;
 
 	Profiler* profiler;

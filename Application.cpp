@@ -10,7 +10,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleScene.h"
-#include "ModuleMenuBar.h"
+#include "ModuleEditorWindows.h"
 #include "ModuleHardware.h"
 #include "Profiler.h"
 Application::Application()
@@ -24,7 +24,7 @@ Application::Application()
 	camera = new ModuleCamera3D();
 	scene = new ModuleScene();
 	console = new ModuleConsole();
-	menu_bar = new ModuleMenuBar();
+	editor_window = new ModuleEditorWindows();
 	hardware = new ModuleHardware();
 	
 	// The order of calls is very important!
@@ -65,8 +65,8 @@ Application::Application()
 	AddModule(hardware);
 	profiler->CreateTitle("Application_Start",hardware->name.c_str());
 
-	AddModule(menu_bar);
-	profiler->CreateTitle("Application_Start",menu_bar->name.c_str());
+	AddModule(editor_window);
+	profiler->CreateTitle("Application_Start",editor_window->name.c_str());
 
 	
 	// Renderer last!

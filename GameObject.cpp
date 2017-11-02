@@ -6,7 +6,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "ModuleScene.h"
-#include "ModuleMenuBar.h"
+#include "ModuleEditorWindows.h"
 #include "Component.h"
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
@@ -88,7 +88,7 @@ void GameObject::GuiUpdate()
 	}
 	//Set item selected->InspectorUpdate
 	if (ImGui::IsItemClicked())
-		App->menu_bar->SetSelectedGameObject(this);
+		App->editor_window->SetSelectedGameObject(this);
 	
 	if (node_open)
 	{

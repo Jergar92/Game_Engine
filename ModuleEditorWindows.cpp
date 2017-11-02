@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "Globals.h"
-#include"ModuleMenuBar.h"
+#include"ModuleEditorWindows.h"
 #include "ModuleScene.h"
 #include "ModuleConsole.h"
 #include"p2Defs.h"
@@ -12,7 +12,7 @@
 #include "UI_Hierarchy.h"
 #include "UI_About.h"
 #include "UI_Console.h"
-ModuleMenuBar::ModuleMenuBar(bool start_enabled)
+ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
 	name = "Menu Bar";
 	ui_inspector = new UI_Inspector();
@@ -26,11 +26,11 @@ ModuleMenuBar::ModuleMenuBar(bool start_enabled)
 	ui_windows.push_back(ui_console);
 }
 
-ModuleMenuBar::~ModuleMenuBar()
+ModuleEditorWindows::~ModuleEditorWindows()
 {
 }
 
-bool ModuleMenuBar::Start()
+bool ModuleEditorWindows::Start()
 {
 	bool ret = true;
 
@@ -44,7 +44,7 @@ bool ModuleMenuBar::Start()
 }
 
 
-update_status ModuleMenuBar::GuiUpdate()
+update_status ModuleEditorWindows::GuiUpdate()
 {
 
 	
@@ -69,7 +69,7 @@ update_status ModuleMenuBar::GuiUpdate()
 }
 
 
-bool ModuleMenuBar::CleanUp()
+bool ModuleEditorWindows::CleanUp()
 {
 	bool ret = true;
 
@@ -84,7 +84,7 @@ bool ModuleMenuBar::CleanUp()
 
 
 
-bool ModuleMenuBar::ShowMenuBar()
+bool ModuleEditorWindows::ShowMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -190,32 +190,33 @@ bool ModuleMenuBar::ShowMenuBar()
 	return true;
 }
 
-void ModuleMenuBar::Configuration()
+void ModuleEditorWindows::Configuration()
 {
 	App->LoadConfigWindows();
 }
 
-void ModuleMenuBar::Profiler()
+void ModuleEditorWindows::Profiler()
 {
 	App->LoadProfilerWindow();
 
 }
 
-void ModuleMenuBar::SetSceneGameObject(GameObject * set)
+void ModuleEditorWindows::SetSceneGameObject(GameObject * set)
 {
 	ui_hierarchy->SetSceneGameObject(set);
 }
 
-void ModuleMenuBar::SetSelectedGameObject(GameObject * set)
+void ModuleEditorWindows::SetSelectedGameObject(GameObject * set)
 {
 	ui_inspector->SetSelectedGameObject(set);
 }
-void ModuleMenuBar::AddLog(const char * fmt, ...)
+void ModuleEditorWindows::AddLog(const char * fmt, ...)
 {
-	ui_console->AddLog(fmt);
+	if (ui_console != nullptr)
+		ui_console->AddLog(fmt);
 }
 /*
-void ModuleMenuBar::LoadFile(const char* filter_extension, const char* from_dir)
+void ModuleEditorWindows::LoadFile(const char* filter_extension, const char* from_dir)
 {
 	ImGui::OpenPopup("Load File");
 	if (ImGui::BeginPopupModal("Load File", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
@@ -251,7 +252,7 @@ void ModuleMenuBar::LoadFile(const char* filter_extension, const char* from_dir)
 		in_modal = false;
 }
 
-void ModuleMenuBar::DrawDirectoryRecursive(const char* directory, const char* filter_extension)
+void ModuleEditorWindows::DrawDirectoryRecursive(const char* directory, const char* filter_extension)
 {
 	std::vector<std::string> files;
 	std::vector<std::string> dirs;

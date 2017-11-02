@@ -3,7 +3,7 @@
 #include"ModuleScene.h"
 #include "ModuleCamera3D.h"
 #include "ModuleImporter.h"
-#include "ModuleMenuBar.h"
+#include "ModuleEditorWindows.h"
 #include "ModuleFileSystem.h"
 #include "GameObject.h"
 #include "Component.h"
@@ -35,7 +35,7 @@ bool ModuleScene::Start()
 	ComponentCamera* component_camera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
 	camera->AddComponent(component_camera);
 	
-	App->menu_bar->SetSceneGameObject(scene_go);
+	App->editor_window->SetSceneGameObject(scene_go);
 	
 	return ret;
 }
@@ -156,7 +156,7 @@ void ModuleScene::LoadScene()
 		item->UpdateMatrix();
 
 	}
-	//App->menu_bar->SetSceneGameObject(scene_go);
+	//App->editor_window->SetSceneGameObject(scene_go);
 
 }
 GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go, int UID_to_find) const

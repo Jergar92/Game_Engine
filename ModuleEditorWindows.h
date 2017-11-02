@@ -1,6 +1,6 @@
 #pragma once
 #include "Application.h"
-#include "ModuleMenuBar.h"
+#include "ModuleEditorWindows.h"
 #include "Globals.h"
 #include"p2Defs.h"
 
@@ -11,13 +11,13 @@ class UI_Hierarchy;
 class UI_About;
 class UI_Console;
 
-class ModuleMenuBar : public Module
+class ModuleEditorWindows : public Module
 {
 public:
 
 
-	ModuleMenuBar(bool start_enabled = true);
-	~ModuleMenuBar();
+	ModuleEditorWindows(bool start_enabled = true);
+	~ModuleEditorWindows();
 
 	bool Start();
 	update_status GuiUpdate();

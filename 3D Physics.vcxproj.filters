@@ -300,9 +300,6 @@
     <ClInclude Include="ModuleConsole.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleMenuBar.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleScene.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -404,6 +401,9 @@
     </ClInclude>
     <ClInclude Include="UI_Console.h">
       <Filter>Sources\UIWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleEditorWindows.h">
+      <Filter>Sources\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -551,9 +551,6 @@
     <ClCompile Include="ModuleConsole.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleMenuBar.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleScene.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
@@ -613,6 +610,9 @@
     </ClCompile>
     <ClCompile Include="UI_Console.cpp">
       <Filter>Sources\UIWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEditorWindows.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
