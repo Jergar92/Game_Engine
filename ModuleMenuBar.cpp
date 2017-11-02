@@ -6,7 +6,7 @@
 #include"p2Defs.h"
 #include "imgui\imgui.h"
 #include "GameObject.h"
-
+#include "ModuleFileSystem.h"
 ModuleMenuBar::ModuleMenuBar(bool start_enabled):scene_go(nullptr), selected_go(nullptr)
 {
 	name = "Menu Bar";
@@ -353,4 +353,84 @@ void ModuleMenuBar::SetSceneGameObject(GameObject * set)
 void ModuleMenuBar::SetSelectedGameObject(GameObject * set)
 {
 	selected_go = set;
+}
+void ModuleMenuBar::LoadFile(const char* filter_extension, const char* from_dir)
+{
+	ImGui::OpenPopup("Load File");
+	if (ImGui::BeginPopupModal("Load File", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		in_modal = true;
+
+		ImGui::PushStyleVar(ImGuiStyleVar_ChildWindowRounding, 5.0f);
+		ImGui::BeginChild("File Browser", ImVec2(3000, 300), true);
+		DrawDirectoryRecursive(from_dir, filter_extension);
+		ImGui::EndChild();
+		ImGui::PopStyleVar();
+
+		ImGui::PushItemWidth(250.f);
+		/*
+		if (ImGui::InputText("##file_selector", selected_file, FILE_MAX, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+			file_dialog = ready_to_close;
+
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+		if (ImGui::Button("Ok", ImVec2(50, 20)))
+			file_dialog = ready_to_close;
+		ImGui::SameLine();
+
+		if (ImGui::Button("Cancel", ImVec2(50, 20)))
+		{
+			file_dialog = ready_to_close;
+			selected_file[0] = '\0';
+		}
+		*/
+		ImGui::EndPopup();
+	}
+	else
+		in_modal = false;
+}
+
+void ModuleMenuBar::DrawDirectoryRecursive(const char* directory, const char* filter_extension)
+{
+	std::vector<std::string> files;
+	std::vector<std::string> dirs;
+
+	std::string dir((directory) ? directory : "");
+	dir += "/";
+
+	App->file_system->ListFiles("E:\\Andreu\\Repository\\Game_Engine\\Game\\Library", dirs, files);
+
+	for (std::vector<std::string>::const_iterator it = dirs.begin(); it != dirs.end(); ++it)
+	{
+		if (ImGui::TreeNodeEx((dir + (*it)).c_str(), 0, "%s/", (*it).c_str()))
+		{
+			DrawDirectoryRecursive((dir + (*it)).c_str(), filter_extension);
+			ImGui::TreePop();
+		}
+	}
+	/*
+	std::sort(files.begin(), files.end());
+
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); ++it)
+	{
+		const std::string& str = *it;
+
+		bool ok = true;
+
+		if (filter_extension && str.substr(str.find_last_of(".") + 1) != filter_extension)
+			ok = false;
+
+		if (ok && ImGui::TreeNodeEx(str.c_str(), ImGuiTreeNodeFlags_Leaf))
+		{
+			if (ImGui::IsItemClicked()) {
+				sprintf_s(selected_file, FILE_MAX, "%s%s", dir.c_str(), str.c_str());
+
+				if (ImGui::IsMouseDoubleClicked(0))
+					file_dialog = ready_to_close;
+			}
+
+			ImGui::TreePop();
+		}
+	}
+	*/
 }

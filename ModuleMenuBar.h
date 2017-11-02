@@ -5,6 +5,11 @@
 #include"p2Defs.h"
 
 class GameObject;
+class UI_Windows;
+class UI_Inspector;
+class UI_Hierarchy;
+class Ui_About;
+class UI_MenuBar;
 class ModuleMenuBar : public Module
 {
 public:
