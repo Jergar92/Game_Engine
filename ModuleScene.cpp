@@ -139,14 +139,20 @@ void ModuleScene::LoadScene()
 
 		item->LoadGameObject(config_item);
 		tmp_go.push_back(item);
-		if (i == 0)
-			scene_go = item;
 
 	}
 	for (int i = 0; i < tmp_go.size(); i++)
 	{
+		
 		GameObject* item = tmp_go[i];
-		item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
+		if (item->GetParentUID() == 0)
+		{
+			item->SetParent(scene_go);
+		}
+		else
+		{
+			item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
+		}
 
 	}
 	//App->menu_bar->SetSceneGameObject(scene_go);
