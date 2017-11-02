@@ -6,7 +6,8 @@
 #include "p2Defs.h"
 #include <iostream>
 #include <fstream>
-
+#include <filesystem>
+#include <experimental/filesystem>
 #define ASSETS_FOLDER "Assets"
 #define LIBRARY_FOLDER "Library"
 #define MESHES_FOLDER "Library/Meshes"
@@ -21,6 +22,7 @@ ModuleFileSystem::ModuleFileSystem()
 
 ModuleFileSystem::~ModuleFileSystem()
 {
+	
 }
 
 bool ModuleFileSystem::Awake(const JSONConfig& data)
@@ -35,6 +37,7 @@ bool ModuleFileSystem::Awake(const JSONConfig& data)
 	CreateFolder(meshes.c_str(), true);
 	CreateFolder(materials.c_str(),true);
 	
+
 	//Assets 
 	//Library / Meshes
 	//Library / Materials
@@ -51,6 +54,8 @@ bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_s
 
 	if (save_file.good())
 	{
+		LOG("Save custom format with:\n name = %s \n buffer size %i\n complete path= %s", file_name.c_str(), buffer_size, complete_path.c_str());
+
 		save_file.write(buffer, buffer_size);
 		save_file.close();
 	}
@@ -107,6 +112,32 @@ std::string ModuleFileSystem::SetPathFile(const char * name, const char * direct
 	
 	std::string file_name(PATH(directory, name));
 	return file_name;
+}
+
+bool ModuleFileSystem::ListFiles(std::string path, std::vector<std::string>& folders, std::vector<std::string>& files)
+{
+	namespace stdfs = std::experimental::filesystem;
+
+
+	const stdfs::directory_iterator end{};
+
+	
+
+	for (stdfs::directory_iterator iter{ path }; iter != end; ++iter)
+	{
+	
+		if (stdfs::is_directory(*iter))
+		{
+			folders.push_back(iter->path().string());
+		}
+		else
+		{
+			files.push_back(iter->path().string());
+		}
+	}
+
+	
+	return true;
 }
 
 const char * ModuleFileSystem::GetMeshesFolder()const
