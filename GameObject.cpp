@@ -411,7 +411,7 @@ void GameObject::SetRotation(float3 rotation_angles)
 
 }
 
-void GameObject::SetPosition(float3 Position)
+void GameObject::SetPosition(float3 position)
 {
 	this->position = position;
 	UpdateMatrix();
