@@ -34,6 +34,7 @@ void ModuleImporter::Import(const char * path)
 	}
 	else
 	{
+		App->file_system->CloneFile(dropped_filedir.c_str());
 		mesh.ImportMesh(dropped_filedir.c_str());
 		//mesh.LoadMesh(dropped_filedir.c_str());
 

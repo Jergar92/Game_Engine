@@ -10,11 +10,18 @@ public:
 	~ModuleFileSystem();
 	bool Awake(const JSONConfig& data);
 
+	bool CreateNewFile(const char * path, char * buffer, int buffer_size, const char * directory);
+
 	bool CreateOwnFile(const char * name, char * buffer,int buffer_int, const char * directory,const char* extension);
 	JSON_Value* ParseJSONFile(const char * name, const char * directory);
 	bool CreateJSONFile(const char * name, JSON_Value* value, const char * directory);
 
+	int LoadFile(const char * name, char ** buffer);
+
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
+
+	bool CloneFile(const std::string path);
+
 	bool ListFiles(const std::string path, Path& path_fill);
 	bool CreateNewFolder(const std::string path, const char* name,std::string& full_path);
 

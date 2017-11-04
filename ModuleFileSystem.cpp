@@ -53,6 +53,28 @@ bool ModuleFileSystem::Awake(const JSONConfig& data)
 
 
 
+bool ModuleFileSystem::CreateNewFile(const char* path, char* buffer, int buffer_size, const char* directory)
+{
+	bool ret = true;
+	std::string complete_path = PATH(directory, path);
+
+
+	std::ofstream save_file(complete_path.c_str(), std::ofstream::binary);
+
+	if (save_file.good())
+	{
+		save_file.write(buffer, buffer_size);
+		save_file.close();
+	}
+	else
+	{
+		LOG("Error on creating the file")
+			ret = false;
+	}
+	return ret;
+}
+
+
 bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_size, const char* directory,const char* extension)
 {
 	bool ret = true;
@@ -90,7 +112,31 @@ bool ModuleFileSystem::CreateJSONFile(const char * name, JSON_Value * value, con
 
 	return json_serialize_to_file(value, complete_path.c_str());;
 }
+int ModuleFileSystem::LoadFile(const char * name, char ** buffer)
+{
+	std::ifstream load_file(name, std::ifstream::binary);
+	int size = 0;
 
+	if (load_file.good())
+	{
+
+		load_file.seekg(0, load_file.end);
+		size = load_file.tellg();
+		load_file.seekg(0, load_file.beg);
+
+		*buffer = new char[size];
+
+		load_file.read(*buffer, size);
+
+		load_file.close();
+
+	}
+	else
+	{
+		LOG("Error on Load the file")
+	}
+	return size;
+}
 void ModuleFileSystem::LoadFile(const char * name, char ** buffer, const char * directory, const char * extension)
 {
 	std::string file_name = FILE_EXTENSION(name, extension);
@@ -119,6 +165,17 @@ void ModuleFileSystem::LoadFile(const char * name, char ** buffer, const char * 
 	}
 
 }
+bool ModuleFileSystem::CloneFile(const std::string path)
+{
+	char* buffer = nullptr;
+	namespace file_system = std::experimental::filesystem;
+	std::string name(file_system::path(path).filename().string());
+	//Load the file
+	int size= LoadFile(path.c_str(), &buffer);
+	CreateNewFile(name.c_str(), buffer, size, GetAssetsFolder());
+	RELEASE_ARRAY(buffer);
+	return true;
+}
 std::string ModuleFileSystem::SetExtension(const char * name, const char * extension)
 {
 	
@@ -134,8 +191,6 @@ std::string ModuleFileSystem::SetPathFile(const char * name, const char * direct
 
 bool ModuleFileSystem::ListFiles(const std::string path,Path& path_fill)
 {
-
-
 	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(path))
 	{
 		std::string str_path = item.path().string().c_str();

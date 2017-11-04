@@ -79,6 +79,8 @@ bool ModuleEditorWindows::CleanUp()
 	RELEASE(ui_hierarchy);
 	RELEASE(ui_about);
 	RELEASE(ui_console);
+	RELEASE(ui_folder);
+
 	ui_windows.clear();
 	return ret;
 }
