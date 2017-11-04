@@ -44,14 +44,19 @@ void GameObject::CleanUp()
 	{
 		Component* item = components[i];
 		item->CleanUp();
+		RELEASE(item);
+
 	}
 
 	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
 		item->CleanUp();
+		RELEASE(item);
+
 	}
 	parent = nullptr;
+
 }
 void GameObject::Update()
 {

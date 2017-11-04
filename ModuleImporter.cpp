@@ -45,6 +45,7 @@ void ModuleImporter::LoadMesh(const char * name, ComponentMesh * component)
 	char* buffer=nullptr;
 	App->file_system->LoadFile(name, &buffer, App->file_system->GetMeshesFolder(), "frog");
 	mesh.LoadMesh(buffer,component);
+	RELEASE_ARRAY(buffer);
 
 }
 int ModuleImporter::LoadTexture(const char * name, ComponentMeshRenderer * component)

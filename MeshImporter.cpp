@@ -78,6 +78,7 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 	bytes = sizeof(Texture) * num_indices;
 	std::vector<Texture> textures((Texture*)cursor, (Texture*)cursor + num_textures);
 	*/
+
 	return true;
 }
 
@@ -220,6 +221,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	{
 		LOG("Save %s", go->name.c_str());
 	}
+	RELEASE_ARRAY(data);
 
 }
 

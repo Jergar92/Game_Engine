@@ -18,7 +18,6 @@ JSONConfig::JSONConfig(JSON_Object * object):object(object)
 
 JSONConfig::~JSONConfig()
 {
-	//json_value_free(value);
 }
 
 void JSONConfig::CleanUp()
@@ -26,10 +25,10 @@ void JSONConfig::CleanUp()
 	json_value_free(value);
 }
 
-bool JSONConfig::ParseFile(const char * name)
+bool JSONConfig::ParseFile(const char * name,const char* directory)
 {
 	bool ret = true;
-	value = json_parse_file(name);
+	value = App->file_system->ParseJSONFile(name, directory);
 	if (value == nullptr)
 	{
 		ret = false;
@@ -48,8 +47,9 @@ bool JSONConfig::SerializeFile(const char * name)
 int JSONConfig::Serialize(char ** buffer)
 {
 	*(buffer)=json_serialize_to_string_pretty(json_value_deep_copy(value));
-
-	return strlen(*(buffer));
+	int size = strlen(*(buffer));
+	json_free_serialized_string(*(buffer));
+	return size;
 }
 
 JSONConfig JSONConfig::SetFocus(const char * name)
@@ -233,6 +233,6 @@ void JSONConfig::SetQuaternion(Quat value, const char * name)
 
 bool JSONConfig::Save(const char * name)
 {
-	return App->file_system->CreateJSONFile("scene.json",value);
+	return App->file_system->CreateJSONFile("scene.json",value,App->file_system->GetAssetsFolder());
 
 }

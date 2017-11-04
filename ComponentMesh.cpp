@@ -110,6 +110,11 @@ void ComponentMesh::InspectorUpdate()
 
 	}
 }
+void ComponentMesh::CleanUp()
+{
+	vertices.clear();
+	indices.clear();
+}
 void ComponentMesh::SetData(const std::vector<Vertex>& set_vertices, const std::vector<uint>& set_indices, const int num_ver, const int num_ind)
 {
 	vertices = set_vertices;

@@ -8,8 +8,10 @@ public:
 	ModuleFileSystem();
 	~ModuleFileSystem();
 	bool Awake(const JSONConfig& data);
+
 	bool CreateOwnFile(const char * name, char * buffer,int buffer_int, const char * directory,const char* extension);
-	bool CreateJSONFile(const char * name, JSON_Value* value);
+	JSON_Value* ParseJSONFile(const char * name, const char * directory);
+	bool CreateJSONFile(const char * name, JSON_Value* value, const char * directory);
 
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
 	bool ListFiles(std::string path, std::vector<std::string>& folders, std::vector<std::string>& files);
@@ -20,11 +22,14 @@ public:
 	const char* GetMeshesFolder()const;
 	const char* GetMaterialFolder()const;
 	const char* GetAssetsFolder()const;
+	const char* GetSettingsFolder()const;
 
 private:
 	void CreateFolder(const char* name,  bool hide = false);
 	std::string meshes;
 	std::string materials;
 	std::string assets;
+	std::string settings;
+
 };
 

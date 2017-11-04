@@ -66,6 +66,7 @@ bool ModuleScene::CleanUp()
 {
 	bool ret = true;
 	delete plane;
+
 	if (scene_go != nullptr)
 	{
 		scene_go->CleanUp();
@@ -127,7 +128,7 @@ void ModuleScene::LoadScene()
 {
 
 	JSONConfig config;
-	config.ParseFile("scene.json");
+	config.ParseFile("scene.json",App->file_system->GetAssetsFolder());
 
 	uint size = config.GetArraySize("GameObject");
 	std::vector < GameObject*> tmp_go;

@@ -12,11 +12,21 @@
 #define LIBRARY_FOLDER "Library"
 #define MESHES_FOLDER "Library/Meshes"
 #define MATERIAL_FOLDER "Library/Material"
-#define MESH_EXTENSION ".frog"
+#define SETTINGS_FOLDER "Settings"
+
 
 ModuleFileSystem::ModuleFileSystem()
 {
 	name = "File System";
+	meshes = MESHES_FOLDER;
+	assets = ASSETS_FOLDER;
+	materials = MATERIAL_FOLDER;
+	settings = SETTINGS_FOLDER;
+	CreateFolder(assets.c_str());
+	CreateFolder(LIBRARY_FOLDER);
+	CreateFolder(meshes.c_str(), true);
+	CreateFolder(materials.c_str(), true);
+	CreateFolder(settings.c_str());
 }
 
 
@@ -28,21 +38,17 @@ ModuleFileSystem::~ModuleFileSystem()
 bool ModuleFileSystem::Awake(const JSONConfig& data)
 {
 	bool ret = true;
-	meshes = MESHES_FOLDER;
-	assets = ASSETS_FOLDER;
-	materials = MATERIAL_FOLDER;
 
-	CreateFolder(assets.c_str());
-	CreateFolder(LIBRARY_FOLDER);
-	CreateFolder(meshes.c_str(), true);
-	CreateFolder(materials.c_str(),true);
-	
+
 
 	//Assets 
 	//Library / Meshes
 	//Library / Materials
+	//Settings
 	return ret;
 }
+
+
 
 bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_size, const char* directory,const char* extension)
 {
@@ -64,13 +70,22 @@ bool ModuleFileSystem::CreateOwnFile(const char* name, char* buffer,int buffer_s
 		LOG("Error on creating the file")
 		ret = false;
 	}
-
 	return ret;
 }
 
-bool ModuleFileSystem::CreateJSONFile(const char * name, JSON_Value * value)
+JSON_Value * ModuleFileSystem::ParseJSONFile(const char * name, const char * directory)
 {
-	return json_serialize_to_file(value, name);;
+	std::string complete_path = PATH(directory, name);
+
+	JSON_Value * ret = json_parse_file(complete_path.c_str());
+	return ret;
+}
+
+bool ModuleFileSystem::CreateJSONFile(const char * name, JSON_Value * value, const char * directory)
+{
+	std::string complete_path = PATH(directory, name);
+
+	return json_serialize_to_file(value, complete_path.c_str());;
 }
 
 void ModuleFileSystem::LoadFile(const char * name, char ** buffer, const char * directory, const char * extension)
@@ -153,6 +168,11 @@ const char * ModuleFileSystem::GetMaterialFolder()const
 const char * ModuleFileSystem::GetAssetsFolder()const
 {
 	return assets.c_str();
+}
+
+const char * ModuleFileSystem::GetSettingsFolder() const
+{
+	return settings.c_str();
 }
 
 void ModuleFileSystem::CreateFolder(const char * name, bool hide)

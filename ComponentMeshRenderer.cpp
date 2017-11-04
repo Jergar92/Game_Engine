@@ -181,3 +181,9 @@ void ComponentMeshRenderer::InspectorUpdate()
 
 	}
 }
+
+void ComponentMeshRenderer::CleanUp()
+{
+	mesh = nullptr;
+	textures.clear();
+}

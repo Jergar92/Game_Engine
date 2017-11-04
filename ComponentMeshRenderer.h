@@ -22,6 +22,7 @@ public:
 public:
 	void Update();
 	void InspectorUpdate();
+	void CleanUp();
 	void SetMesh(ComponentMesh* set_mesh);
 	void SetTexture(const std::vector<Texture>& texture);
 	//Save&Load

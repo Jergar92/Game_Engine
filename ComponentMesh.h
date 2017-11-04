@@ -22,6 +22,8 @@ public:
 	void Update();
 	void SetupMesh();
 	void InspectorUpdate();
+	void CleanUp();
+
 	void GenerateBoudingBox();
 
 	//Getters

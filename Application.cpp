@@ -93,7 +93,7 @@ bool Application::Awake()
 	bool ret = true;
 	JSONConfig config;
 	// Call Awake() in all modules
-	if (!config.ParseFile("config.json"))
+	if (!config.ParseFile("config.json",file_system->GetSettingsFolder()))
 	{
 		ret = false;
 	}
@@ -116,6 +116,7 @@ bool Application::Awake()
 			item++;
 		}
 		profiler->StopCurrentCategory();
+		config.CleanUp();
 
 	}
 	return ret;
@@ -288,7 +289,7 @@ bool Application::LoadConfigNow()
 	bool ret = true;
 	
 	JSONConfig config;
-	if (!config.ParseFile("config.json"))
+	if (!config.ParseFile("config.json",file_system->GetSettingsFolder()))
 	{
 		ret = false;
 	}
@@ -316,7 +317,7 @@ bool Application::SaveConfigNow()
 	bool ret = true;
 	JSONConfig config;
 	// Call Awake() in all modules
-	if (!config.ParseFile("config.json"))
+	if (!config.ParseFile("config.json",file_system->GetSettingsFolder()))
 	{
 		ret = false;
 	}

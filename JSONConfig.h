@@ -21,7 +21,7 @@ public:
 
 	~JSONConfig();
 	void CleanUp();
-	bool ParseFile(const char* name);
+	bool ParseFile(const char* name, const char* directory);
 	bool SerializeFile(const char* name);
 	int Serialize(char** buffer);
 	JSONConfig SetFocus(const char* name);
