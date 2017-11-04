@@ -104,7 +104,8 @@ void ComponentMesh::InspectorUpdate()
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_indices);
 
-			ImGui::Checkbox("Bounding Box##show_bb", &show_bounding_box);
+			ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
+			ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
 
 		ImGui::TreePop();
 
@@ -187,8 +188,15 @@ void ComponentMesh::SetAABB(const AABB set_bounding_box)
 }
 void ComponentMesh::Update()
 {
-	if (show_bounding_box)
-		RenderBoundingBox();
+	if (show_bounding_boxAABB)
+	{
+		RenderBoundingBoxAABB();
+	}
+	else if (show_bounding_boxOBB)
+	{
+		RenderBoundingBoxOBB();
+	}
+		
 }
 
 bool ComponentMesh::SaveComponent(JSONConfig & config) const
@@ -217,15 +225,27 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 	return ret;
 }
 
-void ComponentMesh::RenderBoundingBox()
+void ComponentMesh::RenderBoundingBoxAABB()const
 {
-	OBB box = my_go->global_bounding_box;
+	
 	glBegin(GL_LINES);
 		for (uint i = 0; i < 12; i++)
 		{
-			glVertex3f(box.Edge(i).a.x, box.Edge(i).a.y, box.Edge(i).a.z);
-			glVertex3f(box.Edge(i).b.x, box.Edge(i).b.y, box.Edge(i).b.z);
+			glVertex3f(bounding_box.Edge(i).a.x, bounding_box.Edge(i).a.y, bounding_box.Edge(i).a.z);
+			glVertex3f(bounding_box.Edge(i).b.x, bounding_box.Edge(i).b.y, bounding_box.Edge(i).b.z);
 		}
 		glEnd();
 
+}
+
+void ComponentMesh::RenderBoundingBoxOBB()const
+{
+	OBB box = my_go->GetBoundingBox();
+	glBegin(GL_LINES);
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(box.Edge(i).a.x, box.Edge(i).a.y, box.Edge(i).a.z);
+		glVertex3f(box.Edge(i).b.x, box.Edge(i).b.y, box.Edge(i).b.z);
+	}
+	glEnd();
 }

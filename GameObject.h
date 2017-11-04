@@ -52,6 +52,8 @@ public:
 	void UpdateMatrix();
 	float4x4 GetTransposedMatrix() const;
 
+	//Bounding Box
+	OBB GetBoundingBox()const;
 
 
 public:
@@ -68,7 +70,7 @@ public:
 	float3 gui_rotation= float3::zero;
 	float3 position = float3::zero;
 
-	OBB global_bounding_box;
+	
 
 private:
 	bool enable = true;
@@ -76,7 +78,9 @@ private:
 	bool gui_static = false;
 	uint UID = 0;
 	uint parent_UID = 0;
+	OBB global_bounding_box;
 
+	//local transform matrix
 	float4x4 transform_matrix = float4x4::identity;
 	
 	//globals transforms

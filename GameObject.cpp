@@ -399,6 +399,11 @@ float4x4 GameObject::GetTransposedMatrix()const
 	return global_transform_matrix_transposed;
 }
 
+OBB GameObject::GetBoundingBox() const
+{
+	return global_bounding_box;
+}
+
 void GameObject::SetScale(float3 scale)
 {
 	this->scale = scale;

@@ -48,7 +48,9 @@ public:
 	bool LoadComponent(const JSONConfig& data);
 
 private:
-	void RenderBoundingBox();
+	
+	void RenderBoundingBoxAABB()const;
+	void RenderBoundingBoxOBB()const;
 
 private:
 	uint UID=0;// ID mesh
@@ -62,7 +64,8 @@ private:
 	uint num_vertices=0;
 	uint num_indices=0;
 	AABB bounding_box;
-	bool show_bounding_box=false;
+	bool show_bounding_boxAABB =false;
+	bool show_bounding_boxOBB = false;
 	bool debug_normals_succes = true;
 	bool draw_mesh = true;
 };
