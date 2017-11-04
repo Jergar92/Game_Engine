@@ -384,7 +384,9 @@ void GameObject::UpdateMatrix()
 		if (components[i]->type == MESH)
 		{
 			ComponentMesh * mesh = (ComponentMesh*)components[i];
-			global_bounding_box = mesh->GetBoundingBox().Transform(global_transform_matrix.Float3x3Part());
+			global_bounding_box_OBB = mesh->GetBoundingBox().Transform(global_transform_matrix.Float3x3Part());
+			global_bounding_box_AABB = mesh->GetBoundingBox();
+			global_bounding_box_AABB.TransformAsAABB(global_transform_matrix.Float3x3Part());
 		}
 	}
 
@@ -399,9 +401,14 @@ float4x4 GameObject::GetTransposedMatrix()const
 	return global_transform_matrix_transposed;
 }
 
-OBB GameObject::GetBoundingBox() const
+OBB GameObject::GetBoundingBoxOBB() const
 {
-	return global_bounding_box;
+	return global_bounding_box_OBB;
+}
+
+AABB GameObject::GetBoundingBoxAABB() const
+{
+	return global_bounding_box_AABB;
 }
 
 void GameObject::SetScale(float3 scale)

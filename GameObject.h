@@ -5,6 +5,7 @@
 #include "MathGeoLib-1.5\src\Math\Quat.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
 #include "MathGeoLib-1.5\src\Geometry\OBB.h"
+#include "MathGeoLib-1.5\src\Geometry\AABB.h"
 #include "p2Defs.h"
 #include "JSONConfig.h"
 class Component;
@@ -53,8 +54,8 @@ public:
 	float4x4 GetTransposedMatrix() const;
 
 	//Bounding Box
-	OBB GetBoundingBox()const;
-
+	OBB GetBoundingBoxOBB()const;
+	AABB GetBoundingBoxAABB()const;
 
 public:
 	std::vector<Component*> components;
@@ -78,8 +79,8 @@ private:
 	bool gui_static = false;
 	uint UID = 0;
 	uint parent_UID = 0;
-	OBB global_bounding_box;
-
+	OBB global_bounding_box_OBB;
+	AABB global_bounding_box_AABB;
 	//local transform matrix
 	float4x4 transform_matrix = float4x4::identity;
 	

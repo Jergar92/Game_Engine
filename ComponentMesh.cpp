@@ -225,9 +225,9 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 	return ret;
 }
 
-void ComponentMesh::RenderBoundingBoxAABB()const
+void ComponentMesh::RenderBoundingBoxAABB()
 {
-	
+	bounding_box = my_go->GetBoundingBoxAABB();
 	glBegin(GL_LINES);
 		for (uint i = 0; i < 12; i++)
 		{
@@ -238,9 +238,9 @@ void ComponentMesh::RenderBoundingBoxAABB()const
 
 }
 
-void ComponentMesh::RenderBoundingBoxOBB()const
+void ComponentMesh::RenderBoundingBoxOBB()
 {
-	OBB box = my_go->GetBoundingBox();
+	OBB box = my_go->GetBoundingBoxOBB();
 	glBegin(GL_LINES);
 	for (uint i = 0; i < 12; i++)
 	{

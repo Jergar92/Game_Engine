@@ -49,8 +49,8 @@ public:
 
 private:
 	
-	void RenderBoundingBoxAABB()const;
-	void RenderBoundingBoxOBB()const;
+	void RenderBoundingBoxAABB();
+	void RenderBoundingBoxOBB();
 
 private:
 	uint UID=0;// ID mesh
