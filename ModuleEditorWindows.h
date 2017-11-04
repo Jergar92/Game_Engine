@@ -20,6 +20,8 @@ public:
 	~ModuleEditorWindows();
 
 	bool Start();
+	update_status PreUpdate(float dt);
+
 	update_status GuiUpdate();
 
 	bool CleanUp();

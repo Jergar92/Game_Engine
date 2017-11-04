@@ -112,7 +112,7 @@ void ModuleScene::SendGameObject(GameObject * go)
 	go->SetParent(scene_go);
 }
 
-void ModuleScene::SaveScene()
+void ModuleScene::SaveScene(const char*path)const 
 {
 	JSONConfig config;
 	
@@ -120,7 +120,7 @@ void ModuleScene::SaveScene()
 	scene_go->SaveGameObject(config);
 	char* buffer;
 	uint size=config.Serialize(&buffer);
-	config.Save("scene.json");
+	config.Save("scene.json", path);
 	config.CleanUp();
 }
 

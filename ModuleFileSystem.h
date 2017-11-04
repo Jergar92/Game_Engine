@@ -23,6 +23,8 @@ public:
 	bool CloneFile(const std::string path);
 
 	bool ListFiles(const std::string path, Path& path_fill);
+	bool UpdateFiles(const std::string path, Path& path_fill);
+
 	bool CreateNewFolder(const std::string path, const char* name,std::string& full_path);
 
 	std::string SetExtension(const char * name, const char * extension);

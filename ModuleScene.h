@@ -21,7 +21,7 @@ public:
 	GameObject* GetScene() const;
 	void LoadTexture(const char* path);
 	void SendGameObject(GameObject* go);
-	void SaveScene();
+	void SaveScene(const char* path)const;
 
 	void LoadScene();
 	GameObject* FindGameObjectByID(const std::vector<GameObject*> & go, int UID_to_find)const ;

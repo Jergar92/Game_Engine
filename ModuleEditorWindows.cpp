@@ -45,6 +45,12 @@ bool ModuleEditorWindows::Start()
 
 }
 
+update_status ModuleEditorWindows::PreUpdate(float dt)
+{
+	ui_folder->UpdateFiles();
+	return UPDATE_CONTINUE;
+}
+
 
 update_status ModuleEditorWindows::GuiUpdate()
 {
@@ -98,7 +104,13 @@ bool ModuleEditorWindows::ShowMenuBar()
 			ImGui::Separator();
 			if (ImGui::MenuItem("Save"))
 			{
-				App->scene->SaveScene();
+				std::string path = App->file_system->GetAssetsFolder();
+				if (ui_folder->ShowFolder())
+				{
+					path = ui_folder->GetFolderName();
+
+				}
+				App->scene->SaveScene(path.c_str());
 			}
 			if (ImGui::MenuItem("Load"))
 			{

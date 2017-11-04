@@ -231,8 +231,8 @@ void JSONConfig::SetQuaternion(Quat value, const char * name)
 
 }
 
-bool JSONConfig::Save(const char * name)
+bool JSONConfig::Save(const char * name, const char* path)
 {
-	return App->file_system->CreateJSONFile("scene.json",value,App->file_system->GetAssetsFolder());
+	return App->file_system->CreateJSONFile("scene.json",value, path);
 
 }

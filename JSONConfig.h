@@ -54,7 +54,7 @@ public:
 
 	void SetQuaternion(Quat value, const char* name);
 
-	bool Save(const char* name);
+	bool Save(const char* name, const char* path);
 	//TODO Array floats for ModuleRender
 private:
 	JSON_Object* object = nullptr;

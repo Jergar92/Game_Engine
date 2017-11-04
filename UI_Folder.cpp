@@ -4,7 +4,7 @@
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
 
-UI_Folder::UI_Folder() : show_folfer(new Path()), item_selected(new Path()), folder_to_change(new Path())
+UI_Folder::UI_Folder() : show_folder(new Path()), item_selected(new Path()), folder_to_change(new Path())
 {
 }
 
@@ -25,6 +25,13 @@ void UI_Folder::CleanUp()
 	first_path.child.clear();
 }
 
+void UI_Folder::UpdateFiles()
+{
+	first_path.child.clear();
+	App->file_system->UpdateFiles(first_path.path, first_path);
+
+}
+
 bool UI_Folder::Draw()
 {
 	ImGuiWindowFlags window_flags = 0;
@@ -43,9 +50,19 @@ bool UI_Folder::Draw()
 	DrawFolderInfo();
 	ImGui::Columns(1);
 	ImGui::End();
-	if (show_folfer != folder_to_change)
-		show_folfer = folder_to_change;
+	if (show_folder != folder_to_change)
+		show_folder = folder_to_change;
 	return true;
+}
+
+bool UI_Folder::ShowFolder()
+{
+	return show_folder->path!="";
+}
+
+const char * UI_Folder::GetFolderName() const
+{
+	return show_folder->path.c_str();
 }
 
 void UI_Folder::DrawFolders(const Path& draw) const
@@ -81,10 +98,10 @@ void UI_Folder::DrawFolders(const Path& draw) const
 
 void UI_Folder::DrawFolderInfo()
 {
-	ImGui::Text("%s Contains:", show_folfer->name.c_str());
+	ImGui::Text("%s Contains:", show_folder->name.c_str());
 
-	std::vector<Path>::const_iterator it = show_folfer->child.begin();
-	while (it != show_folfer->child.end())
+	std::vector<Path>::const_iterator it = show_folder->child.begin();
+	while (it != show_folder->child.end())
 	{
 		ImGuiWindowFlags tree_flags = 0;
 
@@ -121,4 +138,3 @@ Path::~Path()
 	parent = nullptr;
 
 }
-
