@@ -4,7 +4,7 @@
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
 
-UI_Folder::UI_Folder() : show_folfer(new Path()), item_selected(new Path())
+UI_Folder::UI_Folder() : show_folfer(new Path()), item_selected(new Path()), folder_to_change(new Path())
 {
 }
 
@@ -37,17 +37,28 @@ bool UI_Folder::Draw()
 	DrawFolderInfo();
 	ImGui::Columns(1);
 	ImGui::End();
-
+	if (show_folfer != folder_to_change)
+		show_folfer = folder_to_change;
 	return true;
 }
 
 void UI_Folder::DrawFolders(const Path& draw) const
 {
-	bool node_open = ImGui::TreeNode(draw.name.c_str());
+	ImGuiWindowFlags tree_flags = 0;
+
+	if (draw.child.empty())
+		tree_flags |= ImGuiTreeNodeFlags_Leaf;
+	bool node_open = ImGui::TreeNodeEx(draw.name.c_str(), tree_flags);
 	if (ImGui::IsItemClicked())
 	{
-		*show_folfer = draw;
+		*folder_to_change = draw;
 	}
+	/*
+	if (ImGui::BeginPopupContextItem("Folder Options"))
+	{
+		ImGui::EndPopup();
+	}
+	*/
 	if (node_open)
 	{
 		std::vector<Path>::const_iterator it = draw.child.begin();
@@ -68,9 +79,15 @@ void UI_Folder::DrawFolderInfo()
 	std::vector<Path>::const_iterator it = show_folfer->child.begin();
 	while (it != show_folfer->child.end())
 	{
-		if (ImGui::TreeNode(it->name.c_str()))
+		ImGuiWindowFlags tree_flags = 0;
+
+		if (it->child.empty())
+			tree_flags |= ImGuiTreeNodeFlags_Leaf;
+		bool node_open = ImGui::TreeNodeEx(it->name.c_str(), tree_flags);
+
+		if (node_open)
 		{
-			if (ImGui::IsItemClicked()&& !it->directory) 
+			if (ImGui::IsItemClicked() && !it->directory) 
 			{
 				*item_selected = *(it);
 			}
@@ -82,7 +99,7 @@ void UI_Folder::DrawFolderInfo()
 	}
 }
 
-Path::Path()
+Path::Path():path(std::string()),name(std::string()),parent(nullptr),directory(true)
 {
 }
 

@@ -148,6 +148,10 @@ const uint ComponentMesh::GetSurfaceNormalID() const
 {
 	return surface_normals_id;
 }
+const bool ComponentMesh::GetDrawMesh() const
+{
+	return draw_mesh;
+}
 void ComponentMesh::GenerateBoudingBox()
 {
 	bounding_box.SetNegativeInfinity();
@@ -155,6 +159,11 @@ void ComponentMesh::GenerateBoudingBox()
 	{	
 		bounding_box.Enclose(vertices[i].position);
 	}
+}
+
+void ComponentMesh::DrawMesh(bool show)
+{
+	draw_mesh = show;
 }
 
 const bool ComponentMesh::GetDebugNormal() const

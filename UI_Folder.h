@@ -24,6 +24,7 @@ public:
 
 	void DrawFolderInfo();
 	Path* show_folfer;
+	Path* folder_to_change;
 	Path* item_selected;
 
 	Path first_path;

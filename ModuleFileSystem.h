@@ -15,9 +15,10 @@ public:
 	bool CreateJSONFile(const char * name, JSON_Value* value, const char * directory);
 
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
-	bool ListFiles(std::string path, Path& path_fill);
-	std::string SetExtension(const char * name, const char * extension);
+	bool ListFiles(const std::string path, Path& path_fill);
+	bool CreateNewFolder(const std::string path, const char* name,std::string& full_path);
 
+	std::string SetExtension(const char * name, const char * extension);
 	std::string SetPathFile(const char * name, const char * directory);
 
 	const char* GetMeshesFolder()const;
@@ -26,7 +27,7 @@ public:
 	const char* GetSettingsFolder()const;
 
 private:
-	void CreateFolder(const char* name,  bool hide = false);
+	bool CreateFolder(const char* name,  bool hide = false);
 	std::string meshes;
 	std::string materials;
 	std::string assets;

@@ -25,7 +25,7 @@ public:
 	void CleanUp();
 
 	void GenerateBoudingBox();
-
+	void DrawMesh(bool show);
 	//Getters
 	const std::vector<Vertex>& GetVertices()const;
 	const std::vector<uint>& GetIndices()const;
@@ -33,7 +33,7 @@ public:
 	const uint GetElementBuffer()const;
 	const uint GetVertexNormalID()const;
 	const uint GetSurfaceNormalID()const;
-
+	const bool GetDrawMesh()const;
 	const bool GetDebugNormal()const;
 
 	AABB GetBoundingBox() const;
@@ -64,6 +64,6 @@ private:
 	AABB bounding_box;
 	bool show_bounding_box=false;
 	bool debug_normals_succes = true;
-
+	bool draw_mesh = true;
 };
 

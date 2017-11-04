@@ -80,17 +80,17 @@ void GameObject::Update()
 void GameObject::GuiUpdate()
 {
 	bool node_open = false;
+	ImGuiWindowFlags tree_flags = 0;
+
 	//Set color white enable go grey disabled go
-	if (enable)
-	{
-		node_open = ImGui::TreeNodeEx(name.c_str());
-	}
-	else
-	{
+	if (childs.empty())
+		tree_flags |= ImGuiTreeNodeFlags_Leaf;
+	if (!enable)
 		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
-		node_open = ImGui::TreeNodeEx(name.c_str());
+	node_open = ImGui::TreeNodeEx(name.c_str(), tree_flags);
+	if (!enable)
 		ImGui::PopStyleColor();
-	}
+
 	//Set item selected->InspectorUpdate
 	if (ImGui::IsItemClicked())
 		App->editor_window->SetSelectedGameObject(this);

@@ -132,7 +132,7 @@ std::string ModuleFileSystem::SetPathFile(const char * name, const char * direct
 	return file_name;
 }
 
-bool ModuleFileSystem::ListFiles(std::string path,Path& path_fill)
+bool ModuleFileSystem::ListFiles(const std::string path,Path& path_fill)
 {
 
 
@@ -161,6 +161,14 @@ bool ModuleFileSystem::ListFiles(std::string path,Path& path_fill)
 	return true;
 }
 
+bool ModuleFileSystem::CreateNewFolder(const std::string path, const char * name,std::string& full_path)
+{
+	full_path=(PATH(path.c_str(), name));
+	return CreateFolder(full_path.c_str());
+}
+
+
+
 const char * ModuleFileSystem::GetMeshesFolder()const
 {
 	return meshes.c_str();
@@ -181,7 +189,7 @@ const char * ModuleFileSystem::GetSettingsFolder() const
 	return settings.c_str();
 }
 
-void ModuleFileSystem::CreateFolder(const char * name, bool hide)
+bool ModuleFileSystem::CreateFolder(const char * name, bool hide)
 {
 
 	if (CreateDirectory(name, NULL))
@@ -190,6 +198,7 @@ void ModuleFileSystem::CreateFolder(const char * name, bool hide)
 		{
 			SetFileAttributes(name, FILE_ATTRIBUTE_HIDDEN);
 		}
+		return true;
 	}
 	else
 	{
@@ -198,6 +207,8 @@ void ModuleFileSystem::CreateFolder(const char * name, bool hide)
 
 			LOG("Directory (%s) already exists", name);
 		}
+		return false;
+
 	}
 }
 
