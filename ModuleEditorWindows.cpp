@@ -12,6 +12,7 @@
 #include "UI_Hierarchy.h"
 #include "UI_About.h"
 #include "UI_Console.h"
+#include "UI_Folder.h"
 ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
 	name = "Menu Bar";
@@ -19,11 +20,13 @@ ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 	ui_hierarchy = new UI_Hierarchy();
 	ui_about = new UI_About();
 	ui_console = new UI_Console();
-
+	ui_folder = new UI_Folder();
 	ui_windows.push_back(ui_inspector);
 	ui_windows.push_back(ui_hierarchy);
 	ui_windows.push_back(ui_about);
 	ui_windows.push_back(ui_console);
+	ui_windows.push_back(ui_folder);
+
 }
 
 ModuleEditorWindows::~ModuleEditorWindows()
@@ -34,7 +37,7 @@ bool ModuleEditorWindows::Start()
 {
 	bool ret = true;
 
-
+	ui_folder->SetUpFolders();
 	LOG("Menu Bar Ready");
 	
 

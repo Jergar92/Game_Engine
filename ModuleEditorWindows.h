@@ -10,7 +10,7 @@ class UI_Inspector;
 class UI_Hierarchy;
 class UI_About;
 class UI_Console;
-
+class UI_Folder;
 class ModuleEditorWindows : public Module
 {
 public:
@@ -39,7 +39,7 @@ private:
 	UI_Hierarchy* ui_hierarchy;
 	UI_About* ui_about;
 	UI_Console* ui_console;
-
+	UI_Folder* ui_folder;
 	bool inspector = true;
 	bool hierarchy = true;
 

@@ -8,6 +8,9 @@
 #include <fstream>
 #include <filesystem>
 #include <experimental/filesystem>
+
+#include "UI_Folder.h"
+
 #define ASSETS_FOLDER "Assets"
 #define LIBRARY_FOLDER "Library"
 #define MESHES_FOLDER "Library/Meshes"
@@ -129,29 +132,32 @@ std::string ModuleFileSystem::SetPathFile(const char * name, const char * direct
 	return file_name;
 }
 
-bool ModuleFileSystem::ListFiles(std::string path, std::vector<std::string>& folders, std::vector<std::string>& files)
+bool ModuleFileSystem::ListFiles(std::string path,Path& path_fill)
 {
-	namespace stdfs = std::experimental::filesystem;
 
 
-	const stdfs::directory_iterator end{};
-
-	
-
-	for (stdfs::directory_iterator iter{ path }; iter != end; ++iter)
+	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(path))
 	{
-	
-		if (stdfs::is_directory(*iter))
+		std::string str_path = item.path().string().c_str();
+
+		std::string str_name = item.path().filename().generic_string();
+
+		if (item.status().type() == std::experimental::filesystem::file_type::directory)
 		{
-			folders.push_back(iter->path().string());
+
+			std::string path = str_path;
+
+			Path new_directory(path, str_name, &path_fill, true);
+			ListFiles(path, new_directory);
+			path_fill.child.push_back(new_directory);
 		}
 		else
 		{
-			files.push_back(iter->path().string());
+			std::string path = str_path;
+			Path new_directory(path, str_name, &path_fill, false);
+			path_fill.child.push_back(new_directory);
 		}
 	}
-
-	
 	return true;
 }
 

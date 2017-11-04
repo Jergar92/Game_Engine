@@ -405,6 +405,9 @@
     <ClInclude Include="ModuleEditorWindows.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Folder.h">
+      <Filter>Sources\UIWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -613,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="ModuleEditorWindows.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Folder.cpp">
+      <Filter>Sources\UIWindows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

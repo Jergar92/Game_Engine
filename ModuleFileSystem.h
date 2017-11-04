@@ -2,6 +2,7 @@
 #include "Module.h"
 
 typedef struct json_value_t  JSON_Value;
+struct Path;
 class ModuleFileSystem:public Module
 {
 public:
@@ -14,7 +15,7 @@ public:
 	bool CreateJSONFile(const char * name, JSON_Value* value, const char * directory);
 
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
-	bool ListFiles(std::string path, std::vector<std::string>& folders, std::vector<std::string>& files);
+	bool ListFiles(std::string path, Path& path_fill);
 	std::string SetExtension(const char * name, const char * extension);
 
 	std::string SetPathFile(const char * name, const char * directory);
