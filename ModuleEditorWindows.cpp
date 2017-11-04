@@ -2,7 +2,6 @@
 #include "Globals.h"
 #include"ModuleEditorWindows.h"
 #include "ModuleScene.h"
-#include "ModuleConsole.h"
 #include"p2Defs.h"
 #include "imgui\imgui.h"
 #include "GameObject.h"
@@ -50,9 +49,6 @@ bool ModuleEditorWindows::Start()
 update_status ModuleEditorWindows::GuiUpdate()
 {
 
-	
-	if (App->console->GetShowConsole())
-		App->console->Draw("Console Ready");
 
 
 	

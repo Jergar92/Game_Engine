@@ -6,7 +6,6 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
-#include "ModuleConsole.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleScene.h"
@@ -23,7 +22,6 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
 	scene = new ModuleScene();
-	console = new ModuleConsole();
 	editor_window = new ModuleEditorWindows();
 	hardware = new ModuleHardware();
 	
@@ -54,9 +52,7 @@ Application::Application()
 	AddModule(importer);
 	profiler->CreateTitle("Application_Start", importer->name.c_str());
 
-	//console module
-	AddModule(console);
-	profiler->CreateTitle("Application_Start",console->name.c_str());
+
 
 	//Scene Module
 	AddModule(scene);
@@ -358,7 +354,6 @@ update_status Application::GuiUpdate()
 	if (profiler->CheckWindows()) {
 		profiler->DrawProfiler();
 	}
-	ImGui::ShowTestWindow();
 	//Last
 	std::list<Module*>::iterator item = list_modules.begin();
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)

@@ -297,9 +297,6 @@
     <ClInclude Include="Parson\parson.h">
       <Filter>Sources\Parson</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleConsole.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleScene.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -550,9 +547,6 @@
     </ClCompile>
     <ClCompile Include="Parson\parson.c">
       <Filter>Sources\Parson</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleConsole.cpp">
-      <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleScene.cpp">
       <Filter>Sources\Modules</Filter>

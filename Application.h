@@ -13,7 +13,6 @@ class ModuleImporter;
 class ModuleRenderer3D;
 class ModuleCamera3D;
 class ModuleScene;
-class ModuleConsole;
 class ModuleEditorWindows;
 class ModuleHardware;
 class Profiler;
@@ -58,7 +57,6 @@ public:
 	ModuleImporter*		importer;
 	ModuleCamera3D*		camera;
 	ModuleScene*		scene;
-	ModuleConsole*      console;
 	ModuleEditorWindows* editor_window;
 	ModuleHardware*		hardware;
 
