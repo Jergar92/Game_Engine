@@ -126,15 +126,9 @@ update_status ModuleInput::PreUpdate(float dt)
 				dropped_filedir = e.drop.file;
 			
 				std::size_t found = dropped_filedir.find_last_of('.');
-				if (dropped_filedir.substr(found + 1) == "png" || (dropped_filedir.substr(found + 1) == "jpg"))
-				{
-					App->scene->LoadTexture(dropped_filedir.c_str());
-
-				}
-				else
-				{
-					App->importer->Import(dropped_filedir.c_str());
-				}
+				
+				App->importer->Import(dropped_filedir.c_str());
+		
 				SDL_free(e.drop.file);   
 				break;
 			}

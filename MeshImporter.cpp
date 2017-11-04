@@ -266,5 +266,6 @@ uint MeshImporter::TextureFromFile(const char *path, const std::string &director
 
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
+	App->file_system->CloneFile(filename.c_str());
 	return App->importer->material.ImportTexture(filename.c_str(),  UID);
 }

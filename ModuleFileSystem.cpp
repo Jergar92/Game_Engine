@@ -222,9 +222,7 @@ bool ModuleFileSystem::UpdateFiles(const std::string path, Path & path_fill)
 	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(path))
 	{
 		std::string str_path = item.path().string().c_str();
-
 		std::string str_name = item.path().filename().generic_string();
-
 		if (item.status().type() == std::experimental::filesystem::file_type::directory)
 		{
 
