@@ -187,11 +187,10 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	//Create Mesh & MeshRenderer
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
 	component_mesh->SetData(vertices, indices, num_vertices, num_indices);
-	go->AddComponent(component_mesh);
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
 	component_mesh_renderer->SetTexture(textures);
 	component_mesh_renderer->SetMesh(component_mesh);
-	go->AddComponent(component_mesh_renderer);
+	
 
 	
 	//Set custom format

@@ -46,10 +46,6 @@ public:
 	bool LoadComponent(const JSONConfig& data);
 
 private:
-	
-
-
-private:
 	uint UID=0;// ID mesh
 	uint VBO=0;//Vertex Buffer Object
 	uint EBO=0;//Element Buffer Object+

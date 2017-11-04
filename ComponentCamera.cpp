@@ -66,7 +66,6 @@ GameObject* ComponentCamera::SetElementsOnScene()
 {
 	return App->scene->GetScene();
 }
-
 void ComponentCamera::CheckForMesh(GameObject * scene_go)
 {
 	if (scene_go != nullptr)

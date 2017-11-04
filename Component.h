@@ -37,9 +37,7 @@ public:
 	bool enable = true;
 	bool unique=true;
 	GameObject* my_go = nullptr;
-
 protected:
 	uint UUID = 0;
-
 };
 

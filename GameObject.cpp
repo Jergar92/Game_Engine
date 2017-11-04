@@ -14,9 +14,9 @@
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 
 #define MAX_NAME 20
-GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale),rotation(rotation),position(position)
+GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale), rotation(rotation), position(position)
 {
-	UID =App->GenerateRandom();
+	UID = App->GenerateRandom();
 	name = "Scene";
 	input_name = name;
 	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
@@ -24,7 +24,7 @@ GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scal
 
 }
 
-GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation,float3 position) :scale(scale), rotation(rotation), position(position)
+GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation, float3 position) :scale(scale), rotation(rotation), position(position)
 {
 	UID = App->GenerateRandom();
 	SetParent(parent);
@@ -67,7 +67,7 @@ void GameObject::Update()
 	for (int i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
-		if(item->isEnable())
+		if (item->isEnable())
 			item->Update();
 	}
 	for (uint i = 0; i < childs.size(); i++)
@@ -75,7 +75,7 @@ void GameObject::Update()
 		GameObject* item = childs[i];
 		item->Update();
 	}
-		
+
 	if (show_bounding_boxAABB)
 	{
 		RenderBoundingBoxAABB();
@@ -103,7 +103,7 @@ void GameObject::GuiUpdate()
 	//Set item selected->InspectorUpdate
 	if (ImGui::IsItemClicked())
 		App->editor_window->SetSelectedGameObject(this);
-	
+
 	if (node_open)
 	{
 		for (uint i = 0; i < childs.size(); i++)
@@ -114,46 +114,46 @@ void GameObject::GuiUpdate()
 		ImGui::TreePop();
 
 	}
-	
+
 }
 
 void GameObject::InspectorUpdate()
 {
 	//Enable//Disable Game Object
-	 ImGui::Checkbox("##go_enable", &enable);
-	 ImGui::SameLine();
-	 //Change name
-	 if (ImGui::InputText("##go_name", (char*)input_name.c_str(), MAX_NAME, ImGuiInputTextFlags_EnterReturnsTrue))
-		SetName(input_name.c_str());	 
-	 ImGui::SameLine();
-	 //Enable//Disable Static Game Object
-	 if (ImGui::Checkbox("Static##static_go", &static_go))
-	 	 gui_static = true;
-	  if(gui_static)
-		 OpenStaticQuestion();	
+	ImGui::Checkbox("##go_enable", &enable);
+	ImGui::SameLine();
+	//Change name
+	if (ImGui::InputText("##go_name", (char*)input_name.c_str(), MAX_NAME, ImGuiInputTextFlags_EnterReturnsTrue))
+		SetName(input_name.c_str());
+	ImGui::SameLine();
+	//Enable//Disable Static Game Object
+	if (ImGui::Checkbox("Static##static_go", &static_go))
+		gui_static = true;
+	if (gui_static)
+		OpenStaticQuestion();
 	//Start draw Elements 
-	 bool node_open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen);
-	 if (node_open)
-	 {
-		 rotation.ToEulerXYX();
-		 if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
-			 SetPosition(position);
-		 float3 tmp = gui_rotation;
-		 if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
-			 SetRotation(tmp);
-		 if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
-			 SetScale(scale);
-		 ImGui::TreePop();
-	 }
+	bool node_open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen);
+	if (node_open)
+	{
+		rotation.ToEulerXYX();
+		if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
+			SetPosition(position);
+		float3 tmp = gui_rotation;
+		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
+			SetRotation(tmp);
+		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
+			SetScale(scale);
+		ImGui::TreePop();
+	}
 
-	 ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
-	 ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
+	ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
+	ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
 
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 		item->InspectorUpdate();
-	}	
+	}
 }
 
 const char * GameObject::GetName()
@@ -240,23 +240,23 @@ void GameObject::AddComponent(Component * component_to_add)
 void GameObject::LoadGameObject(const JSONConfig & data)
 {
 
-	UID=data.GetInt("UID");
-	
+	UID = data.GetInt("UID");
+
 	parent_UID = data.GetInt("ParentUID");
-	
+
 
 	SetName(data.GetString("Name"));
-	position=data.GetFloat3("Translation");
-	rotation=data.GetQuaternion("Rotation");
-	scale=data.GetFloat3("Scale");
+	position = data.GetFloat3("Translation");
+	rotation = data.GetQuaternion("Rotation");
+	scale = data.GetFloat3("Scale");
 	UpdateMatrix();
 
 	uint size = data.GetArraySize("Components");
 	for (int i = 0; i < size; i++)
 	{
 		JSONConfig config_item = data.SetFocusArray("Components", i);
-		Component*item=CreateComponent((ComponentType)config_item.GetInt("Type"));
-		item->LoadComponent(config_item);	
+		Component*item = CreateComponent((ComponentType)config_item.GetInt("Type"));
+		item->LoadComponent(config_item);
 		AddComponent(item);
 	}
 	//Create and Set all components
@@ -313,6 +313,10 @@ Component * GameObject::CreateComponent(ComponentType type)
 	default:
 		break;
 	}
+	if (item != nullptr)
+	{
+		AddComponent(item);
+	}
 	return item;
 }
 
@@ -332,7 +336,7 @@ Component* GameObject::FindComponent(ComponentType type, Component * component_t
 			}
 		}
 	}
-	
+
 	return ret;
 }
 
@@ -386,20 +390,9 @@ void GameObject::UpdateMatrix()
 	{
 		global_transform_matrix = transform_matrix;
 	}
-	
-	global_transform_matrix_transposed = global_transform_matrix.Transposed();
-	
-	for (int i = 0; i < components.size(); i++)
-	{
-		components[i]->OnUpdateMatrix(global_transform_matrix);
-		if (components[i]->type == MESH)
-		{
-			ComponentMesh * mesh = (ComponentMesh*)components[i];
-			global_bounding_box_OBB = global_bounding_box_AABB.Transform(global_transform_matrix.Float3x3Part());
-			global_bounding_box_AABB.Enclose(global_bounding_box_OBB);
-		}
-	}
 
+	global_transform_matrix_transposed = global_transform_matrix.Transposed();
+	global_bounding_box_OBB = global_bounding_box_AABB.Transform(global_transform_matrix);
 	for (int i = 0; i < childs.size(); i++)
 	{
 		childs[i]->UpdateMatrix();
@@ -447,8 +440,8 @@ void GameObject::SetPosition(float3 position)
 
 void GameObject::GenerateBoudingBox()
 {
-	ComponentMesh* mesh = (ComponentMesh*)parent->FindComponent(MESH);
-	if (mesh  != nullptr)
+	ComponentMesh* mesh = (ComponentMesh*)FindComponent(MESH);
+	if (mesh != nullptr)
 	{
 		global_bounding_box_AABB.SetNegativeInfinity();
 		for (int i = 0; i < mesh->GetVertices().size(); i++)
@@ -456,7 +449,15 @@ void GameObject::GenerateBoudingBox()
 			global_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
 		}
 	}
-	
+
+	if (!childs.empty())
+	{
+		for (int i = 0; i < childs.size(); i++)
+		{
+			global_bounding_box_AABB.Enclose(childs[i]->global_bounding_box_AABB);
+		}
+	}
+
 }
 
 

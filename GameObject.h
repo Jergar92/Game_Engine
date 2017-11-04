@@ -102,6 +102,5 @@ private:
 	
 
 	GameObject* parent=nullptr;
-
 };
 

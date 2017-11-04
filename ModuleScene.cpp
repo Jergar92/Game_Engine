@@ -33,7 +33,6 @@ bool ModuleScene::Start()
 	GameObject* camera = new GameObject(scene_go);
 	camera->SetName("Camera Main");
 	ComponentCamera* component_camera = (ComponentCamera*)camera->CreateComponent(ComponentType::CAMERA);
-	camera->AddComponent(component_camera);
 	
 	App->editor_window->SetSceneGameObject(scene_go);
 	
