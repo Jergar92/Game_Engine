@@ -71,7 +71,10 @@ update_status ModuleEditorWindows::GuiUpdate()
 bool ModuleEditorWindows::CleanUp()
 {
 	bool ret = true;
-
+	for (int i = 0; i < ui_windows.size() && ret == true; i++)
+	{
+		ui_windows[i]->CleanUp();
+	}
 	RELEASE(ui_inspector);
 	RELEASE(ui_hierarchy);
 	RELEASE(ui_about);

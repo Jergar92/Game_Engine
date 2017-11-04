@@ -7,6 +7,7 @@ public:
 	UI_Inspector();
 	~UI_Inspector();
 	bool Draw();
+	void CleanUp();
 	void SetSelectedGameObject(GameObject* set);
 public:
 	GameObject* selected_go = nullptr;

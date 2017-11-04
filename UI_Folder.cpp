@@ -11,12 +11,18 @@ UI_Folder::UI_Folder() : show_folfer(new Path()), item_selected(new Path()), fol
 
 UI_Folder::~UI_Folder()
 {
+
 }
 
 void UI_Folder::SetUpFolders()
 {
 	first_path=Path(App->file_system->GetAssetsFolder(),"Assets", nullptr,true);
 	App->file_system->ListFiles(first_path.path, first_path);
+}
+
+void UI_Folder::CleanUp()
+{
+	first_path.child.clear();
 }
 
 bool UI_Folder::Draw()
@@ -45,7 +51,6 @@ bool UI_Folder::Draw()
 void UI_Folder::DrawFolders(const Path& draw) const
 {
 	ImGuiWindowFlags tree_flags = 0;
-
 	if (draw.child.empty())
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
 	bool node_open = ImGui::TreeNodeEx(draw.name.c_str(), tree_flags);
@@ -76,6 +81,8 @@ void UI_Folder::DrawFolders(const Path& draw) const
 
 void UI_Folder::DrawFolderInfo()
 {
+	ImGui::Text("%s Contains:", show_folfer->name.c_str());
+
 	std::vector<Path>::const_iterator it = show_folfer->child.begin();
 	while (it != show_folfer->child.end())
 	{
@@ -107,3 +114,11 @@ Path::Path(std::string path,std::string name ,Path * parent, bool directory) :pa
 {
 
 }
+
+Path::~Path()
+{
+	child.clear();
+	parent = nullptr;
+
+}
+

@@ -10,17 +10,14 @@ UI_Console::UI_Console()
 
 UI_Console::~UI_Console()
 {
-	CleanUp();
 }
-bool UI_Console::CleanUp()
+void UI_Console::CleanUp()
 {
-	bool ret = true;
 	ClearLog();
 
 	for (int i = 0; i < History.Size; i++)
 		free(History[i]);
 
-	return ret;
 }
 
 

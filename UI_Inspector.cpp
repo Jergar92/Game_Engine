@@ -10,7 +10,6 @@ UI_Inspector::UI_Inspector()
 
 UI_Inspector::~UI_Inspector()
 {
-	selected_go = nullptr;
 }
 
 bool UI_Inspector::Draw()
@@ -31,6 +30,11 @@ bool UI_Inspector::Draw()
 	}
 	ImGui::End();
 	return true;
+}
+
+void UI_Inspector::CleanUp()
+{
+	selected_go = nullptr;
 }
 
 void UI_Inspector::SetSelectedGameObject(GameObject * set)

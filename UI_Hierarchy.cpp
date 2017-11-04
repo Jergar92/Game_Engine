@@ -9,7 +9,6 @@ UI_Hierarchy::UI_Hierarchy()
 
 UI_Hierarchy::~UI_Hierarchy()
 {
-	scene_go = nullptr;
 }
 
 bool UI_Hierarchy::Draw()
@@ -31,6 +30,12 @@ bool UI_Hierarchy::Draw()
 	}
 	ImGui::End();
 	return true;
+}
+
+void UI_Hierarchy::CleanUp()
+{
+	scene_go = nullptr;
+
 }
 
 void UI_Hierarchy::SetSceneGameObject(GameObject * set)

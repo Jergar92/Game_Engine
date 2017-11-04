@@ -25,3 +25,7 @@ void UI_Windows::ChangeActive()
 {
 	active_draw = !active_draw;
 }
+
+void UI_Windows::CleanUp()
+{
+}

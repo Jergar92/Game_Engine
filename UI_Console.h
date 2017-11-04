@@ -10,7 +10,7 @@ public:
 	UI_Console();
 	~UI_Console();
 	bool Draw();
-	bool CleanUp();
+	void CleanUp();
 	void ClearLog();
 	void ActiveConsole();
 	bool GetShowConsole();

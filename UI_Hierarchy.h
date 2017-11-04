@@ -8,6 +8,7 @@ public:
 	UI_Hierarchy();
 	~UI_Hierarchy();
 	bool Draw();
+	void CleanUp();
 	void SetSceneGameObject(GameObject* set);
 public:
 	GameObject* scene_go = nullptr;
