@@ -74,7 +74,7 @@ void ComponentCamera::CheckForMesh(GameObject * scene_go)
 		ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
 		if (mesh != nullptr)
 		{
-			if (camera_frustrum.Contains(mesh->GetBoundingBox()))
+			if (camera_frustrum.Contains(mesh->my_go->GetBoundingBoxAABB()))
 			{
 				mesh->Enable();
 			}

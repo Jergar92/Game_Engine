@@ -36,9 +36,9 @@ public:
 	ComponentType type;
 	bool enable = true;
 	bool unique=true;
+	GameObject* my_go = nullptr;
 
 protected:
-	GameObject* my_go = nullptr;
 	uint UUID = 0;
 
 };

@@ -43,6 +43,12 @@ public:
 	void SetRotation(float3 rotation);
 	void SetPosition(float3 Position);
 
+	//Bounding Box Functions
+	void GenerateBoudingBox();
+	void SetAABB(const AABB set_bounding_box);
+	void RenderBoundingBoxAABB();
+	void RenderBoundingBoxOBB();
+
 	void SetStatic(bool set);
 	void SetParent(GameObject * parent);
 	void SetChild(GameObject * child);
@@ -77,10 +83,15 @@ private:
 	bool enable = true;
 	bool static_go = false;
 	bool gui_static = false;
+	bool show_bounding_boxAABB = false;
+	bool show_bounding_boxOBB = false;
 	uint UID = 0;
 	uint parent_UID = 0;
+	
+	//AABB bounding box
 	OBB global_bounding_box_OBB;
 	AABB global_bounding_box_AABB;
+	
 	//local transform matrix
 	float4x4 transform_matrix = float4x4::identity;
 	
@@ -89,7 +100,6 @@ private:
 	float4x4 global_transform_matrix_transposed = float4x4::identity;
 
 	
-
 
 	GameObject* parent=nullptr;
 

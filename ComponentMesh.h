@@ -24,8 +24,8 @@ public:
 	void InspectorUpdate();
 	void CleanUp();
 
-	void GenerateBoudingBox();
 	void DrawMesh(bool show);
+	
 	//Getters
 	const std::vector<Vertex>& GetVertices()const;
 	const std::vector<uint>& GetIndices()const;
@@ -36,12 +36,10 @@ public:
 	const bool GetDrawMesh()const;
 	const bool GetDebugNormal()const;
 
-	AABB GetBoundingBox() const;
 	int GetUID()const;
 
 	//Setters
 	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices, const int num_indices);
-	void SetAABB(const AABB set_bounding_box);
 
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
@@ -49,8 +47,7 @@ public:
 
 private:
 	
-	void RenderBoundingBoxAABB();
-	void RenderBoundingBoxOBB();
+
 
 private:
 	uint UID=0;// ID mesh
@@ -64,8 +61,6 @@ private:
 	uint num_vertices=0;
 	uint num_indices=0;
 	AABB bounding_box;
-	bool show_bounding_boxAABB =false;
-	bool show_bounding_boxOBB = false;
 	bool debug_normals_succes = true;
 	bool draw_mesh = true;
 };

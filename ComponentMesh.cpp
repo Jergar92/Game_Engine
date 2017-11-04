@@ -4,7 +4,6 @@
 #include "Glew\include\GL\glew.h"
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
-#include "MathGeoLib-1.5\src\MathGeoLib.h"
 
 
 ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
@@ -104,9 +103,6 @@ void ComponentMesh::InspectorUpdate()
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_indices);
 
-			ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
-			ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
-
 		ImGui::TreePop();
 
 	}
@@ -123,7 +119,7 @@ void ComponentMesh::SetData(const std::vector<Vertex>& set_vertices, const std::
 	num_vertices = num_ver;
 	num_indices = num_ind;
 	SetupMesh();
-	GenerateBoudingBox();
+	my_go->GenerateBoudingBox();
 }
 const std::vector<Vertex>& ComponentMesh::GetVertices()const
 {
@@ -153,14 +149,6 @@ const bool ComponentMesh::GetDrawMesh() const
 {
 	return draw_mesh;
 }
-void ComponentMesh::GenerateBoudingBox()
-{
-	bounding_box.SetNegativeInfinity();
-	for (int i = 0; i < vertices.size(); i++)
-	{	
-		bounding_box.Enclose(vertices[i].position);
-	}
-}
 
 void ComponentMesh::DrawMesh(bool show)
 {
@@ -172,31 +160,14 @@ const bool ComponentMesh::GetDebugNormal() const
 	return debug_normals_succes;
 }
 
-AABB ComponentMesh::GetBoundingBox() const
-{
-	return bounding_box;
-}
-
 int ComponentMesh::GetUID() const
 {
 	return UID;
 }
 
-void ComponentMesh::SetAABB(const AABB set_bounding_box)
-{
-	bounding_box = set_bounding_box;
-}
 void ComponentMesh::Update()
 {
-	if (show_bounding_boxAABB)
-	{
-		RenderBoundingBoxAABB();
-	}
-	else if (show_bounding_boxOBB)
-	{
-		RenderBoundingBoxOBB();
-	}
-		
+
 }
 
 bool ComponentMesh::SaveComponent(JSONConfig & config) const
@@ -223,29 +194,4 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 	enable= config.GetBool( "Enable");
 
 	return ret;
-}
-
-void ComponentMesh::RenderBoundingBoxAABB()
-{
-	bounding_box = my_go->GetBoundingBoxAABB();
-	glBegin(GL_LINES);
-		for (uint i = 0; i < 12; i++)
-		{
-			glVertex3f(bounding_box.Edge(i).a.x, bounding_box.Edge(i).a.y, bounding_box.Edge(i).a.z);
-			glVertex3f(bounding_box.Edge(i).b.x, bounding_box.Edge(i).b.y, bounding_box.Edge(i).b.z);
-		}
-		glEnd();
-
-}
-
-void ComponentMesh::RenderBoundingBoxOBB()
-{
-	OBB box = my_go->GetBoundingBoxOBB();
-	glBegin(GL_LINES);
-	for (uint i = 0; i < 12; i++)
-	{
-		glVertex3f(box.Edge(i).a.x, box.Edge(i).a.y, box.Edge(i).a.z);
-		glVertex3f(box.Edge(i).b.x, box.Edge(i).b.y, box.Edge(i).b.z);
-	}
-	glEnd();
 }

@@ -11,6 +11,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
+#include "MathGeoLib-1.5\src\MathGeoLib.h"
 
 #define MAX_NAME 20
 GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale),rotation(rotation),position(position)
@@ -75,6 +76,14 @@ void GameObject::Update()
 		item->Update();
 	}
 		
+	if (show_bounding_boxAABB)
+	{
+		RenderBoundingBoxAABB();
+	}
+	else if (show_bounding_boxOBB)
+	{
+		RenderBoundingBoxOBB();
+	}
 }
 
 void GameObject::GuiUpdate()
@@ -137,7 +146,9 @@ void GameObject::InspectorUpdate()
 		 ImGui::TreePop();
 	 }
 
-	
+	 ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
+	 ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
+
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -384,9 +395,8 @@ void GameObject::UpdateMatrix()
 		if (components[i]->type == MESH)
 		{
 			ComponentMesh * mesh = (ComponentMesh*)components[i];
-			global_bounding_box_OBB = mesh->GetBoundingBox().Transform(global_transform_matrix.Float3x3Part());
-			global_bounding_box_AABB = mesh->GetBoundingBox();
-			global_bounding_box_AABB.TransformAsAABB(global_transform_matrix.Float3x3Part());
+			global_bounding_box_OBB = global_bounding_box_AABB.Transform(global_transform_matrix.Float3x3Part());
+			global_bounding_box_AABB.Enclose(global_bounding_box_OBB);
 		}
 	}
 
@@ -433,4 +443,47 @@ void GameObject::SetPosition(float3 position)
 	this->position = position;
 	UpdateMatrix();
 
+}
+
+void GameObject::GenerateBoudingBox()
+{
+	ComponentMesh* mesh = (ComponentMesh*)parent->FindComponent(MESH);
+	if (mesh  != nullptr)
+	{
+		global_bounding_box_AABB.SetNegativeInfinity();
+		for (int i = 0; i < mesh->GetVertices().size(); i++)
+		{
+			global_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
+		}
+	}
+	
+}
+
+
+void GameObject::SetAABB(const AABB set_bounding_box)
+{
+	global_bounding_box_AABB = set_bounding_box;
+}
+
+void GameObject::RenderBoundingBoxAABB()
+{
+	glBegin(GL_LINES);
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(global_bounding_box_AABB.Edge(i).a.x, global_bounding_box_AABB.Edge(i).a.y, global_bounding_box_AABB.Edge(i).a.z);
+		glVertex3f(global_bounding_box_AABB.Edge(i).b.x, global_bounding_box_AABB.Edge(i).b.y, global_bounding_box_AABB.Edge(i).b.z);
+	}
+	glEnd();
+
+}
+
+void GameObject::RenderBoundingBoxOBB()
+{
+	glBegin(GL_LINES);
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(global_bounding_box_OBB.Edge(i).a.x, global_bounding_box_OBB.Edge(i).a.y, global_bounding_box_OBB.Edge(i).a.z);
+		glVertex3f(global_bounding_box_OBB.Edge(i).b.x, global_bounding_box_OBB.Edge(i).b.y, global_bounding_box_OBB.Edge(i).b.z);
+	}
+	glEnd();
 }
