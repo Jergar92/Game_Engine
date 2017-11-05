@@ -27,6 +27,9 @@ Buttons info:
 	*Console ==> Open/Close the Console windows (Console info below)
 	*Configuration ==>Open/Close the Configuration windows (Configuration info below)
 	*Profiler ==>Open/Close the Profiler windows(Profiler info below)
+	*Hierarchy ==> Open/Close the Console windows (Hierarchy info below)
+	*Inspector ==>Open/Close the Configuration windows Inspectorinfo below)
+	*Folders ==>Open/Close the Profiler windows(Folders info below)
 
 *Help ====>Open Help submenu
 
@@ -104,21 +107,32 @@ Shows a numerical record of the current speed of each module, to use it you have
 	*Creators ==> Links to the github pages of the creators
 	*Licenses ==> Links to the libraries used in this proyect
 
-### Inspector
-Show information about the model and its meshes
+### Hierarchy
+Show information all the GameObject of the scene
+If a GameObject is disabled the inspector show the name on the game object in gray
+	
 
-	*Model ==> Name of the first Tree can show mesh information
-		*Hide Model ==> Hide/Unhide the model
-		*Bounding Box ==> Hide/Unhide the bounding box of the model
-		*Transformation ==> See the position, rotation, scale of the model
-		*Geometry ==> See the count of triangles and vertices of all meshes
-		*Mesh Tree ==> Open/Close the tree of meshes
-	*Meshes ==> The tree name is the name of the current Mesh
-		*Hide Mesh ==> Hide/Unhide current mesh
-		*Transformation ==>  See the position, rotation, scale of the current mesh
-		*Geometry ==> See the count of triangles and vertices of the current mesh
-		*Texture ==> See the texture of the current mesh if you put the mouse hover the texture you can see it bigger
-		*Color Texture ==> Change the color of the texture
+### Inspector
+Show information about the selected GameObject
+
+
+##GameObject
+This Engine implement GameObject (Unity like), GameObject contains
+	*Enable ==> Enable/Disable GameObject
+	*Transform ==> Position,Rotation,Scale of the gameobject
+	*Show AABB ==> Show the AABB of the GameObject (parent go enclose children AABB)
+	*Show OBB ==> Show the OBB of the GameObject (parent go enclose children OBB )
+	*Component ==> GameObject contais component that components do other functions (like mesh rendering)
+##*Component 
+This Engine implement Component (Unity like) right now the components implemented are:
+All Components have a check box on the right that enable/disable the component
+	*Component Mesh ==> Allocate all vertices and index
+		*Vertices ==> Show vertices count
+		*Indices ==> Show indices count
+	*Component Mesh Render ==> Draw Mesh and Textures
+		*RPG Texture Color ==> Change texture color also if you put the mouse inside the image you can see it bigger
+	*Component Camera ==> Draw Camera and frustum culling optimization
+
 #### Libraries 
 
 This engine use <a href="https://www.libsdl.org/" >SDL library </a>
@@ -136,6 +150,14 @@ This engine use <a href="http://assimp.sourceforge.net/"> Assimp </a>
 This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 ## Changelog
+#### v0.7.0
+
+* Added: Add GameObject structure
+* Added: Add Component structure
+* Added: Add Hierarchy of GameObjects
+* Added: Add Serializacion of the scene
+* Added: Add Custom Format (.frog)
+
 #### v0.5.0
 
 * Added: Add Inspector
