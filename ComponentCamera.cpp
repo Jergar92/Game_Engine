@@ -180,3 +180,20 @@ bool ComponentCamera::SaveComponent(JSONConfig & config) const
 
 	return ret;
 }
+
+void ComponentCamera::Look(const float3& position)
+{
+	float3 vector = position - camera_frustrum.pos;
+
+	float3x3 matrix = float3x3::LookAt(camera_frustrum.front, vector.Normalized(), camera_frustrum.up, float3::unitY);
+
+	camera_frustrum.front = matrix.MulDir(camera_frustrum.front).Normalized();
+	camera_frustrum.up = matrix.MulDir(camera_frustrum.up).Normalized();
+	UpdatePlanes();
+
+}
+
+void ComponentCamera::UpdatePlanes()
+{
+	camera_frustrum.GetPlanes(planes);
+}

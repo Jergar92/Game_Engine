@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Globals.h"
 #include "MathGeoLib-1.5\src\Geometry\Frustum.h"
+#include "MathGeoLib-1.5\src\Geometry\Plane.h"
 #include "SDL\include\SDL.h"
 class GameObject;
 class ComponentCamera :public Component
@@ -33,6 +34,10 @@ public:
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
 
+	void Look(const float3 & position);
+
+	void UpdatePlanes();
+
 	//Draw
 	void DebugDraw();
 
@@ -45,5 +50,6 @@ private:
 	float vertical_fov = 1.0f;
 	float window_aspect_ratio;
 	GameObject* scene;
+	Plane planes[6];
 };
 

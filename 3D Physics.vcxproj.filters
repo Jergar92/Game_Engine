@@ -406,6 +406,9 @@
       <Filter>Sources\UIWindows</Filter>
     </ClInclude>
     <ClInclude Include="UI_Play.h" />
+    <ClInclude Include="ModuleCamera.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -616,6 +619,9 @@
       <Filter>Sources\UIWindows</Filter>
     </ClCompile>
     <ClCompile Include="UI_Play.cpp" />
+    <ClCompile Include="ModuleCamera.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib-1.5\src\Math\Matrix.inl">
