@@ -13,15 +13,19 @@
 #include "UI_About.h"
 #include "UI_Console.h"
 #include "UI_Folder.h"
+#include "UI_Play.h"
 
 ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
 	name = "Editor Windows";
+	ui_play = new UI_Play();
 	ui_inspector = new UI_Inspector();
 	ui_hierarchy = new UI_Hierarchy();
 	ui_about = new UI_About();
 	ui_console = new UI_Console();
 	ui_folder = new UI_Folder();
+
+	ui_windows.push_back(ui_play);
 	ui_windows.push_back(ui_inspector);
 	ui_windows.push_back(ui_hierarchy);
 	ui_windows.push_back(ui_about);

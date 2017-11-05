@@ -17,6 +17,9 @@ class UI_Hierarchy;
 class UI_About;
 class UI_Console;
 class UI_Folder;
+class UI_Play;
+
+
 class ModuleEditorWindows : public Module
 {
 public:
@@ -50,6 +53,8 @@ private:
 	UI_About* ui_about;
 	UI_Console* ui_console;
 	UI_Folder* ui_folder;
+	UI_Play* ui_play;
+
 	bool wait_load = false;
 	std::string path_to_load;
 	LoadFile next_load = LOAD_NONE;

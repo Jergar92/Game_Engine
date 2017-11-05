@@ -405,6 +405,7 @@
     <ClInclude Include="UI_Folder.h">
       <Filter>Sources\UIWindows</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Play.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -614,6 +615,7 @@
     <ClCompile Include="UI_Folder.cpp">
       <Filter>Sources\UIWindows</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Play.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib-1.5\src\Math\Matrix.inl">

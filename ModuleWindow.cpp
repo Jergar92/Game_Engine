@@ -61,8 +61,10 @@ bool ModuleWindow::Awake(const JSONConfig& data)
 		SDL_GetCurrentDisplayMode(0, &current);
 		
 		Uint32 flags = 0;
-		SetWindowsFlags(flags);
 		
+		SetWindowsFlags(flags);
+		flags |= SDL_WINDOW_RESIZABLE;
+
 
 		window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 

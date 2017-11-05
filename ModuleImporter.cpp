@@ -75,6 +75,7 @@ int ModuleImporter::LoadTexture(const char * name, ComponentMeshRenderer * compo
 {
 	char* buffer = nullptr;
 	App->file_system->LoadFile(name, &buffer, App->file_system->GetMaterialFolder(), "dds");
+
 	std::string full_path(App->file_system->SetExtension(name, "dds"));
 	full_path = App->file_system->SetPathFile(full_path.c_str(), App->file_system->GetMaterialFolder());
 	return material.LoadTexture(full_path.c_str());

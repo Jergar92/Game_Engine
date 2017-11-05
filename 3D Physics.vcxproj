@@ -192,6 +192,7 @@
     <ClInclude Include="UI_Folder.h" />
     <ClInclude Include="UI_Hierarchy.h" />
     <ClInclude Include="UI_Inspector.h" />
+    <ClInclude Include="UI_Play.h" />
     <ClInclude Include="UI_Windows.h" />
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +264,7 @@
     <ClCompile Include="UI_Folder.cpp" />
     <ClCompile Include="UI_Hierarchy.cpp" />
     <ClCompile Include="UI_Inspector.cpp" />
+    <ClCompile Include="UI_Play.cpp" />
     <ClCompile Include="UI_Windows.cpp" />
   </ItemGroup>
   <ItemGroup>
