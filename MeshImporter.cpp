@@ -6,6 +6,8 @@
 #include "GameObject.h"
 #include "ModuleFileSystem.h"
 #include "MathGeoLib-1.5\src\Geometry\AABB.h"
+#include <experimental\filesystem>
+
 #include "p2Defs.h"
 MeshImporter::MeshImporter()
 {
@@ -189,6 +191,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	//Create Mesh & MeshRenderer
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
 	component_mesh->SetData(vertices, indices, num_vertices, num_indices);
+	component_mesh->SetMeshName(go->name.c_str());
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
 	component_mesh_renderer->SetTexture(textures);
 	component_mesh_renderer->SetMesh(component_mesh);
@@ -196,7 +199,6 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 
 	
 	//Set custom format
-	std::string id = std::to_string(component_mesh->GetUID());
 	uint ranges[2] = { num_vertices,num_indices };
 	uint size = sizeof(ranges) + sizeof(uint) * num_indices + sizeof(Vertex) * num_vertices;
 	char* data = new char[size]; // Allocate
@@ -218,7 +220,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	bytes = sizeof(Texture) * mesh->mMaterialIndex;
 	memcpy(cursor, textures.data(), bytes);// Store textures
 	*/
-	if (SaveMesh(id.c_str(), data, size, App->file_system->GetMeshesFolder()))
+	if (SaveMesh(component_mesh->GetMeshName().c_str(), data, size, App->file_system->GetMeshesFolder()))
 	{
 		LOG("Save %s", go->name.c_str());
 	}
@@ -250,10 +252,13 @@ std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiText
 		{
 			//new texture
 			Texture texture;
-			texture.UID = App->GenerateRandom();
-			texture.id = TextureFromFile(str.C_Str(), this->directory, texture.UID);
+			texture.id = TextureFromFile(str.C_Str(), this->directory);
 			texture.type = typeName;
 			texture.path = str.C_Str();
+			namespace file_system = std::experimental::filesystem;
+			std::string name(file_system::path(str.C_Str()).stem().string());
+			texture.name = name.c_str();
+
 			texture.rgba_color = { 1.0f,1.0f,1.0f,1.0f };
 
 			textures.push_back(texture);
@@ -263,11 +268,11 @@ std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiText
 	return textures;
 }
 
-uint MeshImporter::TextureFromFile(const char *path, const std::string &directory, uint UID)
+uint MeshImporter::TextureFromFile(const char *path, const std::string &directory)
 {
 
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
 	App->file_system->CloneFile(filename.c_str());
-	return App->importer->material.ImportTexture(filename.c_str(),  UID);
+	return App->importer->material.ImportTexture(filename.c_str());
 }

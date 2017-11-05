@@ -16,6 +16,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void CleanGO();
+
 	GameObject* GenerateGameObject(GameObject* parent = nullptr);
 
 	GameObject* GetScene() const;

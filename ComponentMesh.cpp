@@ -8,7 +8,6 @@
 
 ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
 {
-	UID = App->GenerateRandom();
 	component_name = "Mesh";
 	type = MESH;
 }
@@ -121,6 +120,10 @@ void ComponentMesh::SetData(const std::vector<Vertex>& set_vertices, const std::
 	SetupMesh();
 	my_go->GenerateBoudingBox();
 }
+void ComponentMesh::SetMeshName(std::string set_mesh_name)
+{
+	mesh_name = set_mesh_name;
+}
 const std::vector<Vertex>& ComponentMesh::GetVertices()const
 {
 	return vertices;
@@ -160,10 +163,12 @@ const bool ComponentMesh::GetDebugNormal() const
 	return debug_normals_succes;
 }
 
-int ComponentMesh::GetUID() const
+std::string ComponentMesh::GetMeshName() const
 {
-	return UID;
+	return mesh_name;
 }
+
+
 
 void ComponentMesh::Update()
 {
@@ -175,7 +180,7 @@ bool ComponentMesh::SaveComponent(JSONConfig & config) const
 	bool ret = true;
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
-	config.SetInt(UID, "Mesh UID");
+	config.SetString(mesh_name, "Mesh Name");
 
 	config.SetBool(enable, "Enable");
 
@@ -187,10 +192,9 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 {
 	bool ret = true;
 
-	UID = config.GetInt("Mesh UID");
+	name = config.GetString("Mesh Name");
 
-	std::string id_name = std::to_string(UID);
-	App->importer->LoadMesh(id_name.c_str(), this);
+	App->importer->LoadMesh(name.c_str(), this);
 	enable= config.GetBool( "Enable");
 
 	return ret;

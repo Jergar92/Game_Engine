@@ -118,14 +118,14 @@ bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
 	while (it != textures.end())
 	{
 		JSONConfig texture_config;
-		texture_config.SetInt(it->UID, "Texture UID");
+		texture_config.SetString(it->name, "Texture Name");
 		texture_config.SetString(it->path, "path");
 		texture_config.SetFloat4(it->rgba_color, "RGBA color");
 
 		config.CloseArray(texture_config);
 		it++;
 	}
-	config.SetInt(mesh->GetUID(), "Mesh UID");
+	config.SetString(mesh->GetMeshName(), "Mesh Name");
 	config.SetBool(enable, "Enable");
 	return ret;
 }
@@ -134,7 +134,7 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 {
 
 
-	if (config.GetInt("Mesh UID") != 0)
+	if (config.GetString("Mesh Name") != NULL)
 	{
 		//find mesh component
 		SetMesh((ComponentMesh*)my_go->FindComponent(ComponentType::MESH));
@@ -146,8 +146,8 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 	{
 		JSONConfig config_item = config.SetFocusArray("Textures", i);
 		Texture text;
-		text.id=App->importer->LoadTexture(std::to_string(config_item.GetInt("Texture UID")).c_str(), this);
-		text.UID = config_item.GetInt("Texture UID");
+		text.id=App->importer->LoadTexture(config_item.GetString("Texture Name"), this);
+		text.name = config_item.GetString("Texture Name");
 		text.rgba_color = config_item.GetFloat4("RGBA color");
 
 		textures.push_back(text);

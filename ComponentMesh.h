@@ -35,23 +35,25 @@ public:
 	const uint GetSurfaceNormalID()const;
 	const bool GetDrawMesh()const;
 	const bool GetDebugNormal()const;
+	std::string GetMeshName()const;
 
-	int GetUID()const;
 
 	//Setters
 	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices, const int num_indices);
+	void SetMeshName(std::string mesh_name);
 
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
 	bool LoadComponent(const JSONConfig& data);
 
 private:
-	uint UID=0;// ID mesh
 	uint VBO=0;//Vertex Buffer Object
 	uint EBO=0;//Element Buffer Object+
 	uint vertex_normals_id = 0;//vertex_normals_id
 	uint surface_normals_id = 0;//surface_normals_id
 	std::string name;
+	std::string mesh_name;
+
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
 	uint num_vertices=0;

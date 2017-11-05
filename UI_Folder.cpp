@@ -30,9 +30,9 @@ void UI_Folder::UpdateFiles()
 {
 	//first_path.child.clear();
 
-	path.list.clear();
-	App->file_system->UpdateFiles(path.list.begin()->path, path);
-	path.OrderPath();
+//	path.list.clear();
+//	App->file_system->UpdateFiles(path.list.begin()->path, path);
+//	path.OrderPath();
 
 }
 

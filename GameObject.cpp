@@ -257,7 +257,6 @@ void GameObject::LoadGameObject(const JSONConfig & data)
 		JSONConfig config_item = data.SetFocusArray("Components", i);
 		Component*item = CreateComponent((ComponentType)config_item.GetInt("Type"));
 		item->LoadComponent(config_item);
-		AddComponent(item);
 	}
 	//Create and Set all components
 }

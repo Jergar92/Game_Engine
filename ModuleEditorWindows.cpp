@@ -118,6 +118,7 @@ bool ModuleEditorWindows::ShowMenuBar()
 			}
 			if (ImGui::MenuItem("Load"))
 			{
+				App->scene->CleanGO();
 				App->scene->LoadScene();
 			}
 			if (ImGui::MenuItem("Quit", "alt+f4"))

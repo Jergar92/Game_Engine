@@ -231,7 +231,6 @@ bool ModuleFileSystem::UpdateFiles(const std::string parent_path, PathList& path
 		}
 		if (path_fill.PathExist(str_path))
 		{
-
 			continue;
 		}
 		Path new_directory(path, str_name, parent_path, directory);

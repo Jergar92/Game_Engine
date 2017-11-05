@@ -48,7 +48,7 @@ bool MaterialImporter::Init()
 	return ret;
 }
 
-int MaterialImporter::ImportTexture(const char* path,uint UID)
+int MaterialImporter::ImportTexture(const char* path)
 {
 	std::string filename = std::string(path);
 
@@ -111,7 +111,7 @@ int MaterialImporter::ImportTexture(const char* path,uint UID)
 	if (size > 0) {
 		data = new ILubyte[size]; // allocate data buffer
 		if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
-			SaveTexture(std::to_string(UID).c_str(), (char*)data, size);
+			SaveTexture(path, (char*)data, size);
 		RELEASE_ARRAY(data);
 	}
 

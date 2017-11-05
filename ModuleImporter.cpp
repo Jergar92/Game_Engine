@@ -32,7 +32,7 @@ void ModuleImporter::Import(const char * path)
 	if (dropped_filedir.substr(found + 1) == "png" || dropped_filedir.substr(found + 1) == "jpg" || dropped_filedir.substr(found + 1) == "dds")
 	{
 		App->file_system->CloneFile(dropped_filedir.c_str());
-		material.ImportTexture(dropped_filedir.c_str(),App->GenerateRandom());
+		material.ImportTexture(dropped_filedir.c_str());
 	}
 	else
 	{

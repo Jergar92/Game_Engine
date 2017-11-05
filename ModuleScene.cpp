@@ -66,15 +66,18 @@ bool ModuleScene::CleanUp()
 	bool ret = true;
 	delete plane;
 
+	CleanGO();
+	
+	return ret;
+}
+void ModuleScene::CleanGO()
+{
 	if (scene_go != nullptr)
 	{
 		scene_go->CleanUp();
 		RELEASE(scene_go);
 	}
-	
-	return ret;
 }
-
 GameObject * ModuleScene::GenerateGameObject(GameObject * parent)
 {
 	GameObject* new_go = new GameObject(parent);
@@ -147,7 +150,7 @@ void ModuleScene::LoadScene()
 		GameObject* item = tmp_go[i];
 		if (item->GetParentUID() == 0)
 		{
-			item->SetParent(scene_go);
+			scene_go = item;
 		}
 		else
 		{
@@ -156,7 +159,7 @@ void ModuleScene::LoadScene()
 		item->UpdateMatrix();
 
 	}
-	//App->editor_window->SetSceneGameObject(scene_go);
+	App->editor_window->SetSceneGameObject(scene_go);
 
 }
 GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go, int UID_to_find) const

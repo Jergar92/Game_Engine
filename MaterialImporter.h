@@ -8,7 +8,7 @@ public:
 
 	bool Init();
 
-	int ImportTexture(const char* filename, uint UID);
+	int ImportTexture(const char* filename);
 	void SaveTexture(const char * name, char*buffer, int buffer_size);
 	int LoadTexture(const char * name);
 
