@@ -354,6 +354,8 @@ update_status Application::GuiUpdate()
 	if (profiler->CheckWindows()) {
 		profiler->DrawProfiler();
 	}
+	//ImGui::ShowTestWindow();
+
 	//Last
 	std::list<Module*>::iterator item = list_modules.begin();
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)

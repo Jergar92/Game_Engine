@@ -1,6 +1,7 @@
 #include "UI_Folder.h"
 #include "Application.h"
 #include "ModuleFileSystem.h"
+#include "ModuleEditorWindows.h"
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
 
@@ -74,7 +75,7 @@ const char * UI_Folder::GetFolderName() const
 	return show_folder->path.c_str();
 }
 
-void UI_Folder::DrawFolders(const Path& draw) const
+void UI_Folder::DrawFolders(const Path& draw) 
 {
 	ImGuiWindowFlags tree_flags = 0;
 	if (draw.child.empty())
@@ -109,6 +110,8 @@ void UI_Folder::DrawFolders(const Path& draw) const
 	}
 }
 
+
+
 void UI_Folder::DrawFolderInfo()
 {
 	ImGui::Text("%s Contains:", show_folder->name.c_str());
@@ -134,10 +137,36 @@ void UI_Folder::DrawFolderInfo()
 			ImGui::TreePop();
 		}
 		it++;
+	}
+
+	if (ImGui::Button("Load"))
+	{
+		if (!item_selected->directory)
+		{
+			ToLoad(item_selected->path.c_str());
+		}
+	}
+
+}
+void UI_Folder::ToLoad(const char * path)
+{
+	std::string extension_string = path;
+	std::size_t found = extension_string.find_last_of('.');
+	if (extension_string.substr(found + 1) == "json")
+	{
+		App->editor_window->ToLoad(path, LoadFile::LOAD_SCENE);
+	}
+	else if (extension_string.substr(found + 1) == "png" || extension_string.substr(found + 1) == "jpg" || extension_string.substr(found + 1) == "dds")
+	{
+		App->editor_window->ToLoad(path, LoadFile::LOAD_TEXTURE);
+
+	}
+	else
+	{
+		App->editor_window->ToLoad(path, LoadFile::LOAD_MESH);
 
 	}
 }
-
 Path::Path():path(std::string()),name(std::string()),parent(nullptr),directory(true)
 {
 }

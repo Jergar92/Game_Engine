@@ -3,7 +3,13 @@
 #include "ModuleEditorWindows.h"
 #include "Globals.h"
 #include"p2Defs.h"
-
+enum LoadFile
+{
+	LOAD_NONE,
+	LOAD_MESH,
+	LOAD_TEXTURE,
+	LOAD_SCENE
+};
 class GameObject;
 class UI_Windows;
 class UI_Inspector;
@@ -29,8 +35,10 @@ public:
 	void SetSceneGameObject(GameObject* set);
 	void SetSelectedGameObject(GameObject* set);
 	void AddLog(const char*fmt, ...);
+	void ToLoad(const char* path, LoadFile load);
 	void UpdateFiles();
 private:
+	void Load();
 
 	bool ShowMenuBar();
 	void Configuration();
@@ -42,14 +50,9 @@ private:
 	UI_About* ui_about;
 	UI_Console* ui_console;
 	UI_Folder* ui_folder;
-	bool inspector = true;
-	bool hierarchy = true;
-
-	
-	bool  open_console = true;
-	bool  open = true;
-	bool  show_about_us = false;
-	bool selected[4] = {false,true,false,false};
+	bool wait_load = false;
+	std::string path_to_load;
+	LoadFile next_load = LOAD_NONE;
 };
 
 

@@ -6,6 +6,7 @@
 #include "imgui\imgui.h"
 #include "GameObject.h"
 #include "ModuleFileSystem.h"
+#include "Component.h"
 #include "UI_Windows.h"
 #include "UI_Inspector.h"
 #include "UI_Hierarchy.h"
@@ -48,7 +49,10 @@ bool ModuleEditorWindows::Start()
 
 update_status ModuleEditorWindows::PreUpdate(float dt)
 {
-
+	if (wait_load)
+	{
+		Load();
+	}
 
 
 	return UPDATE_CONTINUE;
@@ -236,10 +240,58 @@ void ModuleEditorWindows::AddLog(const char * fmt, ...)
 	if (ui_console != nullptr)
 		ui_console->AddLog(fmt);
 }
+void ModuleEditorWindows::ToLoad(const char * path, LoadFile load)
+{
+	wait_load = true;
+	path_to_load = path;
+	next_load = load;
+}
 void ModuleEditorWindows::UpdateFiles()
 {
 	ui_folder->UpdateFiles();
 
+}
+void ModuleEditorWindows::Load()
+{
+
+	switch (next_load)
+	{
+	case LOAD_MESH:
+	{
+		if (ui_inspector->selected_go == nullptr)
+		{
+			break;
+		}
+		ComponentMesh* item = (ComponentMesh*)ui_inspector->selected_go->FindComponent(ComponentType::MESH);
+		if (item == nullptr)
+			item = (ComponentMesh*)ui_inspector->selected_go->CreateComponent(ComponentType::MESH);
+		std::string libray_path = App->file_system->ExtractName(path_to_load);
+		//App->importer->Load()
+		App->importer->LoadMesh(libray_path.c_str(), item);
+	}
+		break;
+	case LOAD_TEXTURE:
+	{
+		if(ui_inspector->selected_go==nullptr)
+		{
+			break;
+		}
+		ComponentMeshRenderer* item = (ComponentMeshRenderer*)ui_inspector->selected_go->FindComponent(ComponentType::MESH_RENDER);
+		if (item == nullptr)
+			item = (ComponentMeshRenderer*)ui_inspector->selected_go->CreateComponent(ComponentType::MESH_RENDER);
+		std::string libray_path = App->file_system->ExtractName(path_to_load);
+		App->importer->LoadTexture(libray_path.c_str(), item);
+	}
+		break;
+	case LOAD_SCENE:	
+
+		break;
+	default:
+		break;
+	}
+
+	next_load = LOAD_NONE;
+	wait_load = false;
 }
 /*
 void ModuleEditorWindows::LoadFile(const char* filter_extension, const char* from_dir)

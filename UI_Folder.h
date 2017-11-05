@@ -43,10 +43,11 @@ public:
 	bool ShowFolder()const;
 
 private:
-	void DrawFolders(const Path& draw)const;
-
+	void DrawFolders(const Path& draw);
 
 	void DrawFolderInfo();
+	void ToLoad(const char* path);
+
 	Path* show_folder;
 	Path* folder_to_change;
 	Path* item_selected;

@@ -20,6 +20,8 @@ public:
 	~ModuleImporter();
 	bool Start();
 	void Import(const char* path);
+	void Load(const char* path);
+
 	void LoadMesh(const char* path , ComponentMesh* component);
 	int LoadTexture(const char* path, ComponentMeshRenderer* component);
 

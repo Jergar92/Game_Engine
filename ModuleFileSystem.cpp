@@ -189,6 +189,31 @@ std::string ModuleFileSystem::SetPathFile(const char * name, const char * direct
 	return file_name;
 }
 
+void ModuleFileSystem::RemplaceExtension(std::string & path, const std::string & new_extension)
+{
+	std::string::size_type size = path.rfind('.', path.length());
+
+	if (size != std::string::npos) {
+		path.replace(size + 1, new_extension.length(), new_extension);
+	}
+}
+
+std::string ModuleFileSystem::ExtractName(const std::string & path)
+{
+	namespace file_system = std::experimental::filesystem;
+	std::string name(file_system::path(path).stem().string());
+	return name;
+}
+
+std::string ModuleFileSystem::GetLibraryPath(const std::string & path_to_change,const char* directory,const char* extension)
+{
+	std::string name= ExtractName(path_to_change);
+	RemplaceExtension(name, std::string(extension));
+	std::string file_name(PATH(directory, name.c_str()));
+	return file_name;
+
+}
+
 bool ModuleFileSystem::ListFiles(const std::string parent_path, PathList& path_fill)
 {
 	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(parent_path))
