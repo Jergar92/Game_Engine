@@ -53,7 +53,7 @@ update_status ModuleScene::Update(float dt)
     //Draw modes
 	if (scene_go != nullptr)
 	{
-		scene_go->Update();
+		scene_go->Update(dt);
 
 	}
 	plane->Render();
