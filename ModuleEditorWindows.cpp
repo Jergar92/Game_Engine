@@ -12,9 +12,10 @@
 #include "UI_About.h"
 #include "UI_Console.h"
 #include "UI_Folder.h"
+
 ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
-	name = "Menu Bar";
+	name = "Editor Windows";
 	ui_inspector = new UI_Inspector();
 	ui_hierarchy = new UI_Hierarchy();
 	ui_about = new UI_About();
@@ -47,7 +48,9 @@ bool ModuleEditorWindows::Start()
 
 update_status ModuleEditorWindows::PreUpdate(float dt)
 {
-	ui_folder->UpdateFiles();
+
+
+
 	return UPDATE_CONTINUE;
 }
 
@@ -111,6 +114,7 @@ bool ModuleEditorWindows::ShowMenuBar()
 
 				}
 				App->scene->SaveScene(path.c_str());
+
 			}
 			if (ImGui::MenuItem("Load"))
 			{
@@ -230,6 +234,11 @@ void ModuleEditorWindows::AddLog(const char * fmt, ...)
 {
 	if (ui_console != nullptr)
 		ui_console->AddLog(fmt);
+}
+void ModuleEditorWindows::UpdateFiles()
+{
+	ui_folder->UpdateFiles();
+
 }
 /*
 void ModuleEditorWindows::LoadFile(const char* filter_extension, const char* from_dir)

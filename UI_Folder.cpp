@@ -16,21 +16,26 @@ UI_Folder::~UI_Folder()
 
 void UI_Folder::SetUpFolders()
 {
-	first_path=Path(App->file_system->GetAssetsFolder(),"Assets", nullptr,true);
-	App->file_system->ListFiles(first_path.path, first_path);
+	path.list.push_back(Path(App->file_system->GetAssetsFolder(), "Assets", "", true));
+	App->file_system->ListFiles(path.list.begin()->path, path);
+	path.OrderPath();
 }
 
 void UI_Folder::CleanUp()
 {
-	first_path.child.clear();
+	path.list.clear();
 }
 
 void UI_Folder::UpdateFiles()
 {
-	first_path.child.clear();
-	App->file_system->UpdateFiles(first_path.path, first_path);
+	//first_path.child.clear();
+
+	path.list.clear();
+	App->file_system->UpdateFiles(path.list.begin()->path, path);
+	path.OrderPath();
 
 }
+
 
 bool UI_Folder::Draw()
 {
@@ -45,17 +50,21 @@ bool UI_Folder::Draw()
 	}
 
 	ImGui::Columns(2);
-	DrawFolders(first_path);
+	std::list<Path>::const_iterator it = path.list.begin();
+	DrawFolders(it._Ptr->_Myval);	
 	ImGui::NextColumn();
 	DrawFolderInfo();
 	ImGui::Columns(1);
 	ImGui::End();
-	if (show_folder != folder_to_change)
+	if (show_folder!=folder_to_change)
+	{
+
 		show_folder = folder_to_change;
+	}
 	return true;
 }
 
-bool UI_Folder::ShowFolder()
+bool UI_Folder::ShowFolder()const
 {
 	return show_folder->path!="";
 }
@@ -70,10 +79,14 @@ void UI_Folder::DrawFolders(const Path& draw) const
 	ImGuiWindowFlags tree_flags = 0;
 	if (draw.child.empty())
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
+	tree_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
+
 	bool node_open = ImGui::TreeNodeEx(draw.name.c_str(), tree_flags);
 	if (ImGui::IsItemClicked())
 	{
-		*folder_to_change = draw;
+	
+			*folder_to_change = draw;
+		
 	}
 	/*
 	if (ImGui::BeginPopupContextItem("Folder Options"))
@@ -83,7 +96,7 @@ void UI_Folder::DrawFolders(const Path& draw) const
 	*/
 	if (node_open)
 	{
-		std::vector<Path>::const_iterator it = draw.child.begin();
+		std::list<Path>::const_iterator it = draw.child.begin();
 		while (it != draw.child.end())
 		{
 			if ((it)->directory) 
@@ -100,7 +113,9 @@ void UI_Folder::DrawFolderInfo()
 {
 	ImGui::Text("%s Contains:", show_folder->name.c_str());
 
-	std::vector<Path>::const_iterator it = show_folder->child.begin();
+
+	std::list<Path>::const_iterator it = show_folder->child.begin();
+
 	while (it != show_folder->child.end())
 	{
 		ImGuiWindowFlags tree_flags = 0;
@@ -127,7 +142,7 @@ Path::Path():path(std::string()),name(std::string()),parent(nullptr),directory(t
 {
 }
 
-Path::Path(std::string path,std::string name ,Path * parent, bool directory) :path(path),name(name),parent(parent),directory(directory)
+Path::Path(std::string path,std::string name , std::string parent_path, bool directory) :path(path),name(name), parent_path(parent_path),directory(directory), parent(nullptr)
 {
 
 }
@@ -137,4 +152,80 @@ Path::~Path()
 	child.clear();
 	parent = nullptr;
 
+}
+
+void Path::RemoveChild(const Path & remove_child)
+{
+	child.remove(remove_child);
+}
+
+void Path::SetParentByPath(std::list<Path>& paths)
+{
+	std::list<Path>::iterator it = paths.begin();
+	for (std::list<Path>::const_iterator it = paths.begin(); it != paths.end(); it++)
+	{
+		if (it->path.compare(parent_path) != 0)
+		{
+			continue;
+		}
+		//if don't have parent set parent
+		if (parent != nullptr)
+		{
+			if (parent->path.compare(it->path) != 0)
+			{
+				continue;
+			}
+			parent->RemoveChild(*(this));
+		}
+		SetParent(&(it)._Ptr->_Myval);
+
+	}
+}
+
+void Path::SetChild(const Path & set_child)
+{
+	child.push_back(set_child);
+}
+
+void Path::SetParent(Path * set_parent)
+{
+	parent = set_parent;
+	parent->SetChild(*(this));
+}
+
+bool Path::operator==(const Path & value)
+{
+	return path==value.path;
+}
+
+void PathList::OrderPath()
+{
+	for (std::list<Path>::iterator it = list.begin(); it != list.end(); it++)
+	{
+		(it)->SetParentByPath(list);
+	}
+}
+
+bool PathList::PathExist(std::string cmp_path)const 
+{
+	for (std::list<Path>::const_iterator it = list.begin(); it != list.end(); it++)
+	{
+		if (it->path.compare(cmp_path) == 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+std::list<Path>::const_iterator PathList::FindFolder(std::string show_folder_path)const
+{
+	for (std::list<Path>::const_iterator it = list.begin(); it != list.end(); it++)
+	{
+		if (it->path.compare(show_folder_path) == 0)
+		{
+			return it;
+		}
+	}
+	return std::list<Path>::const_iterator();
 }

@@ -29,7 +29,7 @@ public:
 	void SetSceneGameObject(GameObject* set);
 	void SetSelectedGameObject(GameObject* set);
 	void AddLog(const char*fmt, ...);
-
+	void UpdateFiles();
 private:
 
 	bool ShowMenuBar();

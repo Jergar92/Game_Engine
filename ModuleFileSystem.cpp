@@ -189,55 +189,54 @@ std::string ModuleFileSystem::SetPathFile(const char * name, const char * direct
 	return file_name;
 }
 
-bool ModuleFileSystem::ListFiles(const std::string path,Path& path_fill)
+bool ModuleFileSystem::ListFiles(const std::string parent_path, PathList& path_fill)
 {
-	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(path))
+	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(parent_path))
 	{
 		std::string str_path = item.path().string().c_str();
 
 		std::string str_name = item.path().filename().generic_string();
-
+		
+		bool directory = false;
+		std::string path = str_path;
 		if (item.status().type() == std::experimental::filesystem::file_type::directory)
 		{
+			ListFiles(path, path_fill);
+			directory = true;
 
-			std::string path = str_path;
-
-			Path new_directory(path, str_name, &path_fill, true);
-			ListFiles(path, new_directory);
-			path_fill.child.push_back(new_directory);
 		}
-		else
-		{
-			std::string path = str_path;
-			Path new_directory(path, str_name, &path_fill, false);
-			path_fill.child.push_back(new_directory);
-		}
+		Path new_directory(path, str_name, parent_path, directory);
+		path_fill.list.push_back(new_directory);
+	
+		
 	}
 	return true;
 }
 
-bool ModuleFileSystem::UpdateFiles(const std::string path, Path & path_fill)
+bool ModuleFileSystem::UpdateFiles(const std::string parent_path, PathList& path_fill)
 {
 	
-	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(path))
+	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(parent_path))
 	{
 		std::string str_path = item.path().string().c_str();
 		std::string str_name = item.path().filename().generic_string();
+		
+		bool directory = false;
+		std::string path = str_path;
 		if (item.status().type() == std::experimental::filesystem::file_type::directory)
 		{
+			UpdateFiles(path, path_fill);
+			directory = true;
 
-			std::string path = str_path;
-
-			Path new_directory(path, str_name, &path_fill, true);
-			ListFiles(path, new_directory);
-			path_fill.child.push_back(new_directory);
 		}
-		else
+		if (path_fill.PathExist(str_path))
 		{
-			std::string path = str_path;
-			Path new_directory(path, str_name, &path_fill, false);
-			path_fill.child.push_back(new_directory);
+
+			continue;
 		}
+		Path new_directory(path, str_name, parent_path, directory);
+		path_fill.list.push_back(new_directory);
+
 	}
 	return false;
 }

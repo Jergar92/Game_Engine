@@ -5,7 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui\imgui.h"
-
+#include "ModuleEditorWindows.h"
 #define MAX_KEYS 300
 
 
@@ -107,6 +107,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			switch (e.type)
 			{
+			
 			case SDL_MOUSEWHEEL:
 				mouse_z = e.wheel.y;
 				break;
@@ -128,7 +129,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				std::size_t found = dropped_filedir.find_last_of('.');
 				
 				App->importer->Import(dropped_filedir.c_str());
-		
+				App->editor_window->UpdateFiles();
 				SDL_free(e.drop.file);   
 				break;
 			}

@@ -21,6 +21,7 @@ bool MeshImporter::ImportMesh(const char * path)
 
 	bool ret = true;
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+	
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		GameObject* main_go = App->scene->GenerateGameObject();
@@ -81,7 +82,23 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 
 	return true;
 }
-
+void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
+{
+	for (uint i = 0; i < node->mNumMeshes; i++)
+	{
+		
+		GameObject* child_go = new GameObject(parent);
+		aiMatrix4x4 matrix = node->mTransformation;
+		ProcessTransform(matrix, child_go);
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		child_go->SetName(node->mName.C_Str());
+		ProcessMesh(mesh, scene, child_go);
+	}
+	for (uint i = 0; i < node->mNumChildren; i++)
+	{
+		ProcessNode(node->mChildren[i], scene, parent);
+	}
+}
 void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 {
 	aiVector3D scale;
@@ -94,22 +111,7 @@ void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 	math::float3 math_position(position.x, position.y, position.z);
 	go->SetTransform(math_scale, math_rotation, math_position);
 }
-void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
-{
-	for (uint i = 0; i < node->mNumMeshes; i++)
-	{
-		GameObject* child_go = new GameObject(parent);
-		aiMatrix4x4 matrix = node->mTransformation;
-		ProcessTransform(matrix, child_go);
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		child_go->SetName(node->mName.C_Str());
-		ProcessMesh(mesh, scene, child_go);
-	}
-	for (uint i = 0; i < node->mNumChildren; i++)
-	{
-		ProcessNode(node->mChildren[i], scene,parent);
-	}
-}
+
 
 void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go)
 {
