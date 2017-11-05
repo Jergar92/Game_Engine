@@ -20,7 +20,7 @@ public:
 	ComponentMeshRenderer(GameObject* my_go);
 	~ComponentMeshRenderer();
 public:
-	void Update();
+	void Update(float dt);
 	void InspectorUpdate();
 	void CleanUp();
 	void SetMesh(ComponentMesh* set_mesh);

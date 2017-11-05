@@ -21,7 +21,7 @@ public:
 	~Component();
 	virtual void Enable();
 	virtual void CleanUp();
-	virtual void Update();
+	virtual void Update(float dt);
 	virtual void GuiUpdate();
 	virtual void InspectorUpdate();
 	virtual bool SaveComponent(JSONConfig& data)const;

@@ -43,7 +43,7 @@ bool ComponentCamera::ObjectInside()
 	return false;
 }
 
-void ComponentCamera::Update()
+void ComponentCamera::Update(float dt)
 {
 	DebugDraw();
 	//Culling();

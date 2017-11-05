@@ -18,7 +18,7 @@ public:
 
 	~GameObject();
 	void CleanUp();
-	void Update();
+	void Update(float dt);
 	void GuiUpdate();
 	void InspectorUpdate();
 

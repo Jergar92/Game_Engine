@@ -11,7 +11,7 @@ public:
 	~ComponentCamera();
 	bool ObjectInside();
 	void InspectorUpdate();
-	void Update();
+	void Update(float dt);
 	void OnUpdateMatrix(const float4x4 & matrix);
 
 	//Culling

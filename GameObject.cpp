@@ -59,7 +59,7 @@ void GameObject::CleanUp()
 	parent = nullptr;
 
 }
-void GameObject::Update()
+void GameObject::Update(float dt)
 {
 
 	if (!enable)
@@ -68,12 +68,12 @@ void GameObject::Update()
 	{
 		Component* item = components[i];
 		if (item->isEnable())
-			item->Update();
+			item->Update(dt);
 	}
 	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
-		item->Update();
+		item->Update(dt);
 	}
 
 	if (show_bounding_boxAABB)

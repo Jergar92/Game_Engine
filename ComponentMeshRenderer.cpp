@@ -22,7 +22,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 }
 
-void ComponentMeshRenderer::Update()
+void ComponentMeshRenderer::Update(float dt)
 {
 	if (mesh == nullptr||!mesh->isEnable())
 		return;
