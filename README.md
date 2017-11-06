@@ -111,10 +111,8 @@ Shows a numerical record of the current speed of each module, to use it you have
 Show information all the GameObject of the scene
 If a GameObject is disabled the inspector show the name on the game object in gray
 	
-
 ### Inspector
 Show information about the selected GameObject
-
 
 ##GameObject
 This Engine implement GameObject (Unity like), GameObject contains
@@ -123,7 +121,8 @@ This Engine implement GameObject (Unity like), GameObject contains
 	*Show AABB ==> Show the AABB of the GameObject (parent go enclose children AABB)
 	*Show OBB ==> Show the OBB of the GameObject (parent go enclose children OBB )
 	*Component ==> GameObject contais component that components do other functions (like mesh rendering)
-##*Component 
+
+##Component 
 This Engine implement Component (Unity like) right now the components implemented are:
 All Components have a check box on the right that enable/disable the component
 	*Component Mesh ==> Allocate all vertices and index
@@ -132,6 +131,9 @@ All Components have a check box on the right that enable/disable the component
 	*Component Mesh Render ==> Draw Mesh and Textures
 		*RPG Texture Color ==> Change texture color also if you put the mouse inside the image you can see it bigger
 	*Component Camera ==> Draw Camera and frustum culling optimization
+
+##Folders
+Show the Assets info
 
 #### Libraries 
 
@@ -156,7 +158,9 @@ This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 * Added: Add Component structure
 * Added: Add Hierarchy of GameObjects
 * Added: Add Serializacion of the scene
+* Added: Add Folder System
 * Added: Add Custom Format (.frog)
+
 
 #### v0.5.0
 
