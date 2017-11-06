@@ -37,10 +37,10 @@ public:
 	~UI_Folder();
 	void CleanUp();
 	bool Draw();
+	bool ShowFolder() const;
 	const char* GetFolderName()const;
 	void SetUpFolders();
 	void UpdateFiles();
-	bool ShowFolder()const;
 
 private:
 	void DrawFolders(const Path& draw);
@@ -48,9 +48,10 @@ private:
 	void DrawFolderInfo();
 	void ToLoad(const char* path);
 
-	Path* show_folder;
 	Path* folder_to_change;
-	Path* item_selected;
+	std::string show_folder;
+	std::string item_selected;
+
 	PathList path;
 };
 

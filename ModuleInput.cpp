@@ -5,6 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui\imgui.h"
+
 #include "ModuleEditorWindows.h"
 #define MAX_KEYS 300
 
@@ -138,6 +139,20 @@ update_status ModuleInput::PreUpdate(float dt)
 			{
 				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
 					App->renderer3D->OnResize(e.window.data1, e.window.data2);
+				if (e.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
+				{
+					App->editor_window->UpdateFiles();
+					LOG("Mine window is active\n");
+
+				}
+				if (e.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
+				{
+					LOG("Mine window is not active\n");
+
+				}
+
+
+
 			}
 			}
 		}

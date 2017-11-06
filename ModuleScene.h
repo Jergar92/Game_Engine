@@ -4,6 +4,7 @@
 #include "MyQuadTree.h"
 class GameObject;
 class Plane_p;
+
 class ModuleScene : public Module
 {
 public:
@@ -14,6 +15,7 @@ public:
 	update_status GuiUpdate();
 
 	update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	void CleanGO();

@@ -11,6 +11,7 @@
 #include "imgui\imgui.h"
 #include "Primitive.h"
 #include "p2Defs.h"
+#include <conio.h>
 ModuleScene::ModuleScene(bool start_enabled)
 {
 	name = "Scene";
@@ -61,6 +62,11 @@ update_status ModuleScene::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+update_status ModuleScene::PostUpdate(float dt)
+{
+
+	return UPDATE_CONTINUE;
+}
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;

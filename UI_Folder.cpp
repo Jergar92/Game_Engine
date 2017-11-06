@@ -5,7 +5,7 @@
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
 
-UI_Folder::UI_Folder() : show_folder(new Path()), item_selected(new Path()), folder_to_change(new Path())
+UI_Folder::UI_Folder() : show_folder(std::string()), item_selected(std::string()), folder_to_change(new Path())
 {
 }
 
@@ -29,11 +29,10 @@ void UI_Folder::CleanUp()
 
 void UI_Folder::UpdateFiles()
 {
-	//first_path.child.clear();
 
-//	path.list.clear();
-//	App->file_system->UpdateFiles(path.list.begin()->path, path);
-//	path.OrderPath();
+	path.list.clear();
+	SetUpFolders();
+	path.OrderPath();
 
 }
 
@@ -57,37 +56,34 @@ bool UI_Folder::Draw()
 	DrawFolderInfo();
 	ImGui::Columns(1);
 	ImGui::End();
-	if (show_folder!=folder_to_change)
-	{
-
-		show_folder = folder_to_change;
-	}
+	
 	return true;
 }
 
 bool UI_Folder::ShowFolder()const
 {
-	return show_folder->path!="";
+	return show_folder.empty();
 }
 
 const char * UI_Folder::GetFolderName() const
 {
-	return show_folder->path.c_str();
+	return show_folder.c_str();
 }
 
 void UI_Folder::DrawFolders(const Path& draw) 
 {
 	ImGuiWindowFlags tree_flags = 0;
+	tree_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
+
 	if (draw.child.empty())
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
-	tree_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
 	bool node_open = ImGui::TreeNodeEx(draw.name.c_str(), tree_flags);
 	if (ImGui::IsItemClicked())
 	{
 	
-			*folder_to_change = draw;
-		
+		show_folder = draw.path;
+
 	}
 	/*
 	if (ImGui::BeginPopupContextItem("Folder Options"))
@@ -114,24 +110,28 @@ void UI_Folder::DrawFolders(const Path& draw)
 
 void UI_Folder::DrawFolderInfo()
 {
-	ImGui::Text("%s Contains:", show_folder->name.c_str());
+	ImGui::Text("%s Contains:", show_folder.c_str());
 
 
-	std::list<Path>::const_iterator it = show_folder->child.begin();
-
-	while (it != show_folder->child.end())
+	std::list<Path>::const_iterator tmp = path.FindFolder(show_folder);
+	if (tmp==path.list.end())
+	{
+		return;
+	}
+	std::list<Path>::const_iterator it = tmp->child.begin();
+	while (it != tmp->child.end())
 	{
 		ImGuiWindowFlags tree_flags = 0;
-
 		if (it->child.empty())
 			tree_flags |= ImGuiTreeNodeFlags_Leaf;
+
 		bool node_open = ImGui::TreeNodeEx(it->name.c_str(), tree_flags);
 
 		if (node_open)
 		{
 			if (ImGui::IsItemClicked() && !it->directory) 
 			{
-				*item_selected = *(it);
+				item_selected = it->path;
 			}
 
 			ImGui::TreePop();
@@ -139,13 +139,7 @@ void UI_Folder::DrawFolderInfo()
 		it++;
 	}
 
-	if (ImGui::Button("Load"))
-	{
-		if (!item_selected->directory)
-		{
-			ToLoad(item_selected->path.c_str());
-		}
-	}
+	
 
 }
 void UI_Folder::ToLoad(const char * path)
@@ -249,12 +243,13 @@ bool PathList::PathExist(std::string cmp_path)const
 
 std::list<Path>::const_iterator PathList::FindFolder(std::string show_folder_path)const
 {
-	for (std::list<Path>::const_iterator it = list.begin(); it != list.end(); it++)
+	std::list<Path>::const_iterator ret;
+	for (ret = list.begin(); ret != list.end(); ret++)
 	{
-		if (it->path.compare(show_folder_path) == 0)
+		if (ret->path.compare(show_folder_path) == 0)
 		{
-			return it;
+			return ret;
 		}
 	}
-	return std::list<Path>::const_iterator();
+	return ret;
 }
