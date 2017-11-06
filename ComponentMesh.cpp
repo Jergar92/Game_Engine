@@ -1,5 +1,6 @@
 #include "ComponentMesh.h"
 #include "Application.h"
+#include "GameObject.h"
 
 #include "Glew\include\GL\glew.h"
 #include "imgui\imgui.h"
@@ -132,23 +133,23 @@ const std::vector<uint>& ComponentMesh::GetIndices()const
 {
 	return indices;
 }
-const uint ComponentMesh::GetVertexBuffer()const
+uint ComponentMesh::GetVertexBuffer()const
 {
 	return VBO;
 }
-const uint ComponentMesh::GetElementBuffer()const
+uint ComponentMesh::GetElementBuffer()const
 {
 	return EBO;
 }
-const uint ComponentMesh::GetVertexNormalID() const
+uint ComponentMesh::GetVertexNormalID() const
 {
 	return vertex_normals_id;
 }
-const uint ComponentMesh::GetSurfaceNormalID() const
+uint ComponentMesh::GetSurfaceNormalID() const
 {
 	return surface_normals_id;
 }
-const bool ComponentMesh::GetDrawMesh() const
+bool ComponentMesh::GetDrawMesh() const
 {
 	return draw_mesh;
 }
@@ -158,7 +159,7 @@ void ComponentMesh::DrawMesh(bool show)
 	draw_mesh = show;
 }
 
-const bool ComponentMesh::GetDebugNormal() const
+bool ComponentMesh::GetDebugNormal() const
 {
 	return debug_normals_succes;
 }

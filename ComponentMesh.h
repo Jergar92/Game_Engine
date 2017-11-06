@@ -2,7 +2,6 @@
 #include "Component.h"
 
 #include "Globals.h"
-#include "GameObject.h"
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
 #include "MathGeoLib-1.5\src\Geometry\AABB.h"

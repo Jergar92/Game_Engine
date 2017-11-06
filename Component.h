@@ -18,7 +18,7 @@ class Component
 {
 public:
 	Component(GameObject* my_go);
-	~Component();
+	virtual ~Component();
 	virtual void Enable();
 	virtual void CleanUp();
 	virtual void Update(float dt);
