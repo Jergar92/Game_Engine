@@ -58,6 +58,9 @@
     <Filter Include="Sources\UIWindows">
       <UniqueIdentifier>{fe20d0c8-fafa-486d-aa78-e888680b697d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Resource">
+      <UniqueIdentifier>{73526131-86ac-4f50-ad54-d221e1e177cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -411,6 +414,15 @@
     <ClInclude Include="UI_Play.h">
       <Filter>Sources\UIWindows</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Sources\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceMesh.h">
+      <Filter>Sources\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceTexture.h">
+      <Filter>Sources\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -625,6 +637,15 @@
     </ClCompile>
     <ClCompile Include="UI_Play.cpp">
       <Filter>Sources\UIWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Sources\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceMesh.cpp">
+      <Filter>Sources\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceTexture.cpp">
+      <Filter>Sources\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
