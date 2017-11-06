@@ -399,7 +399,10 @@ void GameObject::UpdateMatrix()
 	indentity_bounding_box_AABB.TransformAsAABB(global_transform_matrix);
 	is_bounding_box_transformed = true;
 	
-
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->OnUpdateMatrix(global_transform_matrix);
+	}
 	for (int i = 0; i < childs.size(); i++)
 	{
 		childs[i]->UpdateMatrix();

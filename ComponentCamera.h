@@ -48,6 +48,7 @@ public:
 	Frustum camera_frustrum;
 	
 private:
+	bool enable_culling = false;
 	float vertical_fov = 1.0f;
 	float window_aspect_ratio;
 	GameObject* scene;

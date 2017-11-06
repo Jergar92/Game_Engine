@@ -45,7 +45,7 @@ bool ComponentCamera::ObjectInside()
 void ComponentCamera::Update(float dt)
 {
 	DebugDraw();
-	//Culling();
+	Culling();
 }
 
 void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
@@ -68,52 +68,74 @@ GameObject* ComponentCamera::SetElementsOnScene()
 
 void ComponentCamera::CheckForMesh(GameObject * scene_go)
 {
-	if (scene_go != nullptr)
-	{
-		ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
-		if (mesh != nullptr)
+	
+		if (scene_go != nullptr)
 		{
-			if (camera_frustrum.Contains(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
+			ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
+			if (mesh != nullptr)
 			{
-				mesh->DrawMesh(true);
+			
+				if (camera_frustrum.Contains(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
+				{
+					mesh->DrawMesh(true);
+				}
+				else
+				{
+					if (!enable_culling)
+					{
+						mesh->DrawMesh(true);
+					}
+					else
+					{
+						mesh->DrawMesh(false);
+					}
+					
+				}
+			
+				
 			}
-			else
+			for (int i = 0; i < scene_go->childs.size(); i++)
 			{
-				mesh->DrawMesh(false);
+				GameObject * tmp = scene_go->childs[i];
+				CheckForMesh(tmp);
 			}
-        }
-		for (int i = 0; i < scene_go->childs.size(); i++)
-		{
-			GameObject * tmp = scene_go->childs[i];
-			CheckForMesh(tmp);
 		}
-	}	
+	
+	
 }
 
 
 void ComponentCamera::InspectorUpdate()
 {
-	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
-	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
-	if (node_open)
-	{
-		ImGui::TextWrapped("Aspect ratio:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", GetAspectRatio());
-
-		ImGui::DragFloat("Near Distance", &camera_frustrum.nearPlaneDistance, 0.1, 0.0, camera_frustrum.farPlaneDistance);
-
-		ImGui::DragFloat("Far Distance", &camera_frustrum.farPlaneDistance, 0.1);
-
-		if (ImGui::DragFloat("Field of View", &camera_frustrum.verticalFov, 0.1, 0.1))
-		{
-			camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
-		}
+		uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
+		bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
+	
 		
-		ImGui::TreePop();
-	}
+		if (node_open)
+		{
+			ImGui::Checkbox("Eanble Culling##show_bb", &enable_culling);
+			ImGui::NewLine();
+			ImGui::TextWrapped("Aspect ratio:");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", GetAspectRatio());
 
+			ImGui::DragFloat("Near Distance", &camera_frustrum.nearPlaneDistance, 0.1, 0.0, camera_frustrum.farPlaneDistance);
+
+			ImGui::DragFloat("Far Distance", &camera_frustrum.farPlaneDistance, 0.1);
+
+			if (ImGui::DragFloat("Field of View", &camera_frustrum.verticalFov, 0.1, 0.1))
+			{
+				camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
+			}
+
+			
+
+			ImGui::TreePop();
+		}
 }
+
+
+
 
 void ComponentCamera::DebugDraw()
 {
