@@ -194,7 +194,7 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 
 	mesh_name = config.GetString("Mesh Name");
 
-	App->importer->LoadMesh(name.c_str(), this);
+	App->importer->LoadMesh(mesh_name.c_str(), this);
 	enable= config.GetBool( "Enable");
 
 	return ret;
