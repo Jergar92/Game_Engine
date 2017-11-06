@@ -146,6 +146,7 @@ void GameObject::InspectorUpdate()
 		ImGui::TreePop();
 	}
 
+
 	ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
 	ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
 
@@ -408,6 +409,11 @@ void GameObject::UpdateMatrix()
 float4x4 GameObject::GetTransposedMatrix()const
 {
 	return global_transform_matrix_transposed;
+}
+
+float4x4 GameObject::GetGlobalMatrix() const
+{
+	return global_transform_matrix;
 }
 
 OBB GameObject::GetBoundingBoxOBB() const

@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "MathGeoLib-1.5\src\Geometry\Frustum.h"
 #include "MathGeoLib-1.5\src\Geometry\Plane.h"
+#include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include "SDL\include\SDL.h"
 class GameObject;
 class ComponentCamera :public Component
@@ -50,6 +51,7 @@ private:
 	float vertical_fov = 1.0f;
 	float window_aspect_ratio;
 	GameObject* scene;
+	float4x4 global_matrix;
 	Plane planes[6];
 };
 
