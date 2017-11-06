@@ -46,7 +46,7 @@ bool ComponentCamera::ObjectInside()
 void ComponentCamera::Update(float dt)
 {
 	DebugDraw();
-	//Culling();
+	Culling();
 }
 
 void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
@@ -73,13 +73,13 @@ void ComponentCamera::CheckForMesh(GameObject * scene_go)
 		ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
 		if (mesh != nullptr)
 		{
-			if (camera_frustrum.Contains(mesh->my_go->GetBoundingBoxAABB()))
+			if (camera_frustrum.Contains(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
 			{
-				mesh->Enable();
+				mesh->DrawMesh(true);
 			}
 			else
 			{
-				mesh->Disable();
+				mesh->DrawMesh(false);
 			}
         }
 		for (int i = 0; i < scene_go->childs.size(); i++)

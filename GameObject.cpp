@@ -391,7 +391,14 @@ void GameObject::UpdateMatrix()
 	}
 
 	global_transform_matrix_transposed = global_transform_matrix.Transposed();
+
 	global_bounding_box_OBB = global_bounding_box_AABB.Transform(global_transform_matrix);
+	
+	indentity_bounding_box_AABB = global_bounding_box_AABB;
+	indentity_bounding_box_AABB.TransformAsAABB(global_transform_matrix);
+	is_bounding_box_transformed = true;
+	
+
 	for (int i = 0; i < childs.size(); i++)
 	{
 		childs[i]->UpdateMatrix();
@@ -453,25 +460,34 @@ void GameObject::GenerateBoudingBox()
 	{
 		for (int i = 0; i < childs.size(); i++)
 		{
-			global_bounding_box_AABB.Enclose(childs[i]->global_bounding_box_AABB);
+		global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
 		}
 	}
+	
 
 }
 
 
 void GameObject::SetAABB(const AABB set_bounding_box)
 {
-	global_bounding_box_AABB = set_bounding_box;
+	indentity_bounding_box_AABB = set_bounding_box;
 }
 
 void GameObject::RenderBoundingBoxAABB()
 {
 	glBegin(GL_LINES);
+	if (!is_bounding_box_transformed)
+	{
+		for (uint i = 0; i < 12; i++)
+		{
+			glVertex3f(global_bounding_box_AABB.Edge(i).a.x, global_bounding_box_AABB.Edge(i).a.y, global_bounding_box_AABB.Edge(i).a.z);
+			glVertex3f(global_bounding_box_AABB.Edge(i).b.x, global_bounding_box_AABB.Edge(i).b.y, global_bounding_box_AABB.Edge(i).b.z);
+		}
+	}
 	for (uint i = 0; i < 12; i++)
 	{
-		glVertex3f(global_bounding_box_AABB.Edge(i).a.x, global_bounding_box_AABB.Edge(i).a.y, global_bounding_box_AABB.Edge(i).a.z);
-		glVertex3f(global_bounding_box_AABB.Edge(i).b.x, global_bounding_box_AABB.Edge(i).b.y, global_bounding_box_AABB.Edge(i).b.z);
+		glVertex3f(indentity_bounding_box_AABB.Edge(i).a.x, indentity_bounding_box_AABB.Edge(i).a.y, indentity_bounding_box_AABB.Edge(i).a.z);
+		glVertex3f(indentity_bounding_box_AABB.Edge(i).b.x, indentity_bounding_box_AABB.Edge(i).b.y, indentity_bounding_box_AABB.Edge(i).b.z);
 	}
 	glEnd();
 

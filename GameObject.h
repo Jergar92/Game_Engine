@@ -85,12 +85,14 @@ private:
 	bool gui_static = false;
 	bool show_bounding_boxAABB = false;
 	bool show_bounding_boxOBB = false;
+	bool is_bounding_box_transformed = false;
 	uint UID = 0;
 	uint parent_UID = 0;
 	
 	//AABB bounding box
 	OBB global_bounding_box_OBB;
 	AABB global_bounding_box_AABB;
+	AABB indentity_bounding_box_AABB;
 	
 	//local transform matrix
 	float4x4 transform_matrix = float4x4::identity;

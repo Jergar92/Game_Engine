@@ -24,7 +24,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 void ComponentMeshRenderer::Update(float dt)
 {
-	if (mesh == nullptr||!mesh->isEnable())
+	if (mesh == nullptr||!mesh->isEnable() || !mesh->GetDrawMesh() )
 		return;
 	//Get Transform
 	glPushMatrix();
