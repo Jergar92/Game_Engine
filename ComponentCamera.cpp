@@ -19,19 +19,18 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go)
 	type = CAMERA;
 
 	camera_frustrum.nearPlaneDistance = 0.2f;
-	camera_frustrum.farPlaneDistance = 10.0f;
+	camera_frustrum.farPlaneDistance = 30.0f;
 
 	camera_frustrum.type = PerspectiveFrustum;
 	camera_frustrum.front = {0,0,1};
 	camera_frustrum.up = { 0,1,0 };
 
-	camera_frustrum.pos = {0,0,0};
+	camera_frustrum.pos = {0,0,-5};
 	camera_frustrum.verticalFov = vertical_fov;
 	SetAspectRatio();
 
 	camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
 	scene = SetElementsOnScene();
-	
 }
 
 ComponentCamera::~ComponentCamera()
@@ -46,7 +45,7 @@ bool ComponentCamera::ObjectInside()
 void ComponentCamera::Update(float dt)
 {
 	DebugDraw();
-	Culling();
+	//Culling();
 }
 
 void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
@@ -66,6 +65,7 @@ GameObject* ComponentCamera::SetElementsOnScene()
 {
 	return App->scene->GetScene();
 }
+
 void ComponentCamera::CheckForMesh(GameObject * scene_go)
 {
 	if (scene_go != nullptr)

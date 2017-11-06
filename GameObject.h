@@ -58,6 +58,7 @@ public:
 	//Update Matrix
 	void UpdateMatrix();
 	float4x4 GetTransposedMatrix() const;
+	float4x4 GetGlobalMatrix() const;
 
 	//Bounding Box
 	OBB GetBoundingBoxOBB()const;
