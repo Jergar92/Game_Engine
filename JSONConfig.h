@@ -22,6 +22,7 @@ public:
 	~JSONConfig();
 	void CleanUp();
 	bool ParseFile(const char* name, const char* directory);
+	bool ParseFile(const char * path);
 	bool SerializeFile(const char* name);
 	int Serialize(char** buffer);
 	JSONConfig SetFocus(const char* name);
@@ -55,6 +56,7 @@ public:
 	void SetQuaternion(Quat value, const char* name);
 
 	bool Save(const char* name, const char* path);
+	bool Save(const char * path);
 	//TODO Array floats for ModuleRender
 private:
 	JSON_Object* object = nullptr;

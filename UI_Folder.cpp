@@ -60,7 +60,13 @@ bool UI_Folder::Draw()
 	return true;
 }
 
-bool UI_Folder::ShowFolder()const
+
+bool UI_Folder::ItemSelectedEmpty() const
+{
+	return item_selected.empty();
+}
+
+bool UI_Folder::ShowFolderEmpty()const
 {
 	return show_folder.empty();
 }

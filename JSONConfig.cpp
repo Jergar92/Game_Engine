@@ -38,6 +38,18 @@ bool JSONConfig::ParseFile(const char * name,const char* directory)
 	return ret;
 }
 
+bool JSONConfig::ParseFile(const char* path)
+{
+	bool ret = true;
+	value = App->file_system->ParseJSONFile(path);
+	if (value == nullptr)
+	{
+		ret = false;
+	}
+	object = json_value_get_object(value);
+
+	return ret;
+}
 bool JSONConfig::SerializeFile(const char * name)
 {
 	return json_serialize_to_file(value, name)== JSONSuccess;
@@ -233,6 +245,11 @@ void JSONConfig::SetQuaternion(Quat value, const char * name)
 
 bool JSONConfig::Save(const char * name, const char* path)
 {
-	return App->file_system->CreateJSONFile("scene.json",value, path);
+	return App->file_system->CreateJSONFile(name,value, path);
+
+}
+bool JSONConfig::Save(const char* path)
+{
+	return App->file_system->CreateJSONFile(value, path);
 
 }

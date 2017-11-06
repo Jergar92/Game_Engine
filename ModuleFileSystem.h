@@ -14,8 +14,10 @@ public:
 	bool CreateNewFile(const char * path, char * buffer, int buffer_size, const char * directory);
 
 	bool CreateOwnFile(const char * name, char * buffer,int buffer_int, const char * directory,const char* extension);
+	JSON_Value * ParseJSONFile(const char * path);
 	JSON_Value* ParseJSONFile(const char * name, const char * directory);
 	bool CreateJSONFile(const char * name, JSON_Value* value, const char * directory);
+	bool CreateJSONFile(JSON_Value * value, const char * path);
 
 	int LoadFile(const char * name, char ** buffer);
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
@@ -38,6 +40,7 @@ public:
 	const char* GetMaterialFolder()const;
 	const char* GetAssetsFolder()const;
 	const char* GetSettingsFolder()const;
+	const char* GetPlayFolder()const;
 
 private:
 	bool CreateFolder(const char* name,  bool hide = false);
@@ -45,6 +48,7 @@ private:
 	std::string materials;
 	std::string assets;
 	std::string settings;
+	std::string play;
 
 };
 

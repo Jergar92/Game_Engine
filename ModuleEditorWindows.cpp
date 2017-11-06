@@ -57,7 +57,17 @@ update_status ModuleEditorWindows::PreUpdate(float dt)
 	{
 		Load();
 	}
+	if (want_to_save)
+	{
+		App->scene->SaveScene(path_to_save.c_str());
+		want_to_save = false;
+	} 
 
+	if (want_to_load)
+	{
+		App->scene->LoadScene(path_to_load.c_str());
+		want_to_load = false;
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -116,18 +126,17 @@ bool ModuleEditorWindows::ShowMenuBar()
 			if (ImGui::MenuItem("Save"))
 			{
 				std::string path = App->file_system->GetAssetsFolder();
-				if (ui_folder->ShowFolder())
-				{
-					path = ui_folder->GetFolderName();
-
-				}
-				App->scene->SaveScene(path.c_str());
+			
+				WantToSave("scene.json", path.c_str());
 
 			}
 			if (ImGui::MenuItem("Load"))
 			{
-				App->scene->CleanGO();
-				App->scene->LoadScene();
+				std::string path = App->file_system->GetAssetsFolder();
+				
+			
+				WantToLoad("scene.json", path.c_str());
+
 			}
 			if (ImGui::MenuItem("Quit", "alt+f4"))
 			{
@@ -250,6 +259,17 @@ void ModuleEditorWindows::ToLoad(const char * path, LoadFile load)
 	path_to_load = path;
 	next_load = load;
 }
+void ModuleEditorWindows::WantToLoad(const char * name, const char * path)
+{
+	want_to_load = true;
+	path_to_load = App->file_system->SetPathFile(name, path);
+}
+void ModuleEditorWindows::WantToSave(const char * name, const char * path)
+{
+	want_to_save = true;
+	path_to_save = App->file_system->SetPathFile(name, path);
+}
+
 void ModuleEditorWindows::UpdateFiles()
 {
 	ui_folder->UpdateFiles();

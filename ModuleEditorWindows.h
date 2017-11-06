@@ -39,6 +39,9 @@ public:
 	void SetSelectedGameObject(GameObject* set);
 	void AddLog(const char*fmt, ...);
 	void ToLoad(const char* path, LoadFile load);
+	void WantToLoad(const char* name, const char*path);
+	void WantToSave(const char* name, const char*path);
+
 	void UpdateFiles();
 private:
 	void Load();
@@ -55,8 +58,13 @@ private:
 	UI_Folder* ui_folder;
 	UI_Play* ui_play;
 
-	bool wait_load = false;
+	bool want_to_save = false;
+	std::string path_to_save;
+	bool want_to_load = false;
 	std::string path_to_load;
+
+
+	bool wait_load = false;
 	LoadFile next_load = LOAD_NONE;
 };
 

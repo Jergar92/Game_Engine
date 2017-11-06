@@ -128,15 +128,18 @@ void ModuleScene::SaveScene(const char*path)const
 	scene_go->SaveGameObject(config);
 	char* buffer;
 	uint size=config.Serialize(&buffer);
-	config.Save("scene.json", path);
+	config.Save(path);
 	config.CleanUp();
 }
 
-void ModuleScene::LoadScene()
+void ModuleScene::LoadScene(const char*path)
 {
+	CleanGO();
 
 	JSONConfig config;
-	config.ParseFile("scene.json",App->file_system->GetAssetsFolder());
+
+	if (!config.ParseFile(path))
+		return;
 
 	uint size = config.GetArraySize("GameObject");
 	std::vector < GameObject*> tmp_go;
@@ -165,6 +168,7 @@ void ModuleScene::LoadScene()
 		item->UpdateMatrix();
 
 	}
+	config.CleanUp();
 	App->editor_window->SetSceneGameObject(scene_go);
 
 }

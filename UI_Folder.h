@@ -37,7 +37,9 @@ public:
 	~UI_Folder();
 	void CleanUp();
 	bool Draw();
-	bool ShowFolder() const;
+	bool ShowFolderEmpty() const;
+	bool ItemSelectedEmpty() const;
+
 	const char* GetFolderName()const;
 	void SetUpFolders();
 	void UpdateFiles();

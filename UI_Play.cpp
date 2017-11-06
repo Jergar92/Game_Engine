@@ -2,6 +2,8 @@
 #include "imgui/imgui.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleEditorWindows.h"
+#include "ModuleFileSystem.h"
 UI_Play::UI_Play()
 {
 }
@@ -31,7 +33,7 @@ bool UI_Play::Draw()
 	}
 	if(ImGui::Button("Play"))
 	{
-
+		App->editor_window->WantToSave("play.json", App->file_system->GetPlayFolder());
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Pause"))
@@ -41,6 +43,7 @@ bool UI_Play::Draw()
 	ImGui::SameLine();
 	if (ImGui::Button("Stop"))
 	{
+		App->editor_window->WantToLoad("play.json", App->file_system->GetPlayFolder());
 
 	}
 

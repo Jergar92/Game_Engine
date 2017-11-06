@@ -15,6 +15,8 @@
 #define LIBRARY_FOLDER "Library"
 #define MESHES_FOLDER "Library/Meshes"
 #define MATERIAL_FOLDER "Library/Material"
+#define PLAY_FOLDER "Library/Play"
+
 #define SETTINGS_FOLDER "Settings"
 
 
@@ -25,10 +27,13 @@ ModuleFileSystem::ModuleFileSystem()
 	assets = ASSETS_FOLDER;
 	materials = MATERIAL_FOLDER;
 	settings = SETTINGS_FOLDER;
+	play = PLAY_FOLDER;
 	CreateFolder(assets.c_str());
 	CreateFolder(LIBRARY_FOLDER);
 	CreateFolder(meshes.c_str(), true);
 	CreateFolder(materials.c_str(), true);
+	CreateFolder(play.c_str(), true);
+
 	CreateFolder(settings.c_str());
 }
 
@@ -105,12 +110,22 @@ JSON_Value * ModuleFileSystem::ParseJSONFile(const char * name, const char * dir
 	JSON_Value * ret = json_parse_file(complete_path.c_str());
 	return ret;
 }
+JSON_Value * ModuleFileSystem::ParseJSONFile(const char * path)
+{
 
+	JSON_Value * ret = json_parse_file(path);
+	return ret;
+}
 bool ModuleFileSystem::CreateJSONFile(const char * name, JSON_Value * value, const char * directory)
 {
 	std::string complete_path = PATH(directory, name);
 
 	return json_serialize_to_file(value, complete_path.c_str());;
+}
+bool ModuleFileSystem::CreateJSONFile( JSON_Value * value, const char * path)
+{
+
+	return json_serialize_to_file(value, path);;
 }
 int ModuleFileSystem::LoadFile(const char * name, char ** buffer)
 {
@@ -288,6 +303,11 @@ const char * ModuleFileSystem::GetAssetsFolder()const
 const char * ModuleFileSystem::GetSettingsFolder() const
 {
 	return settings.c_str();
+}
+
+const char * ModuleFileSystem::GetPlayFolder() const
+{
+	return play.c_str();
 }
 
 bool ModuleFileSystem::CreateFolder(const char * name, bool hide)
