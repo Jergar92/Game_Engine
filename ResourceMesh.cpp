@@ -7,7 +7,7 @@
 #include "GameObject.h"
 
 
-ResourceMesh::ResourceMesh()
+ResourceMesh::ResourceMesh(uint UID) :Resource(UID, ResourceType::R_MESH)
 {
 }
 
@@ -32,56 +32,8 @@ void ResourceMesh::SetupMesh()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	}
-	if (indices.size() % 3 != 0)
-	{
-		LOG("ERROR is Not multiple of 3!");
-		debug_normals_succes = false;
-	}
-	else {
-		glGenBuffers(1, &vertex_normals_id);
-		glGenBuffers(1, &surface_normals_id);
 
-		std::vector<float3> vertex_normals;
-		std::vector<float3> surface_normals;
-		//vertex normal loop
-		for (uint i = 0; i < indices.size(); i++)
-		{
-			int indice_number = indices[i];
-			vertex_normals.push_back(vertices[indice_number].position);
-			vertex_normals.push_back(vertices[indice_number].position + vertices[indice_number].normals);
-		}
-		glBindBuffer(GL_ARRAY_BUFFER, vertex_normals_id);
-		glBufferData(GL_ARRAY_BUFFER, vertex_normals.size() * sizeof(float3), &vertex_normals[0], GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		//surface normal loop
-		for (uint i = 0; i < indices.size(); i += 3)
-		{
-			float3 vertexA = vertices[indices[i]].position;
-			float3 vertexB = vertices[indices[i + 1]].position;
-			float3 vertexC = vertices[indices[i + 2]].position;
-
-			float3 edge1 = vertexB - vertexA;
-			float3 edge2 = vertexC - vertexA;
-			float3 surface_normal = Cross(edge1, edge2);
-			surface_normal.Normalize();
-
-
-			float3 center_point(
-				((vertexA.x + vertexB.x + vertexC.x) / 3),
-				((vertexA.y + vertexB.y + vertexC.y) / 3),
-				((vertexA.z + vertexB.z + vertexC.z) / 3));
-
-			surface_normals.push_back(center_point);
-			surface_normals.push_back(center_point + surface_normal);
-		}
-
-		glBindBuffer(GL_ARRAY_BUFFER, surface_normals_id);
-		glBufferData(GL_ARRAY_BUFFER, surface_normals.size() * sizeof(float3), &surface_normals[0], GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	}
-
+	
 	//set bind buffer glBindBuffer to 0
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

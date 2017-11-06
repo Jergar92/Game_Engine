@@ -1,7 +1,6 @@
 #pragma once
 #include "Globals.h"
 #include "Resource.h"
-class Resource;
 class ModuleResourceManager
 {
 public:
@@ -12,7 +11,7 @@ public:
 	uint ImportFile(const char* new_asset_file);
 	const Resource* Get(uint UID)const;
 	Resource* Get(uint UID);
-	Resource* CreateResource(ResourceType type )
+	Resource* CreateResource(ResourceType type);
 private:
 };
 

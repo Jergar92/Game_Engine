@@ -15,7 +15,7 @@ struct Vertex
 class ResourceMesh :public Resource
 {
 public:
-	ResourceMesh();
+	ResourceMesh(uint UID);
 	~ResourceMesh();
 	void SetupMesh();
 	void CleanUp();

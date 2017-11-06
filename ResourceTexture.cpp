@@ -2,7 +2,7 @@
 
 
 
-ResourceTexture::ResourceTexture()
+ResourceTexture::ResourceTexture(uint UID):Resource(UID,ResourceType::R_TEXTURE)
 {
 }
 

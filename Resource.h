@@ -20,5 +20,6 @@ public:
 protected:
 	uint UID;
 	uint load_count = 0;
+	ResourceType type = R_NONE;
 };
 

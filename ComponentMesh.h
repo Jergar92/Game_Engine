@@ -28,12 +28,12 @@ public:
 	//Getters
 	const std::vector<Vertex>& GetVertices()const;
 	const std::vector<uint>& GetIndices()const;
-	const uint GetVertexBuffer()const;
-	const uint GetElementBuffer()const;
-	const uint GetVertexNormalID()const;
-	const uint GetSurfaceNormalID()const;
-	const bool GetDrawMesh()const;
-	const bool GetDebugNormal()const;
+	uint GetVertexBuffer()const;
+	uint GetElementBuffer()const;
+	uint GetVertexNormalID()const;
+	uint GetSurfaceNormalID()const;
+	bool GetDrawMesh()const;
+	bool GetDebugNormal()const;
 	std::string GetMeshName()const;
 
 
