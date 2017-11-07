@@ -55,6 +55,16 @@ void Component::Disable()
 	enable = false;
 }
 
+void Component::DeleteComponent()
+{
+	to_delete= true;
+}
+
+bool Component::ToDelete() const
+{
+	return to_delete;
+}
+
 bool Component::isEnable()
 {
 	return enable==true;

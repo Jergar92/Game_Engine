@@ -30,6 +30,7 @@ public:
 
 	bool Start();
 	update_status PreUpdate(float dt);
+	update_status PostUpdate(float dt);
 
 	update_status GuiUpdate();
 
@@ -41,6 +42,8 @@ public:
 	void ToLoad(const char* path, LoadFile load);
 	void WantToLoad(const char* name, const char*path);
 	void WantToSave(const char* name, const char*path);
+
+	void WantToUpdate();
 
 	void UpdateFiles();
 private:
@@ -62,10 +65,12 @@ private:
 	std::string path_to_save;
 	bool want_to_load = false;
 	std::string path_to_load;
+	bool want_to_update = false;
 
 
 	bool wait_load = false;
 	LoadFile next_load = LOAD_NONE;
+
 };
 
 

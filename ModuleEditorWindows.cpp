@@ -53,22 +53,30 @@ bool ModuleEditorWindows::Start()
 
 update_status ModuleEditorWindows::PreUpdate(float dt)
 {
-	if (wait_load)
+	if (want_to_update)
 	{
-		Load();
+		UpdateFiles();
+		want_to_update = false;
 	}
+
+
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleEditorWindows::PostUpdate(float dt)
+{
+
 	if (want_to_save)
 	{
 		App->scene->SaveScene(path_to_save.c_str());
 		want_to_save = false;
-	} 
+	}
 
 	if (want_to_load)
 	{
 		App->scene->LoadScene(path_to_load.c_str());
 		want_to_load = false;
 	}
-
 	return UPDATE_CONTINUE;
 }
 
@@ -257,7 +265,7 @@ void ModuleEditorWindows::ToLoad(const char * path, LoadFile load)
 {
 	wait_load = true;
 	path_to_load = path;
-	next_load = load;
+	//next_load = load;
 }
 void ModuleEditorWindows::WantToLoad(const char * name, const char * path)
 {
@@ -269,7 +277,10 @@ void ModuleEditorWindows::WantToSave(const char * name, const char * path)
 	want_to_save = true;
 	path_to_save = App->file_system->SetPathFile(name, path);
 }
-
+void ModuleEditorWindows::WantToUpdate()
+{
+	want_to_update = true;
+}
 void ModuleEditorWindows::UpdateFiles()
 {
 	ui_folder->UpdateFiles();

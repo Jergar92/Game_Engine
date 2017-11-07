@@ -253,29 +253,6 @@ bool ModuleFileSystem::ListFiles(const std::string parent_path, PathList& path_f
 	return true;
 }
 
-bool ModuleFileSystem::UpdateFiles(const std::string parent_path, PathList& path_fill)
-{
-	
-	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(parent_path))
-	{
-		std::string str_path = item.path().string().c_str();
-		std::string str_name = item.path().filename().generic_string();
-		
-		bool directory = false;
-		std::string path = str_path;
-		if (item.status().type() == std::experimental::filesystem::file_type::directory)
-		{
-			UpdateFiles(path, path_fill);
-			directory = true;
-
-		}
-		
-		Path new_directory(path, str_name, parent_path, directory);
-		path_fill.list.push_back(new_directory);
-
-	}
-	return false;
-}
 
 bool ModuleFileSystem::CreateNewFolder(const std::string path, const char * name,std::string& full_path)
 {

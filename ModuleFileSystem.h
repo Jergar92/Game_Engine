@@ -26,7 +26,6 @@ public:
 
 
 	bool ListFiles(const std::string path, PathList& path_fill);
-	bool UpdateFiles(const std::string path, PathList& path_fill);
 
 	bool CreateNewFolder(const std::string path, const char* name,std::string& full_path);
 

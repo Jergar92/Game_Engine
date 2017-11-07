@@ -59,11 +59,16 @@ void GameObject::CleanUp()
 	parent = nullptr;
 
 }
+void GameObject::PreUpdate(float dt)
+{
+	
+}
 void GameObject::Update(float dt)
 {
 
 	if (!enable)
 		return;
+
 	for (int i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -84,6 +89,48 @@ void GameObject::Update(float dt)
 	{
 		RenderBoundingBoxOBB();
 	}
+}
+
+void GameObject::PostUpdate(float dt)
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		if (item->ToDelete())
+		{
+			if (RemoveComponent(item->type,i))
+			{
+				LOG("Remove Component Complete");
+				break;
+			}
+			else
+			{
+				LOG("Remove Component Fail");
+			}
+		}
+	}
+	
+	//With this setup you can't delete the scene
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		if (item->to_delete)
+		{
+
+			if (RemoveGO(item))
+			{
+				LOG("Remove GameObject Complete");
+			}
+			else
+			{
+				LOG("Remove GameObject Fail");
+			}
+
+		}
+		else
+			item->PostUpdate(dt);
+	}
+
 }
 
 void GameObject::GuiUpdate()
@@ -301,7 +348,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 	Component* item = nullptr;
 	if (HaveComponent(type))
 	{
-		LOG("Component have that component already");
+		LOG("This GameObject have that component already");
 		return item;
 	}
 	switch (type)
@@ -369,7 +416,7 @@ Component* GameObject::FindComponent(ComponentType type)const
 	}
 	return ret;
 }
-bool GameObject::RemoveComponent(ComponentType type)
+bool GameObject::RemoveComponent(ComponentType type,int position)
 {
 	Component* item = FindComponent(type);
 
@@ -381,14 +428,22 @@ bool GameObject::RemoveComponent(ComponentType type)
 			return false;
 		}
 	}
-	for (int i = 0; i < components.size(); i++)
+	components.erase(components.begin() + position);
+	RELEASE(item);
+	LOG("Remove a component!");
+	return true;
+}
+bool GameObject::RemoveGO(GameObject * to_remove)
+{
+	GameObject* ret = nullptr;
+	
+	for (int i = 0; i < childs.size(); i++)
 	{
-		if (components[i]->type == item->type)
-		{
-			components.erase(components.begin() + 1);
-			RELEASE(item);
-			LOG("Remove a component!");
+		GameObject* item = childs[i];
 
+		if (item == to_remove)
+		{
+			childs.erase(childs.begin() + i);
 			return true;
 		}
 	}

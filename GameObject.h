@@ -18,7 +18,11 @@ public:
 
 	~GameObject();
 	void CleanUp();
+	void PreUpdate(float dt);
+
 	void Update(float dt);
+	void PostUpdate(float dt);
+
 	void GuiUpdate();
 	void InspectorUpdate();
 
@@ -33,8 +37,8 @@ public:
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type,Component* component_to_find)const;
 	Component* FindComponent(ComponentType type)const;
-	bool RemoveComponent(ComponentType type);
-
+	bool RemoveComponent(ComponentType type,int component_position);
+	bool RemoveGO(GameObject* to_remove);
 	bool HaveComponent(ComponentType type)const;
 	uint GetUID()const;
 	uint GetParentUID()const;
@@ -92,7 +96,6 @@ private:
 	bool is_bounding_box_transformed = false;
 	uint UID = 0;
 	uint parent_UID = 0;
-	
 	//AABB bounding box
 	OBB global_bounding_box_OBB;
 	AABB global_bounding_box_AABB;
@@ -105,7 +108,7 @@ private:
 	float4x4 global_transform_matrix = float4x4::identity;
 	float4x4 global_transform_matrix_transposed = float4x4::identity;
 
-	
+	bool to_delete = false;
 
 	GameObject* parent=nullptr;
 };

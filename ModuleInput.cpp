@@ -130,7 +130,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				std::size_t found = dropped_filedir.find_last_of('.');
 				
 				App->importer->Import(dropped_filedir.c_str());
-				App->editor_window->UpdateFiles();
+				App->editor_window->WantToUpdate();
 				SDL_free(e.drop.file);   
 				break;
 			}
@@ -141,7 +141,7 @@ update_status ModuleInput::PreUpdate(float dt)
 					App->renderer3D->OnResize(e.window.data1, e.window.data2);
 				if (e.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
 				{
-					App->editor_window->UpdateFiles();
+					App->editor_window->WantToUpdate();
 					LOG("Mine window is active\n");
 
 				}

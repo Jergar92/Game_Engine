@@ -64,7 +64,11 @@ update_status ModuleScene::Update(float dt)
 
 update_status ModuleScene::PostUpdate(float dt)
 {
+	if (scene_go != nullptr)
+	{
+		scene_go->PostUpdate(dt);
 
+	}
 	return UPDATE_CONTINUE;
 }
 bool ModuleScene::CleanUp()

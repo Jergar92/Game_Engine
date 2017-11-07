@@ -8,10 +8,11 @@ class GameObject;
 enum ComponentType
 {
 
-	TRANSFORM,
+
 	MESH,
 	MESH_RENDER,
 	CAMERA,
+	TRANSFORM,
 	NO_COMPONENT
 };
 class Component
@@ -29,6 +30,8 @@ public:
 	virtual void OnUpdateMatrix(const float4x4 & matrix);
 
 	virtual void Disable();
+	void DeleteComponent();
+	bool ToDelete()const;
 	bool isEnable();
 	void SetMyGO(GameObject* my_go);
 public:
@@ -36,6 +39,7 @@ public:
 	ComponentType type;
 	bool enable = true;
 	bool unique=true;
+	bool to_delete = false;
 	GameObject* my_go = nullptr;
 protected:
 	uint UUID = 0;
