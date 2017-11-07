@@ -7,7 +7,7 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
+#include "ModuleCamera.h"
 #include "ModuleScene.h"
 #include "ModuleEditorWindows.h"
 #include "ModuleHardware.h"
@@ -20,8 +20,8 @@ Application::Application()
 	audio = new ModuleAudio();
 	importer = new ModuleImporter();
 	renderer3D = new ModuleRenderer3D();
-	camera = new ModuleCamera3D();
 	scene = new ModuleScene();
+	camera = new ModuleCamera();
 	editor_window = new ModuleEditorWindows();
 	hardware = new ModuleHardware();
 	

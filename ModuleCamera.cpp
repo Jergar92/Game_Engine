@@ -3,20 +3,12 @@
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
 #include "ComponentCamera.h"
+#include "ModuleRenderer3D.h"
 
 
 ModuleCamera::ModuleCamera()
 {
 	camera = new ComponentCamera(nullptr);
-
-	camera->camera_frustrum.nearPlaneDistance = 0.2f;
-	camera->camera_frustrum.farPlaneDistance = 10.0f;
-	camera->camera_frustrum.type = PerspectiveFrustum;
-	camera->camera_frustrum.pos = float3(10, 100, 0);
-	camera->camera_frustrum.front = float3::unitZ;
-	camera->camera_frustrum.up = float3::unitY;
-	LookAt(float3(0, 0, 0));
-	
 }
 
 
@@ -46,7 +38,8 @@ update_status ModuleCamera::Update(float dt)
 			OnClick();
 		}
 		
-		Move_Mouse();
+		if(App->renderer3D->GetCamera() == camera)
+			Move_Mouse();
 	
 	return UPDATE_CONTINUE;
 }
@@ -83,7 +76,6 @@ ComponentCamera * ModuleCamera::GetCamera() const
 	return camera;
 }
 
-
 void ModuleCamera::Move_Mouse()
 {
 	// Check motion for lookat / Orbit cameras
@@ -94,12 +86,10 @@ void ModuleCamera::Move_Mouse()
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
 	{
 		Orbit(motion_x, -motion_y);
-		
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
 	{
-		//TODO: Kind of magic number. Consider other options?
 		float distance = reference.Distance(camera->camera_frustrum.pos);
 		float3 Y_add = camera->camera_frustrum.up * motion_y * (distance / 1800);
 		float3 X_add = camera->camera_frustrum.WorldRight() * motion_x * (distance / 1800);
@@ -108,6 +98,7 @@ void ModuleCamera::Move_Mouse()
 		reference += Y_add;
 
 		camera->camera_frustrum.pos = camera->camera_frustrum.pos + X_add + Y_add;
+		camera->UpdateMatrix();
 	}
 	// Mouse wheel for zoom
 	int wheel = App->input->GetMouseZ();
@@ -129,6 +120,7 @@ void ModuleCamera::Orbit(float dx, float dy)
 
 	camera->camera_frustrum.pos = vector + reference;
 	LookAt(reference);
+	camera->UpdateMatrix();
 }
 
 // -----------------------------------------------------------------
@@ -137,6 +129,7 @@ void ModuleCamera::Zoom(float zoom)
 	float distance = reference.Distance(camera->camera_frustrum.pos);
 	float3 newPos = camera->camera_frustrum.pos + camera->camera_frustrum.front * zoom * distance * 0.05f;
 	camera->camera_frustrum.pos = newPos;
+	camera->UpdateMatrix();
 }
 
 void ModuleCamera::OnClick()
@@ -153,5 +146,5 @@ void ModuleCamera::OnClick()
 	//Normalizing mouse position in range of -1 / 1, -1, -1 being at the bottom left corner
 	mouseNormX = (mouseNormX - 0.5) / 0.5;
 	mouseNormY = -((mouseNormY - 0.5) / 0.5);
-
+	
 }

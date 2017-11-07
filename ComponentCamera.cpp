@@ -1,6 +1,7 @@
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
 #include "GameObject.h"
+#include "ModuleRenderer3D.h"
 #include "ComponentMeshRenderer.h"
 #include "ModuleScene.h"
 #include "Application.h"
@@ -19,7 +20,7 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go)
 	type = CAMERA;
 
 	camera_frustrum.nearPlaneDistance = 0.2f;
-	camera_frustrum.farPlaneDistance = 30.0f;
+	camera_frustrum.farPlaneDistance = 200.0f;
 
 	camera_frustrum.type = PerspectiveFrustum;
 	camera_frustrum.front = {0,0,1};
@@ -30,7 +31,11 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go)
 	SetAspectRatio();
 
 	camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
-	scene = SetElementsOnScene();
+	UpdateMatrix();
+	if (my_go != nullptr)
+	{
+		OnUpdateMatrix(my_go->GetGlobalMatrix());
+	}
 }
 
 ComponentCamera::~ComponentCamera()
@@ -53,10 +58,12 @@ void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
 	camera_frustrum.pos = matrix.TranslatePart();
 	camera_frustrum.front = matrix.WorldZ().Normalized();
 	camera_frustrum.up = matrix.WorldY().Normalized();
+	UpdateMatrix();
 }
 
 void ComponentCamera::Culling()
 {
+	scene = SetElementsOnScene();
 	CheckForMesh(scene);
 
 }
@@ -68,7 +75,6 @@ GameObject* ComponentCamera::SetElementsOnScene()
 
 void ComponentCamera::CheckForMesh(GameObject * scene_go)
 {
-	
 		if (scene_go != nullptr)
 		{
 			ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
@@ -114,13 +120,27 @@ void ComponentCamera::InspectorUpdate()
 		if (node_open)
 		{
 			ImGui::Checkbox("Eanble Culling##show_bb", &enable_culling);
+			
+			if (ImGui::Checkbox("Set Render Camera##show_bb", &enable_camera_render))
+			{
+				if (enable_camera_render)
+				{
+					App->renderer3D->SetCamera(this);
+				}
+				else
+				{
+					App->renderer3D->SetCamera(nullptr);
+				}
+			}
+			
+
 			ImGui::NewLine();
 			ImGui::TextWrapped("Aspect ratio:");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", GetAspectRatio());
 
 			ImGui::DragFloat("Near Distance", &camera_frustrum.nearPlaneDistance, 0.1, 0.0, camera_frustrum.farPlaneDistance);
-
+			
 			ImGui::DragFloat("Far Distance", &camera_frustrum.farPlaneDistance, 0.1);
 
 			if (ImGui::DragFloat("Field of View", &camera_frustrum.verticalFov, 0.1, 0.1))
@@ -128,7 +148,7 @@ void ComponentCamera::InspectorUpdate()
 				camera_frustrum.horizontalFov = atan(GetAspectRatio()*tan(camera_frustrum.verticalFov / 2)) * 2;
 			}
 
-			
+			UpdateMatrix();
 
 			ImGui::TreePop();
 		}
@@ -190,6 +210,27 @@ void ComponentCamera::SetAspectRatio()
 	window_aspect_ratio = DEFAULT_WITH / DEFAULT_HEITH;
 }
 
+float * ComponentCamera::GetViewMatrix()const
+{
+	return (float*)view_matrix.v;
+}
+
+float * ComponentCamera::GetProjectionMatrix() const
+{
+	return (float*)projetion_matrix.v;
+}
+
+void ComponentCamera::UpdateMatrix()
+{
+	view_matrix = camera_frustrum.ViewMatrix();
+
+	view_matrix.Transpose();
+
+	projetion_matrix = camera_frustrum.ProjectionMatrix();
+
+	projetion_matrix.Transpose();
+}
+
 bool ComponentCamera::SaveComponent(JSONConfig & config) const
 {
 	bool ret = true;
@@ -211,11 +252,5 @@ void ComponentCamera::Look(const float3& position)
 
 	camera_frustrum.front = matrix.MulDir(camera_frustrum.front).Normalized();
 	camera_frustrum.up = matrix.MulDir(camera_frustrum.up).Normalized();
-	UpdatePlanes();
-
 }
 
-void ComponentCamera::UpdatePlanes()
-{
-	camera_frustrum.GetPlanes(planes);
-}

@@ -1,7 +1,8 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
-#include "ModuleCamera3D.h"
+#include "ModuleCamera.h"
+#include "ComponentCamera.h"
 
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -27,6 +28,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Awake(const JSONConfig& data)
 {
+	camera = App->camera->GetCamera();
 	//BROFILER_CATEGORY("Module Render Awake", Profiler::Color::AliceBlue);
 
 	LOG("Creating 3D Renderer context");
@@ -131,10 +133,12 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
-	
+	glLoadMatrixf(camera->GetViewMatrix());
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(camera->GetProjectionMatrix());
+
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
@@ -376,6 +380,23 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+ComponentCamera * ModuleRenderer3D::GetCamera() const
+{
+	return camera;
+}
+
+void ModuleRenderer3D::SetCamera(ComponentCamera * cam)
+{
+	if (cam == nullptr)
+	{
+		camera = App->camera->GetCamera();
+	}
+	else
+	{
+		camera = cam;
+	}	
 }
 
 void ModuleRenderer3D::RenderOptions()

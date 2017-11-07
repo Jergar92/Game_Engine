@@ -22,7 +22,7 @@ public:
 	//Setters
 	void SetPosition(float3 position);
 
-	//Camera Controls and methods
+	//Camera Controls and methods 
 	void LookAt(const float3 & position);
 	void Move_Mouse();
 	void Orbit(float dx, float dy);
@@ -31,6 +31,7 @@ public:
 
 private:
 	float3 reference;
+	//float4x4 projection_matrix;
 	ComponentCamera* camera = nullptr;
 
 

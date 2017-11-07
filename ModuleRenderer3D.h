@@ -9,7 +9,7 @@
 
 
 #define MAX_LIGHTS 8
-
+class ComponentCamera;
 class ModuleRenderer3D : public Module
 {
 public:
@@ -27,6 +27,9 @@ public:
 	bool LoadConfig(const JSONConfig& data);
 	bool CleanUp();
 	void OnResize(int width, int height);
+
+	ComponentCamera* GetCamera()const;
+	void SetCamera(ComponentCamera* cam);
 private:
 	void RenderOptions();
 
@@ -66,4 +69,5 @@ private:
 
 	bool wireframe = false;
 
+	ComponentCamera* camera = nullptr;
 };

@@ -11,7 +11,7 @@ class ModuleInput;
 class ModuleAudio;
 class ModuleImporter;
 class ModuleRenderer3D;
-class ModuleCamera3D;
+class ModuleCamera;
 class ModuleScene;
 class ModuleEditorWindows;
 class ModuleHardware;
@@ -55,7 +55,7 @@ public:
 	ModuleAudio*		audio;
 	ModuleRenderer3D*	renderer3D;
 	ModuleImporter*		importer;
-	ModuleCamera3D*		camera;
+	ModuleCamera*		camera;
 	ModuleScene*		scene;
 	ModuleEditorWindows* editor_window;
 	ModuleHardware*		hardware;
