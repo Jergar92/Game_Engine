@@ -19,6 +19,7 @@ bool UI_Hierarchy::Draw()
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 
 	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
+
 	if (!ImGui::Begin("Hierarchy", &active_draw, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.

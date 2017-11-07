@@ -141,11 +141,13 @@ void GameObject::GuiUpdate()
 	//Set color white enable go grey disabled go
 	if (childs.empty())
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
-	if (!enable)
-		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
-	node_open = ImGui::TreeNodeEx(name.c_str(), tree_flags);
-	if (!enable)
-		ImGui::PopStyleColor();
+	//change color to gray
+	if (!enable)	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+	char name_id[40];
+	sprintf_s(name_id, 40, "%s##%i", name.c_str(), UID);
+	node_open = ImGui::TreeNodeEx(name_id, tree_flags);
+	//reset color
+	if (!enable)	ImGui::PopStyleColor();
 
 	//Set item selected->InspectorUpdate
 	if (ImGui::IsItemClicked())
