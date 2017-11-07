@@ -153,11 +153,12 @@ void GameObject::GuiUpdate()
 	if (ImGui::IsItemClicked())
 		App->editor_window->SetSelectedGameObject(this);
 	//Scene GO protection
-	
+	ImGui::PushID(name_id);
 		if (ImGui::BeginPopupContextItem("go_options"))
 		{
 			if (parent != nullptr)
 			{
+			
 			if (ImGui::Button("Delete Game Object"))
 			{
 				ToDelete();
@@ -165,6 +166,8 @@ void GameObject::GuiUpdate()
 
 			}
 			}
+
+		
 			if (ImGui::Button("Create Game Object"))
 			{
 				CreateChild();
@@ -173,7 +176,8 @@ void GameObject::GuiUpdate()
 			}
 			ImGui::EndPopup();
 		}
-	
+		ImGui::PopID();
+
 
 	if (node_open)
 	{
