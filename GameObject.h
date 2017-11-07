@@ -33,6 +33,9 @@ public:
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type,Component* component_to_find)const;
 	Component* FindComponent(ComponentType type)const;
+	bool RemoveComponent(ComponentType type);
+
+	bool HaveComponent(ComponentType type)const;
 	uint GetUID()const;
 	uint GetParentUID()const;
 

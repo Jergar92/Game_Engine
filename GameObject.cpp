@@ -299,13 +299,27 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 Component * GameObject::CreateComponent(ComponentType type)
 {
 	Component* item = nullptr;
+	if (HaveComponent(type))
+	{
+		LOG("Component have that component already");
+		return item;
+	}
 	switch (type)
 	{
 	case MESH:
+		
 		item = new ComponentMesh(this);
 		break;
 	case MESH_RENDER:
+	{
+		if (!HaveComponent(MESH))
+		{
+			LOG("Add Component mesh")
+			//Force the creation of mesh if we want a mesh_renderer
+			CreateComponent(MESH);
+		}
 		item = new ComponentMeshRenderer(this);
+	}
 		break;
 	case CAMERA:
 		item = new ComponentCamera(this);
@@ -355,6 +369,46 @@ Component* GameObject::FindComponent(ComponentType type)const
 	}
 	return ret;
 }
+bool GameObject::RemoveComponent(ComponentType type)
+{
+	Component* item = FindComponent(type);
+
+	if (type == MESH)
+	{
+		if (HaveComponent(MESH_RENDER))
+		{
+			LOG("You cant remove a component mesh if you have a component mesh renderer");
+			return false;
+		}
+	}
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (components[i]->type == item->type)
+		{
+			components.erase(components.begin() + 1);
+			RELEASE(item);
+			LOG("Remove a component!");
+
+			return true;
+		}
+	}
+	return false;
+}
+bool GameObject::HaveComponent(ComponentType type) const
+{
+	Component* ret = nullptr;
+	for (int i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+
+		if (item->type == type)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 uint GameObject::GetUID() const
 {
 	return UID;
