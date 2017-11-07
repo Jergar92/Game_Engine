@@ -38,6 +38,11 @@ public:
 	void CalculeFPSHistogram();
 	void CalculeMSHistogram();
 	int GenerateRandom();
+	void SetGameTimeMultiply(float value);
+	void OnPlay();
+	void OnStop();
+	void OnPause();
+	void OnOneFrame();
 private:
 
 	bool LoadConfigNow();
@@ -66,14 +71,19 @@ private:
 	std::string organization;
 	char buff[128] = "Aplication Name";
 	char buff2[128] = "Organization Name";
-	Timer	ms_timer;
+	bool on_play = false;
+	bool on_pause = false;
+	bool on_one_frame = false;
+	//GameClock
+	float	game_timer_multiply = 1.0f;
+	float	save_game_timer_multiply = 1.0f;
+
+	float	game_dt;
+	//RealTime Clock
 	float	dt;
+	Timer	ms_timer;
 	int		fps = 0;
 	int		fps_cap = 0;
-	//this +1 is for histogram loop
-	float fps_values[HISTOGRAM_LIMIT + 1] = { 0 };
-	float millisecons_values[HISTOGRAM_LIMIT + 1] = { 0 };
-
 	uint64_t frame_count = 0;
 	uint32_t last_sec_frame_count = 0;
 	uint32_t prev_last_sec_frame_count = 0;
@@ -82,6 +92,15 @@ private:
 	Timer frame_time;
 	Timer startup_time;
 	Timer last_sec_frame_time;
+
+	//this +1 is for histogram loop
+	float fps_values[HISTOGRAM_LIMIT + 1] = { 0 };
+	float millisecons_values[HISTOGRAM_LIMIT + 1] = { 0 };
+
+
+
+
+
 	std::list<Module*> list_modules;
 
 	LCG random;

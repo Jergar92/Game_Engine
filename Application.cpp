@@ -150,6 +150,8 @@ void Application::PrepareUpdate()
 	last_sec_frame_count++;
 	dt = frame_time.ReadSec();
 	frame_time.Start();
+	game_dt = dt*game_timer_multiply;
+	
 }
 
 // ---------------------------------------------
@@ -278,6 +280,39 @@ void Application::CalculeMSHistogram()
 int Application::GenerateRandom()
 {
 	return random.Int();
+}
+
+void Application::SetGameTimeMultiply(float value)
+{
+	if (!on_pause)
+		game_timer_multiply = value;
+	save_game_timer_multiply = value;
+}
+
+void Application::OnPlay()
+{
+	on_play = true;
+	game_timer_multiply = save_game_timer_multiply;
+}
+
+void Application::OnStop()
+{
+	on_play = false;
+	on_pause = false;
+	on_one_frame = false;
+	game_timer_multiply = 1.0f;
+	save_game_timer_multiply = 1.0f;
+}
+
+void Application::OnPause()
+{
+	on_pause = true;
+	save_game_timer_multiply = game_timer_multiply;
+}
+
+void Application::OnOneFrame()
+{
+	on_one_frame = true;
 }
 
 bool Application::LoadConfigNow()

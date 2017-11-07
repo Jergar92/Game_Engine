@@ -161,7 +161,17 @@ void ComponentMeshRenderer::InspectorUpdate()
 {
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
 	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
+	if (ImGui::BeginPopupContextItem("go_options"))
+	{	//Scene GO protection
 
+		if (ImGui::Button("Delete Component"))
+		{
+			DeleteComponent();
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
 	if (node_open)
 	{
 		for (int i = 0; i < textures.size(); i++)

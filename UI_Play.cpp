@@ -23,7 +23,7 @@ bool UI_Play::Draw()
 
 	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w *0.5, 20), ImGuiCond_Always);
 
-	ImGui::SetNextWindowSize(ImVec2(150, 50), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 50), ImGuiCond_Once);
 
 	if (!ImGui::Begin("Editor Play", &active_draw, window_flags))
 	{
@@ -31,20 +31,36 @@ bool UI_Play::Draw()
 		ImGui::End();
 		return true;
 	}
-	if(ImGui::Button("Play"))
+	if(ImGui::Button("Play") &&( state == ON_NONE || state == ON_PAUSE))
 	{
+
 		App->editor_window->WantToSave("play.json", App->file_system->GetPlayFolder());
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Pause"))
-	{
+		state = ON_PLAY;
+		App->OnPlay();
 
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Stop"))
+	if (ImGui::Button("Pause")&&state==ON_PLAY)
+	{
+		state = ON_PAUSE;
+		App->OnPause();
+
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop")&& (state == ON_PLAY || state == ON_PAUSE))
 	{
 		App->editor_window->WantToLoad("play.json", App->file_system->GetPlayFolder());
+		state = ON_NONE;
+		value = 1.0f;
+		App->OnStop();
 
+	}
+	if (state == ON_PLAY || state == ON_PAUSE)
+	{
+		ImGui::PushItemWidth(130);
+		if (ImGui::DragFloat("", &value, 0.01f, 0.0f, 1.0f, "%0.2f", 1.0f))
+			App->SetGameTimeMultiply(value);
+		ImGui::PopItemWidth();
 	}
 
 	ImGui::End();

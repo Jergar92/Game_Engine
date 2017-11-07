@@ -152,22 +152,17 @@ void GameObject::GuiUpdate()
 	//Set item selected->InspectorUpdate
 	if (ImGui::IsItemClicked())
 		App->editor_window->SetSelectedGameObject(this);
-	//Scene GO protection
 	ImGui::PushID(name_id);
 		if (ImGui::BeginPopupContextItem("go_options"))
-		{
+		{	//Scene GO protection
 			if (parent != nullptr)
 			{
-			
-			if (ImGui::Button("Delete Game Object"))
-			{
-				ToDelete();
-				ImGui::CloseCurrentPopup();
-
+				if (ImGui::Button("Delete Game Object"))
+				{
+					ToDelete();
+					ImGui::CloseCurrentPopup();
+				}
 			}
-			}
-
-		
 			if (ImGui::Button("Create Game Object"))
 			{
 				CreateChild();
