@@ -60,5 +60,6 @@ private:
 	AABB bounding_box;
 	bool debug_normals_succes = true;
 	bool draw_mesh = true;
+	//ResourceMesh* r_mesh
 };
 

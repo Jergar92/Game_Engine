@@ -38,7 +38,9 @@ public:
 	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices, const int num_indices);
 	void SetMeshName(std::string mesh_name);
 
-
+	//Save&Load
+	bool SaveComponent(JSONConfig& data)const;
+	bool LoadComponent(const JSONConfig& data);
 
 private:
 	uint VBO = 0;//Vertex Buffer Object

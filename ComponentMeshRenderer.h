@@ -33,10 +33,11 @@ private:
 	void DrawTriangleNormals();
 
 private:
+	
 	ComponentMesh* mesh = nullptr;
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
 	std::vector<Texture> textures;
-
+	//std::vector<ResourceTexture*> textures
 };
 

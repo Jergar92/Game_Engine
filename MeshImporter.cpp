@@ -190,9 +190,13 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	uint num_indices = (indices_error)?0:indices.size();
 	//Create Mesh & MeshRenderer
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
+	//ResourceMesh* r_mesh= App->resource_manager->SetData(vertices,indices,num_vertices,num_indices);
+	//component_mesh->SetMesh(r_mesh);
 	component_mesh->SetData(vertices, indices, num_vertices, num_indices);
 	component_mesh->SetMeshName(go->name.c_str());
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
+	//ResourceMesh* r_texture= App->resource_manager->SetData(vertices,indices,num_vertices,num_indices);
+	//r_texture->SetTexture(textures);
 	component_mesh_renderer->SetTexture(textures);
 	component_mesh_renderer->SetMesh(component_mesh);
 	
@@ -220,6 +224,8 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	bytes = sizeof(Texture) * mesh->mMaterialIndex;
 	memcpy(cursor, textures.data(), bytes);// Store textures
 	*/
+	//SaveGameObjectJSON
+	//SaveMesh(r_mesh.uid,data,size,app->file_system->getMeshesFolder())
 	if (SaveMesh(component_mesh->GetMeshName().c_str(), data, size, App->file_system->GetMeshesFolder()))
 	{
 		LOG("Save %s", go->name.c_str());

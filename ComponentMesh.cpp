@@ -183,7 +183,13 @@ bool ComponentMesh::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 	config.SetString(mesh_name, "Mesh Name");
-
+	/*
+	config.SetInt((r_mesh==nullptr)?0:r_mesh->GetResourceType(),"ResourceType");
+	if(r_mesh!=nullptr)
+	{
+	r_mesh->Save(config);
+	}
+	*/
 	config.SetBool(enable, "Enable");
 
 	//save the path of the mesh.frog
@@ -195,7 +201,13 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 	bool ret = true;
 
 	mesh_name = config.GetString("Mesh Name");
-
+	/*
+	if(config.GetInt("ResourceType")==0)
+	{
+	r_mesh=App->ResourceManager->CreateResource(config.GetInt("ResourceType"));
+	r_mesh.Load(config);
+	}
+	*/
 	App->importer->LoadMesh(mesh_name.c_str(), this);
 	enable= config.GetBool( "Enable");
 

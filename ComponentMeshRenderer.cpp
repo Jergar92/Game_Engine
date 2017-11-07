@@ -35,6 +35,7 @@ void ComponentMeshRenderer::Update(float dt)
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 
+	
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
