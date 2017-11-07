@@ -4,7 +4,10 @@
 #include "ModuleWindow.h"
 #include "ComponentCamera.h"
 #include "ModuleRenderer3D.h"
-
+#include "GameObject.h"
+#include "ComponentMesh.h"
+#include "ModuleScene.h"
+#include "MathGeoLib-1.5\src\Geometry\Triangle.h"
 
 ModuleCamera::ModuleCamera()
 {
@@ -41,6 +44,11 @@ update_status ModuleCamera::Update(float dt)
 		if(App->renderer3D->GetCamera() == camera)
 			Move_Mouse();
 	
+		glBegin(GL_LINES);
+		glVertex3f(ray.a.x,ray.a.y,ray.a.z);
+		glVertex3f(ray.b.x, ray.b.y, ray.b.z);
+		glEnd();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -147,4 +155,72 @@ void ModuleCamera::OnClick()
 	mouseNormX = (mouseNormX - 0.5) / 0.5;
 	mouseNormY = -((mouseNormY - 0.5) / 0.5);
 	
+	ray = camera->camera_frustrum.UnProjectLineSegment(mouseNormX,mouseNormY);
+	OnCollision();
 }
+
+void ModuleCamera::OnCollision()
+{
+	GameObject* scene = App->scene->GetScene();
+	std::map<float,GameObject*> go;
+	
+	for (int i = 0; i < scene->childs.size(); i++)
+	{
+		GameObjectsChilds(scene->childs[i],go);
+	}
+	if (go.size() > 0)
+	{
+		GameObject* selected = go.begin()->second;
+		LOG("GameObject picked: %s", selected->name.c_str());
+	}
+}
+
+void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&my_vector)
+{
+
+	ray.Transform(go->GetGlobalMatrix().Inverted());
+	
+	if (ray.Intersects(go->GetBoundingBoxAABB()))
+	{
+		ComponentMesh* mesh = (ComponentMesh*)go->FindComponent(MESH);
+		std::vector<Vertex> vertices = mesh->GetVertices();
+		std::vector<uint> indices = mesh->GetIndices();
+		float final_distance = -1;
+		for (int i = 0; i < indices.size();i+=3)
+		{
+			
+
+			float3 v1 = vertices[indices[i]].position;
+			float3 v2 = vertices[indices[i+1]].position;
+			float3 v3 = vertices[indices[i+2]].position;
+
+			Triangle vertex_triangle(v1, v2, v3);
+			float3 intersection_point;
+
+			if (ray.Intersects(vertex_triangle,nullptr,&intersection_point))
+			{
+
+				float distance = Distance(ray.a, intersection_point);
+				if (final_distance == -1)
+				{
+					final_distance = distance;
+				}
+				else if(final_distance > distance)
+				{
+					final_distance = distance;
+				}
+			}
+		}
+		if (final_distance != -1)
+		{
+			my_vector[final_distance] = go;
+		}
+
+	}
+
+	for (int i = 0; i < go->childs.size(); i++)
+	{
+		GameObjectsChilds(go->childs[i],my_vector);
+	}
+}
+

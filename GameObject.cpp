@@ -76,11 +76,11 @@ void GameObject::Update(float dt)
 		item->Update(dt);
 	}
 
-	if (show_bounding_boxAABB)
+	if (true || show_bounding_boxAABB)
 	{
 		RenderBoundingBoxAABB();
 	}
-	else if (show_bounding_boxOBB)
+	if (true || show_bounding_boxOBB)
 	{
 		RenderBoundingBoxOBB();
 	}
