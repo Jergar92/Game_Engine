@@ -149,10 +149,22 @@ void GameObject::GuiUpdate()
 	//reset color
 	if (!enable)	ImGui::PopStyleColor();
 
+
 	//Set item selected->InspectorUpdate
 	if (ImGui::IsItemClicked())
 		App->editor_window->SetSelectedGameObject(this);
+	//Scene GO protection
+	if (parent != nullptr)
+	{
+		if (ImGui::BeginPopupContextItem("go_options"))
+		{
 
+			if (ImGui::Button("Delete Game Object"))
+				ToDelete();
+
+			ImGui::EndPopup();
+		}
+	}
 	if (node_open)
 	{
 		for (uint i = 0; i < childs.size(); i++)
@@ -464,6 +476,11 @@ bool GameObject::HaveComponent(ComponentType type) const
 		}
 	}
 	return false;
+}
+
+void GameObject::ToDelete()
+{
+	to_delete = true;
 }
 
 uint GameObject::GetUID() const

@@ -84,6 +84,7 @@ void ModuleScene::CleanGO()
 {
 	if (scene_go != nullptr)
 	{
+		App->editor_window->SetSelectedGameObject(nullptr);
 		scene_go->CleanUp();
 		RELEASE(scene_go);
 	}

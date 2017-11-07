@@ -40,6 +40,7 @@ public:
 	bool RemoveComponent(ComponentType type,int component_position);
 	bool RemoveGO(GameObject* to_remove);
 	bool HaveComponent(ComponentType type)const;
+	void ToDelete();
 	uint GetUID()const;
 	uint GetParentUID()const;
 
