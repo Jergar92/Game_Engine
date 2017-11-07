@@ -52,7 +52,7 @@ bool UI_Console::Draw()
 	ImGui::SetNextWindowSize(ImVec2(550, 600), ImGuiCond_Once);
 
 	ImGui::Begin("Console", &show_app_console, window_flags);
-	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
+	//ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
 
 
 	ImGui::TextWrapped("Game Engine Console, in this console you can display all information do it for LOG");

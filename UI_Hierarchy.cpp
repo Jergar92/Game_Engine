@@ -1,7 +1,8 @@
 #include "UI_Hierarchy.h"
 #include "GameObject.h"
 #include "imgui/imgui.h"
-
+#include "Application.h"
+#include "ModuleScene.h"
 UI_Hierarchy::UI_Hierarchy()
 {
 }
@@ -20,15 +21,30 @@ bool UI_Hierarchy::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
 
-	if (!ImGui::Begin("Hierarchy", &active_draw, window_flags))
-	{
-		// Early out if the window is collapsed, as an optimization.
-		ImGui::End();
-	}
+	ImGui::Begin("Hierarchy", &active_draw, window_flags);
+
 	if (scene_go != nullptr)
 	{
 		scene_go->GuiUpdate();
 	}
+
+	ImGui::BeginChild("EndInspector Zone", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false);
+
+	if (ImGui::BeginPopupContextWindow("go_options"))
+	{
+
+		if (ImGui::Button("Generate Game Object"))
+		{
+			GameObject* main_go = App->scene->GenerateGameObject();
+			main_go->SetName("Game Object");
+			App->scene->SendGameObject(main_go);	
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+	ImGui::EndChild();
+
 	ImGui::End();
 	return true;
 }

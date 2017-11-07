@@ -14,17 +14,16 @@
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 
 #define MAX_NAME 20
-GameObject::GameObject(float3 scale, Quat rotation, float3 position) :scale(scale), rotation(rotation), position(position)
+GameObject::GameObject(float3 scale, Quat rotation, float3 position) :name("Game Object"),scale(scale), rotation(rotation), position(position)
 {
 	UID = App->GenerateRandom();
-	name = "Scene";
 	input_name = name;
 	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
 	UpdateMatrix();
 
 }
 
-GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation, float3 position) :scale(scale), rotation(rotation), position(position)
+GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation, float3 position) :name("Game Object"),scale(scale), rotation(rotation), position(position)
 {
 	UID = App->GenerateRandom();
 	SetParent(parent);
@@ -154,17 +153,28 @@ void GameObject::GuiUpdate()
 	if (ImGui::IsItemClicked())
 		App->editor_window->SetSelectedGameObject(this);
 	//Scene GO protection
-	if (parent != nullptr)
-	{
+	
 		if (ImGui::BeginPopupContextItem("go_options"))
 		{
-
+			if (parent != nullptr)
+			{
 			if (ImGui::Button("Delete Game Object"))
+			{
 				ToDelete();
+				ImGui::CloseCurrentPopup();
 
+			}
+			}
+			if (ImGui::Button("Create Game Object"))
+			{
+				CreateChild();
+				ImGui::CloseCurrentPopup();
+
+			}
 			ImGui::EndPopup();
 		}
-	}
+	
+
 	if (node_open)
 	{
 		for (uint i = 0; i < childs.size(); i++)
@@ -355,6 +365,12 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 
 
 
+}
+
+GameObject * GameObject::CreateChild()
+{
+	GameObject* ret = new GameObject(this);
+	return ret;
 }
 
 Component * GameObject::CreateComponent(ComponentType type)

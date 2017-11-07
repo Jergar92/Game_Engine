@@ -34,6 +34,7 @@ public:
 	void LoadGameObject(const JSONConfig& data);
 
 	void SaveGameObject(JSONConfig& data)const;
+	GameObject* CreateChild();
 	Component* CreateComponent(ComponentType type);
 	Component* FindComponent(ComponentType type,Component* component_to_find)const;
 	Component* FindComponent(ComponentType type)const;

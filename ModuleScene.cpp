@@ -30,6 +30,7 @@ bool ModuleScene::Start()
 	App->camera->LookAt(float3(0, 0, 0));
 	
 	scene_go = new GameObject();
+	scene_go->SetName("Scene");
 	//Create Component Camera
 	GameObject* camera = new GameObject(scene_go);
 	camera->SetName("Camera Main");
@@ -75,16 +76,18 @@ bool ModuleScene::CleanUp()
 {
 	bool ret = true;
 	delete plane;
-
-	CleanGO();
-	
+	if (scene_go != nullptr)
+	{
+		CleanGO();
+	}
 	return ret;
 }
 void ModuleScene::CleanGO()
 {
+//	App->editor_window->SetSelectedGameObject(nullptr);
+
 	if (scene_go != nullptr)
 	{
-		App->editor_window->SetSelectedGameObject(nullptr);
 		scene_go->CleanUp();
 		RELEASE(scene_go);
 	}

@@ -89,7 +89,7 @@ void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject*
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
 		
-		GameObject* child_go = new GameObject(parent);
+		GameObject* child_go = parent->CreateChild();
 		aiMatrix4x4 matrix = node->mTransformation;
 		ProcessTransform(matrix, child_go);
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
