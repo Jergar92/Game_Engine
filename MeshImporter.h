@@ -9,6 +9,8 @@
 class GameObject;
 class ComponentTransform;
 class ComponentMesh;
+class ResourceMesh;
+
 struct Texture;
 class MeshImporter
 {
@@ -19,6 +21,8 @@ public:
 	bool ImportMesh(const char* path);
 	bool SaveMesh(const char * name, char*buffer, int buffer_size,const char* path);
 	bool LoadMesh(char * buffer, ComponentMesh * mesh);
+	bool LoadMesh(ResourceMesh * mesh);
+
 	void ProcessTransform(aiMatrix4x4 matrix,  GameObject * go);
 
 	std::vector<Texture> textures_loaded;	// stores all the textures loaded, make sure textures aren't loaded more than once.

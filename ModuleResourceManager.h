@@ -16,5 +16,6 @@ public:
 	Resource* CreateResource(ResourceType type);
 private:
 	std::map<uint, Resource*> resources;
+	
 };
 

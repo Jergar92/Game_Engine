@@ -14,7 +14,13 @@ ModuleResourceManager::~ModuleResourceManager()
 
 uint ModuleResourceManager::Find(const char * asset_file) const
 {
-	return uint();
+	std::map<uint, Resource*>::const_iterator it = resources.begin();
+	for (; it != resources.end(); it++)
+	{
+		if (it->second->GetOriginalFile().compare(asset_file) == 0)
+			return it->second->GetUID();
+	}
+	return 0;
 }
 
 uint ModuleResourceManager::ImportFile(const char * new_asset_file)
@@ -51,7 +57,6 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type)
 		break;
 	case R_MESH:
 		ret = new ResourceMesh(UID);
-
 		break;
 	default:
 		break;

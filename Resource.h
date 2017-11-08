@@ -17,9 +17,14 @@ public:
 	ResourceType GetResourceType()const;
 	virtual void SaveResource(JSONConfig& config)const;
 	virtual void LoadResource(const JSONConfig& config);
+	const std::string GetOriginalFile()const;
+	const std::string GetLibraryFile()const;
+
 protected:
 	uint UID;
 	uint load_count = 0;
 	ResourceType type = R_NONE;
+	std::string original_file;
+	std::string library_file;
 };
 

@@ -19,6 +19,7 @@ public:
 	bool CreateJSONFile(const char * name, JSON_Value* value, const char * directory);
 	bool CreateJSONFile(JSON_Value * value, const char * path);
 
+	int LoadFile(const char * path, const char * name, char ** buffer);
 	int LoadFile(const char * name, char ** buffer);
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
 	bool CloneFile(const std::string path);

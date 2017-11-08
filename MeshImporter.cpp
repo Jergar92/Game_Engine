@@ -52,7 +52,7 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 {
 	char* cursor = buffer;
 
-	// amount of indices / vertices / colors / normals / texture_coords
+	// amount of indices / vertices / normals / texture_coords
 	uint ranges[2];
 	uint bytes = sizeof(ranges);
 	memcpy(ranges, cursor, bytes);
@@ -82,6 +82,38 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 	std::vector<Texture> textures((Texture*)cursor, (Texture*)cursor + num_textures);
 	*/
 
+	return true;
+}
+bool MeshImporter::LoadMesh(ResourceMesh * mesh)
+{
+	char*buffer=nullptr;
+	//App->file_system->LoadFile(App->file_system->GetMeshesFolder(),mesh->GetLibraryName().c_str(), &buffer);
+	char* cursor = buffer;
+
+	// amount of indices / vertices  / normals / texture_coords
+	uint ranges[2];
+	uint bytes = sizeof(ranges);
+	memcpy(ranges, cursor, bytes);
+
+	uint num_vertices = ranges[0];
+	uint num_indices = ranges[1];
+	LOG("Save custom format with:\n num_vertices = %i \n num_indices = %i", num_vertices, num_indices);
+
+	// Load indices
+	cursor += bytes;
+	bytes = sizeof(Vertex) * num_vertices;
+	std::vector<Vertex> vertices((Vertex*)cursor, (Vertex*)cursor + num_vertices);
+
+	cursor += bytes;
+	if (num_indices != 0)
+	{
+		bytes = sizeof(uint) * num_indices;
+		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
+		//mesh->SetData(vertices, indices, num_vertices, num_indices);
+		return true;
+	}
+	//mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
+	//RELEASE(buffer);
 	return true;
 }
 void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
@@ -117,7 +149,7 @@ void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 
 void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go)
 {
-
+	
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
 
@@ -188,6 +220,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	}
 	uint num_vertices = vertices.size();
 	uint num_indices = (indices_error)?0:indices.size();
+
 	//Create Mesh & MeshRenderer
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
 	//ResourceMesh* r_mesh= App->resource_manager->SetData(vertices,indices,num_vertices,num_indices);
@@ -199,7 +232,10 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	//r_texture->SetTexture(textures);
 	component_mesh_renderer->SetTexture(textures);
 	component_mesh_renderer->SetMesh(component_mesh);
-	
+	/*
+	Creo el Recurso
+	A ese recurso le asocion el origen y el destino, 
+	*/
 
 	
 	//Set custom format

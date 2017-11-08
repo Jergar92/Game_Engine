@@ -25,6 +25,16 @@ void Resource::LoadResource(const JSONConfig & config)
 {
 }
 
+const std::string Resource::GetOriginalFile() const
+{
+	return original_file;
+}
+
+const std::string Resource::GetLibraryFile() const
+{
+	return library_file;
+}
+
 bool Resource::IsLoadInMemory() const
 {
 	return load_count==0;

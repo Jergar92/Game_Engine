@@ -127,6 +127,12 @@ bool ModuleFileSystem::CreateJSONFile( JSON_Value * value, const char * path)
 
 	return json_serialize_to_file(value, path);;
 }
+int ModuleFileSystem::LoadFile(const char * path, const char * name, char ** buffer)
+{
+	std::string total_path = PATH(path, name);
+	int size = LoadFile(total_path.c_str(), buffer);
+	return size;
+}
 int ModuleFileSystem::LoadFile(const char * name, char ** buffer)
 {
 	std::ifstream load_file(name, std::ifstream::binary);
