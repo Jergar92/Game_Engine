@@ -39,6 +39,7 @@ public:
 	void CalculeFPSHistogram();
 	void CalculeMSHistogram();
 	int GenerateRandom();
+	int GetGameDT()const;
 	void SetGameTimeMultiply(float value);
 	void OnPlay();
 	void OnStop();

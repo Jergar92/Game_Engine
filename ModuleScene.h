@@ -33,7 +33,7 @@ private:
 
 public:
 
-	MyQuadTree<GameObject*> quadtree;
+	MyQuadTree quadtree;
 	Plane_p* plane;
 
 private:
