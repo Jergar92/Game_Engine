@@ -36,6 +36,11 @@ void UI_Folder::UpdateFiles()
 
 }
 
+std::vector<std::string>UI_Folder::ReturnFiles(const char * exclude)
+{
+	return path.ReturnFiles(exclude);
+}
+
 
 bool UI_Folder::Draw()
 {
@@ -188,6 +193,11 @@ void Path::RemoveChild(const Path & remove_child)
 	child.remove(remove_child);
 }
 
+const std::string Path::GetPath() const
+{
+	return path;
+}
+
 void Path::SetParentByPath(std::list<Path>& paths)
 {
 	std::list<Path>::iterator it = paths.begin();
@@ -245,6 +255,18 @@ bool PathList::PathExist(std::string cmp_path)const
 		}
 	}
 	return false;
+}
+
+std::vector<std::string>PathList::ReturnFiles(const char * exclude)
+{
+	std::vector<std::string> path_list;
+	for (std::list<Path>::iterator it = list.begin(); it != list.end(); it++)
+	{
+		std::size_t found = it->GetPath().find_last_of('.');
+		if (it->GetPath().substr(found + 1) != exclude)
+			path_list.push_back(it->GetPath());
+	}
+	return path_list;
 }
 
 std::list<Path>::const_iterator PathList::FindFolder(std::string show_folder_path)const

@@ -282,6 +282,10 @@ void ModuleEditorWindows::WantToSave(const char * name, const char * path)
 	want_to_save = true;
 	path_to_save = App->file_system->SetPathFile(name, path);
 }
+std::vector<std::string> ModuleEditorWindows::ReturnFiles(const char * exclude)
+{
+	return ui_folder->ReturnFiles(exclude);
+}
 void ModuleEditorWindows::WantToUpdate()
 {
 	want_to_update = true;

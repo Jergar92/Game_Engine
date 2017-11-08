@@ -43,7 +43,7 @@ public:
 	void ToLoad(const char* path, LoadFile load);
 	void WantToLoad(const char* name, const char*path);
 	void WantToSave(const char* name, const char*path);
-
+	std::vector<std::string> ReturnFiles(const char* exclude);
 	void WantToUpdate();
 
 	void UpdateFiles();

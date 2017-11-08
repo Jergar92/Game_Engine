@@ -13,6 +13,7 @@ struct Texture
 
 };
 class ComponentMesh;
+class ResourceTexture;
 
 class ComponentMeshRenderer:public Component
 {
@@ -37,6 +38,7 @@ private:
 	ComponentMesh* mesh = nullptr;
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
+	ResourceTexture* texture;
 	std::vector<Texture> textures;
 	//std::vector<ResourceTexture*> textures
 };

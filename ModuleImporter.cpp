@@ -29,14 +29,17 @@ void ModuleImporter::Import(const char * path)
 {
 	dropped_filedir = path;
 	std::size_t found = dropped_filedir.find_last_of('.');
-	if (dropped_filedir.substr(found + 1) == "png" || dropped_filedir.substr(found + 1) == "jpg" || dropped_filedir.substr(found + 1) == "dds")
+	if (dropped_filedir.substr(found + 1) == "png" 
+		|| dropped_filedir.substr(found + 1) == "jpg" 
+		|| dropped_filedir.substr(found + 1) == "dds"
+		|| dropped_filedir.substr(found + 1) == "tga")
 	{
-		App->file_system->CloneFile(dropped_filedir.c_str());
+		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsTextFolder());
 		material.ImportTexture(dropped_filedir.c_str());
 	}
 	else
 	{
-		App->file_system->CloneFile(dropped_filedir.c_str());
+		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsMeshFolder());
 		mesh.ImportMesh(dropped_filedir.c_str());
 		//mesh.LoadMesh(dropped_filedir.c_str());
 
@@ -59,6 +62,11 @@ void ModuleImporter::Load(const char * path)
 	{
 
 	}
+}
+
+void ModuleImporter::ImportTexture(const char * path, const char * name)
+{
+
 }
 
 void ModuleImporter::LoadMesh(const char * name, ComponentMesh * component)

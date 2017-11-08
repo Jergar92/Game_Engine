@@ -2,7 +2,7 @@
 #include "UI_Windows.h"
 #include <string>
 #include <list>
-
+#include <vector>
 struct Path
 {
 	Path();
@@ -15,7 +15,7 @@ struct Path
 	std::list<Path> child;
 	bool directory = true;
 	void RemoveChild(const Path& child);
-
+	const std::string GetPath()const;
 	void SetParentByPath(std::list<Path>& paths);
 	void SetChild(const Path& child);
 	void SetParent(Path* parent);
@@ -26,6 +26,7 @@ struct PathList
 {
 	void OrderPath();
 	bool PathExist(std::string cmp_path)const ;
+	std::vector<std::string> ReturnFiles(const char* exclude);
 	std::list<Path>::const_iterator FindFolder(std::string show_folder_path)const;
 	std::list<Path> list;
 
@@ -43,7 +44,7 @@ public:
 	const char* GetFolderName()const;
 	void SetUpFolders();
 	void UpdateFiles();
-
+	std::vector<std::string>ReturnFiles(const char* exclude);
 private:
 	void DrawFolders(const Path& draw);
 

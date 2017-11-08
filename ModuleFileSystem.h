@@ -22,7 +22,7 @@ public:
 	int LoadFile(const char * path, const char * name, char ** buffer);
 	int LoadFile(const char * name, char ** buffer);
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
-	bool CloneFile(const std::string path);
+	bool CloneFile(const char* origin_path, const char* destination_path);
 
 
 
@@ -39,12 +39,18 @@ public:
 	const char* GetMeshesFolder()const;
 	const char* GetMaterialFolder()const;
 	const char* GetAssetsFolder()const;
+	const char* GetAssetsMeshFolder()const;
+	const char* GetAssetsTextFolder()const;
+
 	const char* GetSettingsFolder()const;
 	const char* GetPlayFolder()const;
 
 private:
 	bool CreateFolder(const char* name,  bool hide = false);
 	std::string meshes;
+	std::string a_textures;
+	std::string a_meshes;
+
 	std::string materials;
 	std::string assets;
 	std::string settings;

@@ -1,5 +1,5 @@
 #include "Resource.h"
-
+#include "p2Defs.h"
 
 
 
@@ -15,6 +15,11 @@ Resource::~Resource()
 uint Resource::GetUID() const
 {
 	return UID;
+}
+
+void Resource::SetLibraryFile(const char * set, const char * extension)
+{
+	library_file = FILE_EXTENSION(set, extension);
 }
 
 void Resource::SaveResource(JSONConfig & config) const
@@ -33,6 +38,11 @@ const std::string Resource::GetOriginalFile() const
 const std::string Resource::GetLibraryFile() const
 {
 	return library_file;
+}
+
+void Resource::SetOriginalFile(const char * set)
+{
+	original_file = set;
 }
 
 bool Resource::IsLoadInMemory() const

@@ -12,6 +12,9 @@
 #include "UI_Folder.h"
 
 #define ASSETS_FOLDER "Assets"
+#define ASSETS_MESHES_FOLDER "Assets/Meshes"
+#define ASSETS_TEXTURE_FOLDER "Assets/Textures"
+
 #define LIBRARY_FOLDER "Library"
 #define MESHES_FOLDER "Library/Meshes"
 #define MATERIAL_FOLDER "Library/Material"
@@ -25,10 +28,14 @@ ModuleFileSystem::ModuleFileSystem()
 	name = "File System";
 	meshes = MESHES_FOLDER;
 	assets = ASSETS_FOLDER;
+	a_textures = ASSETS_TEXTURE_FOLDER;
+	a_meshes = ASSETS_MESHES_FOLDER;
 	materials = MATERIAL_FOLDER;
 	settings = SETTINGS_FOLDER;
 	play = PLAY_FOLDER;
 	CreateFolder(assets.c_str());
+	CreateFolder(a_textures.c_str());
+	CreateFolder(a_meshes.c_str());
 	CreateFolder(LIBRARY_FOLDER);
 	CreateFolder(meshes.c_str(), true);
 	CreateFolder(materials.c_str(), true);
@@ -186,17 +193,19 @@ void ModuleFileSystem::LoadFile(const char * name, char ** buffer, const char * 
 	}
 
 }
-bool ModuleFileSystem::CloneFile(const std::string path)
+bool ModuleFileSystem::CloneFile(const char * origin_path, const char * destination_path)
 {
+
 	char* buffer = nullptr;
 	namespace file_system = std::experimental::filesystem;
-	std::string name(file_system::path(path).filename().string());
+	std::string name(file_system::path(origin_path).filename().string());
 	//Load the file
-	int size= LoadFile(path.c_str(), &buffer);
-	CreateNewFile(name.c_str(), buffer, size, GetAssetsFolder());
+	int size = LoadFile(origin_path, &buffer);
+	CreateNewFile(name.c_str(), buffer, size, destination_path);
 	RELEASE_ARRAY(buffer);
 	return true;
 }
+
 std::string ModuleFileSystem::SetExtension(const char * name, const char * extension)
 {
 	
@@ -281,6 +290,16 @@ const char * ModuleFileSystem::GetMaterialFolder()const
 const char * ModuleFileSystem::GetAssetsFolder()const
 {
 	return assets.c_str();
+}
+
+const char * ModuleFileSystem::GetAssetsMeshFolder() const
+{
+	return a_meshes.c_str();
+}
+
+const char * ModuleFileSystem::GetAssetsTextFolder() const
+{
+	return a_textures.c_str();
 }
 
 const char * ModuleFileSystem::GetSettingsFolder() const

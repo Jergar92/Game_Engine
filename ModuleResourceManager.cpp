@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
+#define UPDATE_RESOURCE_TIME 2.0f
 ModuleResourceManager::ModuleResourceManager()
 {
 	name = "Resource Manager";
@@ -10,6 +11,22 @@ ModuleResourceManager::ModuleResourceManager()
 
 ModuleResourceManager::~ModuleResourceManager()
 {
+}
+
+update_status ModuleResourceManager::Update(float dt)
+{
+
+	time_update += dt;
+	if (time_update > UPDATE_RESOURCE_TIME)
+	{
+		time_update = 0.0f;
+		//get all folders 
+		//find all folders on resource
+		//if return 0 create that assets
+		//load
+
+	}
+	return UPDATE_CONTINUE;
 }
 
 uint ModuleResourceManager::Find(const char * asset_file) const

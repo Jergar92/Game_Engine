@@ -23,7 +23,7 @@ bool UI_Play::Draw()
 
 	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w *0.5, 20), ImGuiCond_Always);
 
-	ImGui::SetNextWindowSize(ImVec2(250, 50), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(150, 50), ImGuiCond_Once);
 
 	if (!ImGui::Begin("Editor Play", &active_draw, window_flags))
 	{
@@ -58,7 +58,7 @@ bool UI_Play::Draw()
 	if (state == ON_PLAY || state == ON_PAUSE)
 	{
 		ImGui::PushItemWidth(130);
-		if (ImGui::DragFloat("", &value, 0.01f, 0.0f, 1.0f, "%0.2f", 1.0f))
+		if (ImGui::DragFloat("", &value, 0.01f, 0.0f, 2.0f, "%0.2f", 1.0f))
 			App->SetGameTimeMultiply(value);
 		ImGui::PopItemWidth();
 	}

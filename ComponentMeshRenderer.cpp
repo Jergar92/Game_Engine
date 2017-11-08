@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ComponentMesh.h"
+#include "ResourceTexture.h"
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
 #include "Glew/include/GL/glew.h"
@@ -34,8 +35,14 @@ void ComponentMeshRenderer::Update(float dt)
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+	/*
+	if (texture != nullptr)
+	{
 
-	
+		glBindTexture(GL_TEXTURE_2D, texture->GetUID());
+		glColor4f(texture->GetRGBA().x, texture->GetRGBA().y, texture->GetRGBA().z, texture->GetRGBA().w);
+	}
+	*/
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
