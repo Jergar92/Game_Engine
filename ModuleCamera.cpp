@@ -106,12 +106,13 @@ void ModuleCamera::Move_Mouse()
 		reference += Y_add;
 
 		camera->camera_frustrum.pos = camera->camera_frustrum.pos + X_add + Y_add;
-		camera->UpdateMatrix();
 	}
 	// Mouse wheel for zoom
 	int wheel = App->input->GetMouseZ();
 	if (wheel != 0)
 		Zoom(wheel);
+
+	camera->UpdateMatrix();
 }
 
 // -----------------------------------------------------------------
@@ -128,7 +129,6 @@ void ModuleCamera::Orbit(float dx, float dy)
 
 	camera->camera_frustrum.pos = vector + reference;
 	LookAt(reference);
-	camera->UpdateMatrix();
 }
 
 // -----------------------------------------------------------------
@@ -137,7 +137,6 @@ void ModuleCamera::Zoom(float zoom)
 	float distance = reference.Distance(camera->camera_frustrum.pos);
 	float3 newPos = camera->camera_frustrum.pos + camera->camera_frustrum.front * zoom * distance * 0.05f;
 	camera->camera_frustrum.pos = newPos;
-	camera->UpdateMatrix();
 }
 
 void ModuleCamera::OnClick()

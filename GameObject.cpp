@@ -80,13 +80,15 @@ void GameObject::Update(float dt)
 		item->Update(dt);
 	}
 
-	if (true || show_bounding_boxAABB)
+	if (show_bounding_boxAABB)
 	{
 		RenderBoundingBoxAABB();
+		UpdateMatrix();
 	}
-	if (true || show_bounding_boxOBB)
+	if (show_bounding_boxOBB)
 	{
 		RenderBoundingBoxOBB();
+		UpdateMatrix();
 	}
 }
 
@@ -206,12 +208,12 @@ void GameObject::InspectorUpdate()
 	if (node_open)
 	{
 		rotation.ToEulerXYX();
-		if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
+		if (ImGui::DragFloat3("Position##transform_position", &position.x, 0.1f))
 			SetPosition(position);
 		float3 tmp = gui_rotation;
-		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
+		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 0.1f))
 			SetRotation(tmp);
-		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
+		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 0.01f))
 			SetScale(scale);
 		ImGui::TreePop();
 	}
