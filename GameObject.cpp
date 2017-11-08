@@ -456,6 +456,7 @@ bool GameObject::RemoveComponent(ComponentType type,int position)
 		if (HaveComponent(MESH_RENDER))
 		{
 			LOG("You cant remove a component mesh if you have a component mesh renderer");
+			item->to_delete = false;
 			return false;
 		}
 	}

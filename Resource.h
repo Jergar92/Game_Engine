@@ -14,9 +14,9 @@ public:
 	virtual ~Resource();
 	uint GetUID()const;
 	bool IsLoadInMemory()const;
-
-	virtual void Save(JSONConfig& config)const;
-	virtual void Load(const JSONConfig& config);
+	ResourceType GetResourceType()const;
+	virtual void SaveResource(JSONConfig& config)const;
+	virtual void LoadResource(const JSONConfig& config);
 protected:
 	uint UID;
 	uint load_count = 0;

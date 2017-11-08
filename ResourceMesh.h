@@ -39,8 +39,8 @@ public:
 	void SetMeshName(std::string mesh_name);
 
 	//Save&Load
-	bool SaveComponent(JSONConfig& data)const;
-	bool LoadComponent(const JSONConfig& data);
+	void SaveResource(JSONConfig& data)const;
+	void LoadResource(const JSONConfig& data);
 
 private:
 	uint VBO = 0;//Vertex Buffer Object

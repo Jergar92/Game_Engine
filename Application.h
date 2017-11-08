@@ -15,6 +15,7 @@ class ModuleCamera;
 class ModuleScene;
 class ModuleEditorWindows;
 class ModuleHardware;
+class ModuleResourceManager;
 class Profiler;
 
 #include <list>
@@ -64,7 +65,7 @@ public:
 	ModuleScene*		scene;
 	ModuleEditorWindows* editor_window;
 	ModuleHardware*		hardware;
-
+	ModuleResourceManager* resource_manager;
 	Profiler* profiler;
 private:
 	std::string name;

@@ -11,6 +11,7 @@
 #include "ModuleScene.h"
 #include "ModuleEditorWindows.h"
 #include "ModuleHardware.h"
+#include "ModuleResourceManager.h"
 #include "Profiler.h"
 Application::Application()
 {
@@ -24,7 +25,7 @@ Application::Application()
 	camera = new ModuleCamera();
 	editor_window = new ModuleEditorWindows();
 	hardware = new ModuleHardware();
-	
+	resource_manager = new ModuleResourceManager();
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -55,6 +56,9 @@ Application::Application()
 
 
 	//Scene Module
+	AddModule(resource_manager);
+	profiler->CreateTitle("Application_Start", resource_manager->name.c_str());
+
 	AddModule(scene);
 	profiler->CreateTitle("Application_Start",scene->name.c_str());
 

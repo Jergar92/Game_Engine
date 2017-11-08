@@ -55,17 +55,16 @@ void ResourceMesh::SetMeshName(std::string set_mesh_name)
 {
 	mesh_name = set_mesh_name;
 }
-bool ResourceMesh::SaveComponent(JSONConfig & config) const
+void ResourceMesh::SaveResource(JSONConfig & config) const
 {
 	config.SetInt(UID, "Resource UID");
 
-	return true;
+
 }
-bool ResourceMesh::LoadComponent(const JSONConfig & config)
+void ResourceMesh::LoadResource(const JSONConfig & config)
 {
 	UID=config.GetInt("Resource UID");
 	
-	return true;
 }
 const std::vector<Vertex>& ResourceMesh::GetVertices()const
 {

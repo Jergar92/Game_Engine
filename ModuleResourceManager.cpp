@@ -1,9 +1,10 @@
 #include "ModuleResourceManager.h"
-
-
-
+#include "Application.h"
+#include "ResourceMesh.h"
+#include "ResourceTexture.h"
 ModuleResourceManager::ModuleResourceManager()
 {
+	name = "Resource Manager";
 }
 
 
@@ -23,26 +24,41 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 
 const Resource * ModuleResourceManager::Get(uint UID) const
 {
+	std::map<uint, Resource*>::const_iterator it = resources.find(UID);
+	if (it != resources.end())
+		return it->second;
 	return nullptr;
 }
 
 Resource * ModuleResourceManager::Get(uint UID)
 {
+	std::map<uint, Resource*>::iterator it = resources.find(UID);
+	if (it != resources.end())
+		return it->second;
 	return nullptr;
 }
 
 Resource * ModuleResourceManager::CreateResource(ResourceType type)
 {
+	Resource* ret = nullptr;
+	uint UID = App->GenerateRandom();
 	switch (type)
 	{
 	case R_NONE:
 		break;
 	case R_TEXTURE:
+		ret = new ResourceTexture(UID);
 		break;
 	case R_MESH:
+		ret = new ResourceMesh(UID);
+
 		break;
 	default:
 		break;
 	}
-	return nullptr;
+	if (ret != nullptr)
+	{
+		resources[UID] = ret;
+	}
+	return ret;
 }
