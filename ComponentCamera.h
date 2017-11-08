@@ -47,6 +47,7 @@ public:
 public:
 	
 	Frustum camera_frustrum;
+	bool matrix_update = false;
 	
 private:
 	bool enable_culling = false;

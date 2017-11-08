@@ -132,10 +132,16 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
+	if (camera->matrix_update == true)
+	{
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix());
+		camera->matrix_update = false;
+	}
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(camera->GetViewMatrix());
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadMatrixf(camera->GetProjectionMatrix());
+	
+	
 
 	// light 0 on cam pos
 	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);

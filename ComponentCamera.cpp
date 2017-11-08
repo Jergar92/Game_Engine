@@ -239,6 +239,8 @@ void ComponentCamera::UpdateMatrix()
 	projetion_matrix = camera_frustrum.ProjectionMatrix();
 
 	projetion_matrix.Transpose();
+
+	matrix_update = true;
 }
 
 bool ComponentCamera::SaveComponent(JSONConfig & config) const

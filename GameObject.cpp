@@ -80,15 +80,13 @@ void GameObject::Update(float dt)
 		item->Update(dt);
 	}
 
-	if (show_bounding_boxAABB)
+	if (true||show_bounding_boxAABB)
 	{
 		RenderBoundingBoxAABB();
-		UpdateMatrix();
 	}
-	if (show_bounding_boxOBB)
+	if (true||show_bounding_boxOBB)
 	{
 		RenderBoundingBoxOBB();
-		UpdateMatrix();
 	}
 }
 
@@ -142,6 +140,12 @@ void GameObject::GuiUpdate()
 	//Set color white enable go grey disabled go
 	if (childs.empty())
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
+	
+	if (App->editor_window->GetSelectedGameObject() == this)
+	{
+		tree_flags |= ImGuiTreeNodeFlags_Selected;
+	}
+
 	//change color to gray
 	if (!enable)	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
 	char name_id[40];
@@ -618,7 +622,7 @@ void GameObject::GenerateBoudingBox()
 		global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
 		}
 	}
-	
+	UpdateMatrix();
 
 }
 

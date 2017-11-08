@@ -37,6 +37,7 @@ public:
 	bool CleanUp();
 
 	void SetSceneGameObject(GameObject* set);
+	GameObject* GetSelectedGameObject()const;
 	void SetSelectedGameObject(GameObject* set);
 	void AddLog(const char*fmt, ...);
 	void ToLoad(const char* path, LoadFile load);

@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ModuleScene.h"
+#include "ModuleEditorWindows.h"
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
 
 ModuleCamera::ModuleCamera()
@@ -106,13 +107,14 @@ void ModuleCamera::Move_Mouse()
 		reference += Y_add;
 
 		camera->camera_frustrum.pos = camera->camera_frustrum.pos + X_add + Y_add;
+		camera->UpdateMatrix();
 	}
 	// Mouse wheel for zoom
 	int wheel = App->input->GetMouseZ();
 	if (wheel != 0)
 		Zoom(wheel);
 
-	camera->UpdateMatrix();
+
 }
 
 // -----------------------------------------------------------------
@@ -129,6 +131,7 @@ void ModuleCamera::Orbit(float dx, float dy)
 
 	camera->camera_frustrum.pos = vector + reference;
 	LookAt(reference);
+	camera->UpdateMatrix();
 }
 
 // -----------------------------------------------------------------
@@ -137,6 +140,7 @@ void ModuleCamera::Zoom(float zoom)
 	float distance = reference.Distance(camera->camera_frustrum.pos);
 	float3 newPos = camera->camera_frustrum.pos + camera->camera_frustrum.front * zoom * distance * 0.05f;
 	camera->camera_frustrum.pos = newPos;
+	camera->UpdateMatrix();
 }
 
 void ModuleCamera::OnClick()
@@ -169,17 +173,17 @@ void ModuleCamera::OnCollision()
 	}
 	if (go.size() > 0)
 	{
-		GameObject* selected = go.begin()->second;
-		LOG("GameObject picked: %s", selected->name.c_str());
+		App->editor_window->SetSelectedGameObject(go.begin()->second);
+		LOG("GameObject picked: %s", go.begin()->second->name.c_str());
 	}
 }
 
 void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&my_vector)
 {
-
-	ray.Transform(go->GetGlobalMatrix().Inverted());
+	LineSegment ray_copy = ray;
+	ray_copy.Transform(go->GetGlobalMatrix().Inverted());
 	
-	if (ray.Intersects(go->GetBoundingBoxAABB()))
+	if (ray_copy.Intersects(go->GetBoundingBoxAABB()))
 	{
 		ComponentMesh* mesh = (ComponentMesh*)go->FindComponent(MESH);
 		std::vector<Vertex> vertices = mesh->GetVertices();
@@ -196,10 +200,10 @@ void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&
 			Triangle vertex_triangle(v1, v2, v3);
 			float3 intersection_point;
 
-			if (ray.Intersects(vertex_triangle,nullptr,&intersection_point))
+			if (ray_copy.Intersects(vertex_triangle,nullptr,&intersection_point))
 			{
 
-				float distance = Distance(ray.a, intersection_point);
+				float distance = Distance(ray_copy.a, intersection_point);
 				if (final_distance == -1)
 				{
 					final_distance = distance;

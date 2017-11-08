@@ -15,6 +15,7 @@ public:
 	bool Draw();
 	void CleanUp();
 	void SetSelectedGameObject(GameObject* set);
+	GameObject* GetSelected()const;
 
 	void InspectorGameObject();
 public:

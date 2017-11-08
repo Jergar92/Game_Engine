@@ -51,6 +51,11 @@ void UI_Inspector::SetSelectedGameObject(GameObject * set)
 
 }
 
+GameObject * UI_Inspector::GetSelected() const
+{
+	return selected_go;
+}
+
 void UI_Inspector::InspectorGameObject()
 {
 	if (selected_go != nullptr)

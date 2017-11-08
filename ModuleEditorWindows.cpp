@@ -252,6 +252,11 @@ void ModuleEditorWindows::SetSceneGameObject(GameObject * set)
 	ui_hierarchy->SetSceneGameObject(set);
 }
 
+GameObject * ModuleEditorWindows::GetSelectedGameObject() const
+{
+	return ui_inspector->GetSelected();
+}
+
 void ModuleEditorWindows::SetSelectedGameObject(GameObject * set)
 {
 	ui_inspector->SetSelectedGameObject(set);
