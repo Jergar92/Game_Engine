@@ -75,6 +75,7 @@ private:
 	bool on_play = false;
 	bool on_pause = false;
 	bool on_one_frame = false;
+	bool on_one_frame_start = false;
 	//GameClock
 	float	game_timer_multiply = 1.0f;
 	float	save_game_timer_multiply = 1.0f;

@@ -154,8 +154,20 @@ void Application::PrepareUpdate()
 	last_sec_frame_count++;
 	dt = frame_time.ReadSec();
 	frame_time.Start();
+	//slow/increment speed of the dt values between 0.0 and 2.0
 	game_dt = dt*game_timer_multiply;
-	
+	if (on_pause)
+	{
+		if (on_one_frame&&on_one_frame_start==false)
+		{
+			on_one_frame_start = true;
+			game_timer_multiply = save_game_timer_multiply;
+		}
+		else
+		{
+			OnPause();
+		}
+	}
 }
 
 // ---------------------------------------------
@@ -286,6 +298,11 @@ int Application::GenerateRandom()
 	return random.Int();
 }
 
+int Application::GetGameDT() const
+{
+	return game_dt;
+}
+
 void Application::SetGameTimeMultiply(float value)
 {
 	if (!on_pause)
@@ -312,6 +329,7 @@ void Application::OnPause()
 {
 	on_pause = true;
 	save_game_timer_multiply = game_timer_multiply;
+	game_timer_multiply = 0.0f;
 }
 
 void Application::OnOneFrame()
