@@ -228,8 +228,10 @@ void GameObject::InspectorUpdate()
 
 	for (uint i = 0; i < components.size(); i++)
 	{
+		ImGui::Separator();
 		Component* item = components[i];
 		item->InspectorUpdate();
+
 	}
 }
 

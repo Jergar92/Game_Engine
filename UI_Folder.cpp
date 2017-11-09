@@ -263,7 +263,7 @@ std::vector<std::string>PathList::ReturnFiles(const char * exclude)
 	for (std::list<Path>::iterator it = list.begin(); it != list.end(); it++)
 	{
 		std::size_t found = it->GetPath().find_last_of('.');
-		if (it->GetPath().substr(found + 1) != exclude)
+		if (it->GetPath().substr(found + 1) != exclude&&!it->directory)
 			path_list.push_back(it->GetPath());
 	}
 	return path_list;
