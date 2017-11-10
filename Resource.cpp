@@ -24,10 +24,13 @@ void Resource::SetLibraryFile(const char * set, const char * extension)
 
 void Resource::SaveResource(JSONConfig & config) const
 {
+	config.SetInt(UID, "Resource UID");
 }
 
 void Resource::LoadResource(const JSONConfig & config)
 {
+	UID = config.GetInt("Resource UID");
+
 }
 
 const std::string Resource::GetOriginalFile() const
@@ -48,6 +51,12 @@ void Resource::SetOriginalFile(const char * set)
 bool Resource::IsLoadInMemory() const
 {
 	return load_count==0;
+}
+
+void Resource::LoadInMemory()
+{
+	
+	load_count++;
 }
 
 ResourceType Resource::GetResourceType() const

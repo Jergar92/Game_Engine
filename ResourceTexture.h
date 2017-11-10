@@ -8,14 +8,19 @@ class ResourceTexture :public Resource
 public:
 	ResourceTexture(uint UID);
 	~ResourceTexture();
-	void SetID(uint id);
-	uint GetUID()const;
+
+	uint GetID()const;
 	float4 GetRGBA()const;
+	void SetRGBA(float4 rgba);
+
+	void SetID(uint id);
+	void LoadInMemory();
+	std::string path;
+	std::string text_type;
 
 private:
 	uint id;
 //	std::string name;
-//	std::string type;
 //	std::string path;
 	float4 rgba_color;
 };

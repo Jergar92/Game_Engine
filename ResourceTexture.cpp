@@ -16,12 +16,26 @@ void ResourceTexture::SetID(uint set_id)
 	id = set_id;
 }
 
-uint ResourceTexture::GetUID() const
+void ResourceTexture::LoadInMemory()
+{
+	
+}
+
+uint ResourceTexture::GetID() const
 {
 	return id;
 }
+
+
 
 float4 ResourceTexture::GetRGBA() const
 {
 	return rgba_color;
 }
+
+void ResourceTexture::SetRGBA(float4 rgba)
+{
+	rgba_color = rgba;
+}
+
+

@@ -14,6 +14,8 @@ public:
 	virtual ~Resource();
 	uint GetUID()const;
 	bool IsLoadInMemory()const;
+	virtual void LoadInMemory();
+
 	ResourceType GetResourceType()const;
 	const std::string GetOriginalFile()const;
 	const std::string GetLibraryFile()const;
