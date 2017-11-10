@@ -53,7 +53,36 @@ uint ModuleResourceManager::Find(const char * asset_file) const
 
 uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 {
-	return uint();
+	std::string asset = new_asset_file;
+	std::size_t found = asset.find_last_of('.');
+	bool import_success = false;
+		Resource* ret = nullptr;
+
+	if (asset.substr(found + 1) == "png"
+		|| asset.substr(found + 1) == "jpg"
+		|| asset.substr(found + 1) == "dds"
+		|| asset.substr(found + 1) == "tga")
+	{
+		//	ret =CreateResource(ResourceType::R_TEXTURE)
+		//import_success=Import(new_asset_file,ret
+		//material.ImportTexture(dropped_filedir.c_str());
+	}
+	else
+	{
+		//	ret =CreateResource(ResourceType::R_MESH)
+
+		//	mesh.ImportMesh(dropped_filedir.c_str());
+		//mesh.LoadMesh(dropped_filedir.c_str());
+
+	}
+	//if(import_succes
+	if (import_success)
+	{
+		ret->SetOriginalFile(new_asset_file);
+
+		return ret->GetUID();
+	}
+	return 0;
 }
 
 const Resource * ModuleResourceManager::Get(uint UID) const

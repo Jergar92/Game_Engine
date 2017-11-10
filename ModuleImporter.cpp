@@ -35,15 +35,21 @@ void ModuleImporter::Import(const char * path)
 		|| dropped_filedir.substr(found + 1) == "tga")
 	{
 		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsTextFolder());
-		material.ImportTexture(dropped_filedir.c_str());
+		//material.ImportTexture(dropped_filedir.c_str());
 	}
-	else
+	else if(dropped_filedir.substr(found + 1) == "obj"
+		|| dropped_filedir.substr(found + 1) == "fbx")
 	{
 		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsMeshFolder());
-		mesh.ImportMesh(dropped_filedir.c_str());
+	//	mesh.ImportMesh(dropped_filedir.c_str());
 		//mesh.LoadMesh(dropped_filedir.c_str());
 
 	}
+	else
+	{
+		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsFolder());
+	}
+
 }
 
 void ModuleImporter::Load(const char * path)
