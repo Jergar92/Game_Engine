@@ -17,11 +17,11 @@ public:
 	void LoadInMemory();
 	std::string path;
 	std::string text_type;
+	std::string name;
 
 private:
-	uint id;
-//	std::string name;
+	uint id=-1;
 //	std::string path;
-	float4 rgba_color;
+	float4 rgba_color=float4::one;
 };
 

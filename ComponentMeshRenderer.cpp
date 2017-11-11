@@ -3,6 +3,8 @@
 #include "ModuleInput.h"
 #include "ComponentMesh.h"
 #include "ResourceTexture.h"
+#include "ResourceMesh.h"
+#include "ModuleResourceManager.h"
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
 #include "Glew/include/GL/glew.h"
@@ -25,7 +27,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 void ComponentMeshRenderer::Update(float dt)
 {
-	if (mesh == nullptr||!mesh->isEnable() || !mesh->GetDrawMesh() )
+	if (mesh->GetResourceMesh() == nullptr||!mesh->isEnable() || !mesh->GetDrawMesh() )
 		return;
 	//Get Transform
 	glPushMatrix();
@@ -45,8 +47,8 @@ void ComponentMeshRenderer::Update(float dt)
 	*/
 	for (int i = 0; i < textures.size(); i++)
 	{
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
-		glColor4f(textures[i].rgba_color.x, textures[i].rgba_color.y, textures[i].rgba_color.z, textures[i].rgba_color.w);
+		glBindTexture(GL_TEXTURE_2D, textures[i]->GetID());
+		glColor4f(textures[i]->GetRGBA().x, textures[i]->GetRGBA().y, textures[i]->GetRGBA().z, textures[i]->GetRGBA().w);
 
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->GetVertexBuffer());
@@ -110,7 +112,7 @@ void ComponentMeshRenderer::SetMesh(ComponentMesh * set_mesh)
 	mesh = set_mesh;
 }
 
-void ComponentMeshRenderer::SetTexture(const std::vector<Texture>& texture)
+void ComponentMeshRenderer::SetTexture(const std::vector<ResourceTexture*>& texture)
 {
 	textures = texture;
 }
@@ -122,18 +124,23 @@ bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 	config.OpenArray("Textures");
-	std::vector<Texture>::const_iterator it = textures.begin();
+	std::vector<ResourceTexture*>::const_iterator it = textures.begin();
 	while (it != textures.end())
 	{
 		JSONConfig texture_config;
-		texture_config.SetString(it->name, "Texture Name");
-		texture_config.SetString(it->path, "path");
-		texture_config.SetFloat4(it->rgba_color, "RGBA color");
+		
+		config.SetInt((*it)->GetResourceType(), "ResourceType");
+		
+		(*it)->SaveResource(texture_config);
+
+
+		config.SetBool(enable, "Enable");
+		//texture_config.SetString((*it)->name, "Texture Name");
+		//texture_config.SetFloat4((*it)->GetRGBA(), "RGBA color");
 
 		config.CloseArray(texture_config);
 		it++;
 	}
-	config.SetString(mesh->GetMeshName(), "Mesh Name");
 	config.SetBool(enable, "Enable");
 	return ret;
 }
@@ -142,23 +149,29 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 {
 
 
-	if (config.GetString("Mesh Name") != NULL)
-	{
-		//find mesh component
-		SetMesh((ComponentMesh*)my_go->FindComponent(ComponentType::MESH));
-	}
+	
+	//find mesh component
+	SetMesh((ComponentMesh*)my_go->FindComponent(ComponentType::MESH));
+	
 
 	//SetMaterials
 	uint size = config.GetArraySize("Textures");
 	for (int i = 0; i < size; i++)
 	{
 		JSONConfig config_item = config.SetFocusArray("Textures", i);
-		Texture text;
-		text.id=App->importer->LoadTexture(config_item.GetString("Texture Name"), this);
-		text.name = config_item.GetString("Texture Name");
-		text.rgba_color = config_item.GetFloat4("RGBA color");
+		ResourceTexture* r_text=nullptr;
 
-		textures.push_back(text);
+		r_text = (ResourceTexture*)App->resource_manager->Get(config_item.GetInt("Resource UID"));
+		if (r_text == nullptr)
+		{
+
+		}
+		r_text->LoadInMemory();
+	//	text.id=App->importer->LoadTexture(config_item.GetString("Texture Name"), this);
+	//	text.name = config_item.GetString("Texture Name");
+	//	r_text->SetRGBA(config_item.GetFloat4("RGBA color"));
+
+		textures.push_back(r_text);
 	}
 	enable = config.GetBool("Enable");
 	return false;
@@ -183,17 +196,17 @@ void ComponentMeshRenderer::InspectorUpdate()
 	{
 		for (int i = 0; i < textures.size(); i++)
 		{
-			ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i].rgba_color);
+			ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
 
 			if (ImGui::IsItemHovered())
 			{
 				ImGui::BeginTooltip();
-				ImGui::Image((GLuint*)textures[i].id, ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i].rgba_color);
+				ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
 				ImGui::EndTooltip();
 			}
 			ImGui::PushItemWidth(200);
 			ImGui::Text("Image RGBA");
-			ImGui::ColorEdit4("##image_rgba", &textures[i].rgba_color.x);
+			ImGui::ColorEdit4("##image_rgba", textures[i]->GetRGBA().ptr());
 		}
 		ImGui::TreePop();
 

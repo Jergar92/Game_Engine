@@ -5,6 +5,8 @@
 #include "ModuleScene.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentMesh.h"
+#include "ResourceMesh.h"
+#include "ResourceTexture.h"
 #include "GameObject.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 ModuleImporter::ModuleImporter()
@@ -29,16 +31,17 @@ void ModuleImporter::Import(const char * path)
 {
 	dropped_filedir = path;
 	std::size_t found = dropped_filedir.find_last_of('.');
-	if (dropped_filedir.substr(found + 1) == "png" 
-		|| dropped_filedir.substr(found + 1) == "jpg" 
-		|| dropped_filedir.substr(found + 1) == "dds"
-		|| dropped_filedir.substr(found + 1) == "tga")
+	std::string extension = dropped_filedir.substr(found + 1);
+	if (_stricmp(extension.c_str(), "png")==0
+		|| _stricmp(extension.c_str(), "jpg") == 0
+		|| _stricmp(extension.c_str(), "dds") == 0
+		|| _stricmp(extension.c_str(), "tga") == 0)
 	{
 		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsTextFolder());
 		//material.ImportTexture(dropped_filedir.c_str());
 	}
-	else if(dropped_filedir.substr(found + 1) == "obj"
-		|| dropped_filedir.substr(found + 1) == "fbx")
+	else if(_stricmp(extension.c_str(), "obj") == 0 
+		|| _stricmp(extension.c_str(), "fbx") == 0)
 	{
 		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsMeshFolder());
 	//	mesh.ImportMesh(dropped_filedir.c_str());
@@ -70,11 +73,14 @@ void ModuleImporter::Load(const char * path)
 	}
 }
 
-void ModuleImporter::ImportTexture(const char * path, const char * name)
+bool ModuleImporter::ImportTexture(const char * path, const char * name)
 {
-
+	return material.ImportTexture(path, name)==1;
 }
-
+bool ModuleImporter::ImportMesh(const char * path)
+{
+	return mesh.ImportMesh(path);
+}
 void ModuleImporter::LoadMesh(const char * name, ComponentMesh * component)
 {
 	char* buffer=nullptr;
@@ -85,13 +91,16 @@ void ModuleImporter::LoadMesh(const char * name, ComponentMesh * component)
 	}
 
 }
-int ModuleImporter::LoadTexture(const char * name, ComponentMeshRenderer * component)
+void ModuleImporter::LoadMesh(ResourceMesh* r_mesh)
 {
-	char* buffer = nullptr;
-	App->file_system->LoadFile(name, &buffer, App->file_system->GetMaterialFolder(), "dds");
+	
+		mesh.LoadMesh(r_mesh);
+	
 
-	std::string full_path(App->file_system->SetExtension(name, "dds"));
-	full_path = App->file_system->SetPathFile(full_path.c_str(), App->file_system->GetMaterialFolder());
-	return material.LoadTexture(full_path.c_str());
+}
+int ModuleImporter::LoadTexture(ResourceTexture * r_text)
+{
+
+	return material.LoadTexture(r_text);
 
 }

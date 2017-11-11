@@ -9,7 +9,7 @@
 #include "ModuleScene.h"
 #include "ModuleEditorWindows.h"
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
-
+#include "ResourceMesh.h"
 ModuleCamera::ModuleCamera()
 {
 	camera = new ComponentCamera(nullptr);

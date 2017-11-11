@@ -9,6 +9,7 @@
 #include "ModuleEditorWindows.h"
 #include "Component.h"
 #include "ComponentMesh.h"
+#include "ResourceMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"

@@ -1,6 +1,6 @@
 #include "ResourceMesh.h"
 #include "Application.h"
-
+#include "ModuleImporter.h"
 #include "Glew\include\GL\glew.h"
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
@@ -49,7 +49,6 @@ void ResourceMesh::SetData(const std::vector<Vertex>& set_vertices, const std::v
 	indices = set_indices;
 	num_vertices = num_ver;
 	num_indices = num_ind;
-	SetupMesh();
 }
 void ResourceMesh::SetMeshName(std::string set_mesh_name)
 {
@@ -98,6 +97,15 @@ const bool ResourceMesh::GetDrawMesh() const
 void ResourceMesh::DrawMesh(bool show)
 {
 	draw_mesh = show;
+}
+
+void ResourceMesh::LoadInMemory()
+{
+	if (IsLoadInMemory())
+	{
+		App->importer->LoadMesh(this);
+	}
+	load_count++;
 }
 
 const bool ResourceMesh::GetDebugNormal() const

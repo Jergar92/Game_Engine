@@ -6,20 +6,14 @@
 #include "MathGeoLib-1.5\src\Math\float2.h"
 #include "MathGeoLib-1.5\src\Geometry\AABB.h"
 
-struct Vertex
-{
-	float3 position;
-	float3 normals;
-	float2 tex_coords;
-};
-
+struct Vertex;
+class ResourceMesh;
 class ComponentMesh :public Component
 {
 public:
 	ComponentMesh(GameObject* my_go);
 	~ComponentMesh();
 	void Update();
-	void SetupMesh();
 	void InspectorUpdate();
 	void CleanUp();
 
@@ -32,34 +26,25 @@ public:
 	uint GetElementBuffer()const;
 	uint GetVertexNormalID()const;
 	uint GetSurfaceNormalID()const;
+	const ResourceMesh* GetResourceMesh()const;
 	bool GetDrawMesh()const;
 	bool GetDebugNormal()const;
-	std::string GetMeshName()const;
 
 
 	//Setters
-	void SetData(const std::vector<Vertex> &vertices, const std::vector<uint> &indices, const int num_vertices, const int num_indices);
-	void SetMeshName(std::string mesh_name);
+	void SetResourceMesh(ResourceMesh* mesh);
 
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
 	bool LoadComponent(const JSONConfig& data);
 
 private:
-	uint VBO=0;//Vertex Buffer Object
-	uint EBO=0;//Element Buffer Object+
-	uint vertex_normals_id = 0;//vertex_normals_id
-	uint surface_normals_id = 0;//surface_normals_id
+	
 	std::string name;
-	std::string mesh_name;
-
-	std::vector<Vertex> vertices;
-	std::vector<uint> indices;
-	uint num_vertices=0;
-	uint num_indices=0;
-	AABB bounding_box;
-	bool debug_normals_succes = true;
 	bool draw_mesh = true;
-	//ResourceMesh* r_mesh
+	bool debug_normals_succes = false;
+	AABB bounding_box;
+	
+	ResourceMesh* r_mesh;
 };
 

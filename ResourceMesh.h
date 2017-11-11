@@ -21,7 +21,7 @@ public:
 	void CleanUp();
 
 	void DrawMesh(bool show);
-
+	void LoadInMemory();
 	//Getters
 	const std::vector<Vertex>& GetVertices()const;
 	const std::vector<uint>& GetIndices()const;

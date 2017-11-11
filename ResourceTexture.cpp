@@ -1,5 +1,6 @@
 #include "ResourceTexture.h"
-
+#include "Application.h"
+#include "ModuleImporter.h"
 
 
 ResourceTexture::ResourceTexture(uint UID):Resource(UID,ResourceType::R_TEXTURE), rgba_color (float4(1.0f,1.0f,1.0f,1.0f))
@@ -18,7 +19,11 @@ void ResourceTexture::SetID(uint set_id)
 
 void ResourceTexture::LoadInMemory()
 {
-	
+	if (IsLoadInMemory())
+	{
+		App->importer->LoadTexture(this);
+	}
+	load_count++;
 }
 
 uint ResourceTexture::GetID() const

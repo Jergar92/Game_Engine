@@ -25,7 +25,7 @@ public:
 	void InspectorUpdate();
 	void CleanUp();
 	void SetMesh(ComponentMesh* set_mesh);
-	void SetTexture(const std::vector<Texture>& texture);
+	void SetTexture(const std::vector<ResourceTexture*>& texture);
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
 	bool LoadComponent(const JSONConfig& data);
@@ -38,8 +38,7 @@ private:
 	ComponentMesh* mesh = nullptr;
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object
-	ResourceTexture* texture;
-	std::vector<Texture> textures;
+	std::vector<ResourceTexture*> textures;
 	//std::vector<ResourceTexture*> textures
 };
 

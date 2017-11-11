@@ -5,9 +5,11 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "ModuleFileSystem.h"
+#include "ModuleResourceManager.h"
 #include "MathGeoLib-1.5\src\Geometry\AABB.h"
 #include <experimental\filesystem>
-
+#include "ResourceMesh.h"
+#include "ResourceTexture.h"
 #include "p2Defs.h"
 MeshImporter::MeshImporter()
 {
@@ -23,15 +25,27 @@ bool MeshImporter::ImportMesh(const char * path)
 
 	bool ret = true;
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
-	
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		GameObject* main_go = App->scene->GenerateGameObject();
+		imported_path = path;
+		GameObject* main_go = new GameObject();
 		aiMatrix4x4 matrix = scene->mRootNode->mTransformation;
 		ProcessTransform(matrix, main_go);
 		ProcessNode(scene->mRootNode, scene, main_go);
 		main_go->SetName(scene->mRootNode->mName.C_Str());
-		App->scene->SendGameObject(main_go);
+		JSONConfig config;
+
+		config.OpenArray("GameObject");
+		main_go->SaveGameObject(config);
+		char* buffer = nullptr;
+		uint size = config.Serialize(&buffer);
+
+		config.Save("try.json",App->file_system->GetAssetsFolder());
+		config.CleanUp();
+
+		//Save GameObject prefab
+		RELEASE(main_go);
+		//delete gameobject
 		aiReleaseImport(scene);
 	}
 	else
@@ -44,9 +58,37 @@ bool MeshImporter::ImportMesh(const char * path)
 }
 
 
-bool MeshImporter::SaveMesh(const char * name, char * buffer, int buffer_size,const char * path)
+bool MeshImporter::SaveMesh(ResourceMesh * mesh, int vertices_size, int indices_size, const char* path)
 {
-	return App->file_system->CreateOwnFile(name, buffer, buffer_size, path,"frog");;
+	bool ret = false;
+	//Set custom format
+	uint ranges[2] = { vertices_size,indices_size };
+	uint size = sizeof(ranges) + sizeof(uint) * indices_size + sizeof(Vertex) * vertices_size;
+	char* data = new char[size]; // Allocate
+	char* cursor = data;
+	uint bytes = sizeof(ranges); // First store ranges
+								 //ranges
+	memcpy(cursor, ranges, bytes);
+	cursor += bytes; // Store indices
+	bytes = sizeof(Vertex) * vertices_size;
+	//vertices-normals-cords
+	memcpy(cursor, mesh->GetVertices().data(), bytes);// Store vertices-normals-tex-cords
+	cursor += bytes;
+	//indices		
+	bytes = sizeof(uint) * indices_size;
+	memcpy(cursor, mesh->GetIndices().data(), bytes);// Store indices
+
+	std::string name = std::to_string(mesh->GetUID());
+
+	ret=App->file_system->CreateOwnFile(name.c_str(), data, size, App->file_system->GetMeshesFolder(), "frog");
+
+	if(ret)
+	{
+		mesh->SetLibraryFile(name.c_str(), "frog");
+		mesh->SetOriginalFile(imported_path.c_str());
+	}
+	RELEASE_ARRAY(data);
+	return ret;
 }
 bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 {
@@ -71,10 +113,10 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 	{
 		bytes = sizeof(uint) * num_indices;
 		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
-		mesh->SetData(vertices, indices, num_vertices, num_indices);
+	//	mesh->SetData(vertices, indices, num_vertices, num_indices);
 		return true;
 	}
-	mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
+	//mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
 
 	/*
 	cursor += bytes;
@@ -84,10 +126,13 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 
 	return true;
 }
-bool MeshImporter::LoadMesh(ResourceMesh * mesh)
+bool MeshImporter::LoadMesh(ResourceMesh * r_mesh)
 {
-	char*buffer=nullptr;
-	//App->file_system->LoadFile(App->file_system->GetMeshesFolder(),mesh->GetLibraryName().c_str(), &buffer);
+	char* buffer = nullptr;
+
+	App->file_system->LoadFile(App->file_system->GetMeshesFolder(), r_mesh->GetLibraryFile().c_str(), &buffer);
+
+
 	char* cursor = buffer;
 
 	// amount of indices / vertices  / normals / texture_coords
@@ -109,10 +154,15 @@ bool MeshImporter::LoadMesh(ResourceMesh * mesh)
 	{
 		bytes = sizeof(uint) * num_indices;
 		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
-		//mesh->SetData(vertices, indices, num_vertices, num_indices);
+		r_mesh->SetData(vertices, indices, num_vertices, num_indices);
+		r_mesh->SetupMesh();
+
 		return true;
 	}
-	//mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
+	r_mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
+	r_mesh->SetupMesh();
+	RELEASE_ARRAY(buffer);
+
 	//RELEASE(buffer);
 	return true;
 }
@@ -122,6 +172,7 @@ void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject*
 	{
 		
 		GameObject* child_go = parent->CreateChild();
+
 		aiMatrix4x4 matrix = node->mTransformation;
 		ProcessTransform(matrix, child_go);
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -207,26 +258,27 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			}
 		}
 	}
-	std::vector<Texture> textures;
+	std::vector<ResourceTexture*> textures;
 	//Material
 	if (mesh->mMaterialIndex >= 0)
 	{
 
 		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 		//Load diffuse data
-		std::vector<Texture> diffuse_map = loadMaterialTextures(material,
+		std::vector<ResourceTexture*> diffuse_map = loadMaterialTextures(material,
 			aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
 	}
+
+
 	uint num_vertices = vertices.size();
 	uint num_indices = (indices_error)?0:indices.size();
 
 	//Create Mesh & MeshRenderer
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
-	//ResourceMesh* r_mesh= App->resource_manager->SetData(vertices,indices,num_vertices,num_indices);
-	//component_mesh->SetMesh(r_mesh);
-	component_mesh->SetData(vertices, indices, num_vertices, num_indices);
-	component_mesh->SetMeshName(go->name.c_str());
+	ResourceMesh* r_mesh= (ResourceMesh*)App->resource_manager->CreateResource(ResourceType::R_MESH);
+	r_mesh->SetData(vertices, indices, num_vertices, num_indices);
+	component_mesh->SetResourceMesh(r_mesh);
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
 	//ResourceMesh* r_texture= App->resource_manager->SetData(vertices,indices,num_vertices,num_indices);
 	//r_texture->SetTexture(textures);
@@ -238,22 +290,6 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	*/
 
 	
-	//Set custom format
-	uint ranges[2] = { num_vertices,num_indices };
-	uint size = sizeof(ranges) + sizeof(uint) * num_indices + sizeof(Vertex) * num_vertices;
-	char* data = new char[size]; // Allocate
-	char* cursor = data;
-	uint bytes = sizeof(ranges); // First store ranges
-	//ranges
-	memcpy(cursor, ranges, bytes);
-	cursor += bytes; // Store indices
-	bytes = sizeof(Vertex) * num_vertices;
-	//vertices-normals-cords
-	memcpy(cursor, vertices.data(), bytes);// Store vertices-normals-tex-cords
-	cursor += bytes; 
-	//indices		
-	bytes = sizeof(uint) * num_indices;
-	memcpy(cursor, indices.data(), bytes);// Store indices
 	
 	/*
 	cursor += bytes;
@@ -262,17 +298,16 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	*/
 	//SaveGameObjectJSON
 	//SaveMesh(r_mesh.uid,data,size,app->file_system->getMeshesFolder())
-	if (SaveMesh(component_mesh->GetMeshName().c_str(), data, size, App->file_system->GetMeshesFolder()))
+	if (SaveMesh(r_mesh, num_vertices, num_indices, App->file_system->GetMeshesFolder()))
 	{
 		LOG("Save %s", go->name.c_str());
 	}
-	RELEASE_ARRAY(data);
 
 }
 
-std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)
+std::vector<ResourceTexture*> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)
 {
-	std::vector<Texture> textures;
+	std::vector<ResourceTexture*> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;
@@ -282,7 +317,7 @@ std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiText
 		bool skip = false;
 		for (unsigned int j = 0; j < textures_loaded.size(); j++)
 		{
-			if (std::strcmp(textures_loaded[j].path.c_str(), str.C_Str()) == 0)
+			if (std::strcmp(textures_loaded[j]->path.c_str(), str.C_Str()) == 0)
 			{
 				textures.push_back(textures_loaded[j]);
 				//skip active this texture was loaded before
@@ -292,16 +327,19 @@ std::vector<Texture> MeshImporter::loadMaterialTextures(aiMaterial * mat, aiText
 		}
 		if (!skip)
 		{
+			//now we get the UID of the texture and now we get and set on this resourcetexture
 			//new texture
-			Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), this->directory);
-			texture.type = typeName;
-			texture.path = str.C_Str();
-			namespace file_system = std::experimental::filesystem;
-			std::string name(file_system::path(str.C_Str()).stem().string());
-			texture.name = name.c_str();
+			uint UID = TextureFromFile(str.C_Str(), this->directory);
+			ResourceTexture* texture = (ResourceTexture*)App->resource_manager->Get(UID);
+			//Texture texture;
+			//texture.id = TextureFromFile(str.C_Str(), this->directory);
+			//texture.type = typeName;
+			texture->path = str.C_Str();
+		//	namespace file_system = std::experimental::filesystem;
+		//	std::string name(file_system::path(str.C_Str()).stem().string());
+		//	texture.name = name.c_str();
 
-			texture.rgba_color = { 1.0f,1.0f,1.0f,1.0f };
+		//	texture.rgba_color = { 1.0f,1.0f,1.0f,1.0f };
 
 			textures.push_back(texture);
 			textures_loaded.push_back(texture);  // add on textures_loaded now we can check if this texture was loaded before
@@ -316,5 +354,12 @@ uint MeshImporter::TextureFromFile(const char *path, const std::string &director
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
 	App->file_system->CloneFile(filename.c_str(),App->file_system->GetAssetsTextFolder());
-	return App->importer->material.ImportTexture(filename.c_str());
+	std::string complete_path = PATH( App->file_system->GetAssetsTextFolder(), path);
+	
+	uint UID = App->resource_manager->Find(complete_path.c_str());
+	if (UID == 0)
+	{
+		UID = App->resource_manager->ImportFile(complete_path.c_str());
+	}
+	return UID;
 }

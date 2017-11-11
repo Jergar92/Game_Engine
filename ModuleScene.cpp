@@ -134,7 +134,7 @@ void ModuleScene::SaveScene(const char*path)const
 	
 	config.OpenArray("GameObject");
 	scene_go->SaveGameObject(config);
-	char* buffer;
+	char* buffer=nullptr;
 	uint size=config.Serialize(&buffer);
 	config.Save(path);
 	config.CleanUp();
@@ -142,7 +142,7 @@ void ModuleScene::SaveScene(const char*path)const
 
 void ModuleScene::LoadScene(const char*path)
 {
-	CleanGO();
+//	CleanGO();
 
 	JSONConfig config;
 

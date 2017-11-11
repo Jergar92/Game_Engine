@@ -1,5 +1,6 @@
 #pragma once
 #include "Globals.h"
+class ResourceTexture;
 class MaterialImporter
 {
 public:
@@ -8,9 +9,9 @@ public:
 
 	bool Init();
 
-	int ImportTexture(const char* filename);
-	void SaveTexture(const char * name, char*buffer, int buffer_size);
-	int LoadTexture(const char * name);
+	int ImportTexture(const char* filename,const char* name);
+	void SaveTexture(const char * name);
+	int LoadTexture(ResourceTexture * r_path);
 
 	void CreateCheckMateTexture();
 	bool CleanUp();

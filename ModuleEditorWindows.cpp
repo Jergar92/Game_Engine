@@ -143,7 +143,7 @@ bool ModuleEditorWindows::ShowMenuBar()
 				std::string path = App->file_system->GetAssetsFolder();
 				
 			
-				WantToLoad("scene.json", path.c_str());
+				WantToLoad("try.json", path.c_str());
 
 			}
 			if (ImGui::MenuItem("Quit", "alt+f4"))
@@ -324,7 +324,7 @@ void ModuleEditorWindows::Load()
 		if (item == nullptr)
 			item = (ComponentMeshRenderer*)ui_inspector->selected_go->CreateComponent(ComponentType::MESH_RENDER);
 		std::string libray_path = App->file_system->ExtractName(path_to_load);
-		App->importer->LoadTexture(libray_path.c_str(), item);
+	//	App->importer->LoadTexture(libray_path.c_str(), item);
 	}
 		break;
 	case LOAD_SCENE:	

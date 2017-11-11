@@ -12,6 +12,9 @@ class GameObject;
 class ComponentTransform;
 class ComponentMesh;
 class ComponentMeshRenderer;
+class ResourceMesh;
+class ResourceTexture;
+
 struct Texture;
 class ModuleImporter:public Module
 {
@@ -21,10 +24,12 @@ public:
 	bool Start();
 	void Import(const char* path);
 	void Load(const char* path);
-	void ImportTexture(const char* path,const char* name);
+	bool ImportTexture(const char* path,const char* name);
+	bool ImportMesh(const char* path);
 
 	void LoadMesh(const char* path , ComponentMesh* component);
-	int LoadTexture(const char* path, ComponentMeshRenderer* component);
+	void LoadMesh(ResourceMesh * mesh);
+	int LoadTexture(ResourceTexture* component);
 
 	MaterialImporter material;
 	MeshImporter mesh;
