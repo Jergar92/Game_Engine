@@ -61,7 +61,7 @@ private:
 	UI_Console* ui_console;
 	UI_Folder* ui_folder;
 	UI_Play* ui_play;
-
+	GameObject* my_go;
 	bool want_to_save = false;
 	std::string path_to_save;
 	bool want_to_load = false;

@@ -208,41 +208,44 @@ void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&
 	if (ray_copy.Intersects(go->GetBoundingBoxAABB()))
 	{
 		ComponentMesh* mesh = (ComponentMesh*)go->FindComponent(MESH);
-		std::vector<Vertex> vertices = mesh->GetVertices();
-		std::vector<uint> indices = mesh->GetIndices();
-		float final_distance = -1;
-		for (int i = 0; i < indices.size();i+=3)
+		if (mesh != nullptr)
 		{
-			
-
-			float3 v1 = vertices[indices[i]].position;
-			float3 v2 = vertices[indices[i+1]].position;
-			float3 v3 = vertices[indices[i+2]].position;
-
-			Triangle vertex_triangle(v1, v2, v3);
-			float3 intersection_point;
-
-			if (ray_copy.Intersects(vertex_triangle,nullptr,&intersection_point))
+			std::vector<Vertex> vertices = mesh->GetVertices();
+			std::vector<uint> indices = mesh->GetIndices();
+			float final_distance = -1;
+			for (int i = 0; i < indices.size(); i += 3)
 			{
 
-				float distance = Distance(ray_copy.a, intersection_point);
-				if (final_distance == -1)
+
+				float3 v1 = vertices[indices[i]].position;
+				float3 v2 = vertices[indices[i + 1]].position;
+				float3 v3 = vertices[indices[i + 2]].position;
+
+				Triangle vertex_triangle(v1, v2, v3);
+				float3 intersection_point;
+
+				if (ray_copy.Intersects(vertex_triangle, nullptr, &intersection_point))
 				{
-					final_distance = distance;
-				}
-				else if(final_distance > distance)
-				{
-					final_distance = distance;
+
+					float distance = Distance(ray_copy.a, intersection_point);
+					if (final_distance == -1)
+					{
+						final_distance = distance;
+					}
+					else if (final_distance > distance)
+					{
+						final_distance = distance;
+					}
 				}
 			}
-		}
-		if (final_distance != -1)
-		{
-			my_vector[final_distance] = go;
-		}
+			if (final_distance != -1)
+			{
+				my_vector[final_distance] = go;
+			}
 
+		}
 	}
-
+	
 	for (int i = 0; i < go->childs.size(); i++)
 	{
 		GameObjectsChilds(go->childs[i],my_vector);

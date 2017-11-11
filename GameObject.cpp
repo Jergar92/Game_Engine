@@ -80,12 +80,9 @@ void GameObject::Update(float dt)
 		item->Update(dt);
 	}
 
-	if (enable_all_bounding_box || show_bounding_boxOBB)
+	if (show_bounding_box)
 	{
 		RenderBoundingBoxAABB();
-	}
-	if (enable_all_bounding_box || show_bounding_boxOBB)
-	{
 		RenderBoundingBoxOBB();
 	}
 }
@@ -222,9 +219,7 @@ void GameObject::InspectorUpdate()
 		ImGui::TreePop();
 	}
 
-
-	ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
-	ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
+	ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_box);
 
 	for (uint i = 0; i < components.size(); i++)
 	{
@@ -571,6 +566,11 @@ float4x4 GameObject::GetGlobalMatrix() const
 	return global_transform_matrix;
 }
 
+GameObject * GameObject::GetPartent() const
+{
+	return parent;
+}
+
 OBB GameObject::GetBoundingBoxOBB() const
 {
 	return global_bounding_box_OBB;
@@ -579,11 +579,6 @@ OBB GameObject::GetBoundingBoxOBB() const
 AABB GameObject::GetBoundingBoxAABB() const
 {
 	return global_bounding_box_AABB;
-}
-
-bool GameObject::ShowAllBoundingBox() const
-{
-	return enable_all_bounding_box;
 }
 
 void GameObject::SetScale(float3 scale)
@@ -613,9 +608,9 @@ void GameObject::SetPosition(float3 position)
 void GameObject::GenerateBoudingBox()
 {
 	ComponentMesh* mesh = (ComponentMesh*)FindComponent(MESH);
+	global_bounding_box_AABB.SetNegativeInfinity();
 	if (mesh != nullptr)
 	{
-		global_bounding_box_AABB.SetNegativeInfinity();
 		for (int i = 0; i < mesh->GetVertices().size(); i++)
 		{
 			global_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
@@ -629,8 +624,12 @@ void GameObject::GenerateBoudingBox()
 		global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
 		}
 	}
-	UpdateMatrix();
 
+	UpdateMatrix();
+	if (parent != nullptr)
+	{
+		parent->GenerateBoudingBox();
+	}
 }
 
 
@@ -668,18 +667,5 @@ void GameObject::RenderBoundingBoxOBB()
 		glVertex3f(global_bounding_box_OBB.Edge(i).b.x, global_bounding_box_OBB.Edge(i).b.y, global_bounding_box_OBB.Edge(i).b.z);
 	}
 	glEnd();
-}
-
-bool GameObject::EnableBoundingBox()
-{
-	if (!enable_all_bounding_box)
-	{
-		return enable_all_bounding_box = true;
-	}
-	else
-	{
-	
-		return enable_all_bounding_box = false;
-	}
 }
 

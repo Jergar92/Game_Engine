@@ -206,22 +206,7 @@ bool ModuleEditorWindows::ShowMenuBar()
 						LOG("Draw Raycast Disable")
 					}	
 				}
-
-				if (ImGui::MenuItem("Show All BoundigBox"))
-				{
-					if (App->scene->GetScene()->ShowAllBoundingBox())
-					{
-						App->scene->GetScene()->EnableBoundingBox();
-						LOG("Draw all Bounding Box Enable");
-					}
-					else if (!App->scene->GetScene()->ShowAllBoundingBox())
-					{
-						App->scene->GetScene()->EnableBoundingBox();
-						LOG("Draw all Bounding Box Disable");
-					}
-				}
-
-				ImGui::EndMenu();
+             ImGui::EndMenu();
 			}
 
 			ImGui::EndMenu();
