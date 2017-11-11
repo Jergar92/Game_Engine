@@ -80,11 +80,11 @@ void GameObject::Update(float dt)
 		item->Update(dt);
 	}
 
-	if (true||show_bounding_boxAABB)
+	if (enable_all_bounding_box || show_bounding_boxOBB)
 	{
 		RenderBoundingBoxAABB();
 	}
-	if (true||show_bounding_boxOBB)
+	if (enable_all_bounding_box || show_bounding_boxOBB)
 	{
 		RenderBoundingBoxOBB();
 	}
@@ -581,6 +581,11 @@ AABB GameObject::GetBoundingBoxAABB() const
 	return global_bounding_box_AABB;
 }
 
+bool GameObject::ShowAllBoundingBox() const
+{
+	return enable_all_bounding_box;
+}
+
 void GameObject::SetScale(float3 scale)
 {
 	this->scale = scale;
@@ -664,3 +669,17 @@ void GameObject::RenderBoundingBoxOBB()
 	}
 	glEnd();
 }
+
+bool GameObject::EnableBoundingBox()
+{
+	if (!enable_all_bounding_box)
+	{
+		return enable_all_bounding_box = true;
+	}
+	else
+	{
+	
+		return enable_all_bounding_box = false;
+	}
+}
+

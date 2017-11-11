@@ -57,6 +57,8 @@ public:
 	void SetAABB(const AABB set_bounding_box);
 	void RenderBoundingBoxAABB();
 	void RenderBoundingBoxOBB();
+	bool EnableBoundingBox();
+	
 
 	void SetStatic(bool set);
 	void SetParent(GameObject * parent);
@@ -72,6 +74,8 @@ public:
 	//Bounding Box
 	OBB GetBoundingBoxOBB()const;
 	AABB GetBoundingBoxAABB()const;
+	bool ShowAllBoundingBox() const;
+
 
 public:
 	std::vector<Component*> components;
@@ -95,6 +99,7 @@ private:
 	bool gui_static = false;
 	bool show_bounding_boxAABB = false;
 	bool show_bounding_boxOBB = false;
+	bool enable_all_bounding_box = false;
 	bool is_bounding_box_transformed = false;
 	uint UID = 0;
 	uint parent_UID = 0;

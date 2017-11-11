@@ -45,10 +45,14 @@ update_status ModuleCamera::Update(float dt)
 		if(App->renderer3D->GetCamera() == camera)
 			Move_Mouse();
 	
-		glBegin(GL_LINES);
-		glVertex3f(ray.a.x,ray.a.y,ray.a.z);
-		glVertex3f(ray.b.x, ray.b.y, ray.b.z);
-		glEnd();
+		if (show_raycast)
+		{
+			glBegin(GL_LINES);
+			glVertex3f(ray.a.x, ray.a.y, ray.a.z);
+			glVertex3f(ray.b.x, ray.b.y, ray.b.z);
+			glEnd();
+		}
+	
 
 	return UPDATE_CONTINUE;
 }
@@ -83,6 +87,24 @@ void ModuleCamera::SetPosition(float3 position)
 ComponentCamera * ModuleCamera::GetCamera() const
 {
 	return camera;
+}
+
+bool ModuleCamera::GetRaycast() const
+{
+	return show_raycast;
+}
+
+bool ModuleCamera::EnableRaycast()
+{
+	
+	if (!show_raycast)
+	{
+		return show_raycast = true;
+	}
+	else
+	{
+		return show_raycast = false;
+	}
 }
 
 void ModuleCamera::Move_Mouse()

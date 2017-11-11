@@ -20,6 +20,7 @@ public:
 	float3 GetPosition() const;
 	float3 GetReference() const;
 	ComponentCamera * GetCamera() const;
+	bool GetRaycast()const;
 
 	//Setters
 	void SetPosition(float3 position);
@@ -32,10 +33,11 @@ public:
 	void OnClick();
 	void OnCollision();
 	void GameObjectsChilds(GameObject* go,std::map<float,GameObject*>&);
+	bool EnableRaycast();
 
 private:
 	float3 reference;
-	//float4x4 projection_matrix;
+	bool show_raycast = false;
 	ComponentCamera* camera = nullptr;
 	LineSegment ray = LineSegment(float3::zero,float3::zero);
 	

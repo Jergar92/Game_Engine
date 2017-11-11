@@ -3,6 +3,7 @@
 #include"ModuleEditorWindows.h"
 #include "ModuleScene.h"
 #include"p2Defs.h"
+#include "ModuleCamera.h"
 #include "imgui\imgui.h"
 #include "GameObject.h"
 #include "ModuleFileSystem.h"
@@ -188,6 +189,41 @@ bool ModuleEditorWindows::ShowMenuBar()
 			{
 				ui_inspector->ChangeActive();
 			}
+
+			ImGui::Separator();
+			if (ImGui::BeginMenu("Debug"))
+			{
+				if (ImGui::MenuItem("Show Raycast"))
+				{
+					if (!App->camera->GetRaycast())
+					{
+						App->camera->EnableRaycast();
+						LOG("Draw Raycast enable");
+					}
+					else if (App->camera->GetRaycast())
+					{
+						App->camera->EnableRaycast();
+						LOG("Draw Raycast Disable")
+					}	
+				}
+
+				if (ImGui::MenuItem("Show All BoundigBox"))
+				{
+					if (App->scene->GetScene()->ShowAllBoundingBox())
+					{
+						App->scene->GetScene()->EnableBoundingBox();
+						LOG("Draw all Bounding Box Enable");
+					}
+					else if (!App->scene->GetScene()->ShowAllBoundingBox())
+					{
+						App->scene->GetScene()->EnableBoundingBox();
+						LOG("Draw all Bounding Box Disable");
+					}
+				}
+
+				ImGui::EndMenu();
+			}
+
 			ImGui::EndMenu();
 		}
 
