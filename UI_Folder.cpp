@@ -36,9 +36,9 @@ void UI_Folder::UpdateFiles()
 
 }
 
-std::vector<std::string>UI_Folder::ReturnFiles(const char * exclude)
+std::vector<std::string>UI_Folder::ReturnFiles(FileType especific)
 {
-	return path.ReturnFiles(exclude);
+	return path.ReturnFiles(especific);
 }
 
 
@@ -132,21 +132,37 @@ void UI_Folder::DrawFolderInfo()
 	std::list<Path>::const_iterator it = tmp->child.begin();
 	while (it != tmp->child.end())
 	{
+		if (it->type == F_META)
+		{
+			it++;
+			continue;
+		}
 		ImGuiWindowFlags tree_flags = 0;
 		if (it->child.empty())
 			tree_flags |= ImGuiTreeNodeFlags_Leaf;
 
-		bool node_open = ImGui::TreeNodeEx(it->name.c_str(), tree_flags);
+			bool node_open = ImGui::TreeNodeEx(it->name.c_str(), tree_flags);
 
-		if (node_open)
-		{
-			if (ImGui::IsItemClicked() && !it->directory) 
+			if (node_open)
 			{
-				item_selected = it->path;
-			}
+				if (ImGui::IsItemClicked() )
+				{
+					if (it->directory)
+					{
+						if (ImGui::IsMouseDoubleClicked(0))
+						{
+							show_folder = it->path;
+						}
+					}
+					else
+					{
+						item_selected = it->path;
+					}
+				}
 
-			ImGui::TreePop();
-		}
+				ImGui::TreePop();
+			}
+		
 		it++;
 	}
 
@@ -178,7 +194,7 @@ Path::Path():path(std::string()),name(std::string()),parent(nullptr),directory(t
 
 Path::Path(std::string path,std::string name , std::string parent_path, bool directory) :path(path),name(name), parent_path(parent_path),directory(directory), parent(nullptr)
 {
-
+	type = SetType();
 }
 
 Path::~Path()
@@ -186,6 +202,49 @@ Path::~Path()
 	child.clear();
 	parent = nullptr;
 
+}
+
+FileType Path::SetType()
+{
+	if (directory)
+	{
+		return F_DIRECTORY;
+	}
+	else
+	{
+		std::size_t found = path.find_last_of('.');
+		std::string extension = path.substr(found + 1);
+		if (_stricmp(extension.c_str(), "png") == 0
+			|| _stricmp(extension.c_str(), "jpg") == 0
+			|| _stricmp(extension.c_str(), "dds") == 0
+			|| _stricmp(extension.c_str(), "tga") == 0)
+		{
+			return F_TEXTURE;
+		}
+		else if (_stricmp(extension.c_str(), "json") == 0)
+		{
+			std::size_t found = path.find("meta.json");
+			if (found != std::string::npos)
+			{
+				return F_META;
+
+			}
+			else
+			{
+				return F_JSON;
+
+			}
+		}
+		else if (_stricmp(extension.c_str(), "obj") == 0
+			|| _stricmp(extension.c_str(), "fbx") == 0)
+		{
+			return F_MESH;
+		}
+		else
+		{
+			return F_NONE;
+		}
+	}
 }
 
 void Path::RemoveChild(const Path & remove_child)
@@ -257,14 +316,17 @@ bool PathList::PathExist(std::string cmp_path)const
 	return false;
 }
 
-std::vector<std::string>PathList::ReturnFiles(const char * exclude)
+std::vector<std::string>PathList::ReturnFiles(FileType especific)
 {
 	std::vector<std::string> path_list;
 	for (std::list<Path>::iterator it = list.begin(); it != list.end(); it++)
 	{
-		std::size_t found = it->GetPath().find_last_of('.');
-		if (it->GetPath().substr(found + 1) != exclude&&!it->directory)
+		if (!it->directory&&especific==F_NONE&&it->type != F_META)
 			path_list.push_back(it->GetPath());
+		else if (!it->directory&&it->type == especific)
+		{
+			path_list.push_back(it->GetPath());
+		}
 	}
 	return path_list;
 }

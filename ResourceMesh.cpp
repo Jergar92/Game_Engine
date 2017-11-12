@@ -56,13 +56,19 @@ void ResourceMesh::SetMeshName(std::string set_mesh_name)
 }
 void ResourceMesh::SaveResource(JSONConfig & config) const
 {
+	config.SetInt(type, "Resource Type");
 	config.SetInt(UID, "Resource UID");
 
+	config.SetString(original_file, "Original File");
+	config.SetString(library_file, "Library File");
+	config.SetString(meta_file, "Meta File");
 
 }
 void ResourceMesh::LoadResource(const JSONConfig & config)
 {
-	UID=config.GetInt("Resource UID");
+	original_file = config.GetString("Original File");
+	library_file = config.GetString("Library File");
+	meta_file = config.GetString("Meta File");
 	
 }
 const std::vector<Vertex>& ResourceMesh::GetVertices()const
@@ -106,6 +112,16 @@ void ResourceMesh::LoadInMemory()
 		App->importer->LoadMesh(this);
 	}
 	load_count++;
+}
+
+void ResourceMesh::UnLoadInMemory()
+{
+	load_count--;
+	if (IsLoadInMemory())
+	{
+		glDeleteBuffers(1, &VBO);
+		glDeleteBuffers(1, &EBO);
+	}
 }
 
 const bool ResourceMesh::GetDebugNormal() const

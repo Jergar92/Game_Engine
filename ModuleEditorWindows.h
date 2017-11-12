@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleEditorWindows.h"
 #include "Globals.h"
+#include "UI_Folder.h"
 #include"p2Defs.h"
 enum LoadFile
 {
@@ -18,7 +19,6 @@ class UI_About;
 class UI_Console;
 class UI_Folder;
 class UI_Play;
-
 
 class ModuleEditorWindows : public Module
 {
@@ -43,7 +43,7 @@ public:
 	void ToLoad(const char* path, LoadFile load);
 	void WantToLoad(const char* name, const char*path);
 	void WantToSave(const char* name, const char*path);
-	std::vector<std::string> ReturnFiles(const char* exclude);
+	std::vector<std::string> ReturnFiles(FileType especific = F_NONE);
 	void WantToUpdate();
 
 	void UpdateFiles();

@@ -3,30 +3,42 @@
 #include <string>
 #include <list>
 #include <vector>
+enum FileType
+{
+	F_NONE,
+	F_MESH,
+	F_TEXTURE,
+	F_META,
+	F_JSON,
+	F_DIRECTORY
+};
 struct Path
 {
 	Path();
 	Path(std::string path, std::string name, std::string parent_path, bool directory);
 	~Path();
-
-	std::string path;
-	std::string name;
-	std::string parent_path;	
-	std::list<Path> child;
-	bool directory = true;
+public:
+	FileType SetType();
 	void RemoveChild(const Path& child);
 	const std::string GetPath()const;
 	void SetParentByPath(std::list<Path>& paths);
 	void SetChild(const Path& child);
 	void SetParent(Path* parent);
+public:
+	std::string path;
+	std::string name;
+	std::string parent_path;	
+	std::list<Path> child;
+	bool directory = true;
 	bool operator ==(const Path& value);
+	FileType type = F_NONE;
 	Path* parent;
 };
 struct PathList
 {
 	void OrderPath();
 	bool PathExist(std::string cmp_path)const ;
-	std::vector<std::string> ReturnFiles(const char* exclude);
+	std::vector<std::string> ReturnFiles(FileType especific);
 	std::list<Path>::const_iterator FindFolder(std::string show_folder_path)const;
 	std::list<Path> list;
 
@@ -44,7 +56,7 @@ public:
 	const char* GetFolderName()const;
 	void SetUpFolders();
 	void UpdateFiles();
-	std::vector<std::string>ReturnFiles(const char* exclude);
+	std::vector<std::string>ReturnFiles(FileType especific = F_NONE);
 private:
 	void DrawFolders(const Path& draw);
 

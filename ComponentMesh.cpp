@@ -116,11 +116,11 @@ bool ComponentMesh::SaveComponent(JSONConfig & config) const
 	bool ret = true;
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
-	
-	config.SetInt(r_mesh->GetResourceType(),"ResourceType");
-	if(r_mesh!=nullptr)
+
+	if (r_mesh != nullptr)
 	{
-	r_mesh->SaveResource(config);
+	config.SetInt(r_mesh->GetResourceType(),"ResourceType");
+	config.SetInt(r_mesh->GetUID(), "Resource UID");
 	}
 	
 	config.SetBool(enable, "Enable");
@@ -137,13 +137,10 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 	if(config.GetInt("ResourceType")!=0)
 	{
 		r_mesh = (ResourceMesh*)App->resource_manager->Get(config.GetInt("Resource UID"));
-		if (r_mesh == nullptr)
+		if (r_mesh != nullptr)
 		{
-
+			r_mesh->LoadInMemory();
 		}
-		r_mesh->LoadInMemory();
-		//r_mesh=App->resource_manager->CreateResource(static_cast<ResourceType>(config.GetInt("ResourceType")));
-	//r_mesh->LoadResource(config);
 	}
 	
 	enable= config.GetBool( "Enable");

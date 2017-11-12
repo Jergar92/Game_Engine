@@ -79,15 +79,10 @@ bool MeshImporter::SaveMesh(ResourceMesh * mesh, int vertices_size, int indices_
 	memcpy(cursor, mesh->GetIndices().data(), bytes);// Store indices
 
 	std::string name = std::to_string(mesh->GetUID());
-
 	ret=App->file_system->CreateOwnFile(name.c_str(), data, size, App->file_system->GetMeshesFolder(), "frog");
-
-	if(ret)
-	{
-		mesh->SetLibraryFile(name.c_str(), "frog");
-		mesh->SetOriginalFile(imported_path.c_str());
-	}
+	std::string origin_file= App->file_system->SetPathFile(mesh_name.c_str(), App->file_system->GetAssetsMeshFolder());
 	RELEASE_ARRAY(data);
+
 	return ret;
 }
 bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
@@ -176,7 +171,10 @@ void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject*
 		aiMatrix4x4 matrix = node->mTransformation;
 		ProcessTransform(matrix, child_go);
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		child_go->SetName(node->mName.C_Str());
+		mesh_name = node->mName.C_Str();
+
+
+		child_go->SetName(mesh_name.c_str());
 		ProcessMesh(mesh, scene, child_go);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
@@ -200,7 +198,7 @@ void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 
 void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go)
 {
-	
+
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
 
@@ -274,10 +272,44 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	uint num_vertices = vertices.size();
 	uint num_indices = (indices_error)?0:indices.size();
 
+
 	//Create Mesh & MeshRenderer
+
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
-	ResourceMesh* r_mesh= (ResourceMesh*)App->resource_manager->CreateResource(ResourceType::R_MESH);
-	r_mesh->SetData(vertices, indices, num_vertices, num_indices);
+	ResourceMesh* r_mesh = nullptr;
+
+	bool same = false;
+	for (std::map<aiMesh *, ResourceMesh*> ::const_iterator it = meshes_load.begin(); it != meshes_load.end(); it++)
+	{
+		if ((*it).first == mesh)
+		{
+			r_mesh = (*it).second;
+			same = true;
+		}
+
+	}
+	if (!same)
+	{
+		r_mesh = (ResourceMesh*)App->resource_manager->CreateResource(ResourceType::R_MESH);
+		r_mesh->SetData(vertices, indices, num_vertices, num_indices);
+		meshes_load[mesh] = r_mesh;
+
+		std::string name = std::to_string(r_mesh->GetUID());
+		std::string origin_file = App->file_system->SetPathFile(mesh_name.c_str(), App->file_system->GetAssetsMeshFolder());
+		App->file_system->CreateOwnFile(mesh_name.c_str(), ".", 1, App->file_system->GetAssetsMeshFolder(), "fbx");
+
+		r_mesh->SetLibraryFile(name.c_str(), "frog");
+		r_mesh->SetOriginalFile(origin_file.c_str());
+		r_mesh->SetMetaFile(origin_file.c_str());
+		
+		JSONConfig config;
+		r_mesh->SaveResource(config);
+		char* buffer = nullptr;
+		uint config_size = config.Serialize(&buffer);
+		config.Save(r_mesh->GetMetaJsonFile().c_str());
+		config.CleanUp();
+
+	}
 	component_mesh->SetResourceMesh(r_mesh);
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
 	//ResourceMesh* r_texture= App->resource_manager->SetData(vertices,indices,num_vertices,num_indices);
@@ -314,36 +346,27 @@ std::vector<ResourceTexture*> MeshImporter::loadMaterialTextures(aiMaterial * ma
 		mat->GetTexture(type, i, &str);
 
 		//iterate texture_loaded if they have the same push back again the same texture avoid duplicate
-		bool skip = false;
-		for (unsigned int j = 0; j < textures_loaded.size(); j++)
+		bool same = false;
+		ResourceTexture* texture = nullptr;
+		for (std::map<const char *, ResourceTexture*> ::const_iterator it = textures_loaded.begin(); it != textures_loaded.end(); it++)
 		{
-			if (std::strcmp(textures_loaded[j]->path.c_str(), str.C_Str()) == 0)
+			if ((*it).first == str.C_Str())
 			{
-				textures.push_back(textures_loaded[j]);
-				//skip active this texture was loaded before
-				skip = true;
-				break;
+				texture = (*it).second;
+				same = true;
 			}
+			
 		}
-		if (!skip)
+		if (!same)
 		{
-			//now we get the UID of the texture and now we get and set on this resourcetexture
-			//new texture
 			uint UID = TextureFromFile(str.C_Str(), this->directory);
-			ResourceTexture* texture = (ResourceTexture*)App->resource_manager->Get(UID);
-			//Texture texture;
-			//texture.id = TextureFromFile(str.C_Str(), this->directory);
-			//texture.type = typeName;
+			texture = (ResourceTexture*)App->resource_manager->Get(UID);
 			texture->path = str.C_Str();
-		//	namespace file_system = std::experimental::filesystem;
-		//	std::string name(file_system::path(str.C_Str()).stem().string());
-		//	texture.name = name.c_str();
+			textures_loaded[texture->path.c_str()] = texture;
 
-		//	texture.rgba_color = { 1.0f,1.0f,1.0f,1.0f };
-
-			textures.push_back(texture);
-			textures_loaded.push_back(texture);  // add on textures_loaded now we can check if this texture was loaded before
 		}
+		textures.push_back(texture);
+
 	}
 	return textures;
 }

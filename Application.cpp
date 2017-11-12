@@ -54,10 +54,9 @@ Application::Application()
 	profiler->CreateTitle("Application_Start", importer->name.c_str());
 
 
-
 	//Scene Module
-	AddModule(resource_manager);
-	profiler->CreateTitle("Application_Start", resource_manager->name.c_str());
+
+	
 
 	AddModule(scene);
 	profiler->CreateTitle("Application_Start",scene->name.c_str());
@@ -68,6 +67,8 @@ Application::Application()
 	AddModule(editor_window);
 	profiler->CreateTitle("Application_Start",editor_window->name.c_str());
 
+	AddModule(resource_manager);
+	profiler->CreateTitle("Application_Start", resource_manager->name.c_str());
 	
 	// Renderer last!
 	AddModule(renderer3D);

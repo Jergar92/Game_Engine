@@ -130,13 +130,9 @@ bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
 		JSONConfig texture_config;
 		
 		config.SetInt((*it)->GetResourceType(), "ResourceType");
-		
-		(*it)->SaveResource(texture_config);
-
-
-		config.SetBool(enable, "Enable");
-		//texture_config.SetString((*it)->name, "Texture Name");
-		//texture_config.SetFloat4((*it)->GetRGBA(), "RGBA color");
+	
+		texture_config.SetInt((*it)->GetResourceType(), "ResourceType");
+		texture_config.SetInt((*it)->GetUID(), "Resource UID");
 
 		config.CloseArray(texture_config);
 		it++;

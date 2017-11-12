@@ -5,7 +5,7 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 #include <vector>
-
+#include <map>
 class GameObject;
 class ComponentTransform;
 class ComponentMesh;
@@ -25,8 +25,10 @@ public:
 	bool LoadMesh(ResourceMesh * mesh);
 
 	void ProcessTransform(aiMatrix4x4 matrix,  GameObject * go);
+	//std::vector<aiMesh *> mesh_loaded;	// stores all the textures loaded, make sure textures aren't loaded more than once.
+	std::map<aiMesh *, ResourceMesh*> meshes_load;
+	std::map<const char *, ResourceTexture*> textures_loaded;
 
-	std::vector<ResourceTexture*> textures_loaded;	// stores all the textures loaded, make sure textures aren't loaded more than once.
 	void ProcessNode(aiNode* node, const aiScene* scene, GameObject* parent);
 	void ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go);
 	std::vector<ResourceTexture*> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName);
@@ -36,6 +38,7 @@ private:
 	std::string directory;
 	std::string imported_path;
 
+	std::string mesh_name;
 
 
 };

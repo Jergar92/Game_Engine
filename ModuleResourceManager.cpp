@@ -5,6 +5,8 @@
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
 #include <vector>
+#include <experimental\filesystem>
+
 #define UPDATE_RESOURCE_TIME 5.0f
 ModuleResourceManager::ModuleResourceManager()
 {
@@ -16,21 +18,23 @@ ModuleResourceManager::~ModuleResourceManager()
 {
 }
 
+bool ModuleResourceManager::Start()
+{
+	std::vector<std::string> files = App->editor_window->ReturnFiles(F_META);
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
+	{
+		LoadMetaResource((*it).c_str());
+	}
+	return true;
+}
+
 update_status ModuleResourceManager::Update(float dt)
 {
 
 	time_update += dt;
 	if (time_update > UPDATE_RESOURCE_TIME)
 	{
-		time_update = 0.0f;
-		std::vector<std::string> files = App->editor_window->ReturnFiles("json");
-		for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
-		{
-			if (Find(it->c_str()) == 0)
-			{
-				ImportFile(it->c_str());
-			}
-		}
+		LookForResources();
 		//get all folders 
 		//find all folders on resource
 		//if return 0 create that assets
@@ -40,12 +44,26 @@ update_status ModuleResourceManager::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+void ModuleResourceManager::LookForResources()
+{
+
+	time_update = 0.0f;
+	std::vector<std::string> files = App->editor_window->ReturnFiles();
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
+	{
+		if (Find(it->c_str()) == 0)
+		{
+			ImportFile(it->c_str());
+		}
+	}
+}
+
 uint ModuleResourceManager::Find(const char * asset_file) const
 {
 	std::map<uint, Resource*>::const_iterator it = resources.begin();
 	for (; it != resources.end(); it++)
 	{
-		if (it->second->GetOriginalFile().compare(asset_file) == 0)
+		if (std::experimental::filesystem::equivalent(it->second->GetOriginalFile(), asset_file))
 			return it->second->GetUID();
 	}
 	return 0;
@@ -65,17 +83,12 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		break;
 	case R_TEXTURE:
 		import_success=App->importer->ImportTexture(new_asset_file, name.c_str());
-			//	ret =CreateResource(ResourceType::R_TEXTURE)
-			//import_success=Import(new_asset_file,ret
-			//material.ImportTexture(dropped_filedir.c_str());
+		
 		break;
 	case R_MESH:
 		import_success = App->importer->ImportMesh(new_asset_file);
 
-		//	ret =CreateResource(ResourceType::R_MESH)
 
-		//	mesh.ImportMesh(dropped_filedir.c_str());
-		//mesh.LoadMesh(dropped_filedir.c_str());
 		break;
 	default:
 		break;
@@ -84,8 +97,9 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 	if (import_success)
 	{
 		Resource* ret = CreateResource(type, UID);
-
 		ret->SetOriginalFile(new_asset_file);
+		ret->SetMetaFile(new_asset_file);
+
 		switch (type)
 		{
 		case R_NONE:
@@ -95,16 +109,20 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 			break;
 		case R_MESH:
 			ret->SetLibraryFile(name.c_str(), "frog");
-
-			//	ret =CreateResource(ResourceType::R_MESH)
-
-			//	mesh.ImportMesh(dropped_filedir.c_str());
-			//mesh.LoadMesh(dropped_filedir.c_str());
 			break;
 		default:
 			break;
 		}
+
+
+		JSONConfig config;
+		ret->SaveResource(config);
+		char* buffer = nullptr;
+		uint size = config.Serialize(&buffer);
+		config.Save(ret->GetMetaJsonFile().c_str());
+		config.CleanUp();
 		return ret->GetUID();
+
 	}
 	return 0;
 }
@@ -132,7 +150,6 @@ ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)
 		return R_NONE;
 	}
 }
-
 const Resource * ModuleResourceManager::Get(uint UID) const
 {
 	std::map<uint, Resource*>::const_iterator it = resources.find(UID);
@@ -171,4 +188,20 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint custom_
 		resources[UID] = ret;
 	}
 	return ret;
+}
+
+void ModuleResourceManager::SaveMetaResource(const char* path)
+{
+
+}
+
+void ModuleResourceManager::LoadMetaResource(const char* path)
+{
+		JSONConfig config;
+		if (!config.ParseFile(path))
+			return;
+		Resource*resource = nullptr;
+		resource = CreateResource(static_cast<ResourceType>(config.GetInt("Resource Type")), config.GetInt("Resource UID"));
+		resource->LoadResource(config);
+		config.CleanUp();
 }

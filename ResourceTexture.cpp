@@ -1,7 +1,7 @@
 #include "ResourceTexture.h"
 #include "Application.h"
 #include "ModuleImporter.h"
-
+#include "Glew\include\GL\glew.h"
 
 ResourceTexture::ResourceTexture(uint UID):Resource(UID,ResourceType::R_TEXTURE), rgba_color (float4(1.0f,1.0f,1.0f,1.0f))
 {
@@ -24,6 +24,36 @@ void ResourceTexture::LoadInMemory()
 		App->importer->LoadTexture(this);
 	}
 	load_count++;
+}
+
+void ResourceTexture::UnLoadInMemory()
+{
+	load_count--;
+	if (IsLoadInMemory())
+	{
+		glDeleteTextures(1, &id);
+	}
+}
+
+void ResourceTexture::SaveResource(JSONConfig & config) const
+{
+	config.SetInt(type, "Resource Type");
+	config.SetInt(UID, "Resource UID");
+
+	config.SetString(original_file, "Original File");
+	config.SetString(library_file, "Library File");
+	config.SetString(meta_file, "Meta File");
+
+}
+
+void ResourceTexture::LoadResource(const JSONConfig & config)
+{
+
+
+	original_file= config.GetString("Original File");
+	library_file = config.GetString("Library File");
+	meta_file = config.GetString("Meta File");
+
 }
 
 uint ResourceTexture::GetID() const

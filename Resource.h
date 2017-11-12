@@ -15,13 +15,16 @@ public:
 	uint GetUID()const;
 	bool IsLoadInMemory()const;
 	virtual void LoadInMemory();
+	virtual void UnLoadInMemory();
 
 	ResourceType GetResourceType()const;
 	const std::string GetOriginalFile()const;
 	const std::string GetLibraryFile()const;
-	void SetOriginalFile(const char* set);
+	const std::string GetMetaJsonFile()const;
 
+	void SetOriginalFile(const char* set);
 	void SetLibraryFile(const char* set,const char* extension);
+	void SetMetaFile(const char* set);
 	virtual void SaveResource(JSONConfig& config)const;
 	virtual void LoadResource(const JSONConfig& config);
 
@@ -32,5 +35,6 @@ protected:
 	ResourceType type = R_NONE;
 	std::string original_file;
 	std::string library_file;
+	std::string meta_file;
 };
 

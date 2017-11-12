@@ -15,10 +15,12 @@ public:
 
 	void SetID(uint id);
 	void LoadInMemory();
+	void UnLoadInMemory();
 	std::string path;
 	std::string text_type;
 	std::string name;
-
+	void SaveResource(JSONConfig& config)const;
+	void LoadResource(const JSONConfig& config);
 private:
 	uint id=-1;
 //	std::string path;
