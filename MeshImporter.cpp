@@ -40,7 +40,7 @@ bool MeshImporter::ImportMesh(const char * path,const char* name)
 		char* buffer = nullptr;
 		uint size = config.Serialize(&buffer);
 		std::string file_name = App->file_system->SetExtension(name, "json");
-		config.Save(file_name.c_str(),App->file_system->GetAssetsFolder());
+		config.Save(file_name.c_str(),App->file_system->GetMeshesFolder());
 		config.CleanUp();
 
 		//Save GameObject prefab

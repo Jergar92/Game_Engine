@@ -122,6 +122,17 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 	return 0;
 }
 
+const std::string ModuleResourceManager::GetLibraryPathFromOriginalPath(const char * original_path)
+{
+	std::map<uint, Resource*>::const_iterator it = resources.begin();
+	for (; it != resources.end(); it++)
+	{
+		if (std::experimental::filesystem::equivalent(it->second->GetOriginalFile(), original_path))
+			return it->second->GetLibraryFile();
+	}
+	return std::string();
+}
+
 ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)
 {
 	std::string extension_check = file;

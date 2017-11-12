@@ -4,6 +4,7 @@
 #include "ModuleCamera.h"
 #include "ModuleImporter.h"
 #include "ModuleEditorWindows.h"
+#include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
 #include "GameObject.h"
 #include "Component.h"
@@ -58,6 +59,7 @@ update_status ModuleScene::Update(float dt)
 		scene_go->Update(dt);
 
 	}
+	ImGui::ShowTestWindow();
 	plane->Render();
 
 	return UPDATE_CONTINUE;
@@ -142,7 +144,7 @@ void ModuleScene::SaveScene(const char*path)const
 
 void ModuleScene::LoadScene(const char*path)
 {
-//	CleanGO();
+	CleanGO();
 
 	JSONConfig config;
 
@@ -191,6 +193,45 @@ GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go,
 		}
 	}
 	return nullptr;
+}
+void ModuleScene::LoadGO(const char*path)
+{
+	std::string library_path = App->resource_manager->GetLibraryPathFromOriginalPath(path);
+	JSONConfig config;
+
+	if (!config.ParseFile(library_path.c_str(),App->file_system->GetMeshesFolder()))
+		return;
+
+	uint size = config.GetArraySize("GameObject");
+	std::vector < GameObject*> tmp_go;
+	for (int i = 0; i < size; i++)
+	{
+		JSONConfig config_item = config.SetFocusArray("GameObject", i);
+		GameObject* item = new GameObject();
+
+
+		item->LoadGameObject(config_item);
+		tmp_go.push_back(item);
+
+	}
+	for (int i = 0; i < tmp_go.size(); i++)
+	{
+
+		GameObject* item = tmp_go[i];
+		if (item->GetParentUID() == 0)
+		{
+			item->SetParent(scene_go);
+		}
+		else
+		{
+			item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
+		}
+		item->UpdateMatrix();
+
+	}
+	config.CleanUp();
+	App->editor_window->SetSceneGameObject(scene_go);
+
 }
 /*
 void ModuleScene::SendToQuad(GameObject * go)
