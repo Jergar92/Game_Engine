@@ -28,6 +28,8 @@ public:
 	void SaveScene(const char* path)const;
 
 	void LoadScene(const char*path);
+	void LoadGO(const char*path);
+
 	GameObject* FindGameObjectByID(const std::vector<GameObject*> & go, int UID_to_find)const ;
 
 	//Update Quadtree

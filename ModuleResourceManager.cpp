@@ -81,7 +81,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		
 		break;
 	case R_MESH:
-		import_success = App->importer->ImportMesh(new_asset_file);
+		import_success = App->importer->ImportMesh(new_asset_file, name.c_str());
 
 
 		break;
@@ -103,7 +103,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 			ret->SetLibraryFile(name.c_str(),"dds");
 			break;
 		case R_MESH:
-			ret->SetLibraryFile(name.c_str(), "frog");
+			ret->SetLibraryFile(name.c_str(), "json");
 			break;
 		default:
 			break;
@@ -120,6 +120,17 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 
 	}
 	return 0;
+}
+
+const std::string ModuleResourceManager::GetLibraryPathFromOriginalPath(const char * original_path)
+{
+	std::map<uint, Resource*>::const_iterator it = resources.begin();
+	for (; it != resources.end(); it++)
+	{
+		if (std::experimental::filesystem::equivalent(it->second->GetOriginalFile(), original_path))
+			return it->second->GetLibraryFile();
+	}
+	return std::string();
 }
 
 ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)

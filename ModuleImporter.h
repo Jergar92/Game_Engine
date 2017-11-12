@@ -25,7 +25,7 @@ public:
 	void Import(const char* path);
 	void Load(const char* path);
 	bool ImportTexture(const char* path,const char* name);
-	bool ImportMesh(const char* path);
+	bool ImportMesh(const char* path, const char* name);
 
 	void LoadMesh(const char* path , ComponentMesh* component);
 	void LoadMesh(ResourceMesh * mesh);

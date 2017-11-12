@@ -15,6 +15,8 @@ public:
 	uint Find(const char* asset_file)const;
 
 	uint ImportFile(const char* new_asset_file);
+	const std::string GetLibraryPathFromOriginalPath(const char* original_path);
+
 	ResourceType GetResourceFromFile(const char* file);
 
 	const Resource* Get(uint UID)const;

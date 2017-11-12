@@ -4,7 +4,7 @@
 #include "ModuleEditorWindows.h"
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
-
+#define BUTTON_SPACE 80
 UI_Folder::UI_Folder() : show_folder(std::string()), item_selected(std::string()), folder_to_change(new Path())
 {
 }
@@ -58,7 +58,16 @@ bool UI_Folder::Draw()
 	std::list<Path>::const_iterator it = path.list.begin();
 	DrawFolders(it._Ptr->_Myval);	
 	ImGui::NextColumn();
+	ImGui::BeginChild("FolderInfo", ImVec2(0, ImGui::GetWindowHeight()- BUTTON_SPACE), true);
 	DrawFolderInfo();
+	ImGui::EndChild();
+	if(ImGui::Button("Load"))
+	{
+		if (item_selected.c_str() != "")
+		{
+			App->editor_window->WantToLoad(item_selected.c_str());
+		}
+	}
 	ImGui::Columns(1);
 	ImGui::End();
 	
@@ -85,7 +94,10 @@ void UI_Folder::DrawFolders(const Path& draw)
 {
 	ImGuiWindowFlags tree_flags = 0;
 	tree_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
-
+	if (draw.path == show_folder)
+	{
+		tree_flags |= ImGuiTreeNodeFlags_Selected;
+	}
 	if (draw.child.empty())
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
 
@@ -138,6 +150,10 @@ void UI_Folder::DrawFolderInfo()
 			continue;
 		}
 		ImGuiWindowFlags tree_flags = 0;
+		if (item_selected == it->path)
+		{
+			tree_flags |= ImGuiTreeNodeFlags_Selected;
+		}
 		if (it->child.empty())
 			tree_flags |= ImGuiTreeNodeFlags_Leaf;
 
@@ -343,3 +359,5 @@ std::list<Path>::const_iterator PathList::FindFolder(std::string show_folder_pat
 	}
 	return ret;
 }
+
+

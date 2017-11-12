@@ -59,14 +59,6 @@ update_status ModuleEditorWindows::PreUpdate(float dt)
 		UpdateFiles();
 		want_to_update = false;
 	}
-
-
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleEditorWindows::PostUpdate(float dt)
-{
-
 	if (want_to_save)
 	{
 		App->scene->SaveScene(path_to_save.c_str());
@@ -75,9 +67,34 @@ update_status ModuleEditorWindows::PostUpdate(float dt)
 
 	if (want_to_load)
 	{
-		App->scene->LoadScene(path_to_load.c_str());
+		switch (next_load)
+		{
+		case LOAD_NONE:
+			break;
+		case LOAD_MESH:
+			App->scene->LoadGO(path_to_load.c_str());
+
+			break;
+		case LOAD_TEXTURE:
+			break;
+		case LOAD_SCENE:
+			App->scene->LoadScene(path_to_load.c_str());
+			break;
+		default:
+			break;
+		}
 		want_to_load = false;
+		next_load = LOAD_NONE;
+
 	}
+
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleEditorWindows::PostUpdate(float dt)
+{
+
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -85,9 +102,6 @@ update_status ModuleEditorWindows::PostUpdate(float dt)
 update_status ModuleEditorWindows::GuiUpdate()
 {
 
-
-
-	
 	bool ret = ShowMenuBar();
 	for (int i = 0; i < ui_windows.size() && ret == true; i++)
 	{
@@ -97,9 +111,6 @@ update_status ModuleEditorWindows::GuiUpdate()
 
 	if (!ret)
 		return UPDATE_STOP;
-
-
-
 	return UPDATE_CONTINUE;
 }
 
@@ -119,6 +130,38 @@ bool ModuleEditorWindows::CleanUp()
 
 	ui_windows.clear();
 	return ret;
+}
+
+LoadFile ModuleEditorWindows::DetermineFileFromPath(const char * path)
+{
+
+		std::string extension_check = path;
+		std::size_t found = extension_check.find_last_of('.');
+		std::string extension = extension_check.substr(found + 1);
+		if (_stricmp(extension.c_str(), "png") == 0
+			|| _stricmp(extension.c_str(), "jpg") == 0
+			|| _stricmp(extension.c_str(), "dds") == 0
+			|| _stricmp(extension.c_str(), "tga") == 0)
+		{
+			return LOAD_TEXTURE;
+		}
+		else if (_stricmp(extension.c_str(), "obj") == 0
+			|| _stricmp(extension.c_str(), "fbx") == 0)
+		{
+			return LOAD_MESH;
+
+		}
+		else if (_stricmp(extension.c_str(), "json") == 0)
+		{
+			return LOAD_SCENE;
+
+		}
+		else
+		{
+			return LOAD_NONE;
+		}
+	
+
 }
 
 
@@ -313,6 +356,13 @@ void ModuleEditorWindows::WantToLoad(const char * name, const char * path)
 {
 	want_to_load = true;
 	path_to_load = App->file_system->SetPathFile(name, path);
+}
+void ModuleEditorWindows::WantToLoad( const char * path)
+{
+	want_to_load = true;
+	next_load =DetermineFileFromPath(path);
+	path_to_load = path;
+
 }
 void ModuleEditorWindows::WantToSave(const char * name, const char * path)
 {
