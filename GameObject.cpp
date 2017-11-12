@@ -81,12 +81,9 @@ void GameObject::Update(float dt)
 		item->Update(dt);
 	}
 
-	if (true||show_bounding_boxAABB)
+	if (show_bounding_box)
 	{
 		RenderBoundingBoxAABB();
-	}
-	if (true||show_bounding_boxOBB)
-	{
 		RenderBoundingBoxOBB();
 	}
 }
@@ -223,9 +220,7 @@ void GameObject::InspectorUpdate()
 		ImGui::TreePop();
 	}
 
-
-	ImGui::Checkbox("Bounding Box AABB##show_bb", &show_bounding_boxAABB);
-	ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_boxOBB);
+	ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_box);
 
 	for (uint i = 0; i < components.size(); i++)
 	{
@@ -572,6 +567,11 @@ float4x4 GameObject::GetGlobalMatrix() const
 	return global_transform_matrix;
 }
 
+GameObject * GameObject::GetPartent() const
+{
+	return parent;
+}
+
 OBB GameObject::GetBoundingBoxOBB() const
 {
 	return global_bounding_box_OBB;
@@ -609,9 +609,9 @@ void GameObject::SetPosition(float3 position)
 void GameObject::GenerateBoudingBox()
 {
 	ComponentMesh* mesh = (ComponentMesh*)FindComponent(MESH);
+	global_bounding_box_AABB.SetNegativeInfinity();
 	if (mesh != nullptr)
 	{
-		global_bounding_box_AABB.SetNegativeInfinity();
 		for (int i = 0; i < mesh->GetVertices().size(); i++)
 		{
 			global_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
@@ -625,8 +625,12 @@ void GameObject::GenerateBoudingBox()
 		global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
 		}
 	}
-	UpdateMatrix();
 
+	UpdateMatrix();
+	if (parent != nullptr)
+	{
+		parent->GenerateBoudingBox();
+	}
 }
 
 
@@ -665,3 +669,4 @@ void GameObject::RenderBoundingBoxOBB()
 	}
 	glEnd();
 }
+

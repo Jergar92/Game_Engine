@@ -57,6 +57,8 @@ public:
 	void SetAABB(const AABB set_bounding_box);
 	void RenderBoundingBoxAABB();
 	void RenderBoundingBoxOBB();
+	bool EnableBoundingBox();
+	
 
 	void SetStatic(bool set);
 	void SetParent(GameObject * parent);
@@ -68,10 +70,12 @@ public:
 	void UpdateMatrix();
 	float4x4 GetTransposedMatrix() const;
 	float4x4 GetGlobalMatrix() const;
+	GameObject* GetPartent() const;
 
 	//Bounding Box
 	OBB GetBoundingBoxOBB()const;
 	AABB GetBoundingBoxAABB()const;
+
 
 public:
 	std::vector<Component*> components;
@@ -93,8 +97,7 @@ private:
 	bool enable = true;
 	bool static_go = false;
 	bool gui_static = false;
-	bool show_bounding_boxAABB = false;
-	bool show_bounding_boxOBB = false;
+	bool show_bounding_box = false;
 	bool is_bounding_box_transformed = false;
 	uint UID = 0;
 	uint parent_UID = 0;
