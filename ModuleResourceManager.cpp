@@ -81,7 +81,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		
 		break;
 	case R_MESH:
-		import_success = App->importer->ImportMesh(new_asset_file, name.c_str());
+		import_success = App->importer->ImportMesh(new_asset_file);
 
 
 		break;
@@ -103,7 +103,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 			ret->SetLibraryFile(name.c_str(),"dds");
 			break;
 		case R_MESH:
-			ret->SetLibraryFile(name.c_str(), "json");
+			ret->SetLibraryFile(name.c_str(), "frog");
 			break;
 		default:
 			break;

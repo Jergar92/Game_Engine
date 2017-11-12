@@ -77,9 +77,9 @@ bool ModuleImporter::ImportTexture(const char * path, const char * name)
 {
 	return material.ImportTexture(path, name)==1;
 }
-bool ModuleImporter::ImportMesh(const char * path,const char*name)
+bool ModuleImporter::ImportMesh(const char * path)
 {
-	return mesh.ImportMesh(path, name);
+	return mesh.ImportMesh(path);
 }
 void ModuleImporter::LoadMesh(const char * name, ComponentMesh * component)
 {
