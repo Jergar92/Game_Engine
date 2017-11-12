@@ -35,11 +35,6 @@ update_status ModuleResourceManager::Update(float dt)
 	if (time_update > UPDATE_RESOURCE_TIME)
 	{
 		LookForResources();
-		//get all folders 
-		//find all folders on resource
-		//if return 0 create that assets
-		//load
-
 	}
 	return UPDATE_CONTINUE;
 }
@@ -86,7 +81,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		
 		break;
 	case R_MESH:
-		import_success = App->importer->ImportMesh(new_asset_file);
+		import_success = App->importer->ImportMesh(new_asset_file, name.c_str());
 
 
 		break;
@@ -108,7 +103,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 			ret->SetLibraryFile(name.c_str(),"dds");
 			break;
 		case R_MESH:
-			ret->SetLibraryFile(name.c_str(), "frog");
+			ret->SetLibraryFile(name.c_str(), "json");
 			break;
 		default:
 			break;
