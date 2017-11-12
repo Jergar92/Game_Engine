@@ -206,6 +206,22 @@ bool ModuleEditorWindows::ShowMenuBar()
 						LOG("Draw Raycast Disable")
 					}	
 				}
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Show Quadtree"))
+				{
+					if (!App->camera->GetRaycast())
+					{
+				
+						LOG("Draw quadtree enable");
+					}
+					else if (App->camera->GetRaycast())
+					{
+						
+						LOG("Draw quadtree Disable")
+					}
+				}
              ImGui::EndMenu();
 			}
 

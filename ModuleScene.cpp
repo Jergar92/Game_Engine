@@ -38,6 +38,8 @@ bool ModuleScene::Start()
 	
 	App->editor_window->SetSceneGameObject(scene_go);
 	
+	App->quadtree->DrawQuadtree();
+	UpdateQuadtree(scene_go);
 	return ret;
 }
 
@@ -191,6 +193,20 @@ GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go,
 		}
 	}
 	return nullptr;
+}
+void ModuleScene::UpdateQuadtree(GameObject * add)
+{
+	if (add != nullptr)
+	{
+		for (int i = 0; add->components.size(); i++)
+		{
+			if (add->components[i] != nullptr)
+			{
+				App->quadtree->Insert(add);
+			}
+		}
+	}
+
 }
 /*
 void ModuleScene::SendToQuad(GameObject * go)

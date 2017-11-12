@@ -29,6 +29,9 @@ public:
 
 	void LoadScene(const char*path);
 	GameObject* FindGameObjectByID(const std::vector<GameObject*> & go, int UID_to_find)const ;
+
+	//Update Quadtree
+	void UpdateQuadtree(GameObject* add);
 private:
 
 public:

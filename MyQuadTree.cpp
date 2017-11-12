@@ -1,5 +1,9 @@
 #include "MyQuadTree.h"
-
+#include "Glew\include\GL\glew.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include "GameObject.h"
 MyQuadTree::MyQuadTree(AABB boundaris) :boundary(boundaris), north_west(nullptr), north_east(nullptr), south_west(nullptr), south_east(nullptr)
 {
@@ -104,6 +108,19 @@ void MyQuadTree::SendGameObjectToChilds()
 
 		it++;
 	}
+}
+
+void MyQuadTree::DrawQuadtree()
+{
+	glBegin(GL_LINES);
+	glLineWidth(1.0f);
+	glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(boundary.Edge(i).a.x, boundary.Edge(i).a.y, boundary.Edge(i).a.z);
+		glVertex3f(boundary.Edge(i).b.x, boundary.Edge(i).b.y, boundary.Edge(i).b.z);
+	}
+	glEnd();
 }
 
 //

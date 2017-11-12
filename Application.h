@@ -17,7 +17,7 @@ class ModuleEditorWindows;
 class ModuleHardware;
 class ModuleResourceManager;
 class Profiler;
-
+class MyQuadTree;
 #include <list>
 #define HISTOGRAM_LIMIT 40
 
@@ -67,6 +67,7 @@ public:
 	ModuleEditorWindows* editor_window;
 	ModuleHardware*		hardware;
 	ModuleResourceManager* resource_manager;
+	MyQuadTree*            quadtree;
 	Profiler* profiler;
 private:
 	std::string name;

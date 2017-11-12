@@ -15,8 +15,10 @@ public:
 	void Subdivide();
 	void SendGameObjectToChilds();
 	//std::vector<GameObject> QueryRange(AABB range);
+
+	//Draw Quadtree
+	void DrawQuadtree();
 	
-private:
 
 public:
 	int capacity = 4;
