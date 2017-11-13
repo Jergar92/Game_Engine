@@ -260,14 +260,14 @@ bool ModuleEditorWindows::ShowMenuBar()
 
 				if (ImGui::MenuItem("Show Quadtree"))
 				{
-					if (!App->camera->GetRaycast())
+					if (!draw_quadtree)
 					{
-				
+						quadtree->DrawQuadtree();
 						LOG("Draw quadtree enable");
 					}
 					else if (App->camera->GetRaycast())
 					{
-						
+						quadtree->DrawQuadtree();
 						LOG("Draw quadtree Disable")
 					}
 				}

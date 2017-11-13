@@ -40,8 +40,6 @@ bool ModuleScene::Start()
 	
 	App->editor_window->SetSceneGameObject(scene_go);
 	
-	//App->quadtree->DrawQuadtree();
-	UpdateQuadtree(scene_go);
 	return ret;
 }
 
@@ -197,19 +195,16 @@ GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go,
 	}
 	return nullptr;
 }
-void ModuleScene::UpdateQuadtree(GameObject * add)
+
+void ModuleScene::GenerateQuadTree()
 {
-	if (add != nullptr)
-	{
-		for (int i = 0; add->components.size(); i++)
-		{
-			if (add->components[i] != nullptr)
-			{
-				//App->quadtree->Insert(add);
-			}
-		}
-	}
+	if(quadtree != nullptr)
+	quadtree->CleanUp();
+
+	quadtree->SetQuadtree(scene_go);
+	
 }
+
 void ModuleScene::LoadGO(const char*path)
 {
 	std::string library_path = App->resource_manager->GetLibraryPathFromOriginalPath(path);
@@ -241,6 +236,7 @@ void ModuleScene::LoadGO(const char*path)
 		else
 		{
 			item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
+			item->GenerateBoudingBox();
 		}
 		item->UpdateMatrix();
 

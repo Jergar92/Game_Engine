@@ -3,6 +3,7 @@
 #include "ModuleEditorWindows.h"
 #include "Globals.h"
 #include "UI_Folder.h"
+#include "MyQuadTree.h"
 #include"p2Defs.h"
 enum LoadFile
 {
@@ -66,8 +67,10 @@ private:
 	UI_Folder* ui_folder;
 	UI_Play* ui_play;
 	GameObject* my_go;
+	MyQuadTree* quadtree;
 	bool load_window = false;
 
+	bool draw_quadtree = false;
 
 	bool want_to_save = false;
 	std::string path_to_save;

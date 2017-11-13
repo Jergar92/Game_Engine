@@ -57,7 +57,7 @@ public:
 	void SetAABB(const AABB set_bounding_box);
 	void RenderBoundingBoxAABB();
 	void RenderBoundingBoxOBB();
-	bool EnableBoundingBox();
+
 	
 
 	void SetStatic(bool set);

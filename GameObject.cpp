@@ -220,7 +220,7 @@ void GameObject::InspectorUpdate()
 		ImGui::TreePop();
 	}
 
-	ImGui::Checkbox("Bounding Box OBB##show_bb", &show_bounding_box);
+	ImGui::Checkbox("Bounding Box ##show_bb", &show_bounding_box);
 
 	for (uint i = 0; i < components.size(); i++)
 	{

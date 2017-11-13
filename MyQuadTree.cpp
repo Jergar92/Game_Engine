@@ -5,6 +5,7 @@
 #include <gl/GLU.h>
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include "GameObject.h"
+
 MyQuadTree::MyQuadTree(AABB boundaris) :boundary(boundaris), north_west(nullptr), north_east(nullptr), south_west(nullptr), south_east(nullptr)
 {
 
@@ -15,11 +16,43 @@ MyQuadTree::MyQuadTree() : north_west(nullptr), north_east(nullptr), south_west(
 
 }
 
-
 MyQuadTree::~MyQuadTree()
 {
 }
 
+
+bool MyQuadTree::CleanUp()
+{
+	bool ret = true;
+	
+	if (north_west != nullptr)
+	{
+		north_west->CleanUp();
+		RELEASE(north_west);
+	}
+
+	if (north_east != nullptr)
+	{
+		north_east->CleanUp();
+		RELEASE(north_east);
+	}
+	
+	if (south_west != nullptr)
+	{
+		south_west->CleanUp();
+		RELEASE(south_west);
+	}
+
+	if (south_east != nullptr)
+	{
+		south_east->CleanUp();
+		RELEASE(south_east);
+	}
+
+	objects.clear();
+
+	return ret;
+}
 
 bool MyQuadTree::Insert(GameObject* game_object)
 {
@@ -108,6 +141,22 @@ void MyQuadTree::SendGameObjectToChilds()
 
 		it++;
 	}
+}
+
+void MyQuadTree::SetQuadtree(GameObject * scene)
+{
+	if (scene != nullptr)
+	{
+		for (int i = 0; scene->childs.size(); i++)
+		{
+			if (scene->childs[i] != nullptr)
+			{
+				scene->childs[i]->GenerateBoudingBox();
+				boundary = scene->childs[i]->GetBoundingBoxAABB();
+			}
+		}
+	}
+
 }
 
 void MyQuadTree::DrawQuadtree()

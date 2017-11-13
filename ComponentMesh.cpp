@@ -140,6 +140,7 @@ bool ComponentMesh::LoadComponent(const JSONConfig & config)
 		if (r_mesh != nullptr)
 		{
 			r_mesh->LoadInMemory();
+			my_go->GenerateBoudingBox();
 		}
 	}
 	

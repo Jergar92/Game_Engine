@@ -10,13 +10,16 @@ public:
 	MyQuadTree(AABB boundaris);
 	MyQuadTree();
 	~MyQuadTree();
-
+	
+	bool CleanUp();
 	bool Insert(GameObject* GameObject);
 	void Subdivide();
 	void SendGameObjectToChilds();
+
 	//std::vector<GameObject> QueryRange(AABB range);
 
 	//Draw Quadtree
+	void SetQuadtree(GameObject* scene);
 	void DrawQuadtree();
 	
 

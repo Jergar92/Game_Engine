@@ -32,13 +32,13 @@ public:
 
 	GameObject* FindGameObjectByID(const std::vector<GameObject*> & go, int UID_to_find)const ;
 
-	//Update Quadtree
-	void UpdateQuadtree(GameObject* add);
+	//Generate quadtree
+	void GenerateQuadTree();
 private:
 
 public:
 
-	MyQuadTree quadtree;
+	MyQuadTree* quadtree;
 	Plane_p* plane;
 
 private:

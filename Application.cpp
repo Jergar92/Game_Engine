@@ -12,7 +12,6 @@
 #include "ModuleEditorWindows.h"
 #include "ModuleHardware.h"
 #include "ModuleResourceManager.h"
-#include "MyQuadTree.h"
 #include "Profiler.h"
 Application::Application()
 {
@@ -26,7 +25,6 @@ Application::Application()
 	camera = new ModuleCamera();
 	editor_window = new ModuleEditorWindows();
 	hardware = new ModuleHardware();
-	quadtree = new MyQuadTree();
 	resource_manager = new ModuleResourceManager();
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
