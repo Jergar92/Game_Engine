@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleImporter.h"
 #include "Glew\include\GL\glew.h"
-
+#include "imgui/imgui.h"
 ResourceTexture::ResourceTexture(uint UID):Resource(UID,ResourceType::R_TEXTURE), rgba_color (float4(1.0f,1.0f,1.0f,1.0f))
 {
 }
@@ -33,6 +33,10 @@ void ResourceTexture::UnLoadInMemory()
 	{
 		glDeleteTextures(1, &id);
 	}
+}
+
+void ResourceTexture::InspectorUpdate()
+{
 }
 
 void ResourceTexture::SaveResource(JSONConfig & config) const

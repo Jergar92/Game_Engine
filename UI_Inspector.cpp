@@ -1,7 +1,7 @@
 #include "UI_Inspector.h"
 #include "GameObject.h"
 #include "imgui/imgui.h"
-
+#include "Resource.h"
 
 UI_Inspector::UI_Inspector()
 {
@@ -29,9 +29,10 @@ bool UI_Inspector::Draw()
 	case I_GO:
 		InspectorGameObject();
 		break;
-	case I_MESH:
+	case I_RESOURCE:
+		InspectorResource();
 		break;
-	case I_TEXTURE:
+	case I_NONE:
 		break;
 	default:
 		break;
@@ -43,12 +44,23 @@ bool UI_Inspector::Draw()
 void UI_Inspector::CleanUp()
 {
 	selected_go = nullptr;
+	selected_resource = nullptr;
+	show = I_NONE;
+
 }
 
 void UI_Inspector::SetSelectedGameObject(GameObject * set)
 {
 	selected_go = set;
+	show = I_GO;
+	selected_resource = nullptr;
+}
 
+void UI_Inspector::SetSelectedResource(Resource * set)
+{
+	selected_resource = set;
+	show = I_RESOURCE;
+	selected_go = nullptr;
 }
 
 GameObject * UI_Inspector::GetSelected() const
@@ -83,5 +95,13 @@ void UI_Inspector::InspectorGameObject()
 		}
 		if(selected_fish!=-1)
 		selected_go->CreateComponent(static_cast<ComponentType>(selected_fish));
+	}
+}
+
+void UI_Inspector::InspectorResource()
+{
+	if (selected_resource != nullptr)
+	{
+		//selected_resource->InspectorUpdate();
 	}
 }

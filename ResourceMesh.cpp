@@ -31,9 +31,7 @@ void ResourceMesh::SetupMesh()
 		//set bind buffer glBindBuffer to 0
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	}
-
-	
+	}	
 	//set bind buffer glBindBuffer to 0
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -122,6 +120,10 @@ void ResourceMesh::UnLoadInMemory()
 		glDeleteBuffers(1, &VBO);
 		glDeleteBuffers(1, &EBO);
 	}
+}
+
+void ResourceMesh::InspectorUpdate()
+{
 }
 
 const bool ResourceMesh::GetDebugNormal() const

@@ -67,13 +67,13 @@ update_status ModuleEditorWindows::PreUpdate(float dt)
 
 	if (want_to_load)
 	{
+		ui_inspector->CleanUp();
 		switch (next_load)
 		{
 		case LOAD_NONE:
 			break;
 		case LOAD_MESH:
 			App->scene->LoadGO(path_to_load.c_str());
-
 			break;
 		case LOAD_TEXTURE:
 			break;

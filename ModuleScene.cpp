@@ -61,7 +61,6 @@ update_status ModuleScene::Update(float dt)
 		scene_go->Update(dt);
 
 	}
-	ImGui::ShowTestWindow();
 	plane->Render();
 
 	return UPDATE_CONTINUE;

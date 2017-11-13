@@ -45,6 +45,6 @@ public:
 private:
 
 	GameObject* scene_go = nullptr;
-	GameObject* selected_go = nullptr;
+//	GameObject* selected_go = nullptr;
 
 };

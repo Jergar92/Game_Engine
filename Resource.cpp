@@ -76,6 +76,10 @@ void Resource::UnLoadInMemory()
 
 }
 
+void Resource::InspectorUpdate()
+{
+}
+
 ResourceType Resource::GetResourceType() const
 {
 	return type;
