@@ -135,7 +135,7 @@ void UI_Folder::DrawFolderInfo()
 {
 	ImGui::Text("%s Contains:", show_folder.c_str());
 
-
+	
 	std::list<Path>::const_iterator tmp = path.FindFolder(show_folder);
 	if (tmp==path.list.end())
 	{
@@ -208,7 +208,7 @@ Path::Path():path(std::string()),name(std::string()),parent(nullptr),directory(t
 {
 }
 
-Path::Path(std::string path,std::string name , std::string parent_path, bool directory) :path(path),name(name), parent_path(parent_path),directory(directory), parent(nullptr)
+Path::Path(const std::string& path, const std::string& name , const std::string& parent_path, bool directory) :path(path),name(name), parent_path(parent_path),directory(directory), parent(nullptr)
 {
 	type = SetType();
 }
@@ -320,7 +320,7 @@ void PathList::OrderPath()
 	}
 }
 
-bool PathList::PathExist(std::string cmp_path)const 
+bool PathList::PathExist(const std::string& cmp_path)const 
 {
 	for (std::list<Path>::const_iterator it = list.begin(); it != list.end(); it++)
 	{
@@ -347,7 +347,7 @@ std::vector<std::string>PathList::ReturnFiles(FileType especific)
 	return path_list;
 }
 
-std::list<Path>::const_iterator PathList::FindFolder(std::string show_folder_path)const
+std::list<Path>::const_iterator PathList::FindFolder(const std::string& show_folder_path)const
 {
 	std::list<Path>::const_iterator ret;
 	for (ret = list.begin(); ret != list.end(); ret++)

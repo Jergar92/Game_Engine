@@ -90,7 +90,15 @@ update_status ModuleEditorWindows::PreUpdate(float dt)
 
 	return UPDATE_CONTINUE;
 }
+update_status ModuleEditorWindows::Update(float dt)
+{
+	if (load_window)
+	{
+		LoadWindow();
+	}
 
+	return UPDATE_CONTINUE;
+}
 update_status ModuleEditorWindows::PostUpdate(float dt)
 {
 
@@ -184,10 +192,8 @@ bool ModuleEditorWindows::ShowMenuBar()
 			}
 			if (ImGui::MenuItem("Load"))
 			{
-				std::string path = App->file_system->GetAssetsFolder();
 				
-			
-				WantToLoad("try.json", path.c_str());
+				load_window = true;
 
 			}
 			if (ImGui::MenuItem("Quit", "alt+f4"))
@@ -368,6 +374,36 @@ void ModuleEditorWindows::WantToSave(const char * name, const char * path)
 {
 	want_to_save = true;
 	path_to_save = App->file_system->SetPathFile(name, path);
+}
+
+void ModuleEditorWindows::LoadWindow()
+{
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_ShowBorders;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	ImGui::Begin("Load##load_window", &load_window, window_flags);
+	std::vector<std::string> path = ui_folder->ReturnFiles(F_JSON);
+	static std::string select;
+	for (std::vector<std::string>::iterator it = path.begin(); it != path.end(); it++)
+	{
+		if (ImGui::Button(it->c_str()))
+		{
+			select = (*it);
+		}
+	}
+	if (ImGui::Button("Load##load_scene"))
+	{
+		if (select.empty())
+		{		
+			load_window = false;
+			ImGui::End();
+			return;
+		}
+		WantToLoad(select.c_str());
+		load_window = false;
+	}
+	ImGui::End();
 }
 std::vector<std::string> ModuleEditorWindows::ReturnFiles(FileType especific)
 {

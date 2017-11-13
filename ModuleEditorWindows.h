@@ -30,6 +30,7 @@ public:
 
 	bool Start();
 	update_status PreUpdate(float dt);
+	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 
 	update_status GuiUpdate();
@@ -44,6 +45,8 @@ public:
 	void WantToLoad(const char* name, const char*path);
 	void WantToLoad(const char * path);
 	void WantToSave(const char* name, const char*path);
+
+	void LoadWindow();
 	std::vector<std::string> ReturnFiles(FileType especific = F_NONE);
 	void WantToUpdate();
 
@@ -63,6 +66,9 @@ private:
 	UI_Folder* ui_folder;
 	UI_Play* ui_play;
 	GameObject* my_go;
+	bool load_window = false;
+
+
 	bool want_to_save = false;
 	std::string path_to_save;
 	bool want_to_load = false;

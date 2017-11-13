@@ -26,9 +26,9 @@ public:
 
 
 
-	bool ListFiles(const std::string path, PathList& path_fill);
+	bool ListFiles(const std::string& path, PathList& path_fill);
 
-	bool CreateNewFolder(const std::string path, const char* name,std::string& full_path);
+	bool CreateNewFolder(const std::string& path, const char* name,std::string& full_path);
 
 	std::string SetExtension(const char * name, const char * extension);
 	std::string SetPathFile(const char * name, const char * directory);

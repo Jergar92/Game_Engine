@@ -147,7 +147,7 @@ void GameObject::GuiUpdate()
 	//change color to gray
 	if (!enable)	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
 	char name_id[40];
-	sprintf_s(name_id, 40, "%s##%i", name.c_str(), UID);
+	sprintf_s(name_id, 40, "%s##%i", name.c_str(), *this);
 	node_open = ImGui::TreeNodeEx(name_id, tree_flags);
 	//reset color
 	if (!enable)	ImGui::PopStyleColor();
@@ -175,7 +175,7 @@ void GameObject::GuiUpdate()
 			}
 			ImGui::EndPopup();
 		}
-		ImGui::PopID();
+	ImGui::PopID();
 
 
 	if (node_open)

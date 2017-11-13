@@ -244,7 +244,7 @@ std::string ModuleFileSystem::GetLibraryPath(const std::string & path_to_change,
 
 }
 
-bool ModuleFileSystem::ListFiles(const std::string parent_path, PathList& path_fill)
+bool ModuleFileSystem::ListFiles(const std::string& parent_path, PathList& path_fill)
 {
 	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(parent_path))
 	{
@@ -262,14 +262,15 @@ bool ModuleFileSystem::ListFiles(const std::string parent_path, PathList& path_f
 		}
 		Path new_directory(path, str_name, parent_path, directory);
 		path_fill.list.push_back(new_directory);
-	
-		
+		str_path.clear();
+		str_name.clear();
+		path.clear();
 	}
 	return true;
 }
 
 
-bool ModuleFileSystem::CreateNewFolder(const std::string path, const char * name,std::string& full_path)
+bool ModuleFileSystem::CreateNewFolder(const std::string& path, const char * name,std::string& full_path)
 {
 	full_path=(PATH(path.c_str(), name));
 	return CreateFolder(full_path.c_str());

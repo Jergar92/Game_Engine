@@ -15,7 +15,7 @@ enum FileType
 struct Path
 {
 	Path();
-	Path(std::string path, std::string name, std::string parent_path, bool directory);
+	Path(const std::string& path, const std::string& name,const std::string& parent_path, bool directory);
 	~Path();
 public:
 	FileType SetType();
@@ -37,9 +37,9 @@ public:
 struct PathList
 {
 	void OrderPath();
-	bool PathExist(std::string cmp_path)const ;
+	bool PathExist(const std::string& cmp_path)const ;
 	std::vector<std::string> ReturnFiles(FileType especific);
-	std::list<Path>::const_iterator FindFolder(std::string show_folder_path)const;
+	std::list<Path>::const_iterator FindFolder(const std::string& show_folder_path)const;
 	std::list<Path> list;
 
 };
