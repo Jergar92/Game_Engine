@@ -40,11 +40,11 @@ public:
 
 	MyQuadTree* quadtree;
 	Plane_p* plane;
+	
 
 private:
+
 	GameObject* scene_go = nullptr;
 	GameObject* selected_go = nullptr;
-
-
 
 };

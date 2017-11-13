@@ -282,6 +282,11 @@ void GameObject::SetStatic(bool set)
 	static_go = set;
 }
 
+bool GameObject::IsStatic() const
+{
+	return static_go;
+}
+
 void GameObject::SetParent(GameObject * set_parent)
 {
 	if (set_parent != nullptr)

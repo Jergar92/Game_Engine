@@ -59,8 +59,10 @@ public:
 	void RenderBoundingBoxOBB();
 
 	
-
+	//static functions
 	void SetStatic(bool set);
+	bool IsStatic()const;
+
 	void SetParent(GameObject * parent);
 	void SetChild(GameObject * child);
 	void SetName(const char* name);

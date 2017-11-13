@@ -14,6 +14,7 @@
 #include "Primitive.h"
 #include "p2Defs.h"
 #include <conio.h>
+#include <queue>
 ModuleScene::ModuleScene(bool start_enabled)
 {
 	name = "Scene";
@@ -201,7 +202,27 @@ void ModuleScene::GenerateQuadTree()
 	if(quadtree != nullptr)
 	quadtree->CleanUp();
 
-	quadtree->SetQuadtree(scene_go);
+	if (scene_go != nullptr)
+	{
+		std::queue<GameObject*> add_elements;
+		quadtree->SetQuadtree(scene_go);
+		add_elements.push(scene_go);
+		
+		while (!add_elements.empty())
+		{
+			if (add_elements.front()->IsStatic())
+			{
+				quadtree->Insert(add_elements.front());
+			}
+
+			for (int i = 0; i < scene_go->childs.size(); i++)
+			{
+				add_elements.push(scene_go->childs[i]);
+			}
+			add_elements.pop();
+		}
+		
+	}
 	
 }
 

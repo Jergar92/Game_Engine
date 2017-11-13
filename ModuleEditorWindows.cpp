@@ -258,18 +258,35 @@ bool ModuleEditorWindows::ShowMenuBar()
 
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Show Quadtree"))
+				if (ImGui::BeginMenu("Quadtree Options"))
 				{
-					if (!draw_quadtree)
+					
+					if (ImGui::MenuItem("Generate Quadtree"))
 					{
-						quadtree->DrawQuadtree();
-						LOG("Draw quadtree enable");
+						if (!generate_quadtree)
+						{
+							App->scene->GenerateQuadTree();
+							LOG("Generate quadtree enable");
+						}
 					}
-					else if (App->camera->GetRaycast())
+
+					ImGui::Separator();
+
+					if (ImGui::MenuItem("Draw Quadtree"))
 					{
-						quadtree->DrawQuadtree();
-						LOG("Draw quadtree Disable")
+						if (!draw_quadtree)
+						{
+							quadtree->DrawQuadtree();
+							LOG("Draw quadtree enable");
+						}
+						else if (draw_quadtree)
+						{
+							quadtree->DrawQuadtree();
+							LOG("Draw quadtree Disable")
+						}
 					}
+					
+					ImGui::EndMenu();
 				}
              ImGui::EndMenu();
 			}

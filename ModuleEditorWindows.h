@@ -71,6 +71,7 @@ private:
 	bool load_window = false;
 
 	bool draw_quadtree = false;
+	bool generate_quadtree = false;
 
 	bool want_to_save = false;
 	std::string path_to_save;
