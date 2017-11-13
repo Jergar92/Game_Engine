@@ -147,14 +147,7 @@ void MyQuadTree::SetQuadtree(GameObject * scene)
 {
 	if (scene != nullptr)
 	{
-		for (int i = 0; scene->childs.size(); i++)
-		{
-			if (scene->childs[i] != nullptr)
-			{
-				scene->childs[i]->GenerateBoudingBox();
-				boundary = scene->childs[i]->GetBoundingBoxAABB();
-			}
-		}
+		boundary = scene->GetBoundingBoxAABB();
 	}
 
 }
