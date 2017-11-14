@@ -158,25 +158,23 @@ void UI_Folder::DrawFolderInfo()
 			tree_flags |= ImGuiTreeNodeFlags_Leaf;
 
 			bool node_open = ImGui::TreeNodeEx(it->name.c_str(), tree_flags);
-
-			if (node_open)
+			if (ImGui::IsItemClicked())
 			{
-				if (ImGui::IsItemClicked() )
+				if (it->directory)
 				{
-					if (it->directory)
+					if (ImGui::IsMouseDoubleClicked(0))
 					{
-						if (ImGui::IsMouseDoubleClicked(0))
-						{
-							show_folder = it->path;
-						}
-					}
-					else
-					{
-						item_selected = it->path;
-						my_editor->SetSelectedResource(item_selected.c_str());
+						show_folder = it->path;
 					}
 				}
-
+				else
+				{
+					item_selected = it->path;
+					my_editor->SetSelectedResource(item_selected.c_str());
+				}
+			}
+			if (node_open)
+			{
 				ImGui::TreePop();
 			}
 		
