@@ -205,7 +205,7 @@ void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&
 	LineSegment ray_copy = ray;
 	ray_copy.Transform(go->GetGlobalMatrix().Inverted());
 	
-	if (ray_copy.Intersects(go->GetBoundingBoxAABB()))
+	if (ray_copy.Intersects(go->GetIdentityBoundingBoxAABB()))
 	{
 		ComponentMesh* mesh = (ComponentMesh*)go->FindComponent(MESH);
 		if (mesh != nullptr)

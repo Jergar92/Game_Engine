@@ -56,7 +56,7 @@ bool MyQuadTree::CleanUp()
 
 bool MyQuadTree::Insert(GameObject* game_object)
 {
-	if (boundary.Contains(game_object->GetBoundingBoxAABB()))
+	if (!boundary.Contains(game_object->GetBoundingBoxAABB()))
 		return false;
 
 	if (north_west != nullptr)
@@ -83,7 +83,7 @@ bool MyQuadTree::Insert(GameObject* game_object)
 	else
 	{
 		objects.push_back(game_object);
-		if (objects.size() < capacity)
+		if (objects.size() > capacity)
 		{
 			Subdivide();
 		}
@@ -109,6 +109,8 @@ void MyQuadTree::Subdivide()
 
 	float3 south_east_quad_pos = float3(boundary.minPoint.x + quad_size.x, boundary.minPoint.y, boundary.minPoint.z);
 	south_east = new MyQuadTree(AABB(south_east_quad_pos, south_east_quad_pos + quad_size));
+
+	SendGameObjectToChilds();
 }
 
 
@@ -145,25 +147,39 @@ void MyQuadTree::SendGameObjectToChilds()
 
 void MyQuadTree::SetQuadtree(GameObject * scene)
 {
-	if (scene != nullptr)
-	{
-		boundary = scene->GetBoundingBoxAABB();
-	}
+	//if (scene != nullptr)
+	//{
+	//	boundary = scene->GetBoundingBoxAABB();
+	//}
 
+	boundary = AABB(float3::zero, 50.0f);
 }
 
 void MyQuadTree::DrawQuadtree()
 {
-	glBegin(GL_LINES);
-	glLineWidth(1.0f);
-	glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
-	for (uint i = 0; i < 12; i++)
+	if (north_west == nullptr)
 	{
-		glVertex3f(boundary.Edge(i).a.x, boundary.Edge(i).a.y, boundary.Edge(i).a.z);
-		glVertex3f(boundary.Edge(i).b.x, boundary.Edge(i).b.y, boundary.Edge(i).b.z);
+		glBegin(GL_LINES);
+		glLineWidth(25.0f);
+		glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+		for (uint i = 0; i < 12; i++)
+		{
+			glVertex3f(boundary.Edge(i).a.x, boundary.Edge(i).a.y, boundary.Edge(i).a.z);
+			glVertex3f(boundary.Edge(i).b.x, boundary.Edge(i).b.y, boundary.Edge(i).b.z);
+		}
+		glEnd();
 	}
-	glEnd();
+
+	
+	if (north_west != nullptr)
+	{
+		north_west->DrawQuadtree();
+		north_east->DrawQuadtree();
+		south_west->DrawQuadtree();
+		south_east->DrawQuadtree();
+	}
 }
+
 
 //
 //std::vector<GameObject> MyQuadTree::QueryRange(AABB range)

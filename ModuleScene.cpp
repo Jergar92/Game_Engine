@@ -41,6 +41,7 @@ bool ModuleScene::Start()
 	quadtree = new MyQuadTree();
 	App->editor_window->SetSceneGameObject(scene_go);
 	
+	GenerateQuadTree();
 	return ret;
 }
 
@@ -60,6 +61,11 @@ update_status ModuleScene::Update(float dt)
 	{
 		scene_go->Update(dt);
 
+	}
+
+	if (enable_draw_quadtree)
+	{
+		quadtree->DrawQuadtree();
 	}
 	plane->Render();
 
@@ -213,10 +219,10 @@ void ModuleScene::GenerateQuadTree()
 			{
 				quadtree->Insert(add_elements.front());
 			}
-
-			for (int i = 0; i < scene_go->childs.size(); i++)
+			GameObject* first_position = add_elements.front();
+			for (int i = 0; i < first_position->childs.size(); i++)
 			{
-				add_elements.push(scene_go->childs[i]);
+				add_elements.push(first_position->childs[i]);
 			}
 			add_elements.pop();
 		}
@@ -224,6 +230,7 @@ void ModuleScene::GenerateQuadTree()
 	}
 	
 }
+
 
 void ModuleScene::LoadGO(const char*path)
 {

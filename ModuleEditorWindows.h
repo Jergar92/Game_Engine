@@ -67,7 +67,7 @@ private:
 	UI_Folder* ui_folder;
 	UI_Play* ui_play;
 	GameObject* my_go;
-	MyQuadTree* quadtree;
+
 	bool load_window = false;
 
 	bool draw_quadtree = false;

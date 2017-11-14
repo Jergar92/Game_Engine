@@ -40,7 +40,7 @@ public:
 
 	MyQuadTree* quadtree;
 	Plane_p* plane;
-	
+	bool enable_draw_quadtree = false;
 
 private:
 
