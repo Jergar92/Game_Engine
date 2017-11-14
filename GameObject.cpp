@@ -202,7 +202,10 @@ void GameObject::InspectorUpdate()
 	ImGui::SameLine();
 	//Enable//Disable Static Game Object
 	if (ImGui::Checkbox("Static##static_go", &static_go))
+	{
 		gui_static = true;
+		SetStatic(static_go);
+	}
 	if (gui_static)
 		OpenStaticQuestion();
 	//Start draw Elements 
@@ -288,6 +291,10 @@ void GameObject::OpenStaticQuestion()
 void GameObject::SetStatic(bool set)
 {
 	static_go = set;
+	if (static_go)
+	{
+		App->scene->quadtree->Insert(this);
+	}
 }
 
 bool GameObject::IsStatic() const

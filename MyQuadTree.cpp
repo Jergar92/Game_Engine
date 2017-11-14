@@ -117,30 +117,32 @@ void MyQuadTree::Subdivide()
 void MyQuadTree::SendGameObjectToChilds()
 {
 	std::vector<GameObject*>::iterator it = objects.begin();
+	
 	while (it != objects.end())
 	{
-
+		bool is_erase = false;
 		if (north_west->Insert(*it))
 		{
 			it = objects.erase(it);
-			it--;
+			is_erase = true;
 		}
 		else if (north_east->Insert(*it))
 		{
 			it = objects.erase(it);
-			it--;
+			is_erase = true;
 		}
 		else if (south_west->Insert(*it))
 		{
 			it = objects.erase(it);
-			it--;
+			is_erase = true;
 		}
 		else if (south_east->Insert(*it))
 		{
 			it = objects.erase(it);
-			it--;
+			is_erase = true;
 		}
 
+		if(is_erase == false)
 		it++;
 	}
 }
