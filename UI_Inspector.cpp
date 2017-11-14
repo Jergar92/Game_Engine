@@ -95,7 +95,7 @@ void UI_Inspector::InspectorGameObject()
 			ImGui::EndPopup();
 		}
 		if(selected_fish!=-1)
-		selected_go->CreateComponent(static_cast<ComponentType>(selected_fish));
+		selected_go->CreateComponent(static_cast<ComponentType>(selected_fish+1));
 	}
 }
 

@@ -388,6 +388,8 @@ void ModuleEditorWindows::WantToLoad(const char * name, const char * path)
 {
 	want_to_load = true;
 	path_to_load = App->file_system->SetPathFile(name, path);
+	next_load = DetermineFileFromPath(path_to_load.c_str());
+
 }
 void ModuleEditorWindows::WantToLoad( const char * path)
 {
