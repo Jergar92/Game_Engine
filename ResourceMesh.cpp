@@ -88,25 +88,42 @@ const std::vector<uint>& ResourceMesh::GetIndices()const
 {
 	return indices;
 }
-const uint ResourceMesh::GetVertexBuffer()const
+uint ResourceMesh::GetVertexBuffer()const
 {
 	return VBO;
 }
-const uint ResourceMesh::GetElementBuffer()const
+uint ResourceMesh::GetElementBuffer()const
 {
 	return EBO;
 }
-const uint ResourceMesh::GetVertexNormalID() const
+uint ResourceMesh::GetVertexNormalID() const
 {
 	return vertex_normals_id;
 }
-const uint ResourceMesh::GetSurfaceNormalID() const
+uint ResourceMesh::GetSurfaceNormalID() const
 {
 	return surface_normals_id;
 }
-const bool ResourceMesh::GetDrawMesh() const
+uint ResourceMesh::GetNumVertices() const
+{
+	return num_vertices;
+}
+uint ResourceMesh::GetNumIndices() const
+{
+	return num_indices;
+}
+bool ResourceMesh::GetDrawMesh() const
 {
 	return draw_mesh;
+}
+bool ResourceMesh::GetDebugNormal() const
+{
+	return debug_normals_succes;
+}
+
+const std::string ResourceMesh::GetMeshName() const
+{
+	return mesh_name;
 }
 
 void ResourceMesh::DrawMesh(bool show)
@@ -154,15 +171,6 @@ void ResourceMesh::InspectorUpdate()
 
 }
 
-const bool ResourceMesh::GetDebugNormal() const
-{
-	return debug_normals_succes;
-}
-
-std::string ResourceMesh::GetMeshName() const
-{
-	return mesh_name;
-}
 
 
 

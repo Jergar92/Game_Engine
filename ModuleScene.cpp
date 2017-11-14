@@ -62,7 +62,6 @@ update_status ModuleScene::Update(float dt)
 		scene_go->Update(dt);
 
 	}
-
 	if (enable_draw_quadtree)
 	{
 		quadtree->DrawQuadtree();

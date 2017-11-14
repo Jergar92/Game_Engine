@@ -5,7 +5,8 @@ enum ResourceType
 {
 	R_NONE,
 	R_TEXTURE,
-	R_MESH
+	R_MESH,
+	R_PREFAB
 };
 class Resource
 {
@@ -20,9 +21,9 @@ public:
 	virtual void UnLoad();
 	virtual void InspectorUpdate();
 	ResourceType GetResourceType()const;
-	const std::string GetOriginalFile()const;
-	const std::string GetLibraryFile()const;
-	const std::string GetMetaJsonFile()const;
+	const std::string& GetOriginalFile()const;
+	const std::string& GetLibraryFile()const;
+	const std::string& GetMetaJsonFile()const;
 
 	void SetOriginalFile(const char* set);
 	void SetOriginalFile(const char * set, const char * extension);

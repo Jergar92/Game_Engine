@@ -8,7 +8,7 @@
 #include "imgui\imgui.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
 
-ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go)
+ComponentMesh::ComponentMesh(GameObject* my_go) :Component(my_go),r_mesh(nullptr)
 {
 	component_name = "Mesh";
 	type = MESH;
@@ -21,9 +21,9 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::InspectorUpdate()
 {
-	
-	uint flags = ImGuiTreeNodeFlags_DefaultOpen|ImGuiTreeNodeFlags_CheckBox;
-	bool node_open = ImGui::TreeNodeEx(component_name.c_str(),flags,&enable);
+
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
 	if (ImGui::BeginPopupContextItem("go_options"))
 	{	//Scene GO protection
 
@@ -35,21 +35,60 @@ void ComponentMesh::InspectorUpdate()
 
 		ImGui::EndPopup();
 	}
+
 	if (node_open)
 	{
-		
-			ImGui::Text("Vertices:");
-			ImGui::SameLine();
-			//ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", r_mesh->num_vertices);
+		int num_vertices = (r_mesh == nullptr) ? 0 : r_mesh->GetNumVertices();
+		int num_indices = (r_mesh == nullptr) ? 0 : r_mesh->GetNumIndices();
 
-			ImGui::Text("Indices:");
-			ImGui::SameLine();
-		//	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_indices);
+		ImGui::Text("Vertices:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_vertices);
 
+		ImGui::Text("Indices:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_indices);
+
+		if (ImGui::Button("Select Mesh"))
+		{
+			show_mesh_window = true;
+		}
 		ImGui::TreePop();
-
+	}
+	if (show_mesh_window)
+	{
+		uint UID=App->resource_manager->ResourceWindows(R_MESH);
+		if (UID == -1)
+		{
+			show_mesh_window = false;
+		}
+		else if (UID != 0)
+		{		
+			Resource* new_resource = App->resource_manager->Get(UID);
+			bool update = true;
+			if (r_mesh != nullptr)
+			{
+				if (new_resource->GetOriginalFile().compare(r_mesh->GetOriginalFile()) == 0)
+				{
+					update = false;
+				}
+				else
+				{
+					r_mesh->UnLoadInMemory();
+				}
+			}
+			if (update)
+			{
+				r_mesh = (ResourceMesh*)new_resource;
+				r_mesh->LoadInMemory();
+			}
+			show_mesh_window = false;
+			ImGui::CloseCurrentPopup();			
+		}
 	}
 }
+	
+
 void ComponentMesh::CleanUp()
 {
 
@@ -87,6 +126,12 @@ uint ComponentMesh::GetSurfaceNormalID() const
 const ResourceMesh * ComponentMesh::GetResourceMesh() const
 {
 	return r_mesh;
+}
+bool ComponentMesh::HaveResourceMesh() const
+{
+	if (r_mesh == nullptr)
+		return false;
+	return true;
 }
 bool ComponentMesh::GetDrawMesh() const
 {

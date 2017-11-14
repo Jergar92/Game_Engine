@@ -34,7 +34,8 @@ private:
 	void DrawTriangleNormals();
 
 private:
-	
+	bool show_mesh_renderer_window = false;
+
 	ComponentMesh* mesh = nullptr;
 	uint VBO;//Vertex Buffer Object
 	uint EBO;//Element Buffer Object

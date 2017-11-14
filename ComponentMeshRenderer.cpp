@@ -17,6 +17,8 @@
 ComponentMeshRenderer::ComponentMeshRenderer(GameObject* my_go) :Component(my_go)
 {
 	component_name = "Mesh Renderer";
+	//find mesh component
+	SetMesh((ComponentMesh*)my_go->FindComponent(ComponentType::MESH));
 	type = MESH_RENDER;
 }
 
@@ -27,7 +29,7 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 
 void ComponentMeshRenderer::Update(float dt)
 {
-	if (mesh->GetResourceMesh() == nullptr||!mesh->isEnable() || !mesh->GetDrawMesh() )
+	if (mesh==nullptr||!mesh->HaveResourceMesh()||!mesh->isEnable() || !mesh->GetDrawMesh() )
 		return;
 	//Get Transform
 	glPushMatrix();
@@ -190,22 +192,65 @@ void ComponentMeshRenderer::InspectorUpdate()
 	}
 	if (node_open)
 	{
-		for (int i = 0; i < textures.size(); i++)
+		if (!textures.empty())
 		{
-			ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
-
-			if (ImGui::IsItemHovered())
+			for (int i = 0; i < textures.size(); i++)
 			{
-				ImGui::BeginTooltip();
-				ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
-				ImGui::EndTooltip();
+				ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
+
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
+					ImGui::EndTooltip();
+				}
+				ImGui::PushItemWidth(200);
+				ImGui::Text("Image RGBA");
+				ImGui::ColorEdit4("##image_rgba", textures[i]->GetRGBA().ptr());
 			}
-			ImGui::PushItemWidth(200);
-			ImGui::Text("Image RGBA");
-			ImGui::ColorEdit4("##image_rgba", textures[i]->GetRGBA().ptr());
+		}
+		if (ImGui::Button("Select Texture"))
+		{
+			show_mesh_renderer_window = true;
 		}
 		ImGui::TreePop();
+	}
+	if (show_mesh_renderer_window)
+	{
+		uint UID = App->resource_manager->ResourceWindows(R_TEXTURE);
+		if (UID == -1)
+		{
+			show_mesh_renderer_window = false;
+		}
+		else if (UID != 0)
+		{
+			Resource* new_resource = App->resource_manager->Get(UID);
+			bool update = true;
+			if (!textures.empty())
+			{
+				if (new_resource->GetOriginalFile().compare((*textures.begin())->GetOriginalFile()) == 0)
+				{
+					update = false;
+				}
+				else
+				{
+					(*textures.begin())->UnLoadInMemory();
+					(*textures.begin()) = (ResourceTexture*)new_resource;
 
+				}
+			}
+			else
+			{
+				textures.push_back((ResourceTexture*)new_resource);
+
+			}
+			if (update)
+			{
+				(*textures.begin())->LoadInMemory();
+			}
+			show_mesh_renderer_window = false;
+			ImGui::CloseCurrentPopup();
+		}
 	}
 }
 

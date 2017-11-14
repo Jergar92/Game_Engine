@@ -6,7 +6,7 @@
 #include "ResourceTexture.h"
 #include <vector>
 #include <experimental\filesystem>
-
+#include "imgui/imgui.h"
 #define UPDATE_RESOURCE_TIME 5.0f
 ModuleResourceManager::ModuleResourceManager()
 {
@@ -133,6 +133,62 @@ const std::string ModuleResourceManager::GetLibraryPathFromOriginalPath(const ch
 	return std::string();
 }
 
+uint ModuleResourceManager::ResourceWindows(ResourceType type)
+{
+	uint ret = 0;
+	ImGui::OpenPopup("Select Mesh");
+	if (ImGui::BeginPopupModal("Select Mesh", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("Change children to?");
+		ImGui::Separator();
+		static int uid = 0;
+		std::map<uint, Resource*>::const_iterator it = resources.begin();
+
+		for (; it != resources.end(); it++)
+		{
+			if (it->second->GetResourceType() == type)
+			{
+				ImGuiWindowFlags tree_flags = 0;
+
+				if (uid == it->first)
+				{
+					tree_flags |= ImGuiTreeNodeFlags_Selected;
+				}
+				ImGui::TreeNodeEx(it->second->GetOriginalFile().c_str() , tree_flags| ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+				if (ImGui::IsItemClicked())
+				{
+					uid = it->first;
+
+				}
+				/*
+
+				if (ImGui::Selectable(it->second->GetOriginalFile().c_str(), selected == i))
+				{
+					selected = i;
+					uid = it->first;
+				}
+				*/
+			}
+		}	
+		ImGui::Separator();
+		if (ImGui::Button("Select##mesh_select", ImVec2(120, 0)))
+		{
+			ret = uid;
+			ImGui::CloseCurrentPopup();
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Cancel", ImVec2(120, 0)))
+	{
+		ret = -1;
+		ImGui::CloseCurrentPopup();
+	}
+
+	ImGui::EndPopup();
+
+	return ret;
+}
+
 ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)
 {
 	std::string extension_check = file;
@@ -154,6 +210,15 @@ ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)
 	else
 	{
 		return R_NONE;
+	}
+}
+void ModuleResourceManager::GetAllResourcePath(ResourceType type,std::vector<std::string>& strings)
+{
+	std::map<uint, Resource*>::const_iterator it = resources.begin();
+	for (; it != resources.end(); it++)
+	{
+		if (it->second->GetResourceType() == type)
+			strings.push_back(it->second->GetOriginalFile());
 	}
 }
 const Resource * ModuleResourceManager::Get(uint UID) const
@@ -184,6 +249,9 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint custom_
 		ret = new ResourceTexture(UID);
 		break;
 	case R_MESH:
+		ret = new ResourceMesh(UID);
+		break;
+	case R_PREFAB:
 		ret = new ResourceMesh(UID);
 		break;
 	default:

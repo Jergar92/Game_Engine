@@ -27,6 +27,7 @@ public:
 	uint GetVertexNormalID()const;
 	uint GetSurfaceNormalID()const;
 	const ResourceMesh* GetResourceMesh()const;
+	bool HaveResourceMesh()const;
 	bool GetDrawMesh()const;
 	bool GetDebugNormal()const;
 
@@ -43,8 +44,10 @@ private:
 	std::string name;
 	bool draw_mesh = true;
 	bool debug_normals_succes = false;
+	bool show_mesh_window = false;
+
 	AABB bounding_box;
 	
-	ResourceMesh* r_mesh;
+	ResourceMesh* r_mesh=nullptr;
 };
 
