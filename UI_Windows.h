@@ -1,9 +1,10 @@
 #pragma once
+class ModuleEditorWindows;
 class UI_Windows
 {
 public:
-	UI_Windows();
-	~UI_Windows();
+	UI_Windows(ModuleEditorWindows* my_editor);
+	virtual ~UI_Windows();
 
 
 	virtual bool Draw();
@@ -13,5 +14,7 @@ public:
 	void ChangeActive();
 public:
 	bool active_draw = true;
+protected:
+	ModuleEditorWindows* my_editor = nullptr;
 };
 

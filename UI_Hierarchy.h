@@ -5,7 +5,7 @@ class GameObject;
 class UI_Hierarchy:public UI_Windows
 {
 public:
-	UI_Hierarchy();
+	UI_Hierarchy(ModuleEditorWindows* my_editor);
 	~UI_Hierarchy();
 	bool Draw();
 	void CleanUp();

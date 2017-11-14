@@ -23,6 +23,7 @@ public:
 	const std::string GetMetaJsonFile()const;
 
 	void SetOriginalFile(const char* set);
+	void SetOriginalFile(const char * set, const char * extension);
 	void SetLibraryFile(const char* set,const char* extension);
 	void SetMetaFile(const char* set);
 	virtual void SaveResource(JSONConfig& config)const;

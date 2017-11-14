@@ -11,8 +11,8 @@ public:
 
 	uint GetID()const;
 	float4 GetRGBA()const;
+	bool GetFlip()const;
 	void SetRGBA(float4 rgba);
-
 	void SetID(uint id);
 	void LoadInMemory();
 	void UnLoadInMemory();
@@ -26,5 +26,6 @@ private:
 	uint id=-1;
 //	std::string path;
 	float4 rgba_color=float4::one;
+	bool flip = false;
 };
 

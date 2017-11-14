@@ -5,7 +5,7 @@
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
 #define BUTTON_SPACE 80
-UI_Folder::UI_Folder() : show_folder(std::string()), item_selected(std::string()), folder_to_change(new Path())
+UI_Folder::UI_Folder(ModuleEditorWindows* my_editor) :UI_Windows(my_editor) ,show_folder(std::string()), item_selected(std::string()), folder_to_change(new Path())
 {
 }
 
@@ -65,7 +65,7 @@ bool UI_Folder::Draw()
 	{
 		if (item_selected.c_str() != "")
 		{
-			App->editor_window->WantToLoad(item_selected.c_str());
+			my_editor->WantToLoad(item_selected.c_str());
 		}
 	}
 	ImGui::Columns(1);
@@ -173,6 +173,7 @@ void UI_Folder::DrawFolderInfo()
 					else
 					{
 						item_selected = it->path;
+						my_editor->SetSelectedResource(item_selected.c_str());
 					}
 				}
 
@@ -185,25 +186,7 @@ void UI_Folder::DrawFolderInfo()
 	
 
 }
-void UI_Folder::ToLoad(const char * path)
-{
-	std::string extension_string = path;
-	std::size_t found = extension_string.find_last_of('.');
-	if (extension_string.substr(found + 1) == "json")
-	{
-		App->editor_window->ToLoad(path, LoadFile::LOAD_SCENE);
-	}
-	else if (extension_string.substr(found + 1) == "png" || extension_string.substr(found + 1) == "jpg" || extension_string.substr(found + 1) == "dds")
-	{
-		App->editor_window->ToLoad(path, LoadFile::LOAD_TEXTURE);
 
-	}
-	else
-	{
-		App->editor_window->ToLoad(path, LoadFile::LOAD_MESH);
-
-	}
-}
 Path::Path():path(std::string()),name(std::string()),parent(nullptr),directory(true)
 {
 }

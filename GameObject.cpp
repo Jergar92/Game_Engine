@@ -13,7 +13,7 @@
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
-
+#include <queue>
 #define MAX_NAME 20
 GameObject::GameObject(float3 scale, Quat rotation, float3 position) :name("Game Object"),scale(scale), rotation(rotation), position(position)
 {
@@ -258,10 +258,18 @@ void GameObject::OpenStaticQuestion()
 		{
 			if (children_to)
 			{
-				for (uint i = 0; i < childs.size(); i++)
+				std::queue<GameObject*> queue;
+				queue.push(this);
+				while (!queue.empty())
 				{
-					GameObject* item = childs[i];
+					GameObject* item = queue.front();
+					for (std::vector<GameObject*>::iterator it = item->childs.begin(); it != item->childs.end(); it++)
+					{
+						queue.push(*it);
+					}
+
 					item->SetStatic(static_go);
+					queue.pop();
 				}
 			}
 			gui_static = false;

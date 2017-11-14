@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include"ModuleEditorWindows.h"
+#include "ModuleResourceManager.h"
 #include "ModuleScene.h"
 #include"p2Defs.h"
 #include "ModuleCamera.h"
@@ -19,12 +20,12 @@
 ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
 	name = "Editor Windows";
-	ui_play = new UI_Play();
-	ui_inspector = new UI_Inspector();
-	ui_hierarchy = new UI_Hierarchy();
-	ui_about = new UI_About();
-	ui_console = new UI_Console();
-	ui_folder = new UI_Folder();
+	ui_play = new UI_Play(this);
+	ui_inspector = new UI_Inspector(this);
+	ui_hierarchy = new UI_Hierarchy(this);
+	ui_about = new UI_About(this);
+	ui_console = new UI_Console(this);
+	ui_folder = new UI_Folder(this);
 
 	ui_windows.push_back(ui_play);
 	ui_windows.push_back(ui_inspector);
@@ -342,6 +343,14 @@ void ModuleEditorWindows::SetSelectedGameObject(GameObject * set)
 {
 	ui_inspector->SetSelectedGameObject(set);
 }
+void ModuleEditorWindows::SetSelectedResource(const char * path)
+{
+	uint uid = App->resource_manager->Find(path);
+	if (uid != 0)
+	{
+		ui_inspector->SetSelectedResource(App->resource_manager->Get(uid));
+	}
+}
 void ModuleEditorWindows::AddLog(const char * fmt, ...)
 {
 	if (ui_console != nullptr)
@@ -357,6 +366,8 @@ void ModuleEditorWindows::WantToLoad(const char * name, const char * path)
 {
 	want_to_load = true;
 	path_to_load = App->file_system->SetPathFile(name, path);
+	next_load = DetermineFileFromPath(path_to_load.c_str());
+
 }
 void ModuleEditorWindows::WantToLoad( const char * path)
 {

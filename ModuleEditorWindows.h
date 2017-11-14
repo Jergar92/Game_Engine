@@ -41,12 +41,13 @@ public:
 	void SetSceneGameObject(GameObject* set);
 	GameObject* GetSelectedGameObject()const;
 	void SetSelectedGameObject(GameObject* set);
+	void SetSelectedResource(const char* path);
+
 	void AddLog(const char*fmt, ...);
 	void ToLoad(const char* path, LoadFile load);
 	void WantToLoad(const char* name, const char*path);
 	void WantToLoad(const char * path);
 	void WantToSave(const char* name, const char*path);
-
 	void LoadWindow();
 	std::vector<std::string> ReturnFiles(FileType especific = F_NONE);
 	void WantToUpdate();

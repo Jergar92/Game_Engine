@@ -300,7 +300,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 		App->file_system->CreateOwnFile(mesh_name.c_str(), ".", 1, App->file_system->GetAssetsMeshFolder(), "fbx");
 
 		r_mesh->SetLibraryFile(name.c_str(), "frog");
-		r_mesh->SetOriginalFile(origin_file.c_str());
+		r_mesh->SetOriginalFile(origin_file.c_str(),"fbx");
 		r_mesh->SetMetaFile(origin_file.c_str());
 		
 		JSONConfig config;

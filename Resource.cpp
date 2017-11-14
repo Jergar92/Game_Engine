@@ -27,7 +27,14 @@ void Resource::SetMetaFile(const char * set)
 	meta_file = FILE_EXTENSION(set, "meta.json");
 
 }
-
+void Resource::SetOriginalFile(const char * set)
+{
+	original_file = set;
+}
+void Resource::SetOriginalFile(const char * set, const char* extension)
+{
+	original_file = FILE_EXTENSION(set, extension);
+}
 void Resource::SaveResource(JSONConfig & config) const
 {
 	config.SetInt(UID, "Resource UID");
@@ -54,10 +61,6 @@ const std::string Resource::GetMetaJsonFile() const
 	return meta_file;
 }
 
-void Resource::SetOriginalFile(const char * set)
-{
-	original_file = set;
-}
 
 bool Resource::IsLoadInMemory() const
 {

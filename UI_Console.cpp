@@ -1,8 +1,9 @@
 #include "UI_Console.h"
+#include "ModuleEditorWindows.h"
 
 
 
-UI_Console::UI_Console()
+UI_Console::UI_Console(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
 	active_draw = false;
 }
