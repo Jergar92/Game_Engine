@@ -554,10 +554,10 @@ void GameObject::UpdateMatrix()
 
 	global_transform_matrix_transposed = global_transform_matrix.Transposed();
 
-	global_bounding_box_OBB = global_bounding_box_AABB.Transform(global_transform_matrix);
+	global_bounding_box_OBB = indentity_bounding_box_AABB.Transform(global_transform_matrix);
 	
-	indentity_bounding_box_AABB = global_bounding_box_AABB;
-	indentity_bounding_box_AABB.TransformAsAABB(global_transform_matrix);
+	global_bounding_box_AABB = indentity_bounding_box_AABB;
+	global_bounding_box_AABB.TransformAsAABB(global_transform_matrix);
 	is_bounding_box_transformed = true;
 	
 	for (int i = 0; i < components.size(); i++)
@@ -595,6 +595,11 @@ AABB GameObject::GetBoundingBoxAABB() const
 	return global_bounding_box_AABB;
 }
 
+AABB GameObject::GetIdentityBoundingBoxAABB() const
+{
+	return indentity_bounding_box_AABB;
+}
+
 void GameObject::SetScale(float3 scale)
 {
 	this->scale = scale;
@@ -622,22 +627,22 @@ void GameObject::SetPosition(float3 position)
 void GameObject::GenerateBoudingBox()
 {
 	ComponentMesh* mesh = (ComponentMesh*)FindComponent(MESH);
-	global_bounding_box_AABB.SetNegativeInfinity();
+	indentity_bounding_box_AABB.SetNegativeInfinity();
 	if (mesh != nullptr)
 	{
 		for (int i = 0; i < mesh->GetVertices().size(); i++)
 		{
-			global_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
+			indentity_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
 		}
 	}
 
-	if (!childs.empty())
-	{
-		for (int i = 0; i < childs.size(); i++)
-		{
-		global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
-		}
-	}
+	//if (!childs.empty())
+	//{
+	//	for (int i = 0; i < childs.size(); i++)
+	//	{
+	//	global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
+	//	}
+	//}
 
 	UpdateMatrix();
 	if (parent != nullptr)

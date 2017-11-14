@@ -78,6 +78,8 @@ public:
 	OBB GetBoundingBoxOBB()const;
 	AABB GetBoundingBoxAABB()const;
 
+	AABB GetIdentityBoundingBoxAABB() const;
+
 
 public:
 	std::vector<Component*> components;
