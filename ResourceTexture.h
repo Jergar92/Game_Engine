@@ -15,11 +15,16 @@ public:
 	void SetRGBA(float4 rgba);
 	void SetID(uint id);
 	void LoadInMemory();
+	void Load();
+
 	void UnLoadInMemory();
+
+	void UnLoad();
 	void InspectorUpdate();
 	std::string path;
 	std::string text_type;
 	std::string name;
+	void ReImport();
 	void SaveResource(JSONConfig& config)const;
 	void LoadResource(const JSONConfig& config);
 private:

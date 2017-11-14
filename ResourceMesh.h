@@ -22,7 +22,9 @@ public:
 
 	void DrawMesh(bool show);
 	void LoadInMemory();
+	void Load();
 	void UnLoadInMemory();
+	void UnLoad();
 	void InspectorUpdate();
 	//Getters
 	const std::vector<Vertex>& GetVertices()const;
@@ -41,6 +43,7 @@ public:
 	void SetMeshName(std::string mesh_name);
 
 	//Save&Load
+	void ReImport();
 	void SaveResource(JSONConfig& data)const;
 	void LoadResource(const JSONConfig& data);
 

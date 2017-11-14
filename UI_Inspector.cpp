@@ -106,6 +106,7 @@ void UI_Inspector::InspectorResource()
 		selected_resource->InspectorUpdate();
 		if (ImGui::Button("Save##save_resource"))
 		{
+			selected_resource->ReImport();
 			//save new resources values,
 			//if resource is loaded, unload resource and load again
 			//else do nothing

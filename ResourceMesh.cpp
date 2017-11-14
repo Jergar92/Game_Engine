@@ -52,6 +52,17 @@ void ResourceMesh::SetMeshName(std::string set_mesh_name)
 {
 	mesh_name = set_mesh_name;
 }
+void ResourceMesh::ReImport()
+{
+	JSONConfig config;
+	config.ParseFile(meta_file.c_str());
+	SaveResource(config);
+	if (!IsLoadInMemory())
+	{
+		UnLoadInMemory();
+		LoadInMemory();
+	}
+}
 void ResourceMesh::SaveResource(JSONConfig & config) const
 {
 	config.SetInt(type, "Resource Type");
@@ -107,9 +118,15 @@ void ResourceMesh::LoadInMemory()
 {
 	if (IsLoadInMemory())
 	{
-		App->importer->LoadMesh(this);
+		Load();
 	}
 	load_count++;
+}
+
+void ResourceMesh::Load()
+{
+	App->importer->LoadMesh(this);
+
 }
 
 void ResourceMesh::UnLoadInMemory()
@@ -117,9 +134,14 @@ void ResourceMesh::UnLoadInMemory()
 	load_count--;
 	if (IsLoadInMemory())
 	{
-		glDeleteBuffers(1, &VBO);
-		glDeleteBuffers(1, &EBO);
+		UnLoad();
 	}
+}
+
+void ResourceMesh::UnLoad()
+{
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }
 
 void ResourceMesh::InspectorUpdate()

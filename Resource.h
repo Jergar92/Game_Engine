@@ -15,7 +15,9 @@ public:
 	uint GetUID()const;
 	bool IsLoadInMemory()const;
 	virtual void LoadInMemory();
+	virtual void Load();
 	virtual void UnLoadInMemory();
+	virtual void UnLoad();
 	virtual void InspectorUpdate();
 	ResourceType GetResourceType()const;
 	const std::string GetOriginalFile()const;
@@ -26,6 +28,7 @@ public:
 	void SetOriginalFile(const char * set, const char * extension);
 	void SetLibraryFile(const char* set,const char* extension);
 	void SetMetaFile(const char* set);
+	virtual void ReImport();
 	virtual void SaveResource(JSONConfig& config)const;
 	virtual void LoadResource(const JSONConfig& config);
 

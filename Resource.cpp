@@ -27,6 +27,10 @@ void Resource::SetMetaFile(const char * set)
 	meta_file = FILE_EXTENSION(set, "meta.json");
 
 }
+void Resource::ReImport()
+{
+	
+}
 void Resource::SetOriginalFile(const char * set)
 {
 	original_file = set;
@@ -73,10 +77,18 @@ void Resource::LoadInMemory()
 	load_count++;
 }
 
+void Resource::Load()
+{
+}
+
 void Resource::UnLoadInMemory()
 {
 	load_count--;
 
+}
+
+void Resource::UnLoad()
+{
 }
 
 void Resource::InspectorUpdate()

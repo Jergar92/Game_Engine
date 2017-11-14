@@ -21,9 +21,15 @@ void ResourceTexture::LoadInMemory()
 {
 	if (IsLoadInMemory())
 	{
-		App->importer->LoadTexture(this);
+		Load();
 	}
 	load_count++;
+}
+
+void ResourceTexture::Load()
+{
+	App->importer->LoadTexture(this);
+
 }
 
 void ResourceTexture::UnLoadInMemory()
@@ -31,8 +37,14 @@ void ResourceTexture::UnLoadInMemory()
 	load_count--;
 	if (IsLoadInMemory())
 	{
-		glDeleteTextures(1, &id);
+		UnLoad();
 	}
+}
+
+void ResourceTexture::UnLoad()
+{
+	glDeleteTextures(1, &id);
+
 }
 
 void ResourceTexture::InspectorUpdate()
@@ -48,6 +60,18 @@ void ResourceTexture::InspectorUpdate()
 	ImGui::Checkbox("Flip textrue##flip_texture", &flip);
 
 
+}
+
+void ResourceTexture::ReImport()
+{
+	JSONConfig config;
+	config.ParseFile(meta_file.c_str());
+	SaveResource(config);
+	if (!IsLoadInMemory())
+	{
+		UnLoad();
+		Load();
+	}
 }
 
 void ResourceTexture::SaveResource(JSONConfig & config) const
