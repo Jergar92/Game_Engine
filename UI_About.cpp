@@ -1,8 +1,9 @@
 #include "UI_About.h"
 #include "imgui/imgui.h"
 #include "Globals.h"
+#include "ModuleEditorWindows.h"
 
-UI_About::UI_About()
+UI_About::UI_About(ModuleEditorWindows* my_editor):UI_Windows(my_editor)
 {
 	active_draw = false;
 }

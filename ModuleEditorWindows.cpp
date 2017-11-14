@@ -20,12 +20,12 @@
 ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
 	name = "Editor Windows";
-	ui_play = new UI_Play();
-	ui_inspector = new UI_Inspector();
-	ui_hierarchy = new UI_Hierarchy();
-	ui_about = new UI_About();
-	ui_console = new UI_Console();
-	ui_folder = new UI_Folder();
+	ui_play = new UI_Play(this);
+	ui_inspector = new UI_Inspector(this);
+	ui_hierarchy = new UI_Hierarchy(this);
+	ui_about = new UI_About(this);
+	ui_console = new UI_Console(this);
+	ui_folder = new UI_Folder(this);
 
 	ui_windows.push_back(ui_play);
 	ui_windows.push_back(ui_inspector);

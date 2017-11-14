@@ -4,7 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleEditorWindows.h"
 #include "ModuleFileSystem.h"
-UI_Play::UI_Play()
+UI_Play::UI_Play(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
 }
 
@@ -34,7 +34,7 @@ bool UI_Play::Draw()
 	if(ImGui::Button("Play") &&( state == ON_NONE || state == ON_PAUSE))
 	{
 
-		App->editor_window->WantToSave("play.json", App->file_system->GetPlayFolder());
+		my_editor->WantToSave("play.json", App->file_system->GetPlayFolder());
 		state = ON_PLAY;
 		App->OnPlay();
 
@@ -49,7 +49,7 @@ bool UI_Play::Draw()
 	ImGui::SameLine();
 	if (ImGui::Button("Stop")&& (state == ON_PLAY || state == ON_PAUSE))
 	{
-		App->editor_window->WantToLoad("play.json", App->file_system->GetPlayFolder());
+		my_editor->WantToLoad("play.json", App->file_system->GetPlayFolder());
 		state = ON_NONE;
 		value = 1.0f;
 		App->OnStop();

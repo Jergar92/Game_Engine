@@ -7,7 +7,7 @@
 class UI_Console : public UI_Windows
 {
 public:
-	UI_Console();
+	UI_Console(ModuleEditorWindows* my_editor);
 	~UI_Console();
 	bool Draw();
 	void CleanUp();

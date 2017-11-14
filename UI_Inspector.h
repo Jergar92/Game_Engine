@@ -12,7 +12,7 @@ enum InspectorShow
 class UI_Inspector:public UI_Windows
 {
 public:
-	UI_Inspector();
+	UI_Inspector(ModuleEditorWindows* my_editor);
 	~UI_Inspector();
 	bool Draw();
 	void CleanUp();

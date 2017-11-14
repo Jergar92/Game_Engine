@@ -46,7 +46,7 @@ struct PathList
 class UI_Folder : public UI_Windows
 {
 public:
-	UI_Folder();
+	UI_Folder(ModuleEditorWindows* my_editor);
 	~UI_Folder();
 	void CleanUp();
 	bool Draw();
@@ -61,7 +61,6 @@ private:
 	void DrawFolders(const Path& draw);
 
 	void DrawFolderInfo();
-	void ToLoad(const char* path);
 
 	Path* folder_to_change;
 	std::string show_folder;

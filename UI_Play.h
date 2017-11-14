@@ -10,7 +10,7 @@ enum SceneState
 class UI_Play : public UI_Windows
 {
 public:
-	UI_Play();
+	UI_Play(ModuleEditorWindows* my_editor);
 	~UI_Play();
 	bool Draw();
 private:

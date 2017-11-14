@@ -3,7 +3,7 @@
 #include "imgui/imgui.h"
 #include "Application.h"
 #include "ModuleScene.h"
-UI_Hierarchy::UI_Hierarchy()
+UI_Hierarchy::UI_Hierarchy(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
 }
 

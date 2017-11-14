@@ -1,14 +1,15 @@
 #include "UI_Windows.h"
+#include "ModuleEditorWindows.h"
 
 
-
-UI_Windows::UI_Windows()
+UI_Windows::UI_Windows(ModuleEditorWindows* my_editor):my_editor(my_editor)
 {
 }
 
 
 UI_Windows::~UI_Windows()
 {
+	my_editor = nullptr;
 }
 
 bool UI_Windows::Draw()

@@ -2,8 +2,9 @@
 #include "GameObject.h"
 #include "imgui/imgui.h"
 #include "Resource.h"
+#include "ModuleEditorWindows.h"
 
-UI_Inspector::UI_Inspector()
+UI_Inspector::UI_Inspector(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
 }
 
@@ -103,5 +104,11 @@ void UI_Inspector::InspectorResource()
 	if (selected_resource != nullptr)
 	{
 		selected_resource->InspectorUpdate();
+		if (ImGui::Button("Save##save_resource"))
+		{
+			//save new resources values,
+			//if resource is loaded, unload resource and load again
+			//else do nothing
+		}
 	}
 }
