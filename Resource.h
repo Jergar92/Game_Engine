@@ -16,7 +16,7 @@ public:
 	bool IsLoadInMemory()const;
 	virtual void LoadInMemory();
 	virtual void UnLoadInMemory();
-
+	virtual void InspectorUpdate();
 	ResourceType GetResourceType()const;
 	const std::string GetOriginalFile()const;
 	const std::string GetLibraryFile()const;

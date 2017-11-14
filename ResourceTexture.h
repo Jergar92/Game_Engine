@@ -16,6 +16,7 @@ public:
 	void SetID(uint id);
 	void LoadInMemory();
 	void UnLoadInMemory();
+	void InspectorUpdate();
 	std::string path;
 	std::string text_type;
 	std::string name;

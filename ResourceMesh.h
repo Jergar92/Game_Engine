@@ -23,6 +23,7 @@ public:
 	void DrawMesh(bool show);
 	void LoadInMemory();
 	void UnLoadInMemory();
+	void InspectorUpdate();
 	//Getters
 	const std::vector<Vertex>& GetVertices()const;
 	const std::vector<uint>& GetIndices()const;
