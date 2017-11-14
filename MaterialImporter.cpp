@@ -134,13 +134,13 @@ void MaterialImporter::SaveTexture(const char * name)
 
 }
 
-int MaterialImporter::LoadTexture(ResourceTexture * r_path)
+int MaterialImporter::LoadTexture(ResourceTexture * r_text)
 {
 	char* buffer = nullptr;
 
-	int size = App->file_system->LoadFile(App->file_system->GetMaterialFolder(),r_path->GetLibraryFile().c_str(), &buffer);
+	int size = App->file_system->LoadFile(App->file_system->GetMaterialFolder(), r_text->GetLibraryFile().c_str(), &buffer);
 
-	std::string full_path = App->file_system->SetPathFile(r_path->GetLibraryFile().c_str(), App->file_system->GetMaterialFolder());
+	std::string full_path = App->file_system->SetPathFile(r_text->GetLibraryFile().c_str(), App->file_system->GetMaterialFolder());
 	
 
 
@@ -158,7 +158,7 @@ int MaterialImporter::LoadTexture(ResourceTexture * r_path)
 		ILinfo ImageInfo;
 		iluGetImageInfo(&ImageInfo);
 		
-		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+		if (r_text->GetFlip())
 		{
 			iluFlipImage();
 		}
@@ -169,7 +169,7 @@ int MaterialImporter::LoadTexture(ResourceTexture * r_path)
 		if (!success)
 		{
 			error = ilGetError();
-			LOG("ERROR on FILE:%s ERROR: %s", r_path->GetLibraryFile().c_str(), iluErrorString(error))
+			LOG("ERROR on FILE:%s ERROR: %s", r_text->GetLibraryFile().c_str(), iluErrorString(error))
 		}
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -187,16 +187,16 @@ int MaterialImporter::LoadTexture(ResourceTexture * r_path)
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 
-		r_path->SetID(textureID);
+		r_text->SetID(textureID);
 
 
 
-		LOG("Load Texture on path %s with no errors", r_path->GetLibraryFile().c_str());
+		LOG("Load Texture on path %s with no errors", r_text->GetLibraryFile().c_str());
 	}
 	else
 	{
 		error = ilGetError();
-		LOG("ERROR on path:%s ERROR: %s", r_path->GetLibraryFile().c_str(), iluErrorString(error))
+		LOG("ERROR on path:%s ERROR: %s", r_text->GetLibraryFile().c_str(), iluErrorString(error))
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);

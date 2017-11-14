@@ -102,6 +102,6 @@ void UI_Inspector::InspectorResource()
 {
 	if (selected_resource != nullptr)
 	{
-		//selected_resource->InspectorUpdate();
+		selected_resource->InspectorUpdate();
 	}
 }

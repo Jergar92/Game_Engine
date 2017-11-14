@@ -173,6 +173,7 @@ void UI_Folder::DrawFolderInfo()
 					else
 					{
 						item_selected = it->path;
+						App->editor_window->SetSelectedResource(item_selected.c_str());
 					}
 				}
 

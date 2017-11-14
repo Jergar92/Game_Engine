@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include"ModuleEditorWindows.h"
+#include "ModuleResourceManager.h"
 #include "ModuleScene.h"
 #include"p2Defs.h"
 #include "ModuleCamera.h"
@@ -363,6 +364,14 @@ GameObject * ModuleEditorWindows::GetSelectedGameObject() const
 void ModuleEditorWindows::SetSelectedGameObject(GameObject * set)
 {
 	ui_inspector->SetSelectedGameObject(set);
+}
+void ModuleEditorWindows::SetSelectedResource(const char * path)
+{
+	uint uid = App->resource_manager->Find(path);
+	if (uid != 0)
+	{
+		ui_inspector->SetSelectedResource(App->resource_manager->Get(uid));
+	}
 }
 void ModuleEditorWindows::AddLog(const char * fmt, ...)
 {

@@ -37,6 +37,17 @@ void ResourceTexture::UnLoadInMemory()
 
 void ResourceTexture::InspectorUpdate()
 {
+	//Change name
+	ImGui::Text("ResourceTexture: %s", original_file.c_str());
+	ImGui::Text("Load in memory: %i", load_count);
+	ImGui::Text("UID: %i", UID);
+
+
+	ImGui::Text("ID: %i", id);
+
+	ImGui::Checkbox("Flip textrue##flip_texture", &flip);
+
+
 }
 
 void ResourceTexture::SaveResource(JSONConfig & config) const
@@ -70,6 +81,11 @@ uint ResourceTexture::GetID() const
 float4 ResourceTexture::GetRGBA() const
 {
 	return rgba_color;
+}
+
+bool ResourceTexture::GetFlip() const
+{
+	return flip;
 }
 
 void ResourceTexture::SetRGBA(float4 rgba)
