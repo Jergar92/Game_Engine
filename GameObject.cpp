@@ -670,19 +670,12 @@ void GameObject::SetAABB(const AABB set_bounding_box)
 void GameObject::RenderBoundingBoxAABB()
 {
 	glBegin(GL_LINES);
-	if (!is_bounding_box_transformed)
-	{
+	
 		for (uint i = 0; i < 12; i++)
 		{
 			glVertex3f(global_bounding_box_AABB.Edge(i).a.x, global_bounding_box_AABB.Edge(i).a.y, global_bounding_box_AABB.Edge(i).a.z);
 			glVertex3f(global_bounding_box_AABB.Edge(i).b.x, global_bounding_box_AABB.Edge(i).b.y, global_bounding_box_AABB.Edge(i).b.z);
 		}
-	}
-	for (uint i = 0; i < 12; i++)
-	{
-		glVertex3f(indentity_bounding_box_AABB.Edge(i).a.x, indentity_bounding_box_AABB.Edge(i).a.y, indentity_bounding_box_AABB.Edge(i).a.z);
-		glVertex3f(indentity_bounding_box_AABB.Edge(i).b.x, indentity_bounding_box_AABB.Edge(i).b.y, indentity_bounding_box_AABB.Edge(i).b.z);
-	}
 	glEnd();
 
 }

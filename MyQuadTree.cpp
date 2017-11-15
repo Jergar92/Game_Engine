@@ -149,12 +149,7 @@ void MyQuadTree::SendGameObjectToChilds()
 
 void MyQuadTree::SetQuadtree(GameObject * scene)
 {
-	//if (scene != nullptr)
-	//{
-	//	boundary = scene->GetBoundingBoxAABB();
-	//}
-
-	boundary = AABB(float3::zero, 50.0f);
+	boundary = AABB(float3::zero, 100.0f);
 }
 
 void MyQuadTree::DrawQuadtree()
