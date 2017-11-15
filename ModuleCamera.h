@@ -28,8 +28,9 @@ public:
 	//Camera Controls and methods 
 	void LookAt(const float3 & position);
 	void MoveMouse();
-	void MoveKeyBoard();
+	void MoveKeyBoard(float dt);
 	void Orbit(float dx, float dy);
+	void Rotate(float dx, float dy);
 	void Zoom(float zoom);
 	void OnClick();
 	void OnCollision();

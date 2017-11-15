@@ -48,12 +48,12 @@ update_status ModuleCamera::Update(float dt)
 		if (App->renderer3D->GetCamera() == camera)
 		{
 			MoveMouse();
-			
+			MoveKeyBoard(dt);
 		}
 			
 	}
 	
-	MoveKeyBoard();
+	
 
 	
 
@@ -126,9 +126,14 @@ void ModuleCamera::MoveMouse()
 	motion_x = -App->input->GetMouseXMotion();
 	motion_y = App->input->GetMouseYMotion();
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0) && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		Orbit(motion_x, -motion_y);
+	}
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		Rotate(motion_x, motion_y);
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
@@ -151,41 +156,46 @@ void ModuleCamera::MoveMouse()
 
 }
 
-void ModuleCamera::MoveKeyBoard()
+void ModuleCamera::MoveKeyBoard(float dt)
 {
 	float speed = 2.0f;
 	new_pos.Set(0, 0, 0);
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
-		new_pos -= camera->camera_frustrum.front * speed;
+		new_pos += camera->camera_frustrum.front * speed;
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		new_pos += camera->camera_frustrum.front* speed;
+		new_pos -= camera->camera_frustrum.front  * speed;
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		new_pos += camera->camera_frustrum.WorldRight() *speed;
+		new_pos -= camera->camera_frustrum.WorldRight()  *speed;
 	}
 		
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		new_pos -= camera->camera_frustrum.WorldRight() * speed;
+		new_pos += camera->camera_frustrum.WorldRight()  * speed;
 	}
 		
 	if (new_pos.LengthSq() > 0.0f)
 	{
-		camera->camera_frustrum.Translate(new_pos * speed);
+		camera->camera_frustrum.pos += new_pos * dt;
+		reference += new_pos * dt;
 	}
 	
+	
+	camera->UpdateMatrix();
 	
 }
 
 // -----------------------------------------------------------------
 void ModuleCamera::Orbit(float dx, float dy)
 {
-
+	
 	float3 vector = camera->camera_frustrum.pos - reference;
 
 	Quat quat_y(camera->camera_frustrum.up, dx * 0.003);
@@ -197,6 +207,26 @@ void ModuleCamera::Orbit(float dx, float dy)
 	camera->camera_frustrum.pos = vector + reference;
 	LookAt(reference);
 	camera->UpdateMatrix();
+}
+
+void ModuleCamera::Rotate(float dx, float dy)
+{
+
+	float3 vector = camera->camera_frustrum.up;
+
+
+	Quat quat_x = Quat::RotateY(0.3*dx*DEGTORAD);
+	camera->camera_frustrum.front = quat_x.Transform(camera->camera_frustrum.front).Normalized();
+	camera->camera_frustrum.up = quat_x.Transform(camera->camera_frustrum.up).Normalized();
+
+	Quat quat_y = Quat::RotateAxisAngle(camera->camera_frustrum.WorldRight(), -0.3*dy * DEGTORAD);
+	camera->camera_frustrum.up = quat_y.Transform(camera->camera_frustrum.up).Normalized();
+	camera->camera_frustrum.front = quat_y.Transform(camera->camera_frustrum.front).Normalized();
+
+	float3 new_axis;
+	camera->UpdateMatrix();
+	
+
 }
 
 // -----------------------------------------------------------------
@@ -253,39 +283,43 @@ void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&
 		ComponentMesh* mesh = (ComponentMesh*)go->FindComponent(MESH);
 		if (mesh != nullptr)
 		{
-			std::vector<Vertex> vertices = mesh->GetVertices();
-			std::vector<uint> indices = mesh->GetIndices();
-			float final_distance = -1;
-			for (int i = 0; i < indices.size(); i += 3)
+			if (mesh->HaveResourceMesh())
 			{
-
-
-				float3 v1 = vertices[indices[i]].position;
-				float3 v2 = vertices[indices[i + 1]].position;
-				float3 v3 = vertices[indices[i + 2]].position;
-
-				Triangle vertex_triangle(v1, v2, v3);
-				float3 intersection_point;
-
-				if (ray_copy.Intersects(vertex_triangle, nullptr, &intersection_point))
+				std::vector<Vertex> vertices = mesh->GetVertices();
+				std::vector<uint> indices = mesh->GetIndices();
+				float final_distance = -1;
+				for (int i = 0; i < indices.size(); i += 3)
 				{
 
-					float distance = Distance(ray_copy.a, intersection_point);
-					if (final_distance == -1)
+
+					float3 v1 = vertices[indices[i]].position;
+					float3 v2 = vertices[indices[i + 1]].position;
+					float3 v3 = vertices[indices[i + 2]].position;
+
+					Triangle vertex_triangle(v1, v2, v3);
+					float3 intersection_point;
+
+					if (ray_copy.Intersects(vertex_triangle, nullptr, &intersection_point))
 					{
-						final_distance = distance;
-					}
-					else if (final_distance > distance)
-					{
-						final_distance = distance;
+
+						float distance = Distance(ray_copy.a, intersection_point);
+						if (final_distance == -1)
+						{
+							final_distance = distance;
+						}
+						else if (final_distance > distance)
+						{
+							final_distance = distance;
+						}
 					}
 				}
-			}
-			if (final_distance != -1)
-			{
-				my_vector[final_distance] = go;
-			}
+				if (final_distance != -1)
+				{
+					my_vector[final_distance] = go;
+				}
 
+			}
+			
 		}
 	}
 	
