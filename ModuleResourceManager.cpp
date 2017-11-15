@@ -35,6 +35,8 @@ update_status ModuleResourceManager::Update(float dt)
 	if (time_update > UPDATE_RESOURCE_TIME)
 	{
 		LookForResources();
+		App->editor_window->WantToUpdate();
+
 	}
 	return UPDATE_CONTINUE;
 }

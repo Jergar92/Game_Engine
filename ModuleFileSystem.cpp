@@ -253,18 +253,14 @@ bool ModuleFileSystem::ListFiles(const std::string& parent_path, PathList& path_
 		std::string str_name = item.path().filename().generic_string();
 		
 		bool directory = false;
-		std::string path = str_path;
 		if (item.status().type() == std::experimental::filesystem::file_type::directory)
 		{
-			ListFiles(path, path_fill);
+			ListFiles(str_path, path_fill);
 			directory = true;
 
 		}
-		Path new_directory(path, str_name, parent_path, directory);
+		Path new_directory(str_path, str_name, parent_path, directory);
 		path_fill.list.push_back(new_directory);
-		str_path.clear();
-		str_name.clear();
-		path.clear();
 	}
 	return true;
 }

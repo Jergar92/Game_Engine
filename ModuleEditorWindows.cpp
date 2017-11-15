@@ -63,6 +63,7 @@ update_status ModuleEditorWindows::PreUpdate(float dt)
 	if (want_to_save)
 	{
 		App->scene->SaveScene(path_to_save.c_str());
+		WantToUpdate();
 		want_to_save = false;
 	}
 
