@@ -56,5 +56,7 @@ private:
 	std::string settings;
 	std::string play;
 
+	std::string str_path;
+	std::string str_name;
 };
 

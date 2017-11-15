@@ -637,19 +637,22 @@ void GameObject::GenerateBoudingBox()
 	indentity_bounding_box_AABB.SetNegativeInfinity();
 	if (mesh != nullptr)
 	{
-		for (int i = 0; i < mesh->GetVertices().size(); i++)
+		if (mesh->HaveResourceMesh())
 		{
-			indentity_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
+			for (int i = 0; i < mesh->GetVertices().size(); i++)
+			{
+				indentity_bounding_box_AABB.Enclose(mesh->GetVertices()[i].position);
+			}
 		}
 	}
 
-	//if (!childs.empty())
-	//{
-	//	for (int i = 0; i < childs.size(); i++)
-	//	{
-	//	global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
-	//	}
-	//}
+	if (!childs.empty())
+	{
+		for (int i = 0; i < childs.size(); i++)
+		{
+		global_bounding_box_AABB.Enclose(childs[i]->indentity_bounding_box_AABB);
+		}
+	}
 
 	UpdateMatrix();
 	if (parent != nullptr)

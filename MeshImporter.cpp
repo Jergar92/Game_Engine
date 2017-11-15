@@ -199,61 +199,76 @@ void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 
 void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go)
 {
+	ResourceMesh* r_mesh = nullptr;
+
+	bool same = false;
+	for (std::map<aiMesh *, ResourceMesh*> ::const_iterator it = meshes_load.begin(); it != meshes_load.end(); it++)
+	{
+		if ((*it).first == mesh)
+		{
+			r_mesh = (*it).second;
+			same = true;
+		}
+
+	}
 
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
-
 	bool  indices_error = false;
-	for (uint i = 0; i <mesh->mNumVertices; i++)
+
+	if (!same)
 	{
-		Vertex vertex;
-		float3 data;
-		//Vertices
-		if (mesh->HasPositions())
+		for (uint i = 0; i < mesh->mNumVertices; i++)
 		{
-			data.x = mesh->mVertices[i].x;
-			data.y = mesh->mVertices[i].y;
-			data.z = mesh->mVertices[i].z;
-			vertex.position = data;
-		}
-		//Normals
-
-		if (mesh->HasNormals())
-		{
-			data.x = mesh->mNormals[i].x;
-			data.y = mesh->mNormals[i].y;
-			data.z = mesh->mNormals[i].z;
-			vertex.normals = data;
-		}
-		//Texture coordenate
-		float2 tex_color;
-		if (mesh->HasTextureCoords(0))
-		{
-			tex_color.x = mesh->mTextureCoords[0][i].x;
-			tex_color.y = mesh->mTextureCoords[0][i].y;
-			vertex.tex_coords = tex_color;
-		}
-		else
-			vertex.tex_coords = float2(0.0f, 0.0f);
-
-		vertices.push_back(vertex);
-	}
-
-	
-	//Indices
-	for (uint i = 0; i < mesh->mNumFaces; i++)
-	{
-		aiFace face = mesh->mFaces[i];
-		if (face.mNumIndices != 3) {
-			LOG("Number of indices is not 3!");
-			indices_error = true;
-		}
-		else
-		{
-			for (uint j = 0; j < face.mNumIndices; j++)
+			Vertex vertex;
+			float3 data;
+			//Vertices
+			if (mesh->HasPositions())
 			{
-				indices.push_back(face.mIndices[j]);
+				data.x = mesh->mVertices[i].x;
+				data.y = mesh->mVertices[i].y;
+				data.z = mesh->mVertices[i].z;
+				vertex.position = data;
+			}
+			//Normals
 
+			if (mesh->HasNormals())
+			{
+				data.x = mesh->mNormals[i].x;
+				data.y = mesh->mNormals[i].y;
+				data.z = mesh->mNormals[i].z;
+				vertex.normals = data;
+			}
+			//Texture coordenate
+			float2 tex_color;
+			if (mesh->HasTextureCoords(0))
+			{
+				tex_color.x = mesh->mTextureCoords[0][i].x;
+				tex_color.y = mesh->mTextureCoords[0][i].y;
+				vertex.tex_coords = tex_color;
+			}
+			else
+				vertex.tex_coords = float2(0.0f, 0.0f);
+
+			vertices.push_back(vertex);
+		}
+
+
+		//Indices
+		for (uint i = 0; i < mesh->mNumFaces; i++)
+		{
+			aiFace face = mesh->mFaces[i];
+			if (face.mNumIndices != 3) {
+				LOG("Number of indices is not 3!");
+				indices_error = true;
+			}
+			else
+			{
+				for (uint j = 0; j < face.mNumIndices; j++)
+				{
+					indices.push_back(face.mIndices[j]);
+
+				}
 			}
 		}
 	}
@@ -268,27 +283,24 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuse_map.begin(), diffuse_map.end());
 	}
-
-
 	uint num_vertices = vertices.size();
-	uint num_indices = (indices_error)?0:indices.size();
+	uint num_indices = (indices_error) ? 0 : indices.size();
+	if (!same)
+	{
+		num_vertices = vertices.size();
+		num_indices = (indices_error) ? 0 : indices.size();
+	}
+	else
+	{
+		num_vertices = r_mesh->GetNumVertices();
+		num_indices = r_mesh->GetNumIndices();
 
 
+	}
 	//Create Mesh & MeshRenderer
 
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
-	ResourceMesh* r_mesh = nullptr;
 
-	bool same = false;
-	for (std::map<aiMesh *, ResourceMesh*> ::const_iterator it = meshes_load.begin(); it != meshes_load.end(); it++)
-	{
-		if ((*it).first == mesh)
-		{
-			r_mesh = (*it).second;
-			same = true;
-		}
-
-	}
 	if (!same)
 	{
 		r_mesh = (ResourceMesh*)App->resource_manager->CreateResource(ResourceType::R_MESH);

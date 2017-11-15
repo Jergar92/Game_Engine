@@ -165,7 +165,7 @@ void ResourceMesh::InspectorUpdate()
 {
 	
 	//Change name
-	ImGui::Text("ResourceTexture: %s", original_file.c_str());
+	ImGui::Text("ResourceMesh: %s", original_file.c_str());
 	ImGui::Text("Load in memory: %i",load_count);
 	ImGui::Text("UID: %i", UID);
 

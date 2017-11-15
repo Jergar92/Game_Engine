@@ -82,7 +82,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		import_success=App->importer->ImportTexture(new_asset_file, name.c_str());
 		
 		break;
-	case R_MESH:
+	case R_PREFAB:
 		import_success = App->importer->ImportMesh(new_asset_file, name.c_str());
 
 
@@ -104,7 +104,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		case R_TEXTURE:
 			ret->SetLibraryFile(name.c_str(),"dds");
 			break;
-		case R_MESH:
+		case R_PREFAB:
 			ret->SetLibraryFile(name.c_str(), "json");
 			break;
 		default:
@@ -206,7 +206,7 @@ ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)
 	else if (_stricmp(extension.c_str(), "obj") == 0
 		|| _stricmp(extension.c_str(), "fbx") == 0)
 	{
-		return R_MESH;
+		return R_PREFAB;
 
 	}
 	else
