@@ -29,7 +29,7 @@ public:
 	std::map<aiMesh *, ResourceMesh*> meshes_load;
 	std::map<const char *, ResourceTexture*> textures_loaded;
 
-	void ProcessNode(aiNode* node, const aiScene* scene, GameObject* parent);
+	GameObject* ProcessNode(aiNode* node, const aiScene* scene, GameObject* parent);
 	void ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject* go);
 	std::vector<ResourceTexture*> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName);
 	uint TextureFromFile(const char * path, const std::string & directory);

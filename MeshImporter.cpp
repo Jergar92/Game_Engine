@@ -29,10 +29,7 @@ bool MeshImporter::ImportMesh(const char * path,const char* name)
 	{
 		imported_path = path;
 		GameObject* main_go = new GameObject();
-		aiMatrix4x4 matrix = scene->mRootNode->mTransformation;
-		ProcessTransform(matrix, main_go);
-		ProcessNode(scene->mRootNode, scene, main_go);
-		main_go->SetName(scene->mRootNode->mName.C_Str());
+		main_go=ProcessNode(scene->mRootNode, scene, nullptr);
 		JSONConfig config;
 
 		config.OpenArray("GameObject");
@@ -156,9 +153,9 @@ bool MeshImporter::LoadMesh(ResourceMesh * r_mesh)
 	//RELEASE(buffer);
 	return true;
 }
-void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
+GameObject* MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
 {
-	GameObject* new_go = parent->CreateChild();
+	GameObject* new_go =new GameObject(parent);
 	aiMatrix4x4 matrix = node->mTransformation;
 	ProcessTransform(matrix, new_go);
 	mesh_name = node->mName.C_Str();
@@ -188,6 +185,7 @@ void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject*
 	{
 		ProcessNode(node->mChildren[i], scene, new_go);
 	}
+	return new_go;
 }
 void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
 {
