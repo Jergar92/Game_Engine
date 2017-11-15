@@ -37,13 +37,18 @@ bool ModuleCamera::CleanUp()
 
 update_status ModuleCamera::Update(float dt)
 {
+
+	if (!ImGui::GetIO().WantCaptureKeyboard && !ImGui::IsMouseHoveringAnyWindow())
+	{
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			OnClick();
 		}
-		
-		if(App->renderer3D->GetCamera() == camera)
+
+		if (App->renderer3D->GetCamera() == camera)
 			Move_Mouse();
+	}
+
 	
 		if (show_raycast)
 		{
