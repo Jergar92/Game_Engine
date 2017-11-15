@@ -31,6 +31,7 @@ public:
 	void MoveKeyBoard(float dt);
 	void Orbit(float dx, float dy);
 	void Rotate(float dx, float dy);
+	void Focus(GameObject * Clicked);
 	void Zoom(float zoom);
 	void OnClick();
 	void OnCollision();

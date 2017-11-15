@@ -187,7 +187,11 @@ void ModuleCamera::MoveKeyBoard(float dt)
 		reference += new_pos * dt;
 	}
 	
-	
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		Focus(App->editor_window->GetSelectedGameObject());
+	}
+
 	camera->UpdateMatrix();
 	
 }
@@ -227,6 +231,11 @@ void ModuleCamera::Rotate(float dx, float dy)
 	camera->UpdateMatrix();
 	
 
+}
+
+void ModuleCamera::Focus(GameObject* Clicked)
+{
+	LookAt(Clicked->position);
 }
 
 // -----------------------------------------------------------------
