@@ -24,7 +24,7 @@ public:
 	
 
 public:
-	int capacity = 1;
+	int capacity = 2;
 	AABB boundary;
 	std::vector<GameObject*> objects;
 private:

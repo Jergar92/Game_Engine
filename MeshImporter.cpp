@@ -39,7 +39,8 @@ bool MeshImporter::ImportMesh(const char * path,const char* name)
 		main_go->SaveGameObject(config);
 		char* buffer = nullptr;
 		uint size = config.Serialize(&buffer);
-
+		meshes_load.clear();
+		textures_loaded.clear();
 		std::string file_name = App->file_system->SetExtension(name, "json");
 		config.Save(file_name.c_str(),App->file_system->GetMeshesFolder());
 		config.CleanUp();
