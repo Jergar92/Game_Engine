@@ -160,6 +160,11 @@ void ModuleCamera::MoveKeyBoard(float dt)
 {
 	float speed = 2.0f;
 	new_pos.Set(0, 0, 0);
+	
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+	{
+		speed = speed * 5.0f;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
