@@ -109,16 +109,9 @@ bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
 	{
 		bytes = sizeof(uint) * num_indices;
 		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
-	//	mesh->SetData(vertices, indices, num_vertices, num_indices);
 		return true;
 	}
-	//mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
 
-	/*
-	cursor += bytes;
-	bytes = sizeof(Texture) * num_indices;
-	std::vector<Texture> textures((Texture*)cursor, (Texture*)cursor + num_textures);
-	*/
 
 	return true;
 }
@@ -164,23 +157,35 @@ bool MeshImporter::LoadMesh(ResourceMesh * r_mesh)
 }
 void MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)
 {
+	GameObject* new_go = parent->CreateChild();
+	aiMatrix4x4 matrix = node->mTransformation;
+	ProcessTransform(matrix, new_go);
+	mesh_name = node->mName.C_Str();
+	new_go->SetName(mesh_name.c_str());
+
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
+		GameObject* child_go = nullptr;
+		if (node->mNumMeshes > 1)
+		{
+			child_go = parent->CreateChild();
+			aiMatrix4x4 matrix = node->mTransformation;
+			ProcessTransform(matrix, child_go);
+			mesh_name = node->mName.C_Str()+std::to_string(i);
+			new_go->SetName(mesh_name.c_str());
+		}
+		else
+		{
+			child_go = new_go;
+		}
+
 		
-		GameObject* child_go = parent->CreateChild();
-
-		aiMatrix4x4 matrix = node->mTransformation;
-		ProcessTransform(matrix, child_go);
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		mesh_name = node->mName.C_Str();
-
-
-		child_go->SetName(mesh_name.c_str());
 		ProcessMesh(mesh, scene, child_go);
 	}
 	for (uint i = 0; i < node->mNumChildren; i++)
 	{
-		ProcessNode(node->mChildren[i], scene, parent);
+		ProcessNode(node->mChildren[i], scene, new_go);
 	}
 }
 void MeshImporter::ProcessTransform(aiMatrix4x4 matrix, GameObject * go)
@@ -294,8 +299,6 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	{
 		num_vertices = r_mesh->GetNumVertices();
 		num_indices = r_mesh->GetNumIndices();
-
-
 	}
 	//Create Mesh & MeshRenderer
 
@@ -325,24 +328,8 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	}
 	component_mesh->SetResourceMesh(r_mesh);
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
-	//ResourceMesh* r_texture= App->resource_manager->SetData(vertices,indices,num_vertices,num_indices);
-	//r_texture->SetTexture(textures);
 	component_mesh_renderer->SetTexture(textures);
 	component_mesh_renderer->SetMesh(component_mesh);
-	/*
-	Creo el Recurso
-	A ese recurso le asocion el origen y el destino, 
-	*/
-
-	
-	
-	/*
-	cursor += bytes;
-	bytes = sizeof(Texture) * mesh->mMaterialIndex;
-	memcpy(cursor, textures.data(), bytes);// Store textures
-	*/
-	//SaveGameObjectJSON
-	//SaveMesh(r_mesh.uid,data,size,app->file_system->getMeshesFolder())
 	if (SaveMesh(r_mesh, num_vertices, num_indices, App->file_system->GetMeshesFolder()))
 	{
 		LOG("Save %s", go->name.c_str());

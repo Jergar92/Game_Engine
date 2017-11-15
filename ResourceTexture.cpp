@@ -83,6 +83,8 @@ void ResourceTexture::SaveResource(JSONConfig & config) const
 	config.SetString(library_file, "Library File");
 	config.SetString(meta_file, "Meta File");
 
+	config.SetBool(flip, "Flip Image");
+
 }
 
 void ResourceTexture::LoadResource(const JSONConfig & config)
@@ -92,7 +94,7 @@ void ResourceTexture::LoadResource(const JSONConfig & config)
 	original_file= config.GetString("Original File");
 	library_file = config.GetString("Library File");
 	meta_file = config.GetString("Meta File");
-
+	flip = config.GetBool("Flip Image");
 }
 
 uint ResourceTexture::GetID() const
