@@ -27,7 +27,8 @@ public:
 
 	//Camera Controls and methods 
 	void LookAt(const float3 & position);
-	void Move_Mouse();
+	void MoveMouse();
+	void MoveKeyBoard();
 	void Orbit(float dx, float dy);
 	void Zoom(float zoom);
 	void OnClick();
@@ -37,6 +38,7 @@ public:
 
 private:
 	float3 reference;
+	float3 new_pos = { 0, 0, 0 };
 	bool show_raycast = false;
 	bool enable_right = false;
 	bool enable_left = false;

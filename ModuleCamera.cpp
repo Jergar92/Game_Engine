@@ -46,10 +46,17 @@ update_status ModuleCamera::Update(float dt)
 		}
 
 		if (App->renderer3D->GetCamera() == camera)
-			Move_Mouse();
+		{
+			MoveMouse();
+			
+		}
+			
 	}
+	
+	MoveKeyBoard();
 
 	
+
 		if (show_raycast)
 		{
 			glBegin(GL_LINES);
@@ -112,7 +119,7 @@ bool ModuleCamera::EnableRaycast()
 	}
 }
 
-void ModuleCamera::Move_Mouse()
+void ModuleCamera::MoveMouse()
 {
 	// Check motion for lookat / Orbit cameras
 	int motion_x, motion_y;
@@ -142,6 +149,37 @@ void ModuleCamera::Move_Mouse()
 		Zoom(wheel);
 
 
+}
+
+void ModuleCamera::MoveKeyBoard()
+{
+	float speed = 2.0f;
+	new_pos.Set(0, 0, 0);
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		new_pos -= camera->camera_frustrum.front * speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		new_pos += camera->camera_frustrum.front* speed;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		new_pos += camera->camera_frustrum.WorldRight() *speed;
+	}
+		
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		new_pos -= camera->camera_frustrum.WorldRight() * speed;
+	}
+		
+	if (new_pos.LengthSq() > 0.0f)
+	{
+		camera->camera_frustrum.Translate(new_pos * speed);
+	}
+	
+	
 }
 
 // -----------------------------------------------------------------
