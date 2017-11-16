@@ -78,6 +78,7 @@ void ResourceTexture::SaveResource(JSONConfig & config) const
 {
 	config.SetInt(type, "Resource Type");
 	config.SetInt(UID, "Resource UID");
+	config.SetString(creation_time, "File Creation");
 
 	config.SetString(original_file, "Original File");
 	config.SetString(library_file, "Library File");
@@ -90,6 +91,7 @@ void ResourceTexture::SaveResource(JSONConfig & config) const
 void ResourceTexture::LoadResource(const JSONConfig & config)
 {
 
+	creation_time = config.GetString("File Creation");
 
 	original_file= config.GetString("Original File");
 	library_file = config.GetString("Library File");

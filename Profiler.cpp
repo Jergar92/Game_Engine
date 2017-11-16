@@ -25,9 +25,6 @@ void Profiler::CreateFrame(const char * framename)
 
 }
 
-void Profiler::CreateTitles()
-{
-}
 
 bool Profiler::CreateTitle(const char* framename, const char * title_name )
 {

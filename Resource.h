@@ -39,6 +39,7 @@ protected:
 	uint UID;
 	uint load_count = 0;
 	ResourceType type = R_NONE;
+	std::string creation_time;
 	std::string original_file;
 	std::string library_file;
 	std::string meta_file;

@@ -204,6 +204,19 @@ bool ModuleFileSystem::CloneFile(const char * origin_path, const char * destinat
 	return true;
 }
 
+void ModuleFileSystem::CreationTime(const char * file, char ** data)
+{
+	*data = new char[21];
+	WIN32_FILE_ATTRIBUTE_DATA wfad;
+	SYSTEMTIME st;
+
+	GetFileAttributesEx(file, GetFileExInfoStandard, &wfad);
+	FileTimeToSystemTime(&wfad.ftCreationTime, &st);
+	
+	sprintf_s(*data, 21, "%i/%i/%i|%i:%i:%i", st.wDay, st.wMonth, st.wYear,st.wHour,st.wMinute,st.wSecond);
+
+}
+
 std::string ModuleFileSystem::SetExtension(const char * name, const char * extension)
 {
 	
@@ -260,6 +273,7 @@ bool ModuleFileSystem::ListFiles(const std::string& parent_path, PathList& path_
 		}
 		Path* new_directory= new Path(str_path, str_name, parent_path, directory);
 		path_fill.list.push_back(new_directory);
+
 	}
 	return true;
 }

@@ -5,6 +5,7 @@
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
 #include "ResourcePrefab.h"
+#include "ModuleFileSystem.h"
 #include <vector>
 #include <experimental\filesystem>
 #include "imgui/imgui.h"
@@ -105,10 +106,14 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 	if (import_success)
 	{
 		Resource* ret = CreateResource(type, UID);
-		ret->SetDateOfCreation(new_asset_file);
+		char* date=nullptr;
+		App->file_system->CreationTime(new_asset_file, &date);
+		ret->SetDateOfCreation(date);
+		RELEASE_ARRAY(date);
 		ret->SetOriginalFile(new_asset_file);
 		ret->SetMetaFile(new_asset_file);
-
+		//
+		//
 		switch (type)
 		{
 		case R_NONE:

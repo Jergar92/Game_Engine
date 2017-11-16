@@ -41,10 +41,7 @@ GameObject::~GameObject()
 }
 void GameObject::CleanUp()
 {
-	if (App->editor_window->GetSelectedGameObject() == this)
-	{
-		App->editor_window->SetSelectedGameObject(nullptr);
-	}
+
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -514,7 +511,7 @@ bool GameObject::RemoveGO(GameObject * to_remove)
 		{
 
 			childs.erase(childs.begin() + i);
-			item->CleanUp();
+			item->Delete();
 			RELEASE(item);
 			return true;
 		}
@@ -539,6 +536,32 @@ bool GameObject::HaveComponent(ComponentType type) const
 void GameObject::ToDelete()
 {
 	to_delete = true;
+}
+
+void GameObject::Delete()
+{
+	
+	if (App->editor_window->GetSelectedGameObject() == this)
+		App->editor_window->SetSelectedGameObject(nullptr);
+	
+	for (uint i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		item->CleanUp();
+		RELEASE(item);
+
+	}
+
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+
+
+		item->CleanUp();
+		RELEASE(item);
+
+	}
+	parent = nullptr;
 }
 
 uint GameObject::GetUID() const

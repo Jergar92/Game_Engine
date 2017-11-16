@@ -75,7 +75,6 @@ public:
 	Profiler();
 	~Profiler();
 	void CreateFrame(const char* framename);
-	void CreateTitles();
 	bool CreateTitle(const char* framename,const char* title);
 	bool CreateCategory(const char* framename, const char* title,char*category);
 	void StopCurrentCategory();

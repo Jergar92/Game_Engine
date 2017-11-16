@@ -24,7 +24,7 @@ public:
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
 	bool CloneFile(const char* origin_path, const char* destination_path);
 
-
+	void CreationTime(const char* file, char ** data);
 
 	bool ListFiles(const std::string& path, PathList& path_fill);
 
