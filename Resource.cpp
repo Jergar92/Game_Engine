@@ -31,6 +31,11 @@ void Resource::ReImport()
 {
 	
 }
+void Resource::SetDateOfCreation(const char * set)
+{
+	
+	original_file = set;
+}
 void Resource::SetOriginalFile(const char * set)
 {
 	original_file = set;

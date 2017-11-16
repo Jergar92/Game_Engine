@@ -35,14 +35,15 @@ void UI_Folder::UpdateFiles()
 
 }
 
-std::vector<std::string>UI_Folder::ReturnFiles(FileType especific)
+void UI_Folder::FillFiles(std::vector<const char*>& files,FileType especific)
 {
-	return path.ReturnFiles(especific);
+	path.FillFiles(files,especific);
 }
 
 
 bool UI_Folder::Draw()
 {
+	
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
@@ -331,19 +332,18 @@ bool PathList::PathExist(const std::string& cmp_path)const
 	return false;
 }
 
-std::vector<std::string>PathList::ReturnFiles(FileType especific)
+void PathList::FillFiles(std::vector<const char*>& files,FileType especific)
 {
-	std::vector<std::string> path_list;
+	tmp_list.clear();
 	for (std::list<Path*>::iterator it = list.begin(); it != list.end(); it++)
 	{
 		if (!(*it)->directory&&especific==F_NONE&& (*it)->type != F_META)
-			path_list.push_back((*it)->GetPath());
+			files.push_back((*it)->GetPath().c_str());
 		else if (!(*it)->directory&& (*it)->type == especific)
 		{
-			path_list.push_back((*it)->GetPath());
+			files.push_back((*it)->GetPath().c_str());
 		}
 	}
-	return path_list;
 }
 
 std::list<Path*>::const_iterator PathList::FindFolder(const std::string& show_folder_path)const

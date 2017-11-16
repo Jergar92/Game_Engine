@@ -14,12 +14,10 @@
 #define ASSETS_FOLDER "Assets"
 #define ASSETS_MESHES_FOLDER "Assets/Meshes"
 #define ASSETS_TEXTURE_FOLDER "Assets/Textures"
-
 #define LIBRARY_FOLDER "Library"
 #define MESHES_FOLDER "Library/Meshes"
 #define MATERIAL_FOLDER "Library/Material"
 #define PLAY_FOLDER "Library/Play"
-
 #define SETTINGS_FOLDER "Settings"
 
 
@@ -246,11 +244,12 @@ std::string ModuleFileSystem::GetLibraryPath(const std::string & path_to_change,
 
 bool ModuleFileSystem::ListFiles(const std::string& parent_path, PathList& path_fill)
 {
+	std::string str_path;
+	std::string str_name;
 	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(parent_path))
 	{
-		std::string str_path = item.path().string().c_str();
-
-		std::string str_name = item.path().filename().generic_string();
+		str_path = item.path().string().c_str();
+		str_name = item.path().filename().generic_string();
 		
 		bool directory = false;
 		if (item.status().type() == std::experimental::filesystem::file_type::directory)
@@ -324,7 +323,7 @@ bool ModuleFileSystem::CreateFolder(const char * name, bool hide)
 	{
 		if (GetLastError() == ERROR_ALREADY_EXISTS)
 		{
-
+			
 			LOG("Directory (%s) already exists", name);
 		}
 		return false;

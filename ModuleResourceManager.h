@@ -26,6 +26,7 @@ public:
 	void SaveMetaResource(const char* path);
 	void LoadMetaResource(const char* path);
 private:
+	std::vector<const char*> files;
 	std::map<uint, Resource*> resources;
 	float time_update = 0.0f;
 };

@@ -25,6 +25,7 @@ public:
 	const std::string& GetLibraryFile()const;
 	const std::string& GetMetaJsonFile()const;
 
+	void SetDateOfCreation(const char * set);
 	void SetOriginalFile(const char* set);
 	void SetOriginalFile(const char * set, const char * extension);
 	void SetLibraryFile(const char* set,const char* extension);

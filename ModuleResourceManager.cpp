@@ -21,11 +21,13 @@ ModuleResourceManager::~ModuleResourceManager()
 
 bool ModuleResourceManager::Start()
 {
-	std::vector<std::string> files = App->editor_window->ReturnFiles(F_META);
-	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
+	App->editor_window->FillFiles(files,F_META);
+	for (std::vector<const char*>::const_iterator it = files.begin(); it != files.end(); it++)
 	{
-		LoadMetaResource((*it).c_str());
+		LoadMetaResource(*it);
 	}
+	files.clear();
+
 	return true;
 }
 
@@ -46,14 +48,16 @@ void ModuleResourceManager::LookForResources()
 {
 
 	time_update = 0.0f;
-	std::vector<std::string> files = App->editor_window->ReturnFiles();
-	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
+	App->editor_window->FillFiles(files);
+	for (std::vector<const char*>::const_iterator it = files.begin(); it != files.end(); it++)
 	{
-		if (Find(it->c_str()) == 0)
+		if (Find(*it) == 0)
 		{
-			ImportFile(it->c_str());
+			ImportFile(*it);
 		}
 	}
+	files.clear();
+
 }
 
 uint ModuleResourceManager::Find(const char * asset_file) const
@@ -61,8 +65,14 @@ uint ModuleResourceManager::Find(const char * asset_file) const
 	std::map<uint, Resource*>::const_iterator it = resources.begin();
 	for (; it != resources.end(); it++)
 	{
+		if (it->second->GetOriginalFile().empty()) {
+			return 0;
+		}
 		if (std::experimental::filesystem::equivalent(it->second->GetOriginalFile(), asset_file))
+		{
+			//if time of creation
 			return it->second->GetUID();
+		}
 	}
 	return 0;
 }
@@ -95,6 +105,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 	if (import_success)
 	{
 		Resource* ret = CreateResource(type, UID);
+		ret->SetDateOfCreation(new_asset_file);
 		ret->SetOriginalFile(new_asset_file);
 		ret->SetMetaFile(new_asset_file);
 
@@ -142,8 +153,6 @@ uint ModuleResourceManager::ResourceWindows(ResourceType type)
 	ImGui::OpenPopup("Select Mesh");
 	if (ImGui::BeginPopupModal("Select Mesh", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		ImGui::Text("Change children to?");
-		ImGui::Separator();
 		static int uid = 0;
 		std::map<uint, Resource*>::const_iterator it = resources.begin();
 
@@ -163,14 +172,6 @@ uint ModuleResourceManager::ResourceWindows(ResourceType type)
 					uid = it->first;
 
 				}
-				/*
-
-				if (ImGui::Selectable(it->second->GetOriginalFile().c_str(), selected == i))
-				{
-					selected = i;
-					uid = it->first;
-				}
-				*/
 			}
 		}	
 		ImGui::Separator();

@@ -39,9 +39,11 @@ struct PathList
 	void CleanUp();
 	void OrderPath();
 	bool PathExist(const std::string& cmp_path)const ;
-	std::vector<std::string> ReturnFiles(FileType especific);
+	void FillFiles(std::vector<const char*>& files,FileType especific);
 	std::list<Path*>::const_iterator FindFolder(const std::string& show_folder_path)const;
 	std::list<Path*> list;
+private:
+	std::vector<const char*> tmp_list;
 
 };
 class UI_Folder : public UI_Windows
@@ -57,7 +59,7 @@ public:
 	const char* GetFolderName()const;
 	void SetUpFolders();
 	void UpdateFiles();
-	std::vector<std::string>ReturnFiles(FileType especific = F_NONE);
+	void FillFiles(std::vector<const char*>& files, FileType especific = F_NONE );
 private:
 	void DrawFolders(const Path* draw);
 

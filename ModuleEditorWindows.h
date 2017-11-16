@@ -49,7 +49,7 @@ public:
 	void WantToLoad(const char * path);
 	void WantToSave(const char* name, const char*path);
 	void LoadWindow();
-	std::vector<std::string> ReturnFiles(FileType especific = F_NONE);
+	void FillFiles(std::vector<const char*>& files, FileType especific = F_NONE);
 	void WantToUpdate();
 
 	void UpdateFiles();
@@ -83,7 +83,7 @@ private:
 
 	bool wait_load = false;
 	LoadFile next_load = LOAD_NONE;
-
+	std::vector<const char*> path;
 };
 
 

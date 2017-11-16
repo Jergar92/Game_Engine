@@ -385,36 +385,53 @@ void ModuleEditorWindows::WantToSave(const char * name, const char * path)
 
 void ModuleEditorWindows::LoadWindow()
 {
-	ImGuiWindowFlags window_flags = 0;
-	window_flags |= ImGuiWindowFlags_ShowBorders;
-	window_flags |= ImGuiWindowFlags_NoCollapse;
-	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
-	ImGui::Begin("Load##load_window", &load_window, window_flags);
-	std::vector<std::string> path = ui_folder->ReturnFiles(F_JSON);
-	static std::string select;
-	for (std::vector<std::string>::iterator it = path.begin(); it != path.end(); it++)
+
+	ImGui::OpenPopup("Load Window");
+	ui_folder->FillFiles(path,F_JSON);
+	static std::string selected;
+	
+	if (ImGui::BeginPopupModal("Load Window", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		if (ImGui::Button(it->c_str()))
+		
+		for (std::vector<const char*>::iterator it = path.begin(); it != path.end(); it++)
 		{
-			select = (*it);
-		}
+			ImGuiWindowFlags tree_flags = 0;
+
+			if (selected.compare(*it)==0)
+			{
+				tree_flags |= ImGuiTreeNodeFlags_Selected;
+			}
+			ImGui::TreeNodeEx(*it, tree_flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+			if (ImGui::IsItemClicked())
+			{
+				selected = (*it);
+
+			}
+		}	
+		
+		
 	}
-	if (ImGui::Button("Load##load_scene"))
+	
+	ImGui::Separator();
+	if (ImGui::Button("Select##mesh_select", ImVec2(120, 0)))
 	{
-		if (select.empty())
-		{		
-			load_window = false;
-			ImGui::End();
-			return;
-		}
-		WantToLoad(select.c_str());
+		WantToLoad(selected.c_str());
 		load_window = false;
+		ImGui::CloseCurrentPopup();
 	}
-	ImGui::End();
+	ImGui::SameLine();
+	if (ImGui::Button("Cancel", ImVec2(120, 0)))
+	{
+		load_window = false;
+		ImGui::CloseCurrentPopup();
+	}
+	path.clear();
+	ImGui::EndPopup();
+	
 }
-std::vector<std::string> ModuleEditorWindows::ReturnFiles(FileType especific)
+void ModuleEditorWindows::FillFiles(std::vector<const char*>& files,FileType especific)
 {
-	return ui_folder->ReturnFiles(especific);
+	ui_folder->FillFiles(files,especific);
 }
 void ModuleEditorWindows::WantToUpdate()
 {
