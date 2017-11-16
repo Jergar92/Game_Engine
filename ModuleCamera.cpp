@@ -128,12 +128,12 @@ void ModuleCamera::MoveMouse()
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0) && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
-		Orbit(motion_x, -motion_y);
+		Orbit(motion_x,-motion_y);
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
-		Rotate(motion_x, motion_y);
+		Rotate(motion_x,-motion_y);
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
