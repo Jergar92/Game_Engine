@@ -19,7 +19,8 @@ Is fixed at the top of the screen.
 Buttons info:
 
 *File ====>Open File submenu
-
+	*Save ==> Save Scene on Assets folder
+	*Load ==> Load Scene after showing a load window
 	*Quit ==> Quit the application
 	
 *View ====>Open View submenu
@@ -110,10 +111,15 @@ Shows a numerical record of the current speed of each module, to use it you have
 ### Hierarchy
 Show information all the GameObject of the scene
 If a GameObject is disabled the inspector show the name on the game object in gray
-	
+	* Mouse Right Click Active :
+		* Delete Game Object ==> Delete selected gameobject and his children
+		* Create Game Object ==> Create gameobject on selection
 ### Inspector
-Show information about the selected GameObject
-
+Show information about the selected GameObject and Resources
+If you are on the GameObject Inspector you can create Components using the Button "Create Component"
+If you create a MeshRenderer Component a Mesh Component is created to
+	* Mouse Right Click Active :
+		* Delete Component : ==> Delete selected component (You can't delete a Component Mesh if the Game Object have a Component MeshRenderer)
 ##GameObject
 This Engine implement GameObject (Unity like), GameObject contains
 	*Enable ==> Enable/Disable GameObject
@@ -128,9 +134,18 @@ All Components have a check box on the right that enable/disable the component
 	*Component Mesh ==> Allocate all vertices and index
 		*Vertices ==> Show vertices count
 		*Indices ==> Show indices count
+		*Select Mesh ==> You can change the mesh of the component
 	*Component Mesh Render ==> Draw Mesh and Textures
 		*RPG Texture Color ==> Change texture color also if you put the mouse inside the image you can see it bigger
+		*Select Texture ==> You can change the texture of the component
 	*Component Camera ==> Draw Camera and frustum culling optimization
+
+##Resources
+This Engine implement Resources (Unity like) right now the resources implemented are:
+
+	*Resources Mesh 
+	*Resources Texture
+	*Resources Prefab
 
 ##Folders
 Show the Assets info
@@ -152,6 +167,10 @@ This engine use <a href="http://assimp.sourceforge.net/"> Assimp </a>
 This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 ## Changelog
+#### v0.8.0
+* Added: Add Resource structure
+* Added: Add ResourceManager
+
 #### v0.7.0
 
 * Added: Add GameObject structure

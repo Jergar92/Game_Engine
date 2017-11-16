@@ -240,7 +240,11 @@ bool ModuleEditorWindows::ShowMenuBar()
 			{
 				ui_inspector->ChangeActive();
 			}
-
+			ImGui::Separator();
+			if (ImGui::MenuItem("Folders"))
+			{
+				ui_folder->ChangeActive();
+			}
 			ImGui::Separator();
 			if (ImGui::BeginMenu("Debug"))
 			{
@@ -393,7 +397,7 @@ void ModuleEditorWindows::LoadWindow()
 	if (ImGui::BeginPopupModal("Load Window", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		
-		for (std::vector<const char*>::iterator it = path.begin(); it != path.end(); it++)
+		for (std::vector<std::string>::iterator it = path.begin(); it != path.end(); it++)
 		{
 			ImGuiWindowFlags tree_flags = 0;
 
@@ -401,7 +405,7 @@ void ModuleEditorWindows::LoadWindow()
 			{
 				tree_flags |= ImGuiTreeNodeFlags_Selected;
 			}
-			ImGui::TreeNodeEx(*it, tree_flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+			ImGui::TreeNodeEx((*it).c_str(), tree_flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
 			if (ImGui::IsItemClicked())
 			{
 				selected = (*it);
@@ -429,7 +433,7 @@ void ModuleEditorWindows::LoadWindow()
 	ImGui::EndPopup();
 	
 }
-void ModuleEditorWindows::FillFiles(std::vector<const char*>& files,FileType especific)
+void ModuleEditorWindows::FillFiles(std::vector<std::string>& files,FileType especific)
 {
 	ui_folder->FillFiles(files,especific);
 }

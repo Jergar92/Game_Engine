@@ -35,7 +35,7 @@ void UI_Folder::UpdateFiles()
 
 }
 
-void UI_Folder::FillFiles(std::vector<const char*>& files,FileType especific)
+void UI_Folder::FillFiles(std::vector<std::string>& files,FileType especific)
 {
 	path.FillFiles(files,especific);
 }
@@ -332,13 +332,15 @@ bool PathList::PathExist(const std::string& cmp_path)const
 	return false;
 }
 
-void PathList::FillFiles(std::vector<const char*>& files,FileType especific)
+void PathList::FillFiles(std::vector<std::string>& files,FileType especific)
 {
 	tmp_list.clear();
 	for (std::list<Path*>::iterator it = list.begin(); it != list.end(); it++)
 	{
-		if (!(*it)->directory&&especific==F_NONE&& (*it)->type != F_META)
+		if (!(*it)->directory&&especific == F_NONE && (*it)->type != F_META)
+		{
 			files.push_back((*it)->GetPath().c_str());
+		}
 		else if (!(*it)->directory&& (*it)->type == especific)
 		{
 			files.push_back((*it)->GetPath().c_str());

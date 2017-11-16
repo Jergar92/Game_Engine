@@ -143,14 +143,13 @@ bool MeshImporter::LoadMesh(ResourceMesh * r_mesh)
 		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
 		r_mesh->SetData(vertices, indices, num_vertices, num_indices);
 		r_mesh->SetupMesh();
+		RELEASE_ARRAY(buffer);
 
 		return true;
 	}
 	r_mesh->SetData(vertices, std::vector<uint>(), num_vertices, num_indices);
 	r_mesh->SetupMesh();
 	RELEASE_ARRAY(buffer);
-
-	//RELEASE(buffer);
 	return true;
 }
 GameObject* MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, GameObject* parent)

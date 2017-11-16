@@ -22,9 +22,9 @@ ModuleResourceManager::~ModuleResourceManager()
 bool ModuleResourceManager::Start()
 {
 	App->editor_window->FillFiles(files,F_META);
-	for (std::vector<const char*>::const_iterator it = files.begin(); it != files.end(); it++)
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
 	{
-		LoadMetaResource(*it);
+		LoadMetaResource((*it).c_str());
 	}
 	files.clear();
 
@@ -49,11 +49,11 @@ void ModuleResourceManager::LookForResources()
 
 	time_update = 0.0f;
 	App->editor_window->FillFiles(files);
-	for (std::vector<const char*>::const_iterator it = files.begin(); it != files.end(); it++)
+	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
 	{
-		if (Find(*it) == 0)
+		if (Find((*it).c_str()) == 0)
 		{
-			ImportFile(*it);
+			ImportFile((*it).c_str());
 		}
 	}
 	files.clear();

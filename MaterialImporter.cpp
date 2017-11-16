@@ -200,7 +200,7 @@ int MaterialImporter::LoadTexture(ResourceTexture * r_text)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
+	RELEASE_ARRAY(buffer);
 	return textureID;
 }
 
