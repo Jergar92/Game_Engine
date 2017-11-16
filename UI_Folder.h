@@ -19,16 +19,16 @@ struct Path
 	~Path();
 public:
 	FileType SetType();
-	void RemoveChild(const Path& child);
+	void RemoveChild(Path* child);
 	const std::string GetPath()const;
-	void SetParentByPath(std::list<Path>& paths);
-	void SetChild(const Path& child);
+	void SetParentByPath(std::list<Path*>& paths);
+	void SetChild(Path* child);
 	void SetParent(Path* parent);
 public:
 	std::string path;
 	std::string name;
 	std::string parent_path;	
-	std::list<Path> child;
+	std::list<Path*> child;
 	bool directory = true;
 	bool operator ==(const Path& value);
 	FileType type = F_NONE;
@@ -36,11 +36,12 @@ public:
 };
 struct PathList
 {
+	void CleanUp();
 	void OrderPath();
 	bool PathExist(const std::string& cmp_path)const ;
 	std::vector<std::string> ReturnFiles(FileType especific);
-	std::list<Path>::const_iterator FindFolder(const std::string& show_folder_path)const;
-	std::list<Path> list;
+	std::list<Path*>::const_iterator FindFolder(const std::string& show_folder_path)const;
+	std::list<Path*> list;
 
 };
 class UI_Folder : public UI_Windows
@@ -58,7 +59,7 @@ public:
 	void UpdateFiles();
 	std::vector<std::string>ReturnFiles(FileType especific = F_NONE);
 private:
-	void DrawFolders(const Path& draw);
+	void DrawFolders(const Path* draw);
 
 	void DrawFolderInfo();
 

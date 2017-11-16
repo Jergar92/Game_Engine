@@ -259,7 +259,7 @@ bool ModuleFileSystem::ListFiles(const std::string& parent_path, PathList& path_
 			directory = true;
 
 		}
-		Path new_directory(str_path, str_name, parent_path, directory);
+		Path* new_directory= new Path(str_path, str_name, parent_path, directory);
 		path_fill.list.push_back(new_directory);
 	}
 	return true;

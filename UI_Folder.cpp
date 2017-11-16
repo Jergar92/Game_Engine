@@ -17,8 +17,8 @@ UI_Folder::~UI_Folder()
 
 void UI_Folder::SetUpFolders()
 {
-	path.list.push_back(Path(App->file_system->GetAssetsFolder(), "Assets", "", true));
-	App->file_system->ListFiles(path.list.begin()->path, path);
+	path.list.push_back(new Path(App->file_system->GetAssetsFolder(), "Assets", "", true));
+	App->file_system->ListFiles((*path.list.begin())->path, path);
 	path.OrderPath();
 }
 
@@ -30,9 +30,8 @@ void UI_Folder::CleanUp()
 void UI_Folder::UpdateFiles()
 {
 
-	path.list.clear();
+	path.CleanUp();
 	SetUpFolders();
-	path.OrderPath();
 
 }
 
@@ -55,8 +54,8 @@ bool UI_Folder::Draw()
 	}
 
 	ImGui::Columns(2);
-	std::list<Path>::const_iterator it = path.list.begin();
-	DrawFolders(it._Ptr->_Myval);	
+	std::list<Path*>::const_iterator it = path.list.begin();
+	DrawFolders((*it));	
 	ImGui::NextColumn();
 	ImGui::BeginChild("FolderInfo", ImVec2(0, ImGui::GetWindowHeight()- BUTTON_SPACE), true);
 	DrawFolderInfo();
@@ -90,22 +89,26 @@ const char * UI_Folder::GetFolderName() const
 	return show_folder.c_str();
 }
 
-void UI_Folder::DrawFolders(const Path& draw) 
+void UI_Folder::DrawFolders(const Path* draw) 
 {
+	if (path.list.empty())
+	{
+		return;
+	}
 	ImGuiWindowFlags tree_flags = 0;
 	tree_flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
-	if (draw.path == show_folder)
+	if (draw->path == show_folder)
 	{
 		tree_flags |= ImGuiTreeNodeFlags_Selected;
 	}
-	if (draw.child.empty())
+	if (draw->child.empty())
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
 
-	bool node_open = ImGui::TreeNodeEx(draw.name.c_str(), tree_flags);
+	bool node_open = ImGui::TreeNodeEx(draw->name.c_str(), tree_flags);
 	if (ImGui::IsItemClicked())
 	{
 	
-		show_folder = draw.path;
+		show_folder = draw->path;
 
 	}
 	/*
@@ -116,12 +119,12 @@ void UI_Folder::DrawFolders(const Path& draw)
 	*/
 	if (node_open)
 	{
-		std::list<Path>::const_iterator it = draw.child.begin();
-		while (it != draw.child.end())
+		std::list<Path*>::const_iterator it = draw->child.begin();
+		while (it != draw->child.end())
 		{
-			if ((it)->directory) 
+			if ((*it)->directory) 
 			{
-				DrawFolders(*(it));
+				DrawFolders((*it));
 			}
 			it++;
 		}
@@ -133,43 +136,47 @@ void UI_Folder::DrawFolders(const Path& draw)
 
 void UI_Folder::DrawFolderInfo()
 {
+	if (path.list.empty())
+	{
+		return;
+	}
 	ImGui::Text("%s Contains:", show_folder.c_str());
 
 	
-	std::list<Path>::const_iterator tmp = path.FindFolder(show_folder);
+	std::list<Path*>::const_iterator tmp = path.FindFolder(show_folder);
 	if (tmp==path.list.end())
 	{
 		return;
 	}
-	std::list<Path>::const_iterator it = tmp->child.begin();
-	while (it != tmp->child.end())
+	std::list<Path*>::const_iterator it = (*tmp)->child.begin();
+	while (it != (*tmp)->child.end())
 	{
-		if (it->type == F_META)
+		if ((*it)->type == F_META)
 		{
 			it++;
 			continue;
 		}
 		ImGuiWindowFlags tree_flags = 0;
-		if (item_selected == it->path)
+		if (item_selected == (*it)->path)
 		{
 			tree_flags |= ImGuiTreeNodeFlags_Selected;
 		}
-		if (it->child.empty())
+		if ((*it)->child.empty())
 			tree_flags |= ImGuiTreeNodeFlags_Leaf;
 
-			bool node_open = ImGui::TreeNodeEx(it->name.c_str(), tree_flags);
+			bool node_open = ImGui::TreeNodeEx((*it)->name.c_str(), tree_flags);
 			if (ImGui::IsItemClicked())
 			{
-				if (it->directory)
+				if ((*it)->directory)
 				{
 					if (ImGui::IsMouseDoubleClicked(0))
 					{
-						show_folder = it->path;
+						show_folder = (*it)->path;
 					}
 				}
 				else
 				{
-					item_selected = it->path;
+					item_selected = (*it)->path;
 					my_editor->SetSelectedResource(item_selected.c_str());
 				}
 			}
@@ -244,7 +251,7 @@ FileType Path::SetType()
 	}
 }
 
-void Path::RemoveChild(const Path & remove_child)
+void Path::RemoveChild(Path* remove_child)
 {
 	child.remove(remove_child);
 }
@@ -254,30 +261,30 @@ const std::string Path::GetPath() const
 	return path;
 }
 
-void Path::SetParentByPath(std::list<Path>& paths)
+void Path::SetParentByPath(std::list<Path*>& paths)
 {
-	std::list<Path>::iterator it = paths.begin();
-	for (std::list<Path>::const_iterator it = paths.begin(); it != paths.end(); it++)
+	std::list<Path*>::iterator it = paths.begin();
+	for (std::list<Path*>::const_iterator it = paths.begin(); it != paths.end(); it++)
 	{
-		if (it->path.compare(parent_path) != 0)
+		if ((*it)->path.compare(parent_path) != 0)
 		{
 			continue;
 		}
 		//if don't have parent set parent
 		if (parent != nullptr)
 		{
-			if (parent->path.compare(it->path) != 0)
+			if (parent->path.compare((*it)->path) != 0)
 			{
 				continue;
 			}
-			parent->RemoveChild(*(this));
+			parent->RemoveChild(this);
 		}
-		SetParent(&(it)._Ptr->_Myval);
+		SetParent((*it));
 
 	}
 }
 
-void Path::SetChild(const Path & set_child)
+void Path::SetChild(Path* set_child)
 {
 	child.push_back(set_child);
 }
@@ -285,7 +292,7 @@ void Path::SetChild(const Path & set_child)
 void Path::SetParent(Path * set_parent)
 {
 	parent = set_parent;
-	parent->SetChild(*(this));
+	parent->SetChild(this);
 }
 
 bool Path::operator==(const Path & value)
@@ -293,19 +300,30 @@ bool Path::operator==(const Path & value)
 	return path==value.path;
 }
 
+
+
+void PathList::CleanUp()
+{
+	for (std::list<Path*>::iterator it = list.begin(); it != list.end(); it++)
+	{
+		RELEASE((*it));
+	}
+	list.clear();
+}
+
 void PathList::OrderPath()
 {
-	for (std::list<Path>::iterator it = list.begin(); it != list.end(); it++)
+	for (std::list<Path*>::iterator it = list.begin(); it != list.end(); it++)
 	{
-		(it)->SetParentByPath(list);
+		(*it)->SetParentByPath(list);
 	}
 }
 
 bool PathList::PathExist(const std::string& cmp_path)const 
 {
-	for (std::list<Path>::const_iterator it = list.begin(); it != list.end(); it++)
+	for (std::list<Path*>::const_iterator it = list.begin(); it != list.end(); it++)
 	{
-		if (it->path.compare(cmp_path) == 0)
+		if ((*it)->path.compare(cmp_path) == 0)
 		{
 			return true;
 		}
@@ -316,24 +334,24 @@ bool PathList::PathExist(const std::string& cmp_path)const
 std::vector<std::string>PathList::ReturnFiles(FileType especific)
 {
 	std::vector<std::string> path_list;
-	for (std::list<Path>::iterator it = list.begin(); it != list.end(); it++)
+	for (std::list<Path*>::iterator it = list.begin(); it != list.end(); it++)
 	{
-		if (!it->directory&&especific==F_NONE&&it->type != F_META)
-			path_list.push_back(it->GetPath());
-		else if (!it->directory&&it->type == especific)
+		if (!(*it)->directory&&especific==F_NONE&& (*it)->type != F_META)
+			path_list.push_back((*it)->GetPath());
+		else if (!(*it)->directory&& (*it)->type == especific)
 		{
-			path_list.push_back(it->GetPath());
+			path_list.push_back((*it)->GetPath());
 		}
 	}
 	return path_list;
 }
 
-std::list<Path>::const_iterator PathList::FindFolder(const std::string& show_folder_path)const
+std::list<Path*>::const_iterator PathList::FindFolder(const std::string& show_folder_path)const
 {
-	std::list<Path>::const_iterator ret;
+	std::list<Path*>::const_iterator ret;
 	for (ret = list.begin(); ret != list.end(); ret++)
 	{
-		if (ret->path.compare(show_folder_path) == 0)
+		if ((*ret)->path.compare(show_folder_path) == 0)
 		{
 			return ret;
 		}
