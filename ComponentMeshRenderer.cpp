@@ -257,5 +257,9 @@ void ComponentMeshRenderer::InspectorUpdate()
 void ComponentMeshRenderer::CleanUp()
 {
 	mesh = nullptr;
+	for (std::vector<ResourceTexture*>::iterator it = textures.begin(); it != textures.end(); it++)
+	{
+		(*it)->UnLoadInMemory();
+	}
 	textures.clear();
 }

@@ -91,7 +91,11 @@ void ComponentMesh::InspectorUpdate()
 
 void ComponentMesh::CleanUp()
 {
-
+	if (r_mesh != nullptr)
+	{
+		r_mesh->UnLoadInMemory();
+		r_mesh = nullptr;
+	}
 }
 void ComponentMesh::SetResourceMesh(ResourceMesh* mesh)
 {
