@@ -8,11 +8,9 @@ Drop the game folder inside the .zip somewhere in your computer and execute the 
 	* move the mouse to rotate
 * Mouse Left Click + Left Alt:
 	* move the camera arround a point
-* Press F to focus camera
-* Press F1 to see debug vertices normal
-* Press F2 to see debug surface normal
-* Drag and Drop models to see them on the screen (if you drag a model you can see the Inspector(Inspector info below)
-* Drag and Drop textures to change the texture of the model (only png formats suported)
+* Press F centred to selected Game Objects
+* Mouse Left Click
+	*You can selected Game Objets
 
 ### Main Menu
 Is fixed at the top of the screen.
@@ -31,6 +29,9 @@ Buttons info:
 	*Hierarchy ==> Open/Close the Console windows (Hierarchy info below)
 	*Inspector ==>Open/Close the Configuration windows Inspectorinfo below)
 	*Folders ==>Open/Close the Profiler windows(Folders info below)
+        *Debug ==> Hover to see the debug options
+		 	* Pulse on draw raycast to see the raycast
+			* Pulse on draw quadtree to se the quadtree 
 
 *Help ====>Open Help submenu
 
@@ -124,8 +125,7 @@ If you create a MeshRenderer Component a Mesh Component is created to
 This Engine implement GameObject (Unity like), GameObject contains
 	*Enable ==> Enable/Disable GameObject
 	*Transform ==> Position,Rotation,Scale of the gameobject
-	*Show AABB ==> Show the AABB of the GameObject (parent go enclose children AABB)
-	*Show OBB ==> Show the OBB of the GameObject (parent go enclose children OBB )
+	*Show Bounding Box ==> To see a AABB bounding Box and OBB bounding box
 	*Component ==> GameObject contais component that components do other functions (like mesh rendering)
 
 ##Component 
@@ -139,6 +139,9 @@ All Components have a check box on the right that enable/disable the component
 		*RPG Texture Color ==> Change texture color also if you put the mouse inside the image you can see it bigger
 		*Select Texture ==> You can change the texture of the component
 	*Component Camera ==> Draw Camera and frustum culling optimization
+                *From the editor you can change the fov the near and far plane
+                *You can see what the frustum is seeing, by pressing Set Render Camera
+		*To activate the culling click on enable culling
 
 ##Resources
 This Engine implement Resources (Unity like) right now the resources implemented are:
@@ -170,6 +173,8 @@ This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 #### v0.8.0
 * Added: Add Resource structure
 * Added: Add ResourceManager
+* Added: Add QuadTree
+* Added: Add more options to camera
 
 #### v0.7.0
 
@@ -179,7 +184,12 @@ This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 * Added: Add Serializacion of the scene
 * Added: Add Folder System
 * Added: Add Custom Format (.frog)
-
+* Added: Add Transformations to components
+* Added: Add AABB and OBB Bounding Box
+* Added: Add Frustum Culing
+* Added: Add Camera do it with MathGeolib
+* Added: Add Mouse Picking 
+* Added: Add Resize the camera view when you resize the window
 
 #### v0.5.0
 
