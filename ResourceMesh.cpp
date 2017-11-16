@@ -157,6 +157,8 @@ void ResourceMesh::UnLoadInMemory()
 
 void ResourceMesh::UnLoad()
 {
+	vertices.clear();
+	indices.clear();
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 }

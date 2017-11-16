@@ -55,23 +55,7 @@ void ModuleImporter::Import(const char * path)
 
 }
 
-void ModuleImporter::Load(const char * path)
-{
-	dropped_filedir = path;
-	std::size_t found = dropped_filedir.find_last_of('.');
-	if (dropped_filedir.substr(found + 1) == "json")
-	{
-		
-	}
-	else if (dropped_filedir.substr(found + 1) == "png" || dropped_filedir.substr(found + 1) == "jpg" || dropped_filedir.substr(found + 1) == "dds")
-	{
 
-	}
-	else
-	{
-
-	}
-}
 
 bool ModuleImporter::ImportTexture(const char * path, const char * name)
 {

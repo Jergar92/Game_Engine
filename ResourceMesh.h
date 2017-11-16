@@ -65,7 +65,6 @@ private:
 	std::vector<uint> indices;
 	uint num_vertices = 0;
 	uint num_indices = 0;
-	AABB bounding_box;
 	bool debug_normals_succes = true;
 	bool draw_mesh = true;
 };

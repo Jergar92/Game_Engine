@@ -41,6 +41,10 @@ GameObject::~GameObject()
 }
 void GameObject::CleanUp()
 {
+	if (App->editor_window->GetSelectedGameObject() == this)
+	{
+		App->editor_window->SetSelectedGameObject(nullptr);
+	}
 	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
@@ -52,6 +56,8 @@ void GameObject::CleanUp()
 	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
+		
+
 		item->CleanUp();
 		RELEASE(item);
 
@@ -509,6 +515,7 @@ bool GameObject::RemoveGO(GameObject * to_remove)
 
 			childs.erase(childs.begin() + i);
 			item->CleanUp();
+			RELEASE(item);
 			return true;
 		}
 	}
