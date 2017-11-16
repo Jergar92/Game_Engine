@@ -6,9 +6,10 @@ public:
 	ResourcePrefab(uint UID);
 	~ResourcePrefab();
 	void LoadInMemory();
-	void Load();
-	void UnLoadInMemory();
-	void UnLoad();
+
 	void InspectorUpdate();
+	void SaveResource(JSONConfig& data)const;
+	void LoadResource(const JSONConfig& data);
+
 };
 

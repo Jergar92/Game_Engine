@@ -327,6 +327,15 @@ void GameObject::SetName(const char * set_name)
 	input_name = name;
 }
 
+void GameObject::ChangeUID()
+{
+	UID = App->GenerateRandom();
+	for (std::vector<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++)
+	{
+		(*it)->parent_UID = UID;
+	}
+}
+
 void GameObject::AddComponent(Component * component_to_add)
 {
 	components.push_back(component_to_add);
@@ -497,7 +506,9 @@ bool GameObject::RemoveGO(GameObject * to_remove)
 
 		if (item == to_remove)
 		{
+
 			childs.erase(childs.begin() + i);
+			item->CleanUp();
 			return true;
 		}
 	}

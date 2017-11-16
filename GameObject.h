@@ -29,7 +29,7 @@ public:
 
 	void OpenStaticQuestion();
 
-
+	void ChangeUID();
 	void AddComponent(Component* component_to_add);
 	void LoadGameObject(const JSONConfig& data);
 

@@ -4,6 +4,7 @@
 #include "UI_Folder.h"
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
+#include "ResourcePrefab.h"
 #include <vector>
 #include <experimental\filesystem>
 #include "imgui/imgui.h"
@@ -254,7 +255,7 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint custom_
 		ret = new ResourceMesh(UID);
 		break;
 	case R_PREFAB:
-		ret = new ResourceMesh(UID);
+		ret = new ResourcePrefab(UID);
 		break;
 	default:
 		break;

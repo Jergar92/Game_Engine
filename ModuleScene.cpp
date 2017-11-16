@@ -233,43 +233,16 @@ void ModuleScene::GenerateQuadTree()
 
 void ModuleScene::LoadGO(const char*path)
 {
-	std::string library_path = App->resource_manager->GetLibraryPathFromOriginalPath(path);
-	JSONConfig config;
-
-	if (!config.ParseFile(library_path.c_str(),App->file_system->GetMeshesFolder()))
-		return;
-
-	uint size = config.GetArraySize("GameObject");
-	std::vector < GameObject*> tmp_go;
-	for (int i = 0; i < size; i++)
+	uint resource_UID=App->resource_manager->Find(path);
+	if (resource_UID != 0)
 	{
-		JSONConfig config_item = config.SetFocusArray("GameObject", i);
-		GameObject* item = new GameObject();
+		Resource* resource = App->resource_manager->Get(resource_UID);
 
-
-		item->LoadGameObject(config_item);
-		tmp_go.push_back(item);
-
-	}
-	for (int i = 0; i < tmp_go.size(); i++)
-	{
-
-		GameObject* item = tmp_go[i];
-		if (item->GetParentUID() == 0)
+		if (resource->GetResourceType() == R_PREFAB)
 		{
-			item->SetParent(scene_go);
+			resource->LoadInMemory();
 		}
-		else
-		{
-			item->SetParent(FindGameObjectByID(tmp_go, item->GetParentUID()));
-			item->GenerateBoudingBox();
-		}
-		item->UpdateMatrix();
-
 	}
-	config.CleanUp();
-	App->editor_window->SetSceneGameObject(scene_go);
-
 }
 /*
 void ModuleScene::SendToQuad(GameObject * go)
