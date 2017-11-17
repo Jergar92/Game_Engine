@@ -172,7 +172,7 @@ void ModuleScene::LoadScene(const char*path)
 	for (int i = 0; i < size; i++)
 	{
 		JSONConfig config_item = config.SetFocusArray("GameObject", i);
-		GameObject* item = new GameObject();
+		GameObject* item = GenerateGameObject();
 		
 
 		item->LoadGameObject(config_item);

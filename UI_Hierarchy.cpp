@@ -20,6 +20,7 @@ bool UI_Hierarchy::Draw()
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
+	window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
 
 	ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
 
