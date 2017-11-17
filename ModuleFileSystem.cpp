@@ -292,6 +292,17 @@ bool ModuleFileSystem::FileExist(const char * file)
 	return false;
 }
 
+bool ModuleFileSystem::CompareDates(const char * file, const char * date , char** buffer)
+{
+	bool ret = false;
+	CreationTime(file, buffer);
+	if (strcmp(*buffer, date) == 0)
+	{
+		ret = true;
+	}
+	return ret;
+}
+
 
 bool ModuleFileSystem::CreateNewFolder(const std::string& path, const char * name,std::string& full_path)
 {

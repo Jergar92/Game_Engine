@@ -67,6 +67,17 @@ void ModuleResourceManager::LookForResources()
 		}
 		else
 		{
+			char* buffer = nullptr;
+			bool same = true;
+			same=App->file_system->CompareDates(it->second->GetOriginalFile().c_str(), it->second->GetCreationTime().c_str(), &buffer);
+			if (!same)
+			{
+				ReImport();
+
+
+			}
+			RELEASE_ARRAY(buffer);
+
 		}
 		
 	}
@@ -161,6 +172,10 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 
 	}
 	return 0;
+}
+
+void ModuleResourceManager::ReImport()
+{
 }
 
 const std::string ModuleResourceManager::GetLibraryPathFromOriginalPath(const char * original_path)

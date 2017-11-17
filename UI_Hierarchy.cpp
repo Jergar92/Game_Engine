@@ -3,6 +3,8 @@
 #include "imgui/imgui.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "Application.h"
+#include "ModuleWindow.h"
 UI_Hierarchy::UI_Hierarchy(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
 }
@@ -19,7 +21,9 @@ bool UI_Hierarchy::Draw()
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 
-	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Always);
+
+	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h - 250), ImGuiCond_Always);
 
 	ImGui::Begin("Hierarchy", &active_draw, window_flags);
 

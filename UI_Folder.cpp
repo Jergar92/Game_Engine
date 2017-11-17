@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
 #include "ModuleEditorWindows.h"
+#include "ModuleWindow.h"
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
 #define BUTTON_SPACE 80
@@ -94,7 +95,12 @@ bool UI_Folder::Draw()
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
-	ImGui::SetNextWindowSize(ImVec2(600, 300), ImGuiCond_Once);
+	window_flags |= ImGuiWindowFlags_NoResize;
+
+	ImGui::SetNextWindowPos(ImVec2(0, SDL_GetWindowSurface(App->window->window)->h- 230), ImGuiCond_Always);
+
+	ImGui::SetNextWindowSize(ImVec2(SDL_GetWindowSurface(App->window->window)->w, 230), ImGuiCond_Always);
+
 	if (!ImGui::Begin("Folders", &active_draw, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.

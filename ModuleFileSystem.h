@@ -30,7 +30,7 @@ public:
 	bool ListFiles(const std::string& path, PathList& path_fill);
 
 	bool FileExist(const char* file);
-
+	bool CompareDates(const char* file, const char* date, char** buffer);
 	std::string SetExtension(const char * name, const char * extension);
 	std::string SetPathFile(const char * name, const char * directory);
 	void RemplaceExtension(std::string&path, const std::string& new_extension);

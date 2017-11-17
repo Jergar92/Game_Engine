@@ -3,7 +3,8 @@
 #include "imgui/imgui.h"
 #include "Resource.h"
 #include "ModuleEditorWindows.h"
-
+#include "Application.h"
+#include "ModuleWindow.h"
 UI_Inspector::UI_Inspector(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
 }
@@ -19,7 +20,10 @@ bool UI_Inspector::Draw()
 	window_flags |= ImGuiWindowFlags_ShowBorders;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
-	ImGui::SetNextWindowSize(ImVec2(300, 600), ImGuiCond_Once);
+
+	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w -350, 20), ImGuiCond_Always);
+
+	ImGui::SetNextWindowSize(ImVec2(350, SDL_GetWindowSurface(App->window->window)->h-250), ImGuiCond_Always);
 	if (!ImGui::Begin("Inspector", &active_draw, window_flags))
 	{
 		// Early out if the window is collapsed, as an optimization.

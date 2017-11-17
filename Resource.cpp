@@ -59,19 +59,24 @@ void Resource::LoadResource(const JSONConfig & config)
 
 }
 
-const std::string& Resource::GetOriginalFile() const
+const std::string Resource::GetOriginalFile() const
 {
 	return original_file;
 }
 
-const std::string& Resource::GetLibraryFile() const
+const std::string Resource::GetLibraryFile() const
 {
 	return library_file;
 }
 
-const std::string& Resource::GetMetaJsonFile() const
+const std::string Resource::GetMetaJsonFile() const
 {
 	return meta_file;
+}
+
+const std::string Resource::GetCreationTime() const
+{
+	return creation_time;
 }
 
 bool Resource::GetDelete() const

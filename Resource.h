@@ -23,9 +23,11 @@ public:
 	void ToDelete();
 
 	ResourceType GetResourceType()const;
-	const std::string& GetOriginalFile()const;
-	const std::string& GetLibraryFile()const;
-	const std::string& GetMetaJsonFile()const;
+	const std::string GetOriginalFile()const;
+	const std::string GetLibraryFile()const;
+	const std::string GetMetaJsonFile()const;
+	const std::string GetCreationTime()const;
+
 	void SetDateOfCreation(const char * set);
 	void SetOriginalFile(const char* set);
 	void SetOriginalFile(const char * set, const char * extension);

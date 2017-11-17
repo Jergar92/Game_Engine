@@ -79,7 +79,6 @@ bool MeshImporter::SaveMesh(ResourceMesh * mesh, int vertices_size, int indices_
 
 	std::string name = std::to_string(mesh->GetUID());
 	ret=App->file_system->CreateOwnFile(name.c_str(), data, size, App->file_system->GetMeshesFolder(), "frog");
-	std::string origin_file= App->file_system->SetPathFile(mesh_name.c_str(), App->file_system->GetAssetsMeshFolder());
 	RELEASE_ARRAY(data);
 
 	return ret;
@@ -275,6 +274,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			}
 		}
 	}
+
 	std::vector<ResourceTexture*> textures;
 	//Material
 	if (mesh->mMaterialIndex >= 0)
@@ -314,6 +314,10 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 
 		r_mesh->SetLibraryFile(name.c_str(), "frog");
 		r_mesh->SetOriginalFile(origin_file.c_str(),"fbx");
+		char* date = nullptr;
+		App->file_system->CreationTime(r_mesh->GetOriginalFile().c_str(), &date);
+		r_mesh->SetDateOfCreation(date);
+		RELEASE_ARRAY(date);
 		r_mesh->SetMetaFile(origin_file.c_str());
 		
 		JSONConfig config;
