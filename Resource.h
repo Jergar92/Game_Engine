@@ -20,28 +20,33 @@ public:
 	virtual void UnLoadInMemory();
 	virtual void UnLoad();
 	virtual void InspectorUpdate();
+	void ToDelete();
+
 	ResourceType GetResourceType()const;
 	const std::string& GetOriginalFile()const;
 	const std::string& GetLibraryFile()const;
 	const std::string& GetMetaJsonFile()const;
-
 	void SetDateOfCreation(const char * set);
 	void SetOriginalFile(const char* set);
 	void SetOriginalFile(const char * set, const char * extension);
 	void SetLibraryFile(const char* set,const char* extension);
 	void SetMetaFile(const char* set);
+
+	bool GetDelete()const;
+
 	virtual void ReImport();
 	virtual void SaveResource(JSONConfig& config)const;
 	virtual void LoadResource(const JSONConfig& config);
 
 
 protected:
-	uint UID;
+	uint UID = 0;
 	uint load_count = 0;
 	ResourceType type = R_NONE;
 	std::string creation_time;
 	std::string original_file;
 	std::string library_file;
 	std::string meta_file;
+	bool to_delete = false;
 };
 

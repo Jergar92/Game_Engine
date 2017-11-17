@@ -27,6 +27,10 @@ void Resource::SetMetaFile(const char * set)
 	meta_file = FILE_EXTENSION(set, "meta.json");
 
 }
+void Resource::ToDelete()
+{
+	to_delete = true;
+}
 void Resource::ReImport()
 {
 	
@@ -68,6 +72,11 @@ const std::string& Resource::GetLibraryFile() const
 const std::string& Resource::GetMetaJsonFile() const
 {
 	return meta_file;
+}
+
+bool Resource::GetDelete() const
+{
+	return to_delete;
 }
 
 
