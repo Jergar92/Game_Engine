@@ -1,4 +1,5 @@
 #include "ComponentMeshRenderer.h"
+#include "ComponentCamera.h"
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ComponentMesh.h"
@@ -90,7 +91,7 @@ void ComponentMeshRenderer::Update(float dt)
 	
 	//Pop Matrix
 	glPopMatrix();
-
+	
 	mesh->DrawMesh(false);
 }
 
