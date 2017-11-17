@@ -1,4 +1,5 @@
 #include "ComponentCamera.h"
+#include "MyQuadTree.h"
 #include "ComponentMesh.h"
 #include "GameObject.h"
 #include "ModuleRenderer3D.h"
@@ -9,7 +10,7 @@
 #include "Glew\include\GL\glew.h"
 #include "imgui\imgui.h"
 #include <math.h>
-
+#include <list>
 #define NUM_EDGES 12
 #define DEFAULT_WITH 16.f
 #define DEFAULT_HEITH 9.f
@@ -64,7 +65,21 @@ void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
 void ComponentCamera::Culling()
 {
 	scene = SetElementsOnScene();
-	CheckForMesh(scene);
+
+	std::list<GameObject*>static_list;
+	App->scene->quadtree->CollectCandidates(static_list,camera_frustrum);
+	std::list<GameObject*>::iterator iterator_go = static_list.begin();
+	while (iterator_go != static_list.end())
+	{
+		CheckForMeshQuadtree(*iterator_go);
+		iterator_go++;
+	}
+	iterator_go = App->scene->no_static_list.begin();
+	while (iterator_go != App->scene->no_static_list.end())
+	{
+		CheckForMeshQuadtree(*iterator_go);
+		iterator_go++;
+	}
 
 }
 
@@ -81,7 +96,7 @@ void ComponentCamera::CheckForMesh(GameObject * scene_go)
 			if (mesh != nullptr)
 			{
 			
-				if (camera_frustrum.Contains(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
+				if (camera_frustrum.ContainsAaBox(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
 				{
 					mesh->DrawMesh(true);
 				}
@@ -94,11 +109,8 @@ void ComponentCamera::CheckForMesh(GameObject * scene_go)
 					else
 					{
 						mesh->DrawMesh(false);
-					}
-					
-				}
-			
-				
+					}		
+				}			
 			}
 			for (int i = 0; i < scene_go->childs.size(); i++)
 			{
@@ -106,8 +118,32 @@ void ComponentCamera::CheckForMesh(GameObject * scene_go)
 				CheckForMesh(tmp);
 			}
 		}
-	
-	
+}
+
+void ComponentCamera::CheckForMeshQuadtree(GameObject* scene_go)
+{
+	if (scene_go != nullptr)
+	{
+		ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
+		if (mesh != nullptr)
+		{
+			if (camera_frustrum.ContainsAaBox(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
+			{
+				mesh->DrawMesh(true);
+			}
+			else
+			{
+				if (!enable_culling)
+				{
+					mesh->DrawMesh(true);
+				}
+				else
+				{
+					mesh->DrawMesh(false);
+				}
+			}
+		}
+	}
 }
 
 

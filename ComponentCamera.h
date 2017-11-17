@@ -4,6 +4,7 @@
 #include "MathGeoLib-1.5\src\Geometry\Frustum.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include "SDL\include\SDL.h"
+
 class GameObject;
 class ComponentCamera :public Component
 {
@@ -19,6 +20,7 @@ public:
 	void Culling();
 	GameObject* SetElementsOnScene();
 	void CheckForMesh(GameObject* scene);
+	void CheckForMeshQuadtree(GameObject* scene);
 
 	//Getters
 	float GetNearDistance() const;

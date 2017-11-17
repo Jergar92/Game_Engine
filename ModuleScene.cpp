@@ -102,10 +102,21 @@ void ModuleScene::CleanGO()
 GameObject * ModuleScene::GenerateGameObject(GameObject * parent)
 {
 	GameObject* new_go = new GameObject(parent);
+	no_static_list.push_back(new_go);
 
 	return new_go;
 }
 
+void ModuleScene::GoStaticEnable(bool is_static, GameObject* static_go)
+{
+	if(is_static == true)
+	{
+		no_static_list.remove(static_go);
+		quadtree->Insert(static_go);
+		static_go->SetStatic(is_static);
+	}
+
+}
 
 
 GameObject* ModuleScene::GetScene()const 

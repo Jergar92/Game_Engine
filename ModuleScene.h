@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "MyQuadTree.h"
+#include <list>
 class GameObject;
 class Plane_p;
 
@@ -34,6 +35,7 @@ public:
 
 	//Generate quadtree
 	void GenerateQuadTree();
+	void GoStaticEnable(bool is_static,GameObject* static_go);
 private:
 
 public:
@@ -41,6 +43,7 @@ public:
 	MyQuadTree* quadtree;
 	Plane_p* plane;
 	bool enable_draw_quadtree = false;
+	std::list<GameObject*> no_static_list;
 
 private:
 

@@ -52,7 +52,7 @@ bool UI_Console::Draw()
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 	ImGui::SetNextWindowSize(ImVec2(550, 600), ImGuiCond_Once);
 
-	ImGui::Begin("Console", &show_app_console, window_flags);
+	ImGui::Begin("Console", &active_draw, window_flags);
 	//ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
 
 

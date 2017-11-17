@@ -147,10 +147,30 @@ void MyQuadTree::SendGameObjectToChilds()
 	}
 }
 
+void MyQuadTree::CollectCandidates(std::list<GameObject*>& static_list, Frustum camera)
+{
+	if (camera.ContainsAaBox(boundary))
+	{
+		for(int i = 0; i < objects.size();i++)
+		{
+			static_list.push_back(objects[i]);
+		}
+
+		if (north_west != nullptr)
+		{
+			north_west->CollectCandidates(static_list, camera);
+			north_east->CollectCandidates(static_list, camera);
+			south_west->CollectCandidates(static_list, camera);
+			south_east->CollectCandidates(static_list, camera);
+		}
+	}
+}
+
 void MyQuadTree::SetQuadtree(GameObject * scene)
 {
 	boundary = AABB(float3::zero, 100.0f);
 }
+
 
 void MyQuadTree::DrawQuadtree()
 {
