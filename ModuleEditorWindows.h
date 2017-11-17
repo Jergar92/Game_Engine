@@ -81,6 +81,7 @@ private:
 	bool want_to_update = false;
 
 
+	float time_update = 0.0f;
 	bool wait_load = false;
 	LoadFile next_load = LOAD_NONE;
 	std::vector<std::string> path;

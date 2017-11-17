@@ -16,7 +16,7 @@
 #include "UI_Console.h"
 #include "UI_Folder.h"
 #include "UI_Play.h"
-
+#define UPDATE_FOLDER_TIME 2
 ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
 	name = "Editor Windows";
@@ -55,9 +55,12 @@ bool ModuleEditorWindows::Start()
 
 update_status ModuleEditorWindows::PreUpdate(float dt)
 {
-	if (want_to_update)
+	time_update += dt;
+
+	if (want_to_update||time_update > UPDATE_FOLDER_TIME)
 	{
 		UpdateFiles();
+		time_update = 0.0f;
 		want_to_update = false;
 	}
 	if (want_to_save)
@@ -411,9 +414,7 @@ void ModuleEditorWindows::LoadWindow()
 				selected = (*it);
 
 			}
-		}	
-		
-		
+		}		
 	}
 	
 	ImGui::Separator();

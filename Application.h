@@ -80,13 +80,15 @@ private:
 	//GameClock
 	float	game_timer_multiply = 1.0f;
 	float	save_game_timer_multiply = 1.0f;
-
-	float	game_dt;
+	float	game_dt = 0.0f;
 	//RealTime Clock
-	float	dt;
+	float	dt = 0.0f;
+
 	Timer	ms_timer;
 	int		fps = 0;
 	int		fps_cap = 0;
+
+	uint64_t game_frame_count = 0;
 	uint64_t frame_count = 0;
 	uint32_t last_sec_frame_count = 0;
 	uint32_t prev_last_sec_frame_count = 0;

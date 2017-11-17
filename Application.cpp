@@ -157,16 +157,22 @@ void Application::PrepareUpdate()
 	frame_time.Start();
 	//slow/increment speed of the dt values between 0.0 and 2.0
 	game_dt = dt*game_timer_multiply;
+	if (on_play)
+	{
+		game_frame_count++;
+	}
 	if (on_pause)
 	{
 		if (on_one_frame&&on_one_frame_start==false)
 		{
+			game_frame_count++;
 			on_one_frame_start = true;
 			game_timer_multiply = save_game_timer_multiply;
 		}
 		else
 		{
-			OnPause();
+			on_one_frame = false;
+			game_timer_multiply = 0.0f;
 		}
 	}
 }
@@ -314,11 +320,14 @@ void Application::SetGameTimeMultiply(float value)
 void Application::OnPlay()
 {
 	on_play = true;
+	on_pause = false;
+	on_one_frame = false;
 	game_timer_multiply = save_game_timer_multiply;
 }
 
 void Application::OnStop()
 {
+	game_frame_count = 0;
 	on_play = false;
 	on_pause = false;
 	on_one_frame = false;
@@ -328,14 +337,19 @@ void Application::OnStop()
 
 void Application::OnPause()
 {
+	on_play = false;
 	on_pause = true;
+	on_one_frame = false;
+
 	save_game_timer_multiply = game_timer_multiply;
 	game_timer_multiply = 0.0f;
 }
 
 void Application::OnOneFrame()
 {
+
 	on_one_frame = true;
+	on_one_frame_start = false;
 }
 
 bool Application::LoadConfigNow()
@@ -456,12 +470,19 @@ void Application::GuiConfigUpdate()
 		organization = buff2;
 
 		ImGui::Text("FPS: %u", frames_on_last_update);
+		ImGui::Text("Application start time: %.3f", startup_time.ReadSec());
+		ImGui::Text("Real dt: %.3f", dt);
+		ImGui::Text("Game dt: %.3f", game_dt);
+		ImGui::Text("Game Frame count: %u", game_frame_count);
+
+
 		if (ImGui::SliderInt("Frame Cap", &fps_cap, 0, 120))
 		{
 			SetFPSCap();
 		}
 		ImGui::PlotHistogram("FPS Histogram", fps_values, IM_ARRAYSIZE(fps_values), 0, NULL, 0.0f, 120.0f, ImVec2(0, 80));
 		ImGui::PlotHistogram("Millisecons Histogram", millisecons_values, IM_ARRAYSIZE(millisecons_values), 0, NULL, 0.0f, 60.0f, ImVec2(0, 80));
+
 
 		sMStats stats = m_getMemoryStatistics();
 

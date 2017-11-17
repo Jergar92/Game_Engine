@@ -21,9 +21,9 @@ bool UI_Play::Draw()
 	window_flags |= ImGuiWindowFlags_NoCollapse;
 	window_flags |= ImGuiWindowFlags_NoMove;
 
-	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w *0.5, 20), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2(SDL_GetWindowSurface(App->window->window)->w *0.5-125, 20), ImGuiCond_Always);
 
-	ImGui::SetNextWindowSize(ImVec2(150, 50), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(250, 50), ImGuiCond_Once);
 
 	if (!ImGui::Begin("Editor Play", &active_draw, window_flags))
 	{
@@ -55,10 +55,15 @@ bool UI_Play::Draw()
 		App->OnStop();
 
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("0ne Update") && (state == ON_PAUSE))
+	{
+		App->OnOneFrame();
+	}
 	if (state == ON_PLAY || state == ON_PAUSE)
 	{
-		ImGui::PushItemWidth(130);
-		if (ImGui::DragFloat("", &value, 0.01f, 0.0f, 2.0f, "%0.2f", 1.0f))
+		ImGui::PushItemWidth(120);
+		if (ImGui::DragFloat("Time multiply", &value, 0.01f, 0.0f, 2.0f, "%0.2f", 1.0f))
 			App->SetGameTimeMultiply(value);
 		ImGui::PopItemWidth();
 	}
