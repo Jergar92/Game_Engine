@@ -91,7 +91,7 @@ void ComponentMeshRenderer::Update(float dt)
 	//Pop Matrix
 	glPopMatrix();
 
-
+	mesh->DrawMesh(false);
 }
 
 void ComponentMeshRenderer::DrawVertexNormals()

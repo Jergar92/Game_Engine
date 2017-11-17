@@ -207,7 +207,7 @@ void GameObject::InspectorUpdate()
 	if (ImGui::Checkbox("Static##static_go", &static_go))
 	{
 		gui_static = true;
-		SetStatic(static_go);
+		App->scene->GoStaticEnable(static_go,this);
 	}
 	if (gui_static)
 		OpenStaticQuestion();
@@ -274,7 +274,7 @@ void GameObject::OpenStaticQuestion()
 						queue.push(*it);
 					}
 
-					item->SetStatic(static_go);
+					App->scene->GoStaticEnable(static_go,item);
 					queue.pop();
 				}
 			}
@@ -294,10 +294,6 @@ void GameObject::OpenStaticQuestion()
 void GameObject::SetStatic(bool set)
 {
 	static_go = set;
-	if (static_go)
-	{
-		App->scene->quadtree->Insert(this);
-	}
 }
 
 bool GameObject::IsStatic() const

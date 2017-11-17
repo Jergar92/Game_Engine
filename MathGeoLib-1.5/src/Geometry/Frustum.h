@@ -374,6 +374,8 @@ public:
 	bool Contains(const Triangle &triangle) const;
 	bool Contains(const Polygon &polygon) const;
 	bool Contains(const AABB &aabb) const;
+	// tests if a AaBox is within the frustrum
+	bool ContainsAaBox(const AABB& refBox) const;
 	bool Contains(const OBB &obb) const;
 	bool Contains(const Frustum &frustum) const;
 	bool Contains(const Polyhedron &polyhedron) const;
