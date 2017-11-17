@@ -12,23 +12,24 @@ public:
 	bool Awake(const JSONConfig& data);
 
 	bool CreateNewFile(const char * path, char * buffer, int buffer_size, const char * directory);
-
 	bool CreateOwnFile(const char * name, char * buffer,int buffer_int, const char * directory,const char* extension);
 	JSON_Value * ParseJSONFile(const char * path);
 	JSON_Value* ParseJSONFile(const char * name, const char * directory);
 	bool CreateJSONFile(const char * name, JSON_Value* value, const char * directory);
 	bool CreateJSONFile(JSON_Value * value, const char * path);
+	void CreationTime(const char* file, char ** data);
+	bool CreateNewFolder(const std::string& path, const char* name, std::string& full_path);
+
 
 	int LoadFile(const char * path, const char * name, char ** buffer);
 	int LoadFile(const char * name, char ** buffer);
 	void LoadFile(const char* name, char** buffer,  const char * directory, const char* extension);
 	bool CloneFile(const char* origin_path, const char* destination_path);
 
-	void CreationTime(const char* file, char ** data);
 
 	bool ListFiles(const std::string& path, PathList& path_fill);
 
-	bool CreateNewFolder(const std::string& path, const char* name,std::string& full_path);
+	bool FileExist(const char* file);
 
 	std::string SetExtension(const char * name, const char * extension);
 	std::string SetPathFile(const char * name, const char * directory);
@@ -41,7 +42,6 @@ public:
 	const char* GetAssetsFolder()const;
 	const char* GetAssetsMeshFolder()const;
 	const char* GetAssetsTextFolder()const;
-
 	const char* GetSettingsFolder()const;
 	const char* GetPlayFolder()const;
 

@@ -42,14 +42,34 @@ update_status ModuleResourceManager::Update(float dt)
 	}
 	return UPDATE_CONTINUE;
 }
+update_status ModuleResourceManager::PostUpdate(float dt)
+{
+	if (need_to_delete)
+	{
+		DeleteResources();
+	}
 
+	return UPDATE_CONTINUE;
+}
 void ModuleResourceManager::LookForResources()
 {
 
 	time_update = 0.0f;
 	App->editor_window->FillFiles(files);
+	std::map<uint, Resource*>::const_iterator it = resources.begin();
+	for (; it != resources.end(); it++)
+	{
+		if (!App->file_system->FileExist(it->second->GetOriginalFile().c_str()))
+		{
+
+			it->second->ToDelete();
+			need_to_delete = true;
+		}
+		
+	}
 	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
 	{
+	
 		if (Find((*it).c_str()) == 0)
 		{
 			ImportFile((*it).c_str());
@@ -64,8 +84,9 @@ uint ModuleResourceManager::Find(const char * asset_file) const
 	std::map<uint, Resource*>::const_iterator it = resources.begin();
 	for (; it != resources.end(); it++)
 	{
-		if (it->second->GetOriginalFile().empty()) {
-			return 0;
+		
+		if (it->second->GetDelete()) {
+			continue;
 		}
 		if (std::experimental::filesystem::equivalent(it->second->GetOriginalFile(), asset_file))
 		{
@@ -269,6 +290,26 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint custom_
 		resources[UID] = ret;
 	}
 	return ret;
+}
+
+void ModuleResourceManager::DeleteResources()
+{
+	std::map<uint, Resource*>::iterator it = resources.begin();
+
+	while (it != resources.end())
+	{
+		if (it->second->GetDelete())
+		{
+			Resource* tmp = it->second;
+			resources.erase(it++);
+			RELEASE(tmp);
+		}
+		else
+		{
+			it++;
+		}
+	}
+	need_to_delete = false;
 }
 
 void ModuleResourceManager::SaveMetaResource(const char* path)

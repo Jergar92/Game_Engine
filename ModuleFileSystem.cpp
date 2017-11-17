@@ -278,6 +278,14 @@ bool ModuleFileSystem::ListFiles(const std::string& parent_path, PathList& path_
 	return true;
 }
 
+bool ModuleFileSystem::FileExist(const char * file)
+{
+	std::ifstream ifile(file);
+	if (ifile)
+		return true;
+	return false;
+}
+
 
 bool ModuleFileSystem::CreateNewFolder(const std::string& path, const char * name,std::string& full_path)
 {

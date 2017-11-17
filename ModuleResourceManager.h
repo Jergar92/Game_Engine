@@ -11,7 +11,10 @@ public:
 	bool Start();
 
 	update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	void LookForResources();
+	Resource* CreateResource(ResourceType type, uint UID = -1);
+	void DeleteResources();
 	uint Find(const char* asset_file)const;
 
 	uint ImportFile(const char* new_asset_file);
@@ -21,11 +24,11 @@ public:
 	void GetAllResourcePath(ResourceType type, std::vector<std::string>& strings);
 	const Resource* Get(uint UID)const;
 	Resource* Get(uint UID);
-	Resource* CreateResource(ResourceType type,uint UID=-1);
 
 	void SaveMetaResource(const char* path);
 	void LoadMetaResource(const char* path);
 private:
+	bool need_to_delete = false;
 	std::vector<std::string> files;
 	std::map<uint, Resource*> resources;
 	float time_update = 0.0f;
