@@ -57,18 +57,19 @@ Application::Application()
 	//Scene Module
 
 	
-
+	AddModule(editor_window);
+	profiler->CreateTitle("Application_Start", editor_window->name.c_str());
+	AddModule(resource_manager);
+	profiler->CreateTitle("Application_Start", resource_manager->name.c_str());
 	AddModule(scene);
 	profiler->CreateTitle("Application_Start",scene->name.c_str());
 
 	AddModule(hardware);
 	profiler->CreateTitle("Application_Start",hardware->name.c_str());
 
-	AddModule(editor_window);
-	profiler->CreateTitle("Application_Start",editor_window->name.c_str());
 
-	AddModule(resource_manager);
-	profiler->CreateTitle("Application_Start", resource_manager->name.c_str());
+
+	
 	
 	// Renderer last!
 	AddModule(renderer3D);
@@ -426,9 +427,7 @@ update_status Application::GuiUpdate()
 	if (profiler->CheckWindows()) {
 		profiler->DrawProfiler();
 	}
-	//ImGui::ShowTestWindow();
 
-	//Last
 	std::list<Module*>::iterator item = list_modules.begin();
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{

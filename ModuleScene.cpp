@@ -84,6 +84,9 @@ bool ModuleScene::CleanUp()
 {
 	bool ret = true;
 	delete plane;
+	quadtree->CleanUp();
+
+	delete quadtree;
 	if (scene_go != nullptr)
 	{
 		CleanGO();
@@ -156,7 +159,7 @@ void ModuleScene::SaveScene(const char*path)const
 	char* buffer=nullptr;
 	uint size=config.Serialize(&buffer);
 	config.Save(path);
-	config.CleanUp();
+	RELEASE_ARRAY(buffer);
 }
 
 void ModuleScene::LoadScene(const char*path)

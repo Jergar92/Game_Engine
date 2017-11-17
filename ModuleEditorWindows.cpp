@@ -135,6 +135,7 @@ bool ModuleEditorWindows::CleanUp()
 	{
 		ui_windows[i]->CleanUp();
 	}
+	RELEASE(ui_play);
 	RELEASE(ui_inspector);
 	RELEASE(ui_hierarchy);
 	RELEASE(ui_about);

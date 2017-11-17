@@ -6,8 +6,9 @@
 JSONConfig::JSONConfig()
 {
 	value = json_value_init_object();
+	if(value)
 	object = json_value_get_object(value);
-	array =  json_value_get_array(value);
+	//array =  json_value_get_array(value);
 
 }
 
@@ -18,16 +19,19 @@ JSONConfig::JSONConfig(JSON_Object * object):object(object)
 
 JSONConfig::~JSONConfig()
 {
+	if (value)
+		json_value_free(value);
 }
 
 void JSONConfig::CleanUp()
 {
-	json_value_free(value);
+//	json_value_free(value);
 }
 
 bool JSONConfig::ParseFile(const char * name,const char* directory)
 {
 	bool ret = true;
+	json_value_free(value);
 	value = App->file_system->ParseJSONFile(name, directory);
 	if (value == nullptr)
 	{
@@ -41,6 +45,7 @@ bool JSONConfig::ParseFile(const char * name,const char* directory)
 bool JSONConfig::ParseFile(const char* path)
 {
 	bool ret = true;
+	json_value_free(value);
 	value = App->file_system->ParseJSONFile(path);
 	if (value == nullptr)
 	{
@@ -58,9 +63,9 @@ bool JSONConfig::SerializeFile(const char * name)
 
 int JSONConfig::Serialize(char ** buffer)
 {
-	*(buffer)=json_serialize_to_string_pretty(json_value_deep_copy(value));
-	int size = strlen(*(buffer));
-	json_free_serialized_string(*(buffer));
+	int size = json_serialization_size(value);
+	*buffer = new char[size];
+	json_serialize_to_buffer(value, *buffer, size);
 	return size;
 }
 

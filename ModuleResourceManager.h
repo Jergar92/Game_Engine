@@ -12,6 +12,7 @@ public:
 
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
+	bool CleanUp();
 	void LookForResources();
 	Resource* CreateResource(ResourceType type, uint UID = -1);
 	void DeleteResources();

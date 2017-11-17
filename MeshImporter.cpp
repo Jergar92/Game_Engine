@@ -40,8 +40,7 @@ bool MeshImporter::ImportMesh(const char * path,const char* name)
 		textures_loaded.clear();
 		std::string file_name = App->file_system->SetExtension(name, "json");
 		config.Save(file_name.c_str(),App->file_system->GetMeshesFolder());
-		config.CleanUp();
-
+		RELEASE_ARRAY(buffer);
 		//Save GameObject prefab
 		RELEASE(main_go);
 		//delete gameobject
@@ -306,6 +305,8 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	{
 		r_mesh = (ResourceMesh*)App->resource_manager->CreateResource(ResourceType::R_MESH);
 		r_mesh->SetData(vertices, indices, num_vertices, num_indices);
+		vertices.clear();
+		indices.clear();
 		meshes_load[mesh] = r_mesh;
 
 		std::string name = std::to_string(r_mesh->GetUID());

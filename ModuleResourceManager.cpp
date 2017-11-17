@@ -51,6 +51,18 @@ update_status ModuleResourceManager::PostUpdate(float dt)
 
 	return UPDATE_CONTINUE;
 }
+bool ModuleResourceManager::CleanUp()
+{
+	std::map<uint, Resource*>::iterator it = resources.begin();
+	while (it != resources.end())
+	{
+		Resource* item = it->second;
+		resources.erase(it++);
+		RELEASE(item);
+	}
+	resources.clear();
+	return true;
+}
 void ModuleResourceManager::LookForResources()
 {
 

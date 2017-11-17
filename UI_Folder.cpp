@@ -6,7 +6,7 @@
 #include "imgui/imgui.h"
 #include <experimental\filesystem>
 #define BUTTON_SPACE 80
-UI_Folder::UI_Folder(ModuleEditorWindows* my_editor) :UI_Windows(my_editor) ,show_folder(std::string()), item_selected(std::string()), folder_to_change(new Path())
+UI_Folder::UI_Folder(ModuleEditorWindows* my_editor) :UI_Windows(my_editor) ,show_folder(std::string()), item_selected(std::string())
 {
 }
 
@@ -25,6 +25,7 @@ void UI_Folder::SetUpFolders()
 
 void UI_Folder::CleanUp()
 {
+	path.CleanUp();
 	path.list.clear();
 }
 

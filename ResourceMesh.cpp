@@ -43,8 +43,13 @@ void ResourceMesh::CleanUp()
 }
 void ResourceMesh::SetData(const std::vector<Vertex>& set_vertices, const std::vector<uint>& set_indices, const int num_ver, const int num_ind)
 {
-	vertices = set_vertices;
-	indices = set_indices;
+
+	vertices.reserve(set_vertices.size());
+	std::copy(set_vertices.begin(), set_vertices.end(),std::back_inserter(vertices));
+
+	indices.reserve(set_indices.size());
+	std::copy(set_indices.begin(), set_indices.end(), std::back_inserter(indices));
+
 	num_vertices = num_ver;
 	num_indices = num_ind;
 }

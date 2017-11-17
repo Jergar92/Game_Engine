@@ -67,7 +67,6 @@ private:
 
 	void DrawFolderInfo();
 
-	Path* folder_to_change;
 	std::string show_folder;
 	std::string item_selected;
 
