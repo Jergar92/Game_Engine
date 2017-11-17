@@ -8,7 +8,7 @@
 #include <fstream>
 #include <filesystem>
 #include <experimental/filesystem>
-
+#include <queue>
 #include "UI_Folder.h"
 
 #define ASSETS_FOLDER "Assets"
@@ -257,23 +257,29 @@ std::string ModuleFileSystem::GetLibraryPath(const std::string & path_to_change,
 
 bool ModuleFileSystem::ListFiles(const std::string& parent_path, PathList& path_fill)
 {
-	std::string str_path;
-	std::string str_name;
-	for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(parent_path))
+	
+	std::queue<std::string> directory_queue;
+	directory_queue.push(parent_path);
+	while (!directory_queue.empty())
 	{
-		str_path = item.path().string().c_str();
-		str_name = item.path().filename().generic_string();
-		
-		bool directory = false;
-		if (item.status().type() == std::experimental::filesystem::file_type::directory)
+		for (std::experimental::filesystem::directory_iterator::value_type item : std::experimental::filesystem::directory_iterator(directory_queue.front()))
 		{
-			ListFiles(str_path, path_fill);
-			directory = true;
+			bool directory = false;
+			if (item.status().type() == std::experimental::filesystem::file_type::directory)
+			{
+				directory_queue.push(item.path().string().c_str());
+				directory = true;
+
+			}
+			Path* new_directory =new Path(
+				item.path().string().c_str(),
+				item.path().filename().generic_string(),
+				directory_queue.front(),
+				directory);
+			path_fill.list.push_back(new_directory);
 
 		}
-		Path* new_directory= new Path(str_path, str_name, parent_path, directory);
-		path_fill.list.push_back(new_directory);
-
+	directory_queue.pop();
 	}
 	return true;
 }

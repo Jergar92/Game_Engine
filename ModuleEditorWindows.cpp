@@ -392,46 +392,17 @@ void ModuleEditorWindows::WantToSave(const char * name, const char * path)
 
 void ModuleEditorWindows::LoadWindow()
 {
-
-	ImGui::OpenPopup("Load Window");
-	ui_folder->FillFiles(path,F_JSON);
-	static std::string selected;
+	char* buffer=nullptr;
 	
-	if (ImGui::BeginPopupModal("Load Window", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ui_folder->LoadWindow(&buffer))
 	{
-		
-		for (std::vector<std::string>::iterator it = path.begin(); it != path.end(); it++)
+		load_window = false;
+		if (buffer != nullptr)
 		{
-			ImGuiWindowFlags tree_flags = 0;
-
-			if (selected.compare(*it)==0)
-			{
-				tree_flags |= ImGuiTreeNodeFlags_Selected;
-			}
-			ImGui::TreeNodeEx((*it).c_str(), tree_flags | ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
-			if (ImGui::IsItemClicked())
-			{
-				selected = (*it);
-
-			}
-		}		
+			WantToLoad(buffer);
+			RELEASE_ARRAY(buffer);
+		}
 	}
-	
-	ImGui::Separator();
-	if (ImGui::Button("Select##mesh_select", ImVec2(120, 0)))
-	{
-		WantToLoad(selected.c_str());
-		load_window = false;
-		ImGui::CloseCurrentPopup();
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Cancel", ImVec2(120, 0)))
-	{
-		load_window = false;
-		ImGui::CloseCurrentPopup();
-	}
-	path.clear();
-	ImGui::EndPopup();
 	
 }
 void ModuleEditorWindows::FillFiles(std::vector<std::string>& files,FileType especific)
@@ -446,46 +417,4 @@ void ModuleEditorWindows::UpdateFiles()
 {
 	ui_folder->UpdateFiles();
 
-}
-void ModuleEditorWindows::Load()
-{
-
-	switch (next_load)
-	{
-	case LOAD_MESH:
-	{
-		if (ui_inspector->selected_go == nullptr)
-		{
-			break;
-		}
-		ComponentMesh* item = (ComponentMesh*)ui_inspector->selected_go->FindComponent(ComponentType::MESH);
-		if (item == nullptr)
-			item = (ComponentMesh*)ui_inspector->selected_go->CreateComponent(ComponentType::MESH);
-		std::string libray_path = App->file_system->ExtractName(path_to_load);
-		//App->importer->Load()
-		App->importer->LoadMesh(libray_path.c_str(), item);
-	}
-		break;
-	case LOAD_TEXTURE:
-	{
-		if(ui_inspector->selected_go==nullptr)
-		{
-			break;
-		}
-		ComponentMeshRenderer* item = (ComponentMeshRenderer*)ui_inspector->selected_go->FindComponent(ComponentType::MESH_RENDER);
-		if (item == nullptr)
-			item = (ComponentMeshRenderer*)ui_inspector->selected_go->CreateComponent(ComponentType::MESH_RENDER);
-		std::string libray_path = App->file_system->ExtractName(path_to_load);
-	//	App->importer->LoadTexture(libray_path.c_str(), item);
-	}
-		break;
-	case LOAD_SCENE:	
-
-		break;
-	default:
-		break;
-	}
-
-	next_load = LOAD_NONE;
-	wait_load = false;
 }

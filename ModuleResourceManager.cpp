@@ -65,6 +65,9 @@ void ModuleResourceManager::LookForResources()
 			it->second->ToDelete();
 			need_to_delete = true;
 		}
+		else
+		{
+		}
 		
 	}
 	for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)

@@ -60,6 +60,8 @@ public:
 	void SetUpFolders();
 	void UpdateFiles();
 	void FillFiles(std::vector<std::string>& files, FileType especific = F_NONE );
+
+	bool LoadWindow(char**buffer);
 private:
 	void DrawFolders(const Path* draw);
 

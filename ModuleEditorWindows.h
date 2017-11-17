@@ -54,7 +54,6 @@ public:
 
 	void UpdateFiles();
 private:
-	void Load();
 
 	bool ShowMenuBar();
 	void Configuration();
