@@ -116,7 +116,6 @@ void GameObject::PostUpdate(float dt)
 		GameObject* item = childs[i];
 		if (item->to_delete)
 		{
-
 			if (RemoveGO(item))
 			{
 				LOG("Remove GameObject Complete");
@@ -125,7 +124,6 @@ void GameObject::PostUpdate(float dt)
 			{
 				LOG("Remove GameObject Fail");
 			}
-
 		}
 		else
 			item->PostUpdate(dt);
@@ -508,6 +506,8 @@ bool GameObject::RemoveGO(GameObject * to_remove)
 
 			childs.erase(childs.begin() + i);
 			item->Delete();
+			App->scene->no_static_list.remove(item);
+			App->scene->quadtree->RemoveGameObject(item);
 			RELEASE(item);
 			return true;
 		}
@@ -553,7 +553,9 @@ void GameObject::Delete()
 		GameObject* item = childs[i];
 
 
-		item->CleanUp();
+		item->Delete();
+		App->scene->no_static_list.remove(item);
+		App->scene->quadtree->RemoveGameObject(item);
 		RELEASE(item);
 
 	}

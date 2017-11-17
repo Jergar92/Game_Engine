@@ -54,6 +54,58 @@ bool MyQuadTree::CleanUp()
 	return ret;
 }
 
+bool MyQuadTree::RemoveGameObject(const GameObject * remove)
+{
+	if (north_west != nullptr)
+	{
+
+		if (north_west->RemoveGameObject(remove))
+		{
+			return true;
+		}
+		else if (north_east->RemoveGameObject(remove))
+		{
+			return true;
+		}
+		else if (south_west->RemoveGameObject(remove))
+		{
+			return true;
+		}
+		else if (south_east->RemoveGameObject(remove))
+		{
+			return true;
+		}
+
+		for (int i = 0; i < objects.size(); i++)
+		{
+			GameObject* item = objects[i];
+
+			if (item == remove)
+			{
+
+				objects.erase(objects.begin() + i);
+				return true;
+			}
+		}
+
+	}
+	else
+	{
+		for (int i = 0; i < objects.size(); i++)
+		{
+			GameObject* item = objects[i];
+
+			if (item == remove)
+			{
+
+				objects.erase(objects.begin() + i);
+				return true;
+			}
+		}
+	}
+	return true;
+}
+
 bool MyQuadTree::Insert(GameObject* game_object)
 {
 	if (!boundary.Contains(game_object->GetBoundingBoxAABB()))

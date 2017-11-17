@@ -50,6 +50,7 @@ bool ComponentCamera::ObjectInside()
 
 void ComponentCamera::Update(float dt)
 {
+	EnableDraw(!enable_culling);
 	DebugDraw();
 	Culling();
 }
@@ -64,10 +65,13 @@ void ComponentCamera::OnUpdateMatrix(const float4x4 & matrix)
 
 void ComponentCamera::Culling()
 {
+	if (!enable_culling)
+		return;
+	
 	scene = SetElementsOnScene();
 
 	std::list<GameObject*>static_list;
-	App->scene->quadtree->CollectCandidates(static_list,camera_frustrum);
+	App->scene->quadtree->CollectCandidates(static_list, camera_frustrum);
 	std::list<GameObject*>::iterator iterator_go = static_list.begin();
 	while (iterator_go != static_list.end())
 	{
@@ -88,37 +92,32 @@ GameObject* ComponentCamera::SetElementsOnScene()
 	return App->scene->GetScene();
 }
 
-void ComponentCamera::CheckForMesh(GameObject * scene_go)
+void ComponentCamera::EnableDraw(bool draw)
 {
-		if (scene_go != nullptr)
+	std::list<GameObject*>static_list;
+	App->scene->quadtree->CollectCandidates(static_list, camera_frustrum);
+	std::list<GameObject*>::iterator iterator_go = static_list.begin();
+	while (iterator_go != static_list.end())
+	{
+		ComponentMesh* mesh = (ComponentMesh*)(*iterator_go)->FindComponent(MESH);
+		if (mesh != nullptr)
 		{
-			ComponentMesh* mesh = (ComponentMesh*)scene_go->FindComponent(MESH);
-			if (mesh != nullptr)
-			{
-			
-				if (camera_frustrum.ContainsAaBox(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
-				{
-					mesh->DrawMesh(true);
-				}
-				else
-				{
-					if (!enable_culling)
-					{
-						mesh->DrawMesh(true);
-					}
-					else
-					{
-						mesh->DrawMesh(false);
-					}		
-				}			
-			}
-			for (int i = 0; i < scene_go->childs.size(); i++)
-			{
-				GameObject * tmp = scene_go->childs[i];
-				CheckForMesh(tmp);
-			}
+			mesh->DrawMesh(draw);
 		}
+		iterator_go++;
+	}
+	iterator_go = App->scene->no_static_list.begin();
+	while (iterator_go != App->scene->no_static_list.end())
+	{
+		ComponentMesh* mesh = (ComponentMesh*)(*iterator_go)->FindComponent(MESH);
+		if (mesh != nullptr)
+		{
+			mesh->DrawMesh(draw);
+		}
+		iterator_go++;
+	}
 }
+
 
 void ComponentCamera::CheckForMeshQuadtree(GameObject* scene_go)
 {
@@ -130,17 +129,6 @@ void ComponentCamera::CheckForMeshQuadtree(GameObject* scene_go)
 			if (camera_frustrum.ContainsAaBox(mesh->my_go->GetBoundingBoxAABB()) || camera_frustrum.Contains(mesh->my_go->GetBoundingBoxOBB()))
 			{
 				mesh->DrawMesh(true);
-			}
-			else
-			{
-				if (!enable_culling)
-				{
-					mesh->DrawMesh(true);
-				}
-				else
-				{
-					mesh->DrawMesh(false);
-				}
 			}
 		}
 	}
@@ -166,6 +154,7 @@ void ComponentCamera::InspectorUpdate()
 		if (node_open)
 		{
 			ImGui::Checkbox("Eanble Culling##show_bb", &enable_culling);
+
 			
 			if (ImGui::Checkbox("Set Render Camera##show_bb", &enable_camera_render))
 			{
@@ -264,6 +253,11 @@ float * ComponentCamera::GetViewMatrix()const
 float * ComponentCamera::GetProjectionMatrix() const
 {
 	return (float*)projetion_matrix.v;
+}
+
+bool ComponentCamera::GetEnableCulling() const
+{
+	return enable_culling;
 }
 
 void ComponentCamera::UpdateMatrix()

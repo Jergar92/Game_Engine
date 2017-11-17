@@ -15,6 +15,7 @@ public:
 	~MyQuadTree();
 	
 	bool CleanUp();
+	bool RemoveGameObject(const GameObject* remove);
 	bool Insert(GameObject* GameObject);
 	void Subdivide();
 	void SendGameObjectToChilds();

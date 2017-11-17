@@ -102,6 +102,7 @@ void ModuleScene::CleanGO()
 GameObject * ModuleScene::GenerateGameObject(GameObject * parent)
 {
 	GameObject* new_go = new GameObject(parent);
+	
 	no_static_list.push_back(new_go);
 
 	return new_go;

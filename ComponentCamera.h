@@ -19,7 +19,7 @@ public:
 	//Culling
 	void Culling();
 	GameObject* SetElementsOnScene();
-	void CheckForMesh(GameObject* scene);
+	void EnableDraw(bool draw);
 	void CheckForMeshQuadtree(GameObject* scene);
 
 	//Getters
@@ -29,6 +29,7 @@ public:
 	float   GetAspectRatio()const;
 	float* GetViewMatrix()const;
 	float* GetProjectionMatrix()const;
+	bool GetEnableCulling()const;
 
 	//Setters
 	void SetNearDistance(float distance);

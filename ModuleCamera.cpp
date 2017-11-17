@@ -12,6 +12,7 @@
 #include "ResourceMesh.h"
 ModuleCamera::ModuleCamera()
 {
+	name = "Camera";
 	camera = new ComponentCamera(nullptr);
 }
 
