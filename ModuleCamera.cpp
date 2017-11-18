@@ -39,9 +39,19 @@ bool ModuleCamera::CleanUp()
 update_status ModuleCamera::Update(float dt)
 {
 
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	{
+		enable_left = true;
+	}
+	else
+	{
+		enable_left = false;
+	}
+
+
 	if (!ImGui::GetIO().WantCaptureKeyboard && !ImGui::IsMouseHoveringAnyWindow())
 	{
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && !enable_left)
 		{
 			OnClick();
 		}
@@ -123,7 +133,7 @@ void ModuleCamera::MoveMouse()
 	motion_x = -App->input->GetMouseXMotion();
 	motion_y = App->input->GetMouseYMotion();
 
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0) && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+	if (enable_left && (motion_x != 0 || motion_y != 0))
 	{
 		Orbit(motion_x,-motion_y);
 	}

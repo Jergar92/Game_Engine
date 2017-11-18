@@ -42,7 +42,6 @@ private:
 	float3 reference;
 	float3 new_pos = { 0, 0, 0 };
 	bool show_raycast = false;
-	bool enable_right = false;
 	bool enable_left = false;
 	ComponentCamera* camera = nullptr;
 	LineSegment ray = LineSegment(float3::zero,float3::zero);
