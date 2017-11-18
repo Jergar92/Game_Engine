@@ -84,6 +84,7 @@ void ComponentCamera::Culling()
 		CheckForMeshQuadtree(*iterator_go);
 		iterator_go++;
 	}
+	static_list.clear();
 
 }
 
@@ -94,7 +95,7 @@ GameObject* ComponentCamera::SetElementsOnScene()
 
 void ComponentCamera::EnableDraw(bool draw)
 {
-	std::list<GameObject*>static_list;
+
 	App->scene->quadtree->CollectCandidates(static_list, camera_frustrum);
 	std::list<GameObject*>::iterator iterator_go = static_list.begin();
 	while (iterator_go != static_list.end())
@@ -116,6 +117,7 @@ void ComponentCamera::EnableDraw(bool draw)
 		}
 		iterator_go++;
 	}
+	static_list.clear();
 }
 
 

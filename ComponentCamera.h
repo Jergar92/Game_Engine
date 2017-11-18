@@ -55,6 +55,7 @@ public:
 	bool matrix_update = false;
 	
 private:
+
 	bool enable_culling = false;
 	bool enable_camera_render = false;
 	float vertical_fov = 1.0f;
