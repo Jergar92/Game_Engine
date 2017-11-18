@@ -86,6 +86,7 @@ void ModuleResourceManager::LookForResources()
 			{
 				ReImport(it->second);
 			}
+			if(buffer!=nullptr)
 			RELEASE_ARRAY(buffer);
 
 		}

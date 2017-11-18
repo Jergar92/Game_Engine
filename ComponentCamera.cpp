@@ -282,7 +282,25 @@ bool ComponentCamera::SaveComponent(JSONConfig & config) const
 	//Save pos,up,front
 	config.SetFloat(vertical_fov, "Vertical FOV");
 	config.SetFloat(window_aspect_ratio, "Windows aspect ratio");
+	config.SetFloat3(camera_frustrum.up, "Frustrum Up");
+	config.SetFloat3(camera_frustrum.front, "Frustrum Front");
+	config.SetFloat3(camera_frustrum.pos, "Frustrum Pos");
 
+	
+	return ret;
+}
+
+bool ComponentCamera::LoadComponent(const JSONConfig & config)
+{
+	bool ret = true;
+	
+	vertical_fov=config.GetFloat("Vertical FOV");
+	window_aspect_ratio = config.GetFloat("Windows aspect ratio");
+	camera_frustrum.up = config.GetFloat3("Frustrum Up");
+	camera_frustrum.front = config.GetFloat3("Frustrum Front");
+	camera_frustrum.pos = config.GetFloat3("Frustrum Pos");
+
+	enable = config.GetBool("Enable");
 	return ret;
 }
 

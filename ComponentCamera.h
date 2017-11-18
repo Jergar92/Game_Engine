@@ -38,6 +38,7 @@ public:
 	void UpdateMatrix();
 	//Save&Load
 	bool SaveComponent(JSONConfig& data)const;
+	bool LoadComponent(const JSONConfig& data);
 
 	void Look(const float3 & position);
 

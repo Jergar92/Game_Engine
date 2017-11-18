@@ -97,7 +97,8 @@ bool ModuleScene::CleanUp()
 	delete quadtree;
 	if (scene_go != nullptr)
 	{
-		CleanGO();
+		scene_go->CleanUp();
+		RELEASE(scene_go);
 	}
 	return ret;
 }
@@ -106,7 +107,7 @@ void ModuleScene::CleanGO()
 
 	if (scene_go != nullptr)
 	{
-		scene_go->CleanUp();
+		scene_go->Delete();
 		RELEASE(scene_go);
 	}
 }
@@ -173,7 +174,7 @@ void ModuleScene::SaveScene(const char*path)const
 void ModuleScene::LoadScene(const char*path)
 {
 	CleanGO();
-
+	quadtree->CleanUp();
 	JSONConfig config;
 
 	if (!config.ParseFile(path))
