@@ -54,10 +54,6 @@ update_status ModuleCamera::Update(float dt)
 			
 	}
 	
-	
-
-	
-
 		if (show_raycast)
 		{
 			glBegin(GL_LINES);
@@ -134,7 +130,7 @@ void ModuleCamera::MoveMouse()
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
-		Rotate(motion_x,-motion_y);
+		Rotate(motion_x,motion_y);
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
@@ -221,22 +217,32 @@ void ModuleCamera::Orbit(float dx, float dy)
 
 void ModuleCamera::Rotate(float dx, float dy)
 {
+	if (dx != 0.0f)
+	{
+		Quat quat_x = Quat::RotateY(0.3*dx*DEGTORAD);
+		camera->camera_frustrum.front = quat_x.Transform(camera->camera_frustrum.front).Normalized();
+		camera->camera_frustrum.up = quat_x.Transform(camera->camera_frustrum.up).Normalized();
 
-	float3 vector = camera->camera_frustrum.up;
+	}
 
-
-	Quat quat_x = Quat::RotateY(0.3*dx*DEGTORAD);
-	camera->camera_frustrum.front = quat_x.Transform(camera->camera_frustrum.front).Normalized();
-	camera->camera_frustrum.up = quat_x.Transform(camera->camera_frustrum.up).Normalized();
-
-	Quat quat_y = Quat::RotateAxisAngle(camera->camera_frustrum.WorldRight(), -0.3*dy * DEGTORAD);
-	camera->camera_frustrum.up = quat_y.Transform(camera->camera_frustrum.up).Normalized();
-	camera->camera_frustrum.front = quat_y.Transform(camera->camera_frustrum.front).Normalized();
-
-	float3 new_axis;
-	camera->UpdateMatrix();
+	if (dy != 0.0f)
+	{
+		Quat quat_y = Quat::RotateAxisAngle(camera->camera_frustrum.WorldRight(), -0.3*dy * DEGTORAD);
+		camera->camera_frustrum.up = quat_y.Transform(camera->camera_frustrum.up).Normalized();
+		camera->camera_frustrum.front = quat_y.Transform(camera->camera_frustrum.front).Normalized();
+		
+		float3 new_axis = quat_y.Mul(camera->camera_frustrum.up).Normalized();
+		
+		if (new_axis.y != 0)
+		{
+			camera->camera_frustrum.up = new_axis;
+			camera->camera_frustrum.front = quat_y.Mul(camera->camera_frustrum.front).Normalized();
+		}
+	}
 	
-
+	float3 distance = reference - camera->camera_frustrum.pos;
+	reference = camera->camera_frustrum.pos + (camera->camera_frustrum.front.Normalized() * distance.Length());
+	camera->UpdateMatrix();
 }
 
 void ModuleCamera::Focus(GameObject* Clicked)
