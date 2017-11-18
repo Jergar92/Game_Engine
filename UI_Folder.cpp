@@ -128,6 +128,30 @@ bool UI_Folder::Draw()
 	return true;
 }
 
+void UI_Folder::DeleteFolders()
+{
+	if (delete_folder)
+	{
+		std::list<Path*>::const_iterator it = path.list.begin();
+		while ( it != path.list.end())
+		{
+			if ((*it)->to_delete)
+			{
+				Path* item = *it;
+				(*it)->parent->RemoveChild(item);
+				App->file_system->RemoveFile(item->path.c_str(),item->directory);
+				RELEASE(item);
+				path.list.remove(*it++);
+			}
+			else
+			{
+				it++;
+			}
+		}
+		delete_folder = false;
+	}
+}
+
 
 bool UI_Folder::ItemSelectedEmpty() const
 {
@@ -144,7 +168,7 @@ const char * UI_Folder::GetFolderName() const
 	return show_folder.c_str();
 }
 
-void UI_Folder::DrawFolders(const Path* draw) 
+void UI_Folder::DrawFolders(Path* draw) 
 {
 	if (path.list.empty())
 	{
@@ -162,16 +186,26 @@ void UI_Folder::DrawFolders(const Path* draw)
 	bool node_open = ImGui::TreeNodeEx(draw->name.c_str(), tree_flags);
 	if (ImGui::IsItemClicked())
 	{
-	
 		show_folder = draw->path;
+	} 
+		//Asset protection	
+	if (draw->parent != nullptr) {
 
+		ImGui::PushID(draw->name.c_str());
+		if (ImGui::BeginPopupContextItem("go_options"))
+		{
+			if (ImGui::Button("Delete"))
+			{
+				delete_folder = true;
+				draw->ToDelete();
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+		ImGui::PopID();
 	}
-	/*
-	if (ImGui::BeginPopupContextItem("Folder Options"))
-	{
-		ImGui::EndPopup();
-	}
-	*/
+
 	if (node_open)
 	{
 		std::list<Path*>::const_iterator it = draw->child.begin();
@@ -235,6 +269,20 @@ void UI_Folder::DrawFolderInfo()
 					my_editor->SetSelectedResource(item_selected.c_str());
 				}
 			}
+			ImGui::PushID((*it)->name.c_str());
+			if (ImGui::BeginPopupContextItem("go_options"))
+			{	
+				if (ImGui::Button("Delete"))
+				{
+					(*it)->ToDelete();
+					delete_folder = true;
+
+					ImGui::CloseCurrentPopup();
+
+				}
+				ImGui::EndPopup();
+			}
+			ImGui::PopID();
 			if (node_open)
 			{
 				ImGui::TreePop();
@@ -348,6 +396,11 @@ void Path::SetParent(Path * set_parent)
 {
 	parent = set_parent;
 	parent->SetChild(this);
+}
+
+void Path::ToDelete()
+{
+	to_delete = true;
 }
 
 bool Path::operator==(const Path & value)

@@ -28,6 +28,25 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 }
 
+void ComponentMeshRenderer::Update(float dt)
+{
+	std::vector<ResourceTexture*>::iterator it = textures.begin();
+	while (it != textures.end())
+	{
+		if((*it)->GetDelete())
+		{
+			(*it)->UnLoadInMemory();
+			it = textures.erase(it);
+		}
+		else
+		{
+			it++;
+		}	
+
+	}
+
+}
+
 
 
 void ComponentMeshRenderer::Draw()
@@ -42,19 +61,14 @@ void ComponentMeshRenderer::Draw()
 	glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-	/*
-	if (texture != nullptr)
-	{
 
-	glBindTexture(GL_TEXTURE_2D, texture->GetUID());
-	glColor4f(texture->GetRGBA().x, texture->GetRGBA().y, texture->GetRGBA().z, texture->GetRGBA().w);
-	}
-	*/
 	for (int i = 0; i < textures.size(); i++)
 	{
-		glBindTexture(GL_TEXTURE_2D, textures[i]->GetID());
-		glColor4f(textures[i]->GetRGBA().x, textures[i]->GetRGBA().y, textures[i]->GetRGBA().z, textures[i]->GetRGBA().w);
-
+		if (textures[i] != nullptr)
+		{
+			glBindTexture(GL_TEXTURE_2D, textures[i]->GetID());
+			glColor4f(textures[i]->GetRGBA().x, textures[i]->GetRGBA().y, textures[i]->GetRGBA().z, textures[i]->GetRGBA().w);
+		}
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->GetVertexBuffer());
 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex), NULL);

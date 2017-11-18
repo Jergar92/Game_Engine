@@ -56,6 +56,7 @@ bool ModuleEditorWindows::Start()
 update_status ModuleEditorWindows::PreUpdate(float dt)
 {
 	time_update += dt;
+	ui_folder->DeleteFolders();
 
 	if (want_to_update||time_update > UPDATE_FOLDER_TIME)
 	{
@@ -107,7 +108,6 @@ update_status ModuleEditorWindows::Update(float dt)
 update_status ModuleEditorWindows::PostUpdate(float dt)
 {
 
-	
 	return UPDATE_CONTINUE;
 }
 

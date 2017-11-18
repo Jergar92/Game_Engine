@@ -44,7 +44,6 @@ bool MaterialImporter::Init()
 	ilutRenderer(ILUT_OPENGL);
 
 
-	CreateCheckMateTexture();
 
 	return ret;
 }
@@ -52,10 +51,6 @@ bool MaterialImporter::Init()
 int MaterialImporter::ImportTexture(const char* path, const char* name)
 {
 	std::string filename = std::string(path);
-	ILuint textureID;
-
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	ILenum error = IL_FALSE;
 
@@ -79,22 +74,6 @@ int MaterialImporter::ImportTexture(const char* path, const char* name)
 			LOG("ERROR on path:%s ERROR: %s", path, iluErrorString(error))
 		}
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 		// Type of texture
-			0,								// Pyramid level (for mip-mapping) - 0 is the top level
-			ilGetInteger(IL_IMAGE_FORMAT),	// Internal pixel format to use. Can be a generic type like GL_RGB or GL_RGBA, or a sized type
-			ilGetInteger(IL_IMAGE_WIDTH),	// Image width
-			ilGetInteger(IL_IMAGE_HEIGHT),	// Image height
-			0,								// Border width in pixels (can either be 1 or 0)
-			ilGetInteger(IL_IMAGE_FORMAT),	// Format of image pixel data
-			GL_UNSIGNED_BYTE,				// Image data type
-			ilGetData());					// The actual image data itself
-
-		glGenerateMipmap(GL_TEXTURE_2D);
-		LOG("Load Texture on path %s with no errors", path);
 
 		SaveTexture(name);
 
@@ -106,7 +85,6 @@ int MaterialImporter::ImportTexture(const char* path, const char* name)
 	}
 	//ALWAYS delete
 
-	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//ilDeleteImages(1, &textureID);
 	return success;

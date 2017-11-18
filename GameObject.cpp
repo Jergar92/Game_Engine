@@ -33,9 +33,6 @@ GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation, float3 
 
 }
 
-
-
-
 GameObject::~GameObject()
 {
 }

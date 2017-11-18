@@ -32,6 +32,16 @@ bool ModuleResourceManager::Start()
 	return true;
 }
 
+update_status ModuleResourceManager::PreUpdate(float dt)
+{
+	if (need_to_delete)
+	{
+		DeleteResources();
+	}
+
+	return UPDATE_CONTINUE;
+}
+
 update_status ModuleResourceManager::Update(float dt)
 {
 
@@ -42,15 +52,7 @@ update_status ModuleResourceManager::Update(float dt)
 	}
 	return UPDATE_CONTINUE;
 }
-update_status ModuleResourceManager::PostUpdate(float dt)
-{
-	if (need_to_delete)
-	{
-		DeleteResources();
-	}
 
-	return UPDATE_CONTINUE;
-}
 bool ModuleResourceManager::CleanUp()
 {
 	std::map<uint, Resource*>::iterator it = resources.begin();

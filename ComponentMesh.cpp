@@ -155,9 +155,16 @@ bool ComponentMesh::GetDebugNormal() const
 
 
 
-void ComponentMesh::Update()
+void ComponentMesh::Update(float dt)
 {
-
+	if (r_mesh!=nullptr)
+	{
+		if (r_mesh->GetDelete())
+		{
+			r_mesh->UnLoadInMemory();
+			r_mesh = nullptr;
+		}
+	}
 }
 
 bool ComponentMesh::SaveComponent(JSONConfig & config) const
