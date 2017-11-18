@@ -69,7 +69,7 @@ void ModuleResourceManager::LookForResources()
 	time_update = 0.0f;
 	App->editor_window->FillFiles(files);
 	std::map<uint, Resource*>::const_iterator it = resources.begin();
-	for (; it != resources.end(); it++)
+	for (; it != resources.end(); it++)	
 	{
 		if (!App->file_system->FileExist(it->second->GetOriginalFile().c_str()))
 		{
@@ -84,9 +84,7 @@ void ModuleResourceManager::LookForResources()
 			same=App->file_system->CompareDates(it->second->GetOriginalFile().c_str(), it->second->GetCreationTime().c_str(), &buffer);
 			if (!same)
 			{
-				ReImport();
-
-
+				ReImport(it->second);
 			}
 			RELEASE_ARRAY(buffer);
 
@@ -186,8 +184,36 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 	return 0;
 }
 
-void ModuleResourceManager::ReImport()
+bool ModuleResourceManager::ReImport(Resource* resource)
 {
+	bool ret = App->file_system->RemoveFile(resource->GetLibraryFile().c_str());
+	if (!ret)
+	{
+		return ret;
+	}
+	uint UID = resource->GetUID();
+	std::string name = std::to_string(UID);
+	switch (resource->GetResourceType())
+	{
+	case R_NONE:
+		break;
+	case R_TEXTURE:
+		ret=App->importer->ImportTexture(resource->GetOriginalFile().c_str(), name.c_str());
+		break;
+	case R_PREFAB:
+		break;
+	default:
+		break;
+	}
+	if (ret)
+	{
+		char* date = nullptr;
+		App->file_system->CreationTime(resource->GetOriginalFile().c_str(), &date);
+		resource->SetDateOfCreation(date);
+		resource->ReImport();
+		RELEASE_ARRAY(date);
+		
+	}
 }
 
 const std::string ModuleResourceManager::GetLibraryPathFromOriginalPath(const char * original_path)
@@ -331,6 +357,21 @@ void ModuleResourceManager::DeleteResources()
 		if (it->second->GetDelete())
 		{
 			Resource* tmp = it->second;
+			switch (tmp->GetResourceType())
+			{
+			case R_NONE:
+				break;
+			case R_TEXTURE:
+				App->file_system->RemoveFile(tmp->GetLibraryFile().c_str(), App->file_system->GetMaterialFolder());
+				break;
+			case R_MESH:
+				break;
+			case R_PREFAB:
+				break;
+			default:
+				break;
+			}
+			App->file_system->RemoveFile(tmp->GetMetaJsonFile().c_str());
 			resources.erase(it++);
 			RELEASE(tmp);
 		}

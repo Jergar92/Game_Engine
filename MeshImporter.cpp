@@ -380,8 +380,9 @@ uint MeshImporter::TextureFromFile(const char *path, const std::string &director
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
 	App->file_system->CloneFile(filename.c_str(),App->file_system->GetAssetsTextFolder());
-	std::string complete_path = PATH( App->file_system->GetAssetsTextFolder(), path);
-	
+	std::string name=App->file_system->ExtractFileName(filename);
+	std::string complete_path = PATH(App->file_system->GetAssetsTextFolder(), name.c_str());
+
 	uint UID = App->resource_manager->Find(complete_path.c_str());
 	if (UID == 0)
 	{

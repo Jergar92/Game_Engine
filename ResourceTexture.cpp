@@ -3,6 +3,7 @@
 #include "ModuleImporter.h"
 #include "Glew\include\GL\glew.h"
 #include "imgui/imgui.h"
+#include "p2Defs.h"
 ResourceTexture::ResourceTexture(uint UID):Resource(UID,ResourceType::R_TEXTURE), rgba_color (float4(1.0f,1.0f,1.0f,1.0f))
 {
 }
@@ -65,13 +66,18 @@ void ResourceTexture::InspectorUpdate()
 void ResourceTexture::ReImport()
 {
 	JSONConfig config;
-	config.ParseFile(meta_file.c_str());
 	SaveResource(config);
+	char* buffer = nullptr;
+	uint size = config.Serialize(&buffer);
+	config.Save(meta_file.c_str());
+	RELEASE_ARRAY(buffer);
+
 	if (!IsLoadInMemory())
 	{
 		UnLoad();
 		Load();
 	}
+	
 }
 
 void ResourceTexture::SaveResource(JSONConfig & config) const

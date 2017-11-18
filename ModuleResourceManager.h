@@ -19,7 +19,7 @@ public:
 	uint Find(const char* asset_file)const;
 
 	uint ImportFile(const char* new_asset_file);
-	void ReImport();
+	bool ReImport(Resource * resource);
 	const std::string GetLibraryPathFromOriginalPath(const char* original_path);
 	uint ResourceWindows(ResourceType type);
 	ResourceType GetResourceFromFile(const char* file);

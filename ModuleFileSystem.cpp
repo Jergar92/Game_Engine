@@ -238,7 +238,12 @@ void ModuleFileSystem::RemplaceExtension(std::string & path, const std::string &
 		path.replace(size + 1, new_extension.length(), new_extension);
 	}
 }
-
+std::string ModuleFileSystem::ExtractFileName(const std::string & path)
+{
+	namespace file_system = std::experimental::filesystem;
+	std::string name(file_system::path(path).filename().string());
+	return name;
+}
 std::string ModuleFileSystem::ExtractName(const std::string & path)
 {
 	namespace file_system = std::experimental::filesystem;
@@ -292,6 +297,36 @@ bool ModuleFileSystem::FileExist(const char * file)
 	return false;
 }
 
+bool ModuleFileSystem::RemoveFile(const char * file)
+{
+	bool ret = true;
+	std::ifstream ifile(file);
+	if (ifile)
+	{
+		ifile.close();
+		std::remove(file);
+		bool fail = !std::ifstream(file);
+		if (fail)
+		{
+			ret = false;
+			LOG("Error on Removefile: Fail on remove")
+		}
+	}
+	else
+	{
+		LOG("Error on RemoveFile: File don't extist");
+		ret = false;
+	}
+
+	return true;
+}
+bool ModuleFileSystem::RemoveFile(const char * file,const char* path)
+{
+
+	std::string remove = PATH(path, file);
+	bool ret = RemoveFile(remove.c_str());
+	return ret;
+}
 bool ModuleFileSystem::CompareDates(const char * file, const char * date , char** buffer)
 {
 	bool ret = false;

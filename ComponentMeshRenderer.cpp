@@ -161,16 +161,19 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 		ResourceTexture* r_text=nullptr;
 
 		r_text = (ResourceTexture*)App->resource_manager->Get(config_item.GetInt("Resource UID"));
-		if (r_text == nullptr)
+		if (r_text != nullptr)
 		{
-
+			r_text->LoadInMemory();
+			textures.push_back(r_text);
 		}
-		r_text->LoadInMemory();
+		else
+		{
+			LOG("Error On LoadComponent: Texture is null");
+		}
 	//	text.id=App->importer->LoadTexture(config_item.GetString("Texture Name"), this);
 	//	text.name = config_item.GetString("Texture Name");
 	//	r_text->SetRGBA(config_item.GetFloat4("RGBA color"));
 
-		textures.push_back(r_text);
 	}
 	enable = config.GetBool("Enable");
 	return false;
@@ -229,6 +232,7 @@ void ComponentMeshRenderer::InspectorUpdate()
 			bool update = true;
 			if (!textures.empty())
 			{
+
 				if (new_resource->GetOriginalFile().compare((*textures.begin())->GetOriginalFile()) == 0)
 				{
 					update = false;
@@ -260,6 +264,7 @@ void ComponentMeshRenderer::CleanUp()
 	mesh = nullptr;
 	for (std::vector<ResourceTexture*>::iterator it = textures.begin(); it != textures.end(); it++)
 	{
+		
 		(*it)->UnLoadInMemory();
 	}
 	textures.clear();
