@@ -66,6 +66,7 @@ bool ModuleFileSystem::Awake(const JSONConfig& data)
 bool ModuleFileSystem::CreateNewFile(const char* path, char* buffer, int buffer_size, const char* directory)
 {
 	bool ret = true;
+
 	std::string complete_path = PATH(directory, path);
 
 
@@ -193,7 +194,10 @@ void ModuleFileSystem::LoadFile(const char * name, char ** buffer, const char * 
 }
 bool ModuleFileSystem::CloneFile(const char * origin_path, const char * destination_path)
 {
-
+	if (!FolderExist(destination_path))
+	{
+		CreateFolder(destination_path);
+	}
 	char* buffer = nullptr;
 	namespace file_system = std::experimental::filesystem;
 	std::string name(file_system::path(origin_path).filename().string());
@@ -297,9 +301,26 @@ bool ModuleFileSystem::FileExist(const char * file)
 	return false;
 }
 
-bool ModuleFileSystem::RemoveFile(const char * file)
+bool ModuleFileSystem::FolderExist(const char * folder)
+{
+	DWORD ftyp = GetFileAttributesA(folder);
+	if (ftyp == INVALID_FILE_ATTRIBUTES)
+		return false;  //something is wrong with your path!
+
+	if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+		return true;   // this is a directory!
+
+	return false;    // this is not a directory!	
+}
+
+bool ModuleFileSystem::RemoveFile(const char * file,bool directory)
 {
 	bool ret = true;
+	if (directory)
+	{
+		std::experimental::filesystem::remove_all(file);
+		return true;
+	}
 	std::ifstream ifile(file);
 	if (ifile)
 	{

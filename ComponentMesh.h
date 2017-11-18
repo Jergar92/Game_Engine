@@ -13,7 +13,7 @@ class ComponentMesh :public Component
 public:
 	ComponentMesh(GameObject* my_go);
 	~ComponentMesh();
-	void Update();
+	void Update(float dt);
 	void InspectorUpdate();
 	void CleanUp();
 

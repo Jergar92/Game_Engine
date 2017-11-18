@@ -24,7 +24,10 @@ public:
 	void SetParentByPath(std::list<Path*>& paths);
 	void SetChild(Path* child);
 	void SetParent(Path* parent);
+	void ToDelete();
+
 public:
+	bool to_delete = false;
 	std::string path;
 	std::string name;
 	std::string parent_path;	
@@ -53,6 +56,7 @@ public:
 	~UI_Folder();
 	void CleanUp();
 	bool Draw();
+	void DeleteFolders();
 	bool ShowFolderEmpty() const;
 	bool ItemSelectedEmpty() const;
 
@@ -63,13 +67,13 @@ public:
 
 	bool LoadWindow(char**buffer);
 private:
-	void DrawFolders(const Path* draw);
+	void DrawFolders(Path* draw);
 
 	void DrawFolderInfo();
 
 	std::string show_folder;
 	std::string item_selected;
-
+	bool delete_folder = false;
 	PathList path;
 };
 

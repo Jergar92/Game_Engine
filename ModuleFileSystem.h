@@ -30,7 +30,8 @@ public:
 	bool ListFiles(const std::string& path, PathList& path_fill);
 
 	bool FileExist(const char* file);
-	bool RemoveFile(const char* file);
+	bool FolderExist(const char* folder);
+	bool RemoveFile(const char* file, bool directory = false);
 	bool RemoveFile(const char * file, const char * path);
 	bool CompareDates(const char* file, const char* date, char** buffer);
 	std::string SetExtension(const char * name, const char * extension);
