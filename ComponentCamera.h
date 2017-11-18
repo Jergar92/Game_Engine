@@ -4,6 +4,7 @@
 #include "MathGeoLib-1.5\src\Geometry\Frustum.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include "SDL\include\SDL.h"
+#include <list>
 
 class GameObject;
 class ComponentCamera :public Component
@@ -61,5 +62,7 @@ private:
 	GameObject* scene;
 	float4x4 view_matrix;
 	float4x4 projetion_matrix;
+	std::list<GameObject*>static_list;
+	std::list<GameObject*>::iterator iterator_go;
 };
 

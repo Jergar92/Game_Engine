@@ -290,8 +290,7 @@ void GameObject::OpenStaticQuestion()
 					{
 						queue.push(*it);
 					}
-
-					App->scene->GoStaticEnable(static_go,item);
+					App->scene->GoStaticEnable(static_go, item);
 					queue.pop();
 				}
 			}

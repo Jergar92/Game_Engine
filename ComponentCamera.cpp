@@ -70,14 +70,14 @@ void ComponentCamera::Culling()
 	
 	scene = SetElementsOnScene();
 
-	std::list<GameObject*>static_list;
 	App->scene->quadtree->CollectCandidates(static_list, camera_frustrum);
-	std::list<GameObject*>::iterator iterator_go = static_list.begin();
+    iterator_go = static_list.begin();
 	while (iterator_go != static_list.end())
 	{
 		CheckForMeshQuadtree(*iterator_go);
 		iterator_go++;
 	}
+
 	iterator_go = App->scene->no_static_list.begin();
 	while (iterator_go != App->scene->no_static_list.end())
 	{
