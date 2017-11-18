@@ -53,7 +53,15 @@ update_status ModuleScene::GuiUpdate()
 }
 
 
+update_status ModuleScene::PreUpdate(float dt)
+{
+	if (scene_go != nullptr)
+	{
+		scene_go->PreUpdate(dt);
 
+	}
+	return UPDATE_CONTINUE;
+}
 update_status ModuleScene::Update(float dt)
 {
     //Draw modes

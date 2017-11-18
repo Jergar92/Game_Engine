@@ -64,7 +64,42 @@ void GameObject::CleanUp()
 }
 void GameObject::PreUpdate(float dt)
 {
-	
+	for (int i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		if (item->ToDelete())
+		{
+			if (RemoveComponent(item->type, i))
+			{
+				LOG("Remove Component Complete");
+				break;
+			}
+			else
+			{
+				LOG("Remove Component Fail");
+			}
+		}
+	}
+
+	//With this setup you can't delete the scene
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		if (item->to_delete)
+		{
+			if (RemoveGO(item))
+			{
+				LOG("Remove GameObject Complete");
+			}
+			else
+			{
+				item->to_delete = false;
+				LOG("Remove GameObject Fail");
+			}
+		}
+		else
+			item->PreUpdate(dt);
+	}
 }
 void GameObject::Update(float dt)
 {
@@ -84,6 +119,24 @@ void GameObject::Update(float dt)
 		item->Update(dt);
 	}
 
+	
+}
+
+void GameObject::Draw()
+{
+
+
+	ComponentMeshRenderer* render = (ComponentMeshRenderer*) FindComponent(MESH_RENDER);
+	if (render != nullptr)
+	{
+		render->Draw();
+	}
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		item->Draw();
+	}
+
 	if (show_bounding_box)
 	{
 		RenderBoundingBoxAABB();
@@ -93,41 +146,7 @@ void GameObject::Update(float dt)
 
 void GameObject::PostUpdate(float dt)
 {
-	for (int i = 0; i < components.size(); i++)
-	{
-		Component* item = components[i];
-		if (item->ToDelete())
-		{
-			if (RemoveComponent(item->type,i))
-			{
-				LOG("Remove Component Complete");
-				break;
-			}
-			else
-			{
-				LOG("Remove Component Fail");
-			}
-		}
-	}
 	
-	//With this setup you can't delete the scene
-	for (uint i = 0; i < childs.size(); i++)
-	{
-		GameObject* item = childs[i];
-		if (item->to_delete)
-		{
-			if (RemoveGO(item))
-			{
-				LOG("Remove GameObject Complete");
-			}
-			else
-			{
-				LOG("Remove GameObject Fail");
-			}
-		}
-		else
-			item->PostUpdate(dt);
-	}
 
 }
 

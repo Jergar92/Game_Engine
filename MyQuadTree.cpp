@@ -80,7 +80,7 @@ bool MyQuadTree::RemoveGameObject(const GameObject * remove)
 		{
 			GameObject* item = objects[i];
 
-			if (item == remove)
+			if (item->GetUID() == remove->GetUID())
 			{
 
 				objects.erase(objects.begin() + i);
@@ -95,7 +95,7 @@ bool MyQuadTree::RemoveGameObject(const GameObject * remove)
 		{
 			GameObject* item = objects[i];
 
-			if (item == remove)
+			if (item->GetUID() == remove->GetUID())
 			{
 
 				objects.erase(objects.begin() + i);
@@ -103,7 +103,7 @@ bool MyQuadTree::RemoveGameObject(const GameObject * remove)
 			}
 		}
 	}
-	return true;
+	return false;
 }
 
 bool MyQuadTree::Insert(GameObject* game_object)

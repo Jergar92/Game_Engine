@@ -21,6 +21,8 @@ public:
 	void PreUpdate(float dt);
 
 	void Update(float dt);
+	void Draw();
+
 	void PostUpdate(float dt);
 
 	void GuiUpdate();

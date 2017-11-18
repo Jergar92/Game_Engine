@@ -3,12 +3,12 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ComponentCamera.h"
-
+#include "ModuleScene.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-
+#include "GameObject.h"
 #include "imgui/imgui_impl_sdl.h"
 
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -145,7 +145,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	// light 0 on cam pos
 	//lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 		
@@ -250,9 +249,12 @@ update_status ModuleRenderer3D::Update(float dt)
 	
 	return UPDATE_CONTINUE;
 }
+
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	App->scene->GetScene()->Draw();
+
 	if (lighting)glDisable(GL_LIGHTING);
 	ImGui::Render();
 	if (lighting)glEnable(GL_LIGHTING);

@@ -15,6 +15,8 @@ public:
 	bool Start();
 	update_status GuiUpdate();
 
+	update_status PreUpdate(float dt);
+
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();

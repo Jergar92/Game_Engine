@@ -28,9 +28,11 @@ ComponentMeshRenderer::~ComponentMeshRenderer()
 {
 }
 
-void ComponentMeshRenderer::Update(float dt)
+
+
+void ComponentMeshRenderer::Draw()
 {
-	if (mesh==nullptr||!mesh->HaveResourceMesh()||!mesh->isEnable() || !mesh->GetDrawMesh() )
+	if (mesh == nullptr || !mesh->HaveResourceMesh() || !mesh->isEnable() || !mesh->GetDrawMesh())
 		return;
 	//Get Transform
 	glPushMatrix();
@@ -44,8 +46,8 @@ void ComponentMeshRenderer::Update(float dt)
 	if (texture != nullptr)
 	{
 
-		glBindTexture(GL_TEXTURE_2D, texture->GetUID());
-		glColor4f(texture->GetRGBA().x, texture->GetRGBA().y, texture->GetRGBA().z, texture->GetRGBA().w);
+	glBindTexture(GL_TEXTURE_2D, texture->GetUID());
+	glColor4f(texture->GetRGBA().x, texture->GetRGBA().y, texture->GetRGBA().z, texture->GetRGBA().w);
 	}
 	*/
 	for (int i = 0; i < textures.size(); i++)
@@ -88,10 +90,10 @@ void ComponentMeshRenderer::Update(float dt)
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
-	
+
 	//Pop Matrix
 	glPopMatrix();
-	
+
 	mesh->DrawMesh(false);
 }
 
