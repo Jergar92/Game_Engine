@@ -53,7 +53,7 @@ void ResourcePrefab::LoadInMemory()
 		item->ChangeUID();
 
 	}
-	config.CleanUp();
+	tmp_go.clear();
 	App->editor_window->SetSceneGameObject(App->scene->GetScene());
 }
 

@@ -62,6 +62,7 @@ bool ModuleResourceManager::CleanUp()
 		it=resources.erase(it);
 		RELEASE(item);
 	}
+	files.clear();
 	resources.clear();
 	return true;
 }

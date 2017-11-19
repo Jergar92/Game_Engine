@@ -46,7 +46,6 @@ struct PathList
 	std::list<Path*>::const_iterator FindFolder(const std::string& show_folder_path)const;
 	std::list<Path*> list;
 private:
-	std::vector<std::string> tmp_list;
 
 };
 class UI_Folder : public UI_Windows

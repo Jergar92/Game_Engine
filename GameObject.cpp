@@ -46,6 +46,7 @@ void GameObject::CleanUp()
 		RELEASE(item);
 
 	}
+	components.clear();
 
 	for (uint i = 0; i < childs.size(); i++)
 	{
@@ -55,7 +56,9 @@ void GameObject::CleanUp()
 		item->CleanUp();
 		RELEASE(item);
 
-	}
+	}	
+	name.clear();
+	childs.clear();
 	parent = nullptr;
 
 }

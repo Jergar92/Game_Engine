@@ -244,15 +244,11 @@ void ModuleFileSystem::RemplaceExtension(std::string & path, const std::string &
 }
 std::string ModuleFileSystem::ExtractFileName(const char * path)
 {
-	namespace file_system = std::experimental::filesystem;
-	std::string name(file_system::path(path).filename().string());
-	return name;
+	return std::experimental::filesystem::path(path).filename().string();
 }
 std::string ModuleFileSystem::ExtractName(const char * path)
 {
-	namespace file_system = std::experimental::filesystem;
-	std::string name(file_system::path(path).stem().string());
-	return name;
+	return std::experimental::filesystem::path(path).stem().string();
 }
 
 std::string ModuleFileSystem::GetLibraryPath(const std::string & path_to_change,const char* directory,const char* extension)

@@ -27,7 +27,7 @@ bool MeshImporter::ImportMesh(const char * path,const char* name)
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		mesh_name = "";
+		mesh_name.clear();
 		imported_path = path;
 		GameObject* main_go = new GameObject();
 		main_go=ProcessNode(scene->mRootNode, scene, nullptr);
