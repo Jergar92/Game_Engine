@@ -27,23 +27,26 @@ bool MeshImporter::ImportMesh(const char * path,const char* name)
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		mesh_name = "";
 		imported_path = path;
 		GameObject* main_go = new GameObject();
 		main_go=ProcessNode(scene->mRootNode, scene, nullptr);
 		JSONConfig config;
 
+		//Save GameObject prefab
 		config.OpenArray("GameObject");
 		main_go->SaveGameObject(config);
 		char* buffer = nullptr;
 		uint size = config.Serialize(&buffer);
-		meshes_load.clear();
-		textures_loaded.clear();
 		std::string file_name = App->file_system->SetExtension(name, "json");
 		config.Save(file_name.c_str(),App->file_system->GetMeshesFolder());
-		RELEASE_ARRAY(buffer);
-		//Save GameObject prefab
+
+		//delete All		
+		main_go->CleanUp();
 		RELEASE(main_go);
-		//delete gameobject
+		RELEASE_ARRAY(buffer);
+		meshes_load.clear();
+		textures_loaded.clear();
 		aiReleaseImport(scene);
 	}
 	else
@@ -138,8 +141,8 @@ GameObject* MeshImporter::ProcessNode(aiNode * node, const aiScene * scene, Game
 			child_go = parent->CreateChild();
 			aiMatrix4x4 matrix = node->mTransformation;
 			ProcessTransform(matrix, child_go);
-			mesh_name = node->mName.C_Str()+std::to_string(i);
-			new_go->SetName(mesh_name.c_str());
+			mesh_name = node->mName.C_Str()+'_'+std::to_string(i);
+			child_go->SetName(mesh_name.c_str());
 		}
 		else
 		{
@@ -275,33 +278,37 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 
 	if (!same)
 	{
+		char* date = nullptr;
+		char* buffer = nullptr;
+
 		//Create Resource Mesh
 		r_mesh = (ResourceMesh*)App->resource_manager->CreateResource(ResourceType::R_MESH);
 		r_mesh->SetData(vertices, indices, num_vertices, num_indices);
-		vertices.clear();
-		indices.clear();
 		meshes_load[mesh] = r_mesh;
 
+		//Set all folder path
 		std::string name = std::to_string(r_mesh->GetUID());
 		std::string origin_file = App->file_system->SetPathFile(mesh_name.c_str(), App->file_system->GetAssetsMeshFolder());
-		App->file_system->CreateOwnFile(mesh_name.c_str(), ".", 1, App->file_system->GetAssetsMeshFolder(), "fbx");
-
+		App->file_system->CreateOwnFile(mesh_name.c_str(), ".", 1, App->file_system->GetAssetsMeshFolder(), "mesh");
 		r_mesh->SetLibraryFile(name.c_str(), "frog");
-		r_mesh->SetOriginalFile(origin_file.c_str(),"fbx");
-		char* date = nullptr;
+		r_mesh->SetOriginalFile(origin_file.c_str(),"mesh");
 		App->file_system->CreationTime(r_mesh->GetOriginalFile().c_str(), &date);
 		r_mesh->SetDateOfCreation(date);
-		RELEASE_ARRAY(date);
 		r_mesh->SetMetaFile(origin_file.c_str());
 		std::string file_name = App->file_system->ExtractFileName(origin_file.c_str());
 		r_mesh->SetOriginalName(file_name.c_str());
+
+		//Save Mesh
 		JSONConfig config;
 		r_mesh->SaveResource(config);
-		char* buffer = nullptr;
 		uint config_size = config.Serialize(&buffer);
 		config.Save(r_mesh->GetMetaJsonFile().c_str());
-		config.CleanUp();
 
+		//CleanUp
+		RELEASE_ARRAY(date);
+		RELEASE_ARRAY(buffer);
+		vertices.clear();
+		indices.clear();
 	}
 	//SetResource on component mesh
 	//Set Texture on component mesh renderer

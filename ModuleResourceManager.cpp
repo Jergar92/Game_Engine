@@ -152,13 +152,14 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 	if (import_success)
 	{
 		Resource* ret = CreateResource(type, UID);
-		char* date=nullptr;
-		App->file_system->CreationTime(new_asset_file, &date);
+		char* date=nullptr;		
+		std::string original_file = new_asset_file;
+		std::string file_name = App->file_system->ExtractFileName(original_file.c_str());
+
+		App->file_system->CreationTime(original_file.c_str(), &date);
 		ret->SetDateOfCreation(date);
-		RELEASE_ARRAY(date);
-		ret->SetOriginalFile(new_asset_file);
-		ret->SetMetaFile(new_asset_file);
-		std::string file_name = App->file_system->ExtractFileName(new_asset_file);
+		ret->SetOriginalFile(original_file.c_str());
+		ret->SetMetaFile(original_file.c_str());
 		ret->SetOriginalName(file_name.c_str());
 		switch (type)
 		{
@@ -180,7 +181,11 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		char* buffer = nullptr;
 		uint size = config.Serialize(&buffer);
 		config.Save(ret->GetMetaJsonFile().c_str());
-		config.CleanUp();
+
+		RELEASE_ARRAY(date);
+		RELEASE_ARRAY(buffer);
+
+
 		return ret->GetUID();
 
 	}

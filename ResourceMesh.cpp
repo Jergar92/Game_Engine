@@ -138,6 +138,7 @@ void ResourceMesh::Load()
 
 void ResourceMesh::UnLoadInMemory()
 {
+	if(load_count>0)
 	load_count--;
 	if (IsLoadInMemory())
 	{

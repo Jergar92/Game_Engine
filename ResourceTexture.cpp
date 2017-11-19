@@ -35,6 +35,7 @@ void ResourceTexture::Load()
 
 void ResourceTexture::UnLoadInMemory()
 {
+	if(load_count>0)
 	load_count--;
 	if (IsLoadInMemory())
 	{
