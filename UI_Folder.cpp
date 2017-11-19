@@ -442,7 +442,6 @@ bool PathList::PathExist(const std::string& cmp_path)const
 
 void PathList::FillFiles(std::vector<std::string>& files,FileType especific)
 {
-	tmp_list.clear();
 	for (std::list<Path*>::iterator it = list.begin(); it != list.end(); it++)
 	{
 		if (!(*it)->directory&&especific == F_NONE && (*it)->type != F_META)

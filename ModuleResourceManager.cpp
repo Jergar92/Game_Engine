@@ -60,8 +60,10 @@ bool ModuleResourceManager::CleanUp()
 	{
 		Resource* item = it->second;
 		it=resources.erase(it);
+		item->CleanUp();
 		RELEASE(item);
 	}
+	files.clear();
 	resources.clear();
 	return true;
 }

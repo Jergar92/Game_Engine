@@ -124,6 +124,10 @@ void Resource::InspectorUpdate()
 {
 }
 
+void Resource::CleanUp()
+{
+}
+
 ResourceType Resource::GetResourceType() const
 {
 	return type;
