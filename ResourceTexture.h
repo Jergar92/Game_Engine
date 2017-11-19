@@ -8,29 +8,28 @@ class ResourceTexture :public Resource
 public:
 	ResourceTexture(uint UID);
 	~ResourceTexture();
+	void LoadInMemory();
+	void Load();
+	void UnLoadInMemory();
+	void UnLoad();
+	void ReImport();
+	void InspectorUpdate();
+
+	void SetRGBA(float4 rgba);
+	void SetID(uint id);
 
 	uint GetID()const;
 	float4 GetRGBA()const;
 	bool GetFlip()const;
-	void SetRGBA(float4 rgba);
-	void SetID(uint id);
-	void LoadInMemory();
-	void Load();
 
-	void UnLoadInMemory();
-
-	void UnLoad();
-	void InspectorUpdate();
-	std::string path;
-	std::string text_type;
-	std::string name;
-	void ReImport();
 	void SaveResource(JSONConfig& config)const;
 	void LoadResource(const JSONConfig& config);
+
+public:
+	std::string path;
 private:
 	uint id=-1;
-//	std::string path;
 	float4 rgba_color=float4::one;
-	bool flip = false;
+	bool flip = true;
 };
 

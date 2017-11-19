@@ -12,8 +12,6 @@ public:
 	bool Draw();
 	void CleanUp();
 	void ClearLog();
-	void ActiveConsole();
-	bool GetShowConsole();
 	void AddLog(const char*fmt, ...);
 
 private:

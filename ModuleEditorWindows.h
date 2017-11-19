@@ -37,6 +37,8 @@ public:
 	update_status GuiUpdate();
 
 	bool CleanUp();
+	void CleanInspector();
+
 	LoadFile DetermineFileFromPath(const char* path);
 	void SetSceneGameObject(GameObject* set);
 	GameObject* GetSelectedGameObject()const;

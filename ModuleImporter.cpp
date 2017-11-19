@@ -65,22 +65,10 @@ bool ModuleImporter::ImportMesh(const char * path,const char* name)
 {
 	return mesh.ImportMesh(path, name);
 }
-void ModuleImporter::LoadMesh(const char * name, ComponentMesh * component)
-{
-	char* buffer=nullptr;
-	App->file_system->LoadFile(name, &buffer, App->file_system->GetMeshesFolder(), "frog");
-	if (buffer != nullptr) {
-		mesh.LoadMesh(buffer, component);
-		RELEASE_ARRAY(buffer);
-	}
 
-}
 void ModuleImporter::LoadMesh(ResourceMesh* r_mesh)
 {
-	
 		mesh.LoadMesh(r_mesh);
-	
-
 }
 int ModuleImporter::LoadTexture(ResourceTexture * r_text)
 {

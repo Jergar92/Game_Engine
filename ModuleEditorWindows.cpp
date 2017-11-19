@@ -73,7 +73,7 @@ update_status ModuleEditorWindows::PreUpdate(float dt)
 
 	if (want_to_load)
 	{
-		ui_inspector->CleanUp();
+		CleanInspector();
 		switch (next_load)
 		{
 		case LOAD_NONE:
@@ -144,6 +144,12 @@ bool ModuleEditorWindows::CleanUp()
 
 	ui_windows.clear();
 	return ret;
+}
+
+void ModuleEditorWindows::CleanInspector()
+{
+	ui_inspector->CleanUp();
+
 }
 
 LoadFile ModuleEditorWindows::DetermineFileFromPath(const char * path)

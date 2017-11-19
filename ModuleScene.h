@@ -20,13 +20,11 @@ public:
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
-
 	void CleanGO();
 
 	GameObject* GenerateGameObject(GameObject* parent = nullptr);
-
 	GameObject* GetScene() const;
-	void LoadTexture(const char* path);
+
 	void SendGameObject(GameObject* go);
 	void SaveScene(const char* path)const;
 
@@ -50,6 +48,5 @@ public:
 private:
 
 	GameObject* scene_go = nullptr;
-//	GameObject* selected_go = nullptr;
 
 };

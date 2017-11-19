@@ -24,8 +24,7 @@ public:
 	const std::vector<uint>& GetIndices()const;
 	uint GetVertexBuffer()const;
 	uint GetElementBuffer()const;
-	uint GetVertexNormalID()const;
-	uint GetSurfaceNormalID()const;
+
 	const ResourceMesh* GetResourceMesh()const;
 	bool HaveResourceMesh()const;
 	bool GetDrawMesh()const;

@@ -137,22 +137,6 @@ GameObject* ModuleScene::GetScene()const
 	return scene_go;
 }
 
-void ModuleScene::LoadTexture(const char * path)
-{
-	LOG("Drag Texture path:%s", path);
-
-
-	if (scene_go != nullptr)
-	{
-		LOG("ERROR no model to overlay texture");
-
-		//model->OverlayTexture(path);
-	}
-	else
-	{
-		LOG("ERROR no model to overlay texture");
-	}
-}
 
 void ModuleScene::SendGameObject(GameObject * go)
 {
@@ -168,6 +152,7 @@ void ModuleScene::SaveScene(const char*path)const
 	char* buffer=nullptr;
 	uint size=config.Serialize(&buffer);
 	config.Save(path);
+	if (buffer != nullptr)
 	RELEASE_ARRAY(buffer);
 }
 

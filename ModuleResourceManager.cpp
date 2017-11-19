@@ -158,8 +158,8 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		RELEASE_ARRAY(date);
 		ret->SetOriginalFile(new_asset_file);
 		ret->SetMetaFile(new_asset_file);
-		//
-		//
+		std::string file_name = App->file_system->ExtractFileName(new_asset_file);
+		ret->SetOriginalName(file_name.c_str());
 		switch (type)
 		{
 		case R_NONE:
@@ -219,16 +219,7 @@ bool ModuleResourceManager::ReImport(Resource* resource)
 	}
 }
 
-const std::string ModuleResourceManager::GetLibraryPathFromOriginalPath(const char * original_path)
-{
-	std::map<uint, Resource*>::const_iterator it = resources.begin();
-	for (; it != resources.end(); it++)
-	{
-		if (std::experimental::filesystem::equivalent(it->second->GetOriginalFile(), original_path))
-			return it->second->GetLibraryFile();
-	}
-	return std::string();
-}
+
 
 uint ModuleResourceManager::ResourceWindows(ResourceType type)
 {
@@ -276,7 +267,7 @@ uint ModuleResourceManager::ResourceWindows(ResourceType type)
 	return ret;
 }
 
-ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)
+ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)const
 {
 	std::string extension_check = file;
 	std::size_t found = extension_check.find_last_of('.');
@@ -299,15 +290,7 @@ ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)
 		return R_NONE;
 	}
 }
-void ModuleResourceManager::GetAllResourcePath(ResourceType type,std::vector<std::string>& strings)
-{
-	std::map<uint, Resource*>::const_iterator it = resources.begin();
-	for (; it != resources.end(); it++)
-	{
-		if (it->second->GetResourceType() == type)
-			strings.push_back(it->second->GetOriginalFile());
-	}
-}
+
 const Resource * ModuleResourceManager::Get(uint UID) const
 {
 	std::map<uint, Resource*>::const_iterator it = resources.find(UID);
@@ -353,6 +336,7 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint custom_
 
 void ModuleResourceManager::DeleteResources()
 {
+	App->editor_window->CleanInspector();
 	std::map<uint, Resource*>::iterator it = resources.begin();
 
 	while (it != resources.end())
@@ -368,8 +352,10 @@ void ModuleResourceManager::DeleteResources()
 				App->file_system->RemoveFile(tmp->GetLibraryFile().c_str(), App->file_system->GetMaterialFolder());
 				break;
 			case R_MESH:
+				App->file_system->RemoveFile(tmp->GetLibraryFile().c_str(), App->file_system->GetMeshesFolder());
 				break;
 			case R_PREFAB:
+				App->file_system->RemoveFile(tmp->GetLibraryFile().c_str(), App->file_system->GetMeshesFolder());
 				break;
 			default:
 				break;

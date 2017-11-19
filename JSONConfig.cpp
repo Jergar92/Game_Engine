@@ -64,8 +64,11 @@ bool JSONConfig::SerializeFile(const char * name)
 int JSONConfig::Serialize(char ** buffer)
 {
 	int size = json_serialization_size(value);
-	*buffer = new char[size];
-	json_serialize_to_buffer(value, *buffer, size);
+	if (size != 0)
+	{
+		*buffer = new char[size];
+		json_serialize_to_buffer(value, *buffer, size);
+	}
 	return size;
 }
 

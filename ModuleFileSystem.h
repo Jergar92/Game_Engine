@@ -37,8 +37,8 @@ public:
 	std::string SetExtension(const char * name, const char * extension);
 	std::string SetPathFile(const char * name, const char * directory);
 	void RemplaceExtension(std::string&path, const std::string& new_extension);
-	std::string ExtractFileName(const std::string & path);
-	std::string ExtractName(const std::string&path);
+	std::string ExtractFileName(const char* path);
+	std::string ExtractName(const  char*path);
 	std::string GetLibraryPath(const std::string&path_to_change, const char* path, const char* extension);
 
 	const char* GetMeshesFolder()const;

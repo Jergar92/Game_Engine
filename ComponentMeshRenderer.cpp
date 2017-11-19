@@ -91,15 +91,7 @@ void ComponentMeshRenderer::Draw()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_REPEAT&&mesh->GetDebugNormal())
-	{
-		DrawVertexNormals();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT&&mesh->GetDebugNormal())
-	{
-		DrawTriangleNormals();
-	}
+	
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -111,21 +103,6 @@ void ComponentMeshRenderer::Draw()
 	mesh->DrawMesh(false);
 }
 
-void ComponentMeshRenderer::DrawVertexNormals()
-{
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->GetVertexNormalID());
-	glVertexPointer(3, GL_FLOAT, sizeof(float3), NULL);
-	glDrawArrays(GL_LINES, 0, mesh->GetIndices().size() * 2);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-void ComponentMeshRenderer::DrawTriangleNormals()
-{
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->GetSurfaceNormalID());
-	glVertexPointer(3, GL_FLOAT, sizeof(float3), NULL);
-	glDrawArrays(GL_LINES, 0, mesh->GetIndices().size() * 2);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
 void ComponentMeshRenderer::SetMesh(ComponentMesh * set_mesh)
 {
 	mesh = set_mesh;
@@ -224,6 +201,10 @@ void ComponentMeshRenderer::InspectorUpdate()
 					ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
 					ImGui::EndTooltip();
 				}
+
+				ImGui::Text("Texture Path:");
+				ImGui::SameLine();
+					ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", textures[i]->GetOrignalName().c_str());
 				ImGui::PushItemWidth(200);
 				ImGui::Text("Image RGBA");
 				ImGui::ColorEdit4("##image_rgba", textures[i]->GetRGBA().ptr());

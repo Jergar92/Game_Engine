@@ -82,35 +82,7 @@ bool MeshImporter::SaveMesh(ResourceMesh * mesh, int vertices_size, int indices_
 
 	return ret;
 }
-bool MeshImporter::LoadMesh(char * buffer, ComponentMesh * mesh)
-{
-	char* cursor = buffer;
 
-	// amount of indices / vertices / normals / texture_coords
-	uint ranges[2];
-	uint bytes = sizeof(ranges);
-	memcpy(ranges, cursor, bytes);
-
-	uint num_vertices = ranges[0];
-	uint num_indices = ranges[1];
-	LOG("Save custom format with:\n num_vertices = %i \n num_indices = %i", num_vertices, num_indices);
-
-	// Load indices
-	cursor += bytes;
-	bytes = sizeof(Vertex) * num_vertices;
-	std::vector<Vertex> vertices((Vertex*)cursor, (Vertex*)cursor + num_vertices);
-
-	cursor += bytes;
-	if (num_indices != 0)
-	{
-		bytes = sizeof(uint) * num_indices;
-		std::vector<uint> indices((uint*)cursor, (uint*)cursor + num_indices);
-		return true;
-	}
-
-
-	return true;
-}
 bool MeshImporter::LoadMesh(ResourceMesh * r_mesh)
 {
 	char* buffer = nullptr;
@@ -203,6 +175,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	ResourceMesh* r_mesh = nullptr;
 
 	bool same = false;
+	//lock for equal mesh
 	for (std::map<aiMesh *, ResourceMesh*> ::const_iterator it = meshes_load.begin(); it != meshes_load.end(); it++)
 	{
 		if ((*it).first == mesh)
@@ -216,7 +189,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 	std::vector<Vertex> vertices;
 	std::vector<uint> indices;
 	bool  indices_error = false;
-
+	//Set new mesh
 	if (!same)
 	{
 		for (uint i = 0; i < mesh->mNumVertices; i++)
@@ -273,7 +246,7 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			}
 		}
 	}
-
+	//Set textures
 	std::vector<ResourceTexture*> textures;
 	//Material
 	if (mesh->mMaterialIndex >= 0)
@@ -297,12 +270,12 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 		num_vertices = r_mesh->GetNumVertices();
 		num_indices = r_mesh->GetNumIndices();
 	}
-	//Create Mesh & MeshRenderer
 
 	ComponentMesh* component_mesh = (ComponentMesh*)go->CreateComponent(ComponentType::MESH);
 
 	if (!same)
 	{
+		//Create Resource Mesh
 		r_mesh = (ResourceMesh*)App->resource_manager->CreateResource(ResourceType::R_MESH);
 		r_mesh->SetData(vertices, indices, num_vertices, num_indices);
 		vertices.clear();
@@ -320,7 +293,8 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 		r_mesh->SetDateOfCreation(date);
 		RELEASE_ARRAY(date);
 		r_mesh->SetMetaFile(origin_file.c_str());
-		
+		std::string file_name = App->file_system->ExtractFileName(origin_file.c_str());
+		r_mesh->SetOriginalName(file_name.c_str());
 		JSONConfig config;
 		r_mesh->SaveResource(config);
 		char* buffer = nullptr;
@@ -329,6 +303,8 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 		config.CleanUp();
 
 	}
+	//SetResource on component mesh
+	//Set Texture on component mesh renderer
 	component_mesh->SetResourceMesh(r_mesh);
 	ComponentMeshRenderer* component_mesh_renderer = (ComponentMeshRenderer*)go->CreateComponent(ComponentType::MESH_RENDER);
 	component_mesh_renderer->SetTexture(textures);
@@ -380,7 +356,7 @@ uint MeshImporter::TextureFromFile(const char *path, const std::string &director
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
 	App->file_system->CloneFile(filename.c_str(),App->file_system->GetAssetsTextFolder());
-	std::string name=App->file_system->ExtractFileName(filename);
+	std::string name=App->file_system->ExtractFileName(filename.c_str());
 	std::string complete_path = PATH(App->file_system->GetAssetsTextFolder(), name.c_str());
 
 	uint UID = App->resource_manager->Find(complete_path.c_str());

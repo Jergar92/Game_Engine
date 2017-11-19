@@ -40,8 +40,9 @@ void ResourceMesh::CleanUp()
 {
 	vertices.clear();
 	indices.clear();
+
 }
-void ResourceMesh::SetData(const std::vector<Vertex>& set_vertices, const std::vector<uint>& set_indices, const int num_ver, const int num_ind)
+void ResourceMesh::SetData(const std::vector<Vertex>& set_vertices, const std::vector<uint>& set_indices, int num_ver, int num_ind)
 {
 
 	vertices.reserve(set_vertices.size());
@@ -53,10 +54,7 @@ void ResourceMesh::SetData(const std::vector<Vertex>& set_vertices, const std::v
 	num_vertices = num_ver;
 	num_indices = num_ind;
 }
-void ResourceMesh::SetMeshName(std::string set_mesh_name)
-{
-	mesh_name = set_mesh_name;
-}
+
 void ResourceMesh::ReImport()
 {
 	JSONConfig config;
@@ -102,14 +100,7 @@ uint ResourceMesh::GetElementBuffer()const
 {
 	return EBO;
 }
-uint ResourceMesh::GetVertexNormalID() const
-{
-	return vertex_normals_id;
-}
-uint ResourceMesh::GetSurfaceNormalID() const
-{
-	return surface_normals_id;
-}
+
 uint ResourceMesh::GetNumVertices() const
 {
 	return num_vertices;
@@ -122,15 +113,8 @@ bool ResourceMesh::GetDrawMesh() const
 {
 	return draw_mesh;
 }
-bool ResourceMesh::GetDebugNormal() const
-{
-	return debug_normals_succes;
-}
 
-const std::string ResourceMesh::GetMeshName() const
-{
-	return mesh_name;
-}
+
 
 void ResourceMesh::DrawMesh(bool show)
 {

@@ -34,7 +34,7 @@ ModuleFileSystem::ModuleFileSystem()
 	CreateFolder(assets.c_str());
 	CreateFolder(a_textures.c_str());
 	CreateFolder(a_meshes.c_str());
-	CreateFolder(LIBRARY_FOLDER);
+	CreateFolder(LIBRARY_FOLDER,true);
 	CreateFolder(meshes.c_str(), true);
 	CreateFolder(materials.c_str(), true);
 	CreateFolder(play.c_str(), true);
@@ -242,13 +242,13 @@ void ModuleFileSystem::RemplaceExtension(std::string & path, const std::string &
 		path.replace(size + 1, new_extension.length(), new_extension);
 	}
 }
-std::string ModuleFileSystem::ExtractFileName(const std::string & path)
+std::string ModuleFileSystem::ExtractFileName(const char * path)
 {
 	namespace file_system = std::experimental::filesystem;
 	std::string name(file_system::path(path).filename().string());
 	return name;
 }
-std::string ModuleFileSystem::ExtractName(const std::string & path)
+std::string ModuleFileSystem::ExtractName(const char * path)
 {
 	namespace file_system = std::experimental::filesystem;
 	std::string name(file_system::path(path).stem().string());
@@ -257,7 +257,7 @@ std::string ModuleFileSystem::ExtractName(const std::string & path)
 
 std::string ModuleFileSystem::GetLibraryPath(const std::string & path_to_change,const char* directory,const char* extension)
 {
-	std::string name= ExtractName(path_to_change);
+	std::string name= ExtractName(path_to_change.c_str());
 	RemplaceExtension(name, std::string(extension));
 	std::string file_name(PATH(directory, name.c_str()));
 	return file_name;

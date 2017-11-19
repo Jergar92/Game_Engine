@@ -27,8 +27,7 @@ public:
 public:
 	GameObject* selected_go = nullptr;
 	Resource* selected_resource = nullptr;
-
-	InspectorShow show = I_GO;
+	InspectorShow show = I_NONE;
 
 };
 

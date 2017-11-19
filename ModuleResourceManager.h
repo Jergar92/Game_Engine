@@ -10,22 +10,27 @@ public:
 	~ModuleResourceManager();
 	bool Start();
 	update_status PreUpdate(float dt);
-
 	update_status Update(float dt);
-	bool CleanUp();
-	void LookForResources();
-	Resource* CreateResource(ResourceType type, uint UID = -1);
-	void DeleteResources();
-	uint Find(const char* asset_file)const;
-
-	uint ImportFile(const char* new_asset_file);
-	bool ReImport(Resource * resource);
-	const std::string GetLibraryPathFromOriginalPath(const char* original_path);
 	uint ResourceWindows(ResourceType type);
-	ResourceType GetResourceFromFile(const char* file);
-	void GetAllResourcePath(ResourceType type, std::vector<std::string>& strings);
+	bool CleanUp();
+
+	Resource* CreateResource(ResourceType type, uint UID = -1);
+
 	const Resource* Get(uint UID)const;
 	Resource* Get(uint UID);
+	uint Find(const char* asset_file)const;
+	uint ImportFile(const char* new_asset_file);
+
+private:
+
+	void LookForResources();
+	void DeleteResources();
+	ResourceType GetResourceFromFile(const char* file)const;
+	bool ReImport(Resource * resource);
+
+
+
+	
 
 	void SaveMetaResource(const char* path);
 	void LoadMetaResource(const char* path);

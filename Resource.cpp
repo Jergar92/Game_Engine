@@ -44,6 +44,11 @@ void Resource::SetOriginalFile(const char * set)
 {
 	original_file = set;
 }
+void Resource::SetOriginalName(const char * set)
+{
+	original_name = set;
+	
+}
 void Resource::SetOriginalFile(const char * set, const char* extension)
 {
 	original_file = FILE_EXTENSION(set, extension);
@@ -77,6 +82,11 @@ const std::string Resource::GetMetaJsonFile() const
 const std::string Resource::GetCreationTime() const
 {
 	return creation_time;
+}
+
+const std::string Resource::GetOrignalName() const
+{
+	return original_name;
 }
 
 bool Resource::GetDelete() const

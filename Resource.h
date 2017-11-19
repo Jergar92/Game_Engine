@@ -20,6 +20,7 @@ public:
 	virtual void UnLoadInMemory();
 	virtual void UnLoad();
 	virtual void InspectorUpdate();
+
 	void ToDelete();
 
 	ResourceType GetResourceType()const;
@@ -27,9 +28,12 @@ public:
 	const std::string GetLibraryFile()const;
 	const std::string GetMetaJsonFile()const;
 	const std::string GetCreationTime()const;
+	const std::string GetOrignalName()const;
+
 
 	void SetDateOfCreation(const char * set);
 	void SetOriginalFile(const char* set);
+	void SetOriginalName(const char * set);
 	void SetOriginalFile(const char * set, const char * extension);
 	void SetLibraryFile(const char* set,const char* extension);
 	void SetMetaFile(const char* set);
@@ -47,6 +51,8 @@ protected:
 	ResourceType type = R_NONE;
 	std::string creation_time;
 	std::string original_file;
+	std::string original_name;
+
 	std::string library_file;
 	std::string meta_file;
 	bool to_delete = false;

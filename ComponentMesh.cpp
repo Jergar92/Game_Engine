@@ -49,6 +49,11 @@ void ComponentMesh::InspectorUpdate()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", num_indices);
 
+		ImGui::Text("Mesh Path:");
+		ImGui::SameLine();
+		if(r_mesh!=nullptr)
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", r_mesh->GetOrignalName().c_str());
+
 		if (ImGui::Button("Select Mesh"))
 		{
 			show_mesh_window = true;
@@ -119,14 +124,8 @@ uint ComponentMesh::GetElementBuffer()const
 {
 	return r_mesh->GetElementBuffer();
 }
-uint ComponentMesh::GetVertexNormalID() const
-{
-	return r_mesh->GetVertexNormalID();
-}
-uint ComponentMesh::GetSurfaceNormalID() const
-{
-	return r_mesh->GetSurfaceNormalID();
-}
+
+
 const ResourceMesh * ComponentMesh::GetResourceMesh() const
 {
 	return r_mesh;

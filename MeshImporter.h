@@ -21,7 +21,6 @@ public:
 
 	bool ImportMesh(const char* path, const char* name);
 	bool SaveMesh(ResourceMesh * mesh, int vertices_size, int indices_size,const char* path);
-	bool LoadMesh(char * buffer, ComponentMesh * mesh);
 	bool LoadMesh(ResourceMesh * mesh);
 
 	void ProcessTransform(aiMatrix4x4 matrix,  GameObject * go);
