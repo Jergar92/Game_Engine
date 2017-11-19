@@ -13,6 +13,7 @@ UI_Folder::UI_Folder(ModuleEditorWindows* my_editor) :UI_Windows(my_editor) ,sho
 
 UI_Folder::~UI_Folder()
 {
+	CleanUp();
 
 }
 

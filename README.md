@@ -50,6 +50,9 @@ This window shows and allows to edit certain behaviors of the engine:
 	*Application Name ==> Here you can change the name
 	*Application Organization ==> Here you can change the Organization 
 	*FPS ==> Here you can change the FPS 
+	*Real time dt ==> Show the real time dt
+	*Game dt ==> Show the game dt
+	*Game Frame Count ==> Show the frame count after press Start Button
 	*Histograms ==> Here you can see a visual report of the fps and ms during the time
 	*MemoryStatistics ==> Shows the memory in use and the memory used
 *Window
@@ -115,12 +118,16 @@ If a GameObject is disabled the inspector show the name on the game object in gr
 	* Mouse Right Click Active :
 		* Delete Game Object ==> Delete selected gameobject and his children
 		* Create Game Object ==> Create gameobject on selection
+
 ### Inspector
 Show information about the selected GameObject and Resources
+Inspector GameObject:
 If you are on the GameObject Inspector you can create Components using the Button "Create Component"
 If you create a MeshRenderer Component a Mesh Component is created to
 	* Mouse Right Click Active :
 		* Delete Component : ==> Delete selected component (You can't delete a Component Mesh if the Game Object have a Component MeshRenderer)
+Inspector Resources:
+
 ##GameObject
 This Engine implement GameObject (Unity like), GameObject contains
 	*Enable ==> Enable/Disable GameObject
@@ -149,9 +156,18 @@ This Engine implement Resources (Unity like) right now the resources implemented
 	*Resources Mesh 
 	*Resources Texture
 	*Resources Prefab
+Resources Info:
+	*The Resources only load once and if no one is ussing the resource the resource is Unload you can see the load count by selecting a Resource and see the Inspector
+	*All resources generate his own meta file and can save importing options (Right now only Resource Texture has this functionality (can flip the texture))
+	*If the Resource Manager detect the asset file is missing destroy the Resource, his meta file and library file
+	*If the Resource Manager detect the asset is not a Resource, then the resource manager create the new resource
 
 ##Folders
-Show the Assets info
+Show the Assets info:
+	At the left you have all the folders, you can see his content if you click on it one time and you can open the folder if you double click
+	At the right you see the selected folder, if you doble click on other folder inside this window the selected folder is now the clicked folder
+	If you select a .fbx,.obj or .json and click the button Load below this windows the engine try to load your selection
+	You can delete files or folders(Except the Assets folder) using the right click
 
 
 ##Quadtree
@@ -177,14 +193,16 @@ This engine use <a href="http://assimp.sourceforge.net/"> Assimp </a>
 This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 ## Changelog
-#### v0.8.5
-* Added: Add Debug Camera Funcionalities
-* Added: Add Quadtree funcionality with frustum culling (optimization)
 
 #### v0.8.0
+
 * Added: Add Resource structure
 * Added: Add ResourceManager
+* Added: Add Folders new functionality
+* Added: Add Inspector new functionality
 * Added: Add QuadTree
+* Added: Add Debug Camera Funcionalities
+* Added: Add Quadtree funcionality with frustum culling (optimization)
 * Added: Add more options to camera
 
 #### v0.7.0

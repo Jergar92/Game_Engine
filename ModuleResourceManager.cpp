@@ -59,7 +59,7 @@ bool ModuleResourceManager::CleanUp()
 	while (it != resources.end())
 	{
 		Resource* item = it->second;
-		resources.erase(it++);
+		it=resources.erase(it);
 		RELEASE(item);
 	}
 	resources.clear();
@@ -366,7 +366,7 @@ void ModuleResourceManager::DeleteResources()
 				break;
 			}
 			App->file_system->RemoveFile(tmp->GetMetaJsonFile().c_str());
-			resources.erase(it++);
+			it=resources.erase(it);
 			RELEASE(tmp);
 		}
 		else
