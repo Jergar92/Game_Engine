@@ -1,3 +1,9 @@
+##Links
+Repository:
+https://github.com/Jergar92/Game_Engine
+Collaborators:
+Andreu Rojas Barrera: https://github.com/Jergar92
+Sergio Saez: https://github.com/dreedcon
 ## Installation
 Drop the game folder inside the .zip somewhere in your computer and execute the .exe
 

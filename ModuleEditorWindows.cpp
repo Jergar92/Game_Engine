@@ -16,7 +16,7 @@
 #include "UI_Console.h"
 #include "UI_Folder.h"
 #include "UI_Play.h"
-#define UPDATE_FOLDER_TIME 2
+#define UPDATE_FOLDER_TIME 2.0f
 ModuleEditorWindows::ModuleEditorWindows(bool start_enabled)
 {
 	name = "Editor Windows";

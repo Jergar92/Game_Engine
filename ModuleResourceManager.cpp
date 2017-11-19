@@ -9,7 +9,7 @@
 #include <vector>
 #include <experimental\filesystem>
 #include "imgui/imgui.h"
-#define UPDATE_RESOURCE_TIME 5.0f
+#define UPDATE_RESOURCE_TIME 2.0f
 ModuleResourceManager::ModuleResourceManager()
 {
 	name = "Resource Manager";

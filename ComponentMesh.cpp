@@ -86,6 +86,7 @@ void ComponentMesh::InspectorUpdate()
 			{
 				r_mesh = (ResourceMesh*)new_resource;
 				r_mesh->LoadInMemory();
+				my_go->GenerateBoudingBox();
 			}
 			show_mesh_window = false;
 			ImGui::CloseCurrentPopup();			
