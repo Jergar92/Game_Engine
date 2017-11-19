@@ -39,7 +39,7 @@ public:
 	bool EnableRaycast();
 
 private:
-	float3 reference;
+	float3 reference = float3::zero;
 	float3 new_pos = { 0, 0, 0 };
 	bool show_raycast = false;
 	bool enable_left = false;

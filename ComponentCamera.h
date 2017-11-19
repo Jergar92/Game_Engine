@@ -60,9 +60,9 @@ private:
 	bool enable_camera_render = false;
 	float vertical_fov = 1.0f;
 	float window_aspect_ratio;
-	GameObject* scene;
-	float4x4 view_matrix;
-	float4x4 projetion_matrix;
+	GameObject* scene = nullptr;
+	float4x4 view_matrix = float4x4::zero;
+	float4x4 projetion_matrix = float4x4::zero;
 	std::list<GameObject*>static_list;
 	std::list<GameObject*>::iterator iterator_go;
 };
