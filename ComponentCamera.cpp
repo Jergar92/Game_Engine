@@ -27,7 +27,7 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go)
 	camera_frustrum.front = {0,0,1};
 	camera_frustrum.up = { 0,1,0 };
 
-	camera_frustrum.pos = {0,0,-5};
+	camera_frustrum.pos = {5,5,-5};
 	camera_frustrum.verticalFov = vertical_fov;
 	SetAspectRatio();
 
