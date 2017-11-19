@@ -345,14 +345,20 @@ std::vector<ResourceTexture*> MeshImporter::loadMaterialTextures(aiMaterial * ma
 			}
 			
 		}
+		uint UID=-1;
 		if (!same)
 		{
-			uint UID = TextureFromFile(str.C_Str(), this->directory);
-			texture = (ResourceTexture*)App->resource_manager->Get(UID);
-			texture->path = str.C_Str();
-			textures_loaded[texture->path.c_str()] = texture;
+			UID = TextureFromFile(str.C_Str(), this->directory);
+			if (UID != -1)
+			{
+
+				texture = (ResourceTexture*)App->resource_manager->Get(UID);
+				texture->path = str.C_Str();
+				textures_loaded[texture->path.c_str()] = texture;
+			}
 
 		}
+		if (UID != -1)
 		textures.push_back(texture);
 
 	}
@@ -364,7 +370,12 @@ uint MeshImporter::TextureFromFile(const char *path, const std::string &director
 
 	std::string filename = std::string(path);
 	filename = directory + "Textures/" + filename;
+
+	if (!App->file_system->FileExist(filename.c_str()))
+		return -1;
+	else
 	App->file_system->CloneFile(filename.c_str(),App->file_system->GetAssetsTextFolder());
+
 	std::string name=App->file_system->ExtractFileName(filename.c_str());
 	std::string complete_path = PATH(App->file_system->GetAssetsTextFolder(), name.c_str());
 
