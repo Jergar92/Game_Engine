@@ -18,6 +18,8 @@ MeshImporter::MeshImporter()
 
 MeshImporter::~MeshImporter()
 {
+	meshes_load.clear();
+	textures_loaded.clear();
 }
 
 bool MeshImporter::ImportMesh(const char * path,const char* name)

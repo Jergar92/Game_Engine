@@ -20,6 +20,7 @@ public:
 	virtual void UnLoadInMemory();
 	virtual void UnLoad();
 	virtual void InspectorUpdate();
+	virtual void CleanUp();
 
 	void ToDelete();
 
@@ -52,7 +53,6 @@ protected:
 	std::string creation_time;
 	std::string original_file;
 	std::string original_name;
-
 	std::string library_file;
 	std::string meta_file;
 	bool to_delete = false;

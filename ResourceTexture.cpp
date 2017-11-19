@@ -46,6 +46,7 @@ void ResourceTexture::UnLoadInMemory()
 void ResourceTexture::UnLoad()
 {
 	glDeleteTextures(1, &id);
+	id = -1;
 
 }
 
@@ -62,6 +63,12 @@ void ResourceTexture::InspectorUpdate()
 	ImGui::Checkbox("Flip textrue##flip_texture", &flip);
 
 
+}
+
+void ResourceTexture::CleanUp()
+{
+	if(id!=-1)
+	UnLoad();
 }
 
 void ResourceTexture::ReImport()

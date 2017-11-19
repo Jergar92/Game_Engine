@@ -14,6 +14,7 @@ public:
 	void UnLoad();
 	void ReImport();
 	void InspectorUpdate();
+	void CleanUp();
 
 	void SetRGBA(float4 rgba);
 	void SetID(uint id);

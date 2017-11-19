@@ -38,9 +38,11 @@ void ResourceMesh::SetupMesh()
 
 void ResourceMesh::CleanUp()
 {
+	if (!vertices.empty())
+		UnLoad();
 	vertices.clear();
 	indices.clear();
-
+	
 }
 void ResourceMesh::SetData(const std::vector<Vertex>& set_vertices, const std::vector<uint>& set_indices, int num_ver, int num_ind)
 {
@@ -152,6 +154,7 @@ void ResourceMesh::UnLoad()
 	indices.clear();
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+
 }
 
 void ResourceMesh::InspectorUpdate()
