@@ -7,8 +7,8 @@ Drop the game folder inside the .zip somewhere in your computer and execute the 
 	* WASD keys for movement
 	* move the mouse to rotate
 * Mouse Left Click + Left Alt:
-	* move the camera arround a point
-* Press F centred to selected Game Objects
+	* move the camera arround a reference
+* Press F centred to selected Game Object
 * Mouse Left Click
 	*You can selected Game Objets
 
@@ -153,6 +153,13 @@ This Engine implement Resources (Unity like) right now the resources implemented
 ##Folders
 Show the Assets info
 
+
+##Quadtree
+This engine have the tool quadtree which, contemplates the static game objects and subdivides.
+	
+	*Have a optimization with the frustum culling.  
+	
+
 #### Libraries 
 
 This engine use <a href="https://www.libsdl.org/" >SDL library </a>
@@ -170,6 +177,10 @@ This engine use <a href="http://assimp.sourceforge.net/"> Assimp </a>
 This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 ## Changelog
+#### v0.8.5
+* Added: Add Debug Camera Funcionalities
+* Added: Add Quadtree funcionality with frustum culling (optimization)
+
 #### v0.8.0
 * Added: Add Resource structure
 * Added: Add ResourceManager
@@ -226,5 +237,8 @@ This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 * Added: A Collision test windows.
 * Added: A Random float and integer generator windows
 * Added: A basic console
+
+### INOVATION
+	*We have a bounding box system, which generates an AABB, and with this I create an OBB and two bounding boxes are generated each with its functionality.
 
 }
