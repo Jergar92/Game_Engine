@@ -127,6 +127,9 @@ If you create a MeshRenderer Component a Mesh Component is created to
 	* Mouse Right Click Active :
 		* Delete Component : ==> Delete selected component (You can't delete a Component Mesh if the Game Object have a Component MeshRenderer)
 Inspector Resources:
+You can see the load Count
+You can save the Resource options, if the Resource is loaded in memory the resource is unload and load from memory with the new import settings
+Right now the only Resource with import options is the Resource Texture
 
 ##GameObject
 This Engine implement GameObject (Unity like), GameObject contains
@@ -258,5 +261,7 @@ This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 ### INOVATION
 	*We have a bounding box system, which generates an AABB, and with this I create an OBB and two bounding boxes are generated each with its functionality.
+	*You can create GameObject and destroy GameObjects from Hierarchy
+	*You can create Components and destroy Components from the Inspector
 
 }
