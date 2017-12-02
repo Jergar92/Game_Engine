@@ -3,13 +3,15 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ComponentCamera.h"
-#include "ModuleScene.h"
+#include "ComponentMeshRenderer.h"
+#include "ComponentCanvasRenderer.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-#include "GameObject.h"
 #include "imgui/imgui_impl_sdl.h"
+
+
 
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
@@ -35,8 +37,8 @@ bool ModuleRenderer3D::Awake(const JSONConfig& data)
 	bool ret = true;
 
 	//Create context
-	context = SDL_GL_CreateContext(App->window->window);
-	if (context == NULL)
+	gl_context = SDL_GL_CreateContext(App->window->window);
+	if (gl_context == NULL)
 	{
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -253,8 +255,9 @@ update_status ModuleRenderer3D::Update(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	App->scene->GetScene()->Draw();
-
+	//App->scene->GetScene()->Draw();
+	DrawGameObject();
+	DrawCanvas();
 	if (lighting)glDisable(GL_LIGHTING);
 	ImGui::Render();
 	if (lighting)glEnable(GL_LIGHTING);
@@ -281,7 +284,7 @@ bool ModuleRenderer3D::SaveConfig(JSONConfig& data)const
 	data.SetFloat(depth, "depth");
 
 	data.SetBool(cull_face, "cull_face");
-	data.SetFloat(front_face, "front_face");
+	data.SetInt(front_face, "front_face");
 
 	data.SetBool(lighting, "lighting");
 	data.SetFloat(light_ambient[0], "light_ambient_r");
@@ -327,7 +330,7 @@ bool ModuleRenderer3D::LoadConfig(const JSONConfig& data)
 	depth = data.GetFloat("depth");
 
 	cull_face = data.GetBool("cull_face");
-	front_face = data.GetFloat("front_face");
+	front_face = data.GetInt("front_face");
 
 	lighting = data.GetBool("lighting");
 	light_ambient[0] = data.GetFloat("light_ambient_r");
@@ -369,7 +372,7 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 	ImGui_ImplSdlGL2_Shutdown();
-	SDL_GL_DeleteContext(context);
+	SDL_GL_DeleteContext(gl_context);
 
 	return true;
 }
@@ -388,6 +391,18 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::AddMeshToRender(ComponentMeshRenderer * add)
+{
+	go_mesh.push_back(add);
+
+}
+
+void ModuleRenderer3D::AddCanvasToRender(ComponentCanvasRenderer * add)
+{
+	go_canvas.push_back(add);
+
 }
 
 ComponentCamera * ModuleRenderer3D::GetCamera() const
@@ -441,5 +456,28 @@ void ModuleRenderer3D::RenderOptions()
 		glFogfv(GL_FOG_COLOR, GL_fog_color);
 	}
 	(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+}
+
+void ModuleRenderer3D::DrawGameObject()
+{
+	if (go_mesh.empty())
+		return;
+	for (std::vector<ComponentMeshRenderer*>::iterator it = go_mesh.begin(); it < go_mesh.end(); it++)
+	{
+		(*it)->Draw();
+	}
+	go_mesh.clear();
+}
+
+void ModuleRenderer3D::DrawCanvas()
+{
+	if (go_canvas.empty())
+		return;
+	for (std::vector<ComponentCanvasRenderer*>::iterator it = go_canvas.begin(); it < go_canvas.end(); it++)
+	{
+		(*it)->Draw();
+	}
+	go_canvas.clear();
 
 }

@@ -64,7 +64,7 @@ void GameObject::CleanUp()
 }
 void GameObject::PreUpdate(float dt)
 {
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 		if (item->ToDelete())
@@ -107,7 +107,7 @@ void GameObject::Update(float dt)
 	if (!enable)
 		return;
 
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 		if (item->isEnable())
@@ -312,7 +312,7 @@ void GameObject::SetStatic(bool set)
 	static_go = set;
 }
 
-bool GameObject::IsStatic() const
+bool GameObject::GetStatic() const
 {
 	return static_go;
 }
@@ -371,7 +371,7 @@ void GameObject::LoadGameObject(const JSONConfig & data)
 	UpdateMatrix();
 
 	uint size = data.GetArraySize("Components");
-	for (int i = 0; i < size; i++)
+	for (uint i = 0; i < size; i++)
 	{
 		JSONConfig config_item = data.SetFocusArray("Components", i);
 		Component*item = CreateComponent((ComponentType)config_item.GetInt("Type"));
@@ -481,7 +481,7 @@ Component* GameObject::FindComponent(ComponentType type, Component * component_t
 Component* GameObject::FindComponent(ComponentType type)const
 {
 	Component* ret = nullptr;
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 
@@ -515,7 +515,7 @@ bool GameObject::RemoveGO(GameObject * to_remove)
 {
 	GameObject* ret = nullptr;
 	
-	for (int i = 0; i < childs.size(); i++)
+	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
 
@@ -535,7 +535,7 @@ bool GameObject::RemoveGO(GameObject * to_remove)
 bool GameObject::HaveComponent(ComponentType type) const
 {
 	Component* ret = nullptr;
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		Component* item = components[i];
 
@@ -624,11 +624,11 @@ void GameObject::UpdateMatrix()
 	global_bounding_box_AABB.TransformAsAABB(global_transform_matrix);
 	is_bounding_box_transformed = true;
 	
-	for (int i = 0; i < components.size(); i++)
+	for (uint i = 0; i < components.size(); i++)
 	{
 		components[i]->OnUpdateMatrix(global_transform_matrix);
 	}
-	for (int i = 0; i < childs.size(); i++)
+	for (uint i = 0; i < childs.size(); i++)
 	{
 		childs[i]->UpdateMatrix();
 	}
@@ -662,6 +662,11 @@ AABB GameObject::GetBoundingBoxAABB() const
 AABB GameObject::GetIdentityBoundingBoxAABB() const
 {
 	return indentity_bounding_box_AABB;
+}
+
+GameObjectType GameObject::GetType() const
+{
+	return type;
 }
 
 void GameObject::SetScale(float3 scale)

@@ -426,6 +426,9 @@
     <ClInclude Include="ResourcePrefab.h">
       <Filter>Sources\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentCanvasRenderer.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -655,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="ResourcePrefab.cpp">
       <Filter>Sources\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCanvasRenderer.cpp">
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -306,7 +306,7 @@ int Application::GenerateRandom()
 	return random.Int();
 }
 
-int Application::GetGameDT() const
+float Application::GetGameDT() const
 {
 	return game_dt;
 }

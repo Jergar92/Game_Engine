@@ -116,7 +116,7 @@ update_status ModuleEditorWindows::GuiUpdate()
 {
 
 	bool ret = ShowMenuBar();
-	for (int i = 0; i < ui_windows.size() && ret == true; i++)
+	for (uint i = 0; i < ui_windows.size() && ret == true; i++)
 	{
 		if (ui_windows[i]->IsActive())
 			ret = ui_windows[i]->Draw();
@@ -131,7 +131,7 @@ update_status ModuleEditorWindows::GuiUpdate()
 bool ModuleEditorWindows::CleanUp()
 {
 	bool ret = true;
-	for (int i = 0; i < ui_windows.size() && ret == true; i++)
+	for (uint i = 0; i < ui_windows.size() && ret == true; i++)
 	{
 		ui_windows[i]->CleanUp();
 	}

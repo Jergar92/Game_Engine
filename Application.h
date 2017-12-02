@@ -39,7 +39,7 @@ public:
 	void CalculeFPSHistogram();
 	void CalculeMSHistogram();
 	int GenerateRandom();
-	int GetGameDT()const;
+	float GetGameDT()const;
 	void SetGameTimeMultiply(float value);
 	void OnPlay();
 	void OnStop();
@@ -85,8 +85,8 @@ private:
 	float	dt = 0.0f;
 
 	Timer	ms_timer;
-	int		fps = 0;
-	int		fps_cap = 0;
+	uint	fps = 0;
+	int	fps_cap = 0;
 
 	uint64_t game_frame_count = 0;
 	uint64_t frame_count = 0;

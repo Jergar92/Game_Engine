@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "GameObject.h"
 #include "Globals.h"
 #include "MathGeoLib-1.5\src\Math\float4.h"
 struct Texture
@@ -14,7 +13,6 @@ struct Texture
 };
 class ComponentMesh;
 class ResourceTexture;
-
 class ComponentMeshRenderer:public Component
 {
 public:
@@ -32,8 +30,7 @@ public:
 	bool SaveComponent(JSONConfig& data)const;
 	bool LoadComponent(const JSONConfig& data);
 private:
-	void DrawVertexNormals();
-	void DrawTriangleNormals();
+
 
 private:
 	bool show_mesh_renderer_window = false;

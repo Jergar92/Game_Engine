@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-
 #include "glmath.h"
 #include "Light.h"
 #include "Glew\include\GL\glew.h"
@@ -10,6 +9,8 @@
 
 #define MAX_LIGHTS 8
 class ComponentCamera;
+class ComponentMeshRenderer;
+class ComponentCanvasRenderer;
 class ModuleRenderer3D : public Module
 {
 public:
@@ -27,23 +28,27 @@ public:
 	bool LoadConfig(const JSONConfig& data);
 	bool CleanUp();
 	void OnResize(int width, int height);
+	void AddMeshToRender(ComponentMeshRenderer* add);
+	void AddCanvasToRender(ComponentCanvasRenderer* add);
 
 	ComponentCamera* GetCamera()const;
 	void SetCamera(ComponentCamera* cam);
 private:
 	void RenderOptions();
-
+	void DrawGameObject();
+	void DrawCanvas();
 public:
 
 	Light lights[MAX_LIGHTS];
-	SDL_GLContext context;
+	SDL_GLContext gl_context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 private:
 	int vsync = 0;
 	ImVec4 background_color = ImColor(114, 144, 154);
 
-
+	std::vector<ComponentMeshRenderer*> go_mesh;
+	std::vector<ComponentCanvasRenderer*> go_canvas;
 	bool depth_test = true;
 	float depth = 1.0f;
 

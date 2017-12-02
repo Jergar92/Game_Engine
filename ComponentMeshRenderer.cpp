@@ -1,7 +1,8 @@
 #include "ComponentMeshRenderer.h"
-#include "ComponentCamera.h"
 #include "Application.h"
-#include "ModuleInput.h"
+#include "ModuleRenderer3D.h"
+#include "GameObject.h"
+#include "ComponentCamera.h"
 #include "ComponentMesh.h"
 #include "ResourceTexture.h"
 #include "ResourceMesh.h"
@@ -44,7 +45,7 @@ void ComponentMeshRenderer::Update(float dt)
 		}	
 
 	}
-
+	App->renderer3D->AddMeshToRender(this);
 }
 
 
@@ -62,7 +63,7 @@ void ComponentMeshRenderer::Draw()
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 
-	for (int i = 0; i < textures.size(); i++)
+	for (uint i = 0; i < textures.size(); i++)
 	{
 		if (textures[i] != nullptr)
 		{
@@ -148,7 +149,7 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 
 	//SetMaterials
 	uint size = config.GetArraySize("Textures");
-	for (int i = 0; i < size; i++)
+	for (uint i = 0; i < size; i++)
 	{
 		JSONConfig config_item = config.SetFocusArray("Textures", i);
 		ResourceTexture* r_text=nullptr;
@@ -191,7 +192,7 @@ void ComponentMeshRenderer::InspectorUpdate()
 	{
 		if (!textures.empty())
 		{
-			for (int i = 0; i < textures.size(); i++)
+			for (uint i = 0; i < textures.size(); i++)
 			{
 				ImGui::Image((GLuint*)textures[i]->GetID(), ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&textures[i]->GetRGBA());
 

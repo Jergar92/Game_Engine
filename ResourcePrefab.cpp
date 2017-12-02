@@ -23,7 +23,7 @@ void ResourcePrefab::LoadInMemory()
 
 	uint size = config.GetArraySize("GameObject");
 	std::vector < GameObject*> tmp_go;
-	for (int i = 0; i < size; i++)
+	for (uint i = 0; i < size; i++)
 	{
 		JSONConfig config_item = config.SetFocusArray("GameObject", i);
 		GameObject* item = App->scene->GenerateGameObject();
@@ -31,7 +31,7 @@ void ResourcePrefab::LoadInMemory()
 		tmp_go.push_back(item);
 
 	}
-	for (int i = 0; i < tmp_go.size(); i++)
+	for (uint i = 0; i < tmp_go.size(); i++)
 	{
 
 		GameObject* item = tmp_go[i];
@@ -47,7 +47,7 @@ void ResourcePrefab::LoadInMemory()
 		item->UpdateMatrix();
 
 	}
-	for (int i = 0; i < tmp_go.size(); i++)
+	for (uint i = 0; i < tmp_go.size(); i++)
 	{
 		GameObject* item = tmp_go[i];
 		item->ChangeUID();

@@ -293,7 +293,7 @@ void ModuleCamera::OnCollision()
 	GameObject* scene = App->scene->GetScene();
 	std::map<float,GameObject*> go;
 	
-	for (int i = 0; i < scene->childs.size(); i++)
+	for (uint i = 0; i < scene->childs.size(); i++)
 	{
 		GameObjectsChilds(scene->childs[i],go);
 	}
@@ -319,7 +319,7 @@ void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&
 				std::vector<Vertex> vertices = mesh->GetVertices();
 				std::vector<uint> indices = mesh->GetIndices();
 				float final_distance = -1;
-				for (int i = 0; i < indices.size(); i += 3)
+				for (uint i = 0; i < indices.size(); i += 3)
 				{
 
 
@@ -354,7 +354,7 @@ void ModuleCamera::GameObjectsChilds(GameObject *go,std::map<float,GameObject*>&
 		}
 	}
 	
-	for (int i = 0; i < go->childs.size(); i++)
+	for (uint i = 0; i < go->childs.size(); i++)
 	{
 		GameObjectsChilds(go->childs[i],my_vector);
 	}

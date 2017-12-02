@@ -167,7 +167,7 @@ void ModuleScene::LoadScene(const char*path)
 
 	uint size = config.GetArraySize("GameObject");
 	std::vector < GameObject*> tmp_go;
-	for (int i = 0; i < size; i++)
+	for (uint i = 0; i < size; i++)
 	{
 		JSONConfig config_item = config.SetFocusArray("GameObject", i);
 		GameObject* item = GenerateGameObject();
@@ -177,7 +177,7 @@ void ModuleScene::LoadScene(const char*path)
 		tmp_go.push_back(item);
 
 	}
-	for (int i = 0; i < tmp_go.size(); i++)
+	for (uint i = 0; i < tmp_go.size(); i++)
 	{
 		
 		GameObject* item = tmp_go[i];
@@ -198,7 +198,7 @@ void ModuleScene::LoadScene(const char*path)
 }
 GameObject * ModuleScene::FindGameObjectByID(const std::vector<GameObject*>& go, int UID_to_find) const
 {
-	for (int i = 0; i < go.size(); i++)
+	for (uint i = 0; i < go.size(); i++)
 	{
 		GameObject* item = go[i];
 		if (item->GetUID() == UID_to_find)
@@ -222,12 +222,12 @@ void ModuleScene::GenerateQuadTree()
 		
 		while (!add_elements.empty())
 		{
-			if (add_elements.front()->IsStatic())
+			if (add_elements.front()->GetStatic())
 			{
 				quadtree->Insert(add_elements.front());
 			}
 			GameObject* first_position = add_elements.front();
-			for (int i = 0; i < first_position->childs.size(); i++)
+			for (uint i = 0; i < first_position->childs.size(); i++)
 			{
 				add_elements.push(first_position->childs[i]);
 			}

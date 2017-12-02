@@ -12,7 +12,8 @@ enum ComponentType
 	MESH,
 	MESH_RENDER,
 	CAMERA,
-	TRANSFORM
+	TRANSFORM,
+	CANVAS_RENDER
 };
 class Component
 {
