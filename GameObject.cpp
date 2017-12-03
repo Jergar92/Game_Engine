@@ -118,30 +118,12 @@ void GameObject::Update(float dt)
 		GameObject* item = childs[i];
 		item->Update(dt);
 	}
-
-	
-}
-
-void GameObject::Draw()
-{
-
-
-	ComponentMeshRenderer* render = (ComponentMeshRenderer*) FindComponent(MESH_RENDER);
-	if (render != nullptr)
-	{
-		render->Draw();
-	}
-	for (uint i = 0; i < childs.size(); i++)
-	{
-		GameObject* item = childs[i];
-		item->Draw();
-	}
-
 	if (show_bounding_box)
 	{
 		RenderBoundingBoxAABB();
 		RenderBoundingBoxOBB();
 	}
+	
 }
 
 void GameObject::PostUpdate(float dt)

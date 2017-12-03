@@ -16,6 +16,8 @@ ComponentCanvasRenderer::~ComponentCanvasRenderer()
 
 void ComponentCanvasRenderer::Update(float dt)
 {
+	App->renderer3D->AddCanvasToRender(this);
+
 }
 
 void ComponentCanvasRenderer::Draw()
