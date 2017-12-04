@@ -5,8 +5,15 @@
 #include "ModuleEditorWindows.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "Component.h"
 UI_Inspector::UI_Inspector(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
+
+	names[MESH] = "Mesh";
+	names[MESH_RENDER] = "Mesh Render";
+	names[CAMERA] = "Camera";
+	names[CANVAS_IMAGE] = "Image";
+
 }
 
 
@@ -50,6 +57,7 @@ void UI_Inspector::CleanUp()
 {
 	selected_go = nullptr;
 	selected_resource = nullptr;
+	names.clear();
 	show = I_NONE;
 
 }
@@ -78,28 +86,24 @@ void UI_Inspector::InspectorGameObject()
 	if (selected_go != nullptr)
 	{
 		selected_go->InspectorUpdate();
-
-
-		int selected_fish = -1;
-		/*
-		Respect Order from ComponentType on Components.h
-		*/
-		const char* names[] = { "Mesh", "Mesh Renderer", "Camera" };
-
-		// Simple selection popup
-		// (If you want to show the current selection inside the Button itself, you may want to build a string using the "###" operator to preserve a constant ID with a variable label)
+		ComponentType selected_fish = NO_COMPONENT;
 		if (ImGui::Button("Create Component.."))
 			ImGui::OpenPopup("select");
 		ImGui::SameLine();
 		if (ImGui::BeginPopup("select"))
 		{
-			for (int i = 0; i < IM_ARRAYSIZE(names); i++)
-				if (ImGui::Selectable(names[i]))
-					selected_fish = i;
+			int i = 0;
+			for (std::map<ComponentType, const char*>::const_iterator it = names.begin(); it != names.end(); it++)
+			{
+				if (ImGui::Selectable(it->second))
+					selected_fish = it->first;
+				i++;
+			}
+				
 			ImGui::EndPopup();
 		}
-		if(selected_fish!=-1)
-		selected_go->CreateComponent(static_cast<ComponentType>(selected_fish+1));
+		if(selected_fish!= NO_COMPONENT)
+		selected_go->CreateComponent(selected_fish);
 	}
 }
 

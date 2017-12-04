@@ -12,6 +12,8 @@
 #include "ResourceMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
+#include "ComponentCanvasRenderer.h"
+#include "ComponentImage.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
 #define MAX_NAME 20
@@ -429,6 +431,22 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 	case CAMERA:
 		item = new ComponentCamera(this);
+		break;
+	case CANVAS_RENDER:
+		item = new ComponentCanvasRenderer(this);
+		break;
+	case CANVAS_IMAGE:
+	{
+		Component* canvas_render = nullptr;
+
+		if (!HaveComponent(CANVAS_RENDER))
+		{
+			LOG("Add Component Canvas Render")
+				canvas_render = CreateComponent(CANVAS_RENDER);
+		}
+		item = new ComponentImage(this);
+		//canvas->getimage
+	}
 		break;
 	default:
 		break;

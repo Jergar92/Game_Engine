@@ -1,7 +1,9 @@
 #pragma once
 #include "UI_Windows.h"
+#include <map>
 class GameObject;
 class Resource;
+enum ComponentType;
 enum InspectorShow
 {
 	I_NONE,
@@ -28,6 +30,8 @@ public:
 	GameObject* selected_go = nullptr;
 	Resource* selected_resource = nullptr;
 	InspectorShow show = I_NONE;
+private:
+	std::map<ComponentType, const char*> names;
 
 };
 
