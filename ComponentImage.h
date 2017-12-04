@@ -13,10 +13,23 @@ struct Quad
 	void SetUpVertices();
 
 };
+class ResourceTexture;
 class ComponentImage:public Component
 {
 public:
 	ComponentImage(GameObject* my_go);
 	~ComponentImage();
+	void Update(float dt);
+
+	void InspectorUpdate();
+
+
+	bool SaveComponent(JSONConfig & config) const;
+	bool LoadComponent(const JSONConfig & config);
+
+private:
+	bool show_mesh_renderer_window = false;
+	ResourceTexture* image;
+
 };
 
