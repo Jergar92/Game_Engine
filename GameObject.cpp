@@ -445,7 +445,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 				canvas_render = CreateComponent(CANVAS_RENDER);
 		}
 		item = new ComponentImage(this);
-		//canvas->getimage
+		((ComponentCanvasRenderer*)canvas_render)->GetComponent(item);
 	}
 		break;
 	default:
@@ -502,6 +502,15 @@ bool GameObject::RemoveComponent(ComponentType type,int position)
 		if (HaveComponent(MESH_RENDER))
 		{
 			LOG("You cant remove a component mesh if you have a component mesh renderer");
+			item->to_delete = false;
+			return false;
+		}
+	}
+	else if (type == CANVAS_RENDER)
+	{
+		if (HaveComponent(CANVAS_IMAGE))
+		{
+			LOG("You cant remove a component canvas render if you have a component canvas image");
 			item->to_delete = false;
 			return false;
 		}

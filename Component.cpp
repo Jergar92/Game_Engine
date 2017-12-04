@@ -1,5 +1,5 @@
 #include "Component.h"
-
+#include "imgui/imgui.h"
 
 
 Component::Component(GameObject* my_go):enable(true)
@@ -31,6 +31,9 @@ void Component::GuiUpdate()
 
 void Component::InspectorUpdate()
 {
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox| ImGuiTreeNodeFlags_Leaf;
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
+	ImGui::TreePop();
 }
 
 

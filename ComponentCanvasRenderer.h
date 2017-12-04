@@ -1,7 +1,8 @@
 #pragma once
 #include "Globals.h"
 #include "Component.h"
-
+class ComponentImage;
+class Component;
 class ComponentCanvasRenderer :public Component
 {
 public:
@@ -11,7 +12,9 @@ public:
 	void Update(float dt);
 
 	void Draw();
-	void InspectorUpdate();
+
 	void CleanUp();
+	void GetComponent(Component* item);
+	ComponentImage* image;
 };
 

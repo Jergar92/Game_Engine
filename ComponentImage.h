@@ -29,7 +29,7 @@ public:
 
 private:
 	bool show_mesh_renderer_window = false;
-	ResourceTexture* image;
+	ResourceTexture* image=nullptr;
 
 };
 

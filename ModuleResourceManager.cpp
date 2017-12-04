@@ -231,8 +231,8 @@ bool ModuleResourceManager::ReImport(Resource* resource)
 uint ModuleResourceManager::ResourceWindows(ResourceType type)
 {
 	uint ret = 0;
-	ImGui::OpenPopup("Select Mesh");
-	if (ImGui::BeginPopupModal("Select Mesh", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	ImGui::OpenPopup("Select Resource");
+	if (ImGui::BeginPopupModal("Select Resource", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		static int uid = 0;
 		std::map<uint, Resource*>::const_iterator it = resources.begin();
@@ -256,7 +256,7 @@ uint ModuleResourceManager::ResourceWindows(ResourceType type)
 			}
 		}	
 		ImGui::Separator();
-		if (ImGui::Button("Select##mesh_select", ImVec2(120, 0)))
+		if (ImGui::Button("Select##resource_select", ImVec2(120, 0)))
 		{
 			ret = uid;
 			ImGui::CloseCurrentPopup();
