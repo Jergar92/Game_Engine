@@ -14,6 +14,7 @@
 
 ComponentImage::ComponentImage(GameObject * my_go):Component(my_go)
 {
+
 	component_name = "Image";
 	type = CANVAS_IMAGE;
 
@@ -23,6 +24,7 @@ ComponentImage::~ComponentImage()
 {
 
 }
+
 
 void ComponentImage::Update(float dt)
 {
@@ -132,7 +134,10 @@ void ComponentImage::InspectorUpdate()
 
 				}
 			}
-		
+			else
+			{
+				image = (ResourceTexture*)new_resource;
+			}
 			if (update)
 			{
 				image->LoadInMemory();
@@ -142,7 +147,18 @@ void ComponentImage::InspectorUpdate()
 		}
 	}
 }
-Quad::Quad(int pos_x, int pos_y, int width, int height):pos_x(pos_x),pos_y(pos_y),width(width),height(height)
+
+const Quad ComponentImage::GetImageRect() const
+{
+	return image_rect;
+}
+
+const ResourceTexture * ComponentImage::GetImage() const
+{
+	return image;
+}
+
+Quad::Quad(int pos_x, int pos_y, int width, int height) :pos_x(pos_x), pos_y(pos_y), width(width), height(height)
 {
 	SetUpVertices();
 }
