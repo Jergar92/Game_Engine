@@ -61,6 +61,9 @@
     <Filter Include="Sources\Resource">
       <UniqueIdentifier>{73526131-86ac-4f50-ad54-d221e1e177cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Canvas">
+      <UniqueIdentifier>{faa517a6-e767-4e5c-935f-a3c3485b365b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -433,7 +436,7 @@
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Canvas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -672,7 +675,7 @@
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

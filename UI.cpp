@@ -117,10 +117,18 @@ void UI::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
 		ImageRect tmp_rect = canvas_render->image->GetImageRect();
 		int count = buffer->vertices.size()/4;
 
-		for (int i = 0; i < 12; i+=3)
+		for (int i = 0; i < 4; i++)
 		{
-			ver1.position = float3(tmp_rect.vertices[i], tmp_rect.vertices[i+1], 0);
-			ver1.tex_coords = float2(0.0f, 0.0f);
+			ver1.position = float3(tmp_rect.vertices[i*3+0], tmp_rect.vertices[i*3+1], 0);
+
+			if(i==0)
+			ver1.tex_coords = canvas_render->image->GetUV0();
+			else if (i == 1)
+				ver1.tex_coords = float2(canvas_render->image->GetUV0().x, canvas_render->image->GetUV1().y);
+			else if (i == 2)
+				ver1.tex_coords = canvas_render->image->GetUV1();
+			else if (i == 3)
+				ver1.tex_coords = float2(canvas_render->image->GetUV1().x, canvas_render->image->GetUV0().y);
 			buffer->vertices.push_back(ver1);
 		}
 		

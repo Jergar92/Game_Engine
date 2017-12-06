@@ -86,12 +86,12 @@ void ComponentImage::InspectorUpdate()
 		if (image != nullptr)
 		{
 			
-				ImGui::Image((GLuint*)image->GetID(), ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&image->GetRGBA());
+				ImGui::Image((GLuint*)image->GetID(), ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y), *(ImVec4*)&image->GetRGBA());
 
 				if (ImGui::IsItemHovered())
 				{
 					ImGui::BeginTooltip();
-					ImGui::Image((GLuint*)image->GetID(), ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(0, 1), ImVec2(1, 0), *(ImVec4*)&image->GetRGBA());
+					ImGui::Image((GLuint*)image->GetID(), ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y), *(ImVec4*)&image->GetRGBA());
 					ImGui::EndTooltip();
 				}
 
@@ -101,7 +101,9 @@ void ComponentImage::InspectorUpdate()
 				ImGui::PushItemWidth(200);
 				ImGui::Text("Image RGBA");
 				ImGui::ColorEdit4("##image_rgba", image->GetRGBA().ptr());
-			
+				ImGui::DragFloat2("UV0##uv_0", &uv0.x, 0.01f);
+				ImGui::DragFloat2("UV1##uv_1", &uv1.x, 0.01f);
+
 		}
 		if (ImGui::Button("Select Texture"))
 		{
@@ -158,6 +160,14 @@ const ResourceTexture * ComponentImage::GetImage() const
 	return image;
 }
 
+float2 ComponentImage::GetUV0() const
+{
+	return uv0;
+}
+float2 ComponentImage::GetUV1() const
+{
+	return uv1;
+}
 ImageRect::ImageRect(int pos_x, int pos_y, int width, int height) :pos_x(pos_x), pos_y(pos_y), width(width), height(height)
 {
 	SetUpVertices();
