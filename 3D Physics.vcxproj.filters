@@ -432,7 +432,9 @@
     <ClInclude Include="ComponentImage.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h" />
+    <ClInclude Include="UI.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -669,7 +671,9 @@
     <ClCompile Include="ComponentImage.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UI.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib-1.5\src\Math\Matrix.inl">

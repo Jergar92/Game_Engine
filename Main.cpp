@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "Application.h"
+#include "UI.h"
 #include "Globals.h"
 #include "p2Defs.h"
 #include "imgui\imgui.h"
@@ -20,6 +21,7 @@ enum main_states
 };
 
 Application* App = NULL;
+UI* Canvas = NULL;
 
 int main(int argc, char ** argv)
 {
@@ -37,7 +39,7 @@ int main(int argc, char ** argv)
 
 			LOG("-------------- Application Creation --------------");
 			App = new Application();
-
+			Canvas = new UI();
 			state = MAIN_START;
 			break;
 
@@ -101,6 +103,7 @@ int main(int argc, char ** argv)
 	}
 
 	RELEASE(App);
+	RELEASE(Canvas);
 
 	LOG("Exiting game bye...\n");
 	return main_return;

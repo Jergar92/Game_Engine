@@ -4,7 +4,7 @@
 #include "ModuleCamera.h"
 #include "ComponentCamera.h"
 #include "ComponentMeshRenderer.h"
-#include "ComponentCanvasRenderer.h"
+#include "UI.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
@@ -342,13 +342,33 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	}
 
 	*/
-
-	DrawCanvas();
 	if (lighting)glDisable(GL_LIGHTING);
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_CLAMP);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(-100, 100, -100, 100);
+	Canvas->Render();
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_CLAMP);
 	ImGui::Render();
+
+	glLoadIdentity();
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix());
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(camera->GetViewMatrix());
+
 	if (lighting)glEnable(GL_LIGHTING);
 
-	SDL_GL_SwapWindow(App->window->window);	
+	SDL_GL_SwapWindow(App->window->window);
 
 	return UPDATE_CONTINUE;
 }
@@ -485,11 +505,6 @@ void ModuleRenderer3D::AddMeshToRender(ComponentMeshRenderer * add)
 
 }
 
-void ModuleRenderer3D::AddCanvasToRender(ComponentCanvasRenderer * add)
-{
-	go_canvas.push_back(add);
-
-}
 
 ComponentCamera * ModuleRenderer3D::GetCamera() const
 {
@@ -556,14 +571,4 @@ void ModuleRenderer3D::DrawGameObject()
 	go_mesh.clear();
 }
 
-void ModuleRenderer3D::DrawCanvas()
-{
-	if (go_canvas.empty())
-		return;
-	for (std::vector<ComponentCanvasRenderer*>::iterator it = go_canvas.begin(); it < go_canvas.end(); it++)
-	{
-		(*it)->Draw();
-	}
-	go_canvas.clear();
 
-}

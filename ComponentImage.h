@@ -2,9 +2,9 @@
 #include "Globals.h"
 #include "Component.h"
 //TODO change for rectTransform
-struct Quad
+struct ImageRect
 {
-	Quad(int pos_x = 0, int pos_y =0, int width=10, int height= 10);
+	ImageRect(int pos_x = 0, int pos_y =0, int width=10, int height= 10);
 	int pos_x = 0;
 	int pos_y = 0;
 	int width = 100;
@@ -22,13 +22,13 @@ public:
 	void Update(float dt);
 
 	void InspectorUpdate();
-	const Quad GetImageRect()const;
+	const ImageRect GetImageRect()const;
 	const ResourceTexture* GetImage()const;
 	bool SaveComponent(JSONConfig & config) const;
 	bool LoadComponent(const JSONConfig & config);
 
 private:
-	Quad image_rect;
+	ImageRect image_rect;
 	bool show_mesh_renderer_window = false;
 	ResourceTexture* image=nullptr;
 
