@@ -438,6 +438,7 @@
     <ClInclude Include="UI.h">
       <Filter>Sources\Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="EventSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -676,6 +677,9 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Sources\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSystem.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
