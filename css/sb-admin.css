@@ -132,11 +132,11 @@ ul.alert-dropdown {
         width: 225px;
     }
 
-    .side-nav li a:hover,
-    .side-nav li a:focus {
-        outline: none;
-        background-color: #000 !important;
-    }
+        .side-nav li a:hover,
+        .side-nav li a:focus {
+            outline: none;
+            background-color: #011402 !important;
+        }
 }
 
 .side-nav>li>ul {
@@ -147,11 +147,11 @@ ul.alert-dropdown {
         display: block;
         padding: 10px 15px 10px 38px;
         text-decoration: none;
-        color: #095a0a;
+        color: #fff;
     }
 
         .side-nav > li > ul > li > a:hover {
-            color: #095a0a;
+            color: #fff;
         }
 
 /* Flot Chart Containers */
