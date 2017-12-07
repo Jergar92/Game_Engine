@@ -60,14 +60,14 @@ body {
     color: #999;
 }
 
-.top-nav>li>a:hover,
-.top-nav>li>a:focus,
-.top-nav>.open>a,
-.top-nav>.open>a:hover,
-.top-nav>.open>a:focus {
-    color: #fff;
-    background-color: #000d02;
-}
+    .top-nav > li > a:hover,
+    .top-nav > li > a:focus,
+    .top-nav > .open > a,
+    .top-nav > .open > a:hover,
+    .top-nav > .open > a:focus {
+        color: #fff;
+        background-color: #095a0a;
+    }
 
 .top-nav>.open>.dropdown-menu {
     float: left;
@@ -122,7 +122,7 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color: #144215;
+        background-color: #095a0a;
         bottom: 0;
         overflow-x: hidden;
         padding-bottom: 40px;
