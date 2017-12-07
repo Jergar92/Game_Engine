@@ -8,7 +8,7 @@
 
 body {
     margin-top: 100px;
-    background-color: #222;
+    background-color: #3c763d;
 }
 
 @media(min-width:768px) {
@@ -66,7 +66,7 @@ body {
 .top-nav>.open>a:hover,
 .top-nav>.open>a:focus {
     color: #fff;
-    background-color: #000;
+    background-color: #000d02;
 }
 
 .top-nav>.open>.dropdown-menu {
@@ -122,7 +122,7 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color: #222;
+        background-color: #3c763d;
         bottom: 0;
         overflow-x: hidden;
         padding-bottom: 40px;
