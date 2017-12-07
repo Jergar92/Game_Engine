@@ -143,16 +143,16 @@ ul.alert-dropdown {
     padding: 0;
 }
 
-.side-nav>li>ul>li>a {
-    display: block;
-    padding: 10px 15px 10px 38px;
-    text-decoration: none;
-    color: #999;
-}
+    .side-nav > li > ul > li > a {
+        display: block;
+        padding: 10px 15px 10px 38px;
+        text-decoration: none;
+        color: #095a0a;
+    }
 
-.side-nav>li>ul>li>a:hover {
-    color: #fff;
-}
+        .side-nav > li > ul > li > a:hover {
+            color: #095a0a;
+        }
 
 /* Flot Chart Containers */
 
