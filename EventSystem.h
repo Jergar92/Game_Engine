@@ -1,27 +1,37 @@
-#ifndef _EVENT_SYSTEM_H
-#define _EVENT_SYSTEM_H
+#pragma once
 #include <string>
 #include <functional>
 #include <map>
 // Function Pointers http://www.learncpp.com/cpp-tutorial/78-function-pointers/
 
-struct Event
+struct EventVoid
 {
-	Event(const char* name, void(*ptr_function)());
+	EventVoid();
+	//EventVoid(const EventVoid& copy);
+	EventVoid(std::string name);
+
+	EventVoid(std::string name, std::function<void()>);
+
+
+	~EventVoid();
+
 	std::string name;
+
 	std::function<void()> event_function;
 
 };
+
 //TODO add events with argurments
 class EventSystem
 {
 public:
+	
 	EventSystem();
 	~EventSystem();
-	void AddEvent(Event new_event);
+	void AddEvent(EventVoid new_event);
 	void CallEvent(const char* name);
 private:
-	std::map<std::string, Event> event_list;
+	std::map<std::string, EventVoid> event_list;
 };
 
-#endif //_EVENT_SYSTEM_H
+extern EventSystem* EventS;
