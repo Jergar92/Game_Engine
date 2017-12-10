@@ -15,6 +15,7 @@
 #include "p2Defs.h"
 #include <conio.h>
 #include <queue>
+#include "EventSystem.h"
 ModuleScene::ModuleScene(bool start_enabled)
 {
 	name = "Scene";
@@ -42,6 +43,12 @@ bool ModuleScene::Start()
 	App->editor_window->SetSceneGameObject(scene_go);
 	
 	GenerateQuadTree();
+
+
+	EventVoid clean;
+
+	clean.Create<ModuleScene>("clear", this, &ModuleScene::EventTry);
+	EventS->AddEvent(clean);
 	return ret;
 }
 

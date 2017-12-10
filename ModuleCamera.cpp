@@ -25,12 +25,7 @@ ModuleCamera::~ModuleCamera()
 bool ModuleCamera::Start()
 {
 	bool ret = true;
-	EventVoid clean;
 
-	clean.Create<ModuleScene>("clear",App->scene,&ModuleScene::EventTry);
-	//EventVoid clean("clean", App->scene->CleanGO);
-	
-	EventS->AddEvent(clean);
 	return ret;
 }
 

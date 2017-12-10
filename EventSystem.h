@@ -19,8 +19,6 @@ struct EventVoid
 		SetName(name);
 		Create([object = class_obj, memFunc = ptr_function]()
 		{
-			//std::bind( memFunc, object);
-
 			(object->*(memFunc))();//<--send this to Create(void(*ptr_function)());
 		});
 
@@ -51,13 +49,14 @@ public:
 	}
 
 	void CallEvent(std::string name)
-	{
-		
-		std::map<std::string, EventVoid> ::iterator it = event_list.find(name);
-
-		if (it != event_list.end())
+	{		
+		std::map<std::string, EventVoid>::const_iterator it = event_list.begin();
+		for (; it != event_list.end(); it++)
 		{
-			it->second.event_function();
+			if (strcmp(name.c_str(), it->first.c_str()) == 0)
+			{
+				it->second.event_function();
+			}
 		}
 	}
 
