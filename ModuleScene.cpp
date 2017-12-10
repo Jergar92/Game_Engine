@@ -142,7 +142,10 @@ void ModuleScene::SendGameObject(GameObject * go)
 {
 	go->SetParent(scene_go);
 }
-
+void ModuleScene::EventTry()
+{
+	LOG("Event Active");
+}
 void ModuleScene::SaveScene(const char*path)const 
 {
 	JSONConfig config;

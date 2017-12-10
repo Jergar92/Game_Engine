@@ -25,8 +25,10 @@ ModuleCamera::~ModuleCamera()
 bool ModuleCamera::Start()
 {
 	bool ret = true;
-	//EventVoid clean(App->scene->CleanGO);
-	EventVoid clean("clean", App->scene->CleanGO);
+	EventVoid clean;
+
+	clean.Create<ModuleScene>("clear",App->scene,&ModuleScene::EventTry);
+	//EventVoid clean("clean", App->scene->CleanGO);
 	
 	EventS->AddEvent(clean);
 	return ret;
@@ -44,7 +46,7 @@ update_status ModuleCamera::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		EventS->CallEvent("clean");
+		EventS->CallEvent("clear");
 	}
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{

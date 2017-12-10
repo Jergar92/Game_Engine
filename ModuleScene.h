@@ -24,6 +24,7 @@ public:
 
 	GameObject* GenerateGameObject(GameObject* parent = nullptr);
 	GameObject* GetScene() const;
+	void EventTry();
 
 	void SendGameObject(GameObject* go);
 	void SaveScene(const char* path)const;
@@ -50,3 +51,4 @@ private:
 	GameObject* scene_go = nullptr;
 
 };
+
