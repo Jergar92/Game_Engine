@@ -22,27 +22,8 @@ void EventSystem::CallEvent(const char * name)
 
 	if (it != event_list.end())
 	{
-		it->second.event_function();
+		it->second.event_function;
 	}
 }
 
-EventVoid::EventVoid()
-{
-}
-EventVoid::EventVoid(std::string name):name(name)
-{
-}
-/*
-EventVoid::EventVoid(const EventVoid & copy)
-{
-	name = copy.name;
-	event_function = copy.event_function;
-}
-*/
-EventVoid::EventVoid(std::string  name, std::function<void()> ptr_function) :name(name), event_function(ptr_function)
-{
-}
 
-EventVoid::~EventVoid()
-{
-}
