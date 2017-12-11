@@ -12,6 +12,7 @@
 #include "ResourceMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
+#include "ComponentCanvas.h"
 #include "ComponentCanvasRenderer.h"
 #include "ComponentImage.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
@@ -431,6 +432,9 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 	case CAMERA:
 		item = new ComponentCamera(this);
+		break;
+	case CANVAS:
+		item = new ComponentCanvas(this);
 		break;
 	case CANVAS_RENDER:
 		item = new ComponentCanvasRenderer(this);

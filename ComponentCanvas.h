@@ -5,7 +5,7 @@
 
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
-
+#include "Component.h"
 struct CanvasVertex;
 
 struct CanvasBuffer
@@ -37,11 +37,12 @@ class ComponentCanvasRenderer;
 struct SDL_Window;
 typedef int GLint;
 
-class UI
+class ComponentCanvas:public Component
 {
 public:
-	UI();
-	~UI();
+	ComponentCanvas(GameObject* my_go);
+	~ComponentCanvas();
+	void Update(float dt);
 	void Render();
 	void SetUpCanvasSize(SDL_Window* window);
 	void SetUpCanvas();
@@ -59,4 +60,3 @@ private:
 
 };
 
-extern UI* Canvas;

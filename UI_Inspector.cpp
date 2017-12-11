@@ -12,6 +12,7 @@ UI_Inspector::UI_Inspector(ModuleEditorWindows* my_editor) :UI_Windows(my_editor
 	names[MESH] = "Mesh";
 	names[MESH_RENDER] = "Mesh Render";
 	names[CAMERA] = "Camera";
+	names[CANVAS] = "Canvas";
 	names[CANVAS_IMAGE] = "Image";
 
 }

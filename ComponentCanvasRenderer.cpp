@@ -1,13 +1,16 @@
 #include "ComponentCanvasRenderer.h"
+#include "ComponentCanvas.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentImage.h"
-#include "UI.h"
+#include "Application.h"
+#include "ModuleRenderer3D.h"
 ComponentCanvasRenderer::ComponentCanvasRenderer(GameObject * my_go) :Component(my_go)
 {
 	component_name = "Canvas Renderer";
 	type = CANVAS_RENDER;
-
+	canvas=FindMyCanvas();
 }
 
 ComponentCanvasRenderer::~ComponentCanvasRenderer()
@@ -16,15 +19,10 @@ ComponentCanvasRenderer::~ComponentCanvasRenderer()
 
 void ComponentCanvasRenderer::Update(float dt)
 {
-	Canvas->AddCanvasRender(this);
+	canvas->AddCanvasRender(this);
 }
 
-void ComponentCanvasRenderer::Draw()
-{
 
-	
-
-}
 
 
 void ComponentCanvasRenderer::CleanUp()
@@ -44,7 +42,6 @@ void ComponentCanvasRenderer::GetComponent(Component * item)
 
 void ComponentCanvasRenderer::ProcessImage()
 {
-	std::vector<CanvasVertex> vertices;
 
 	
 }
@@ -53,4 +50,23 @@ void ComponentCanvasRenderer::SetUpCanvas()
 {
 
 
+}
+
+ComponentCanvas * ComponentCanvasRenderer::FindMyCanvas()
+{
+	ComponentCanvas * ret = nullptr;
+	ret = ((ComponentCanvas*)my_go->FindComponent(ComponentType::CANVAS));
+	if (ret == nullptr)
+	{
+		GameObject* item = nullptr;
+		item = my_go->GetPartent();
+		while (item != nullptr)
+		{
+			ret = ((ComponentCanvas*)my_go->FindComponent(ComponentType::CANVAS));
+			if (ret != nullptr)
+				break;
+			item = item->GetPartent();
+		}
+	}
+	return ret;
 }

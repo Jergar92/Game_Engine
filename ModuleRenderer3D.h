@@ -10,6 +10,7 @@
 #define MAX_LIGHTS 8
 class ComponentCamera;
 class ComponentMeshRenderer;
+class ComponentCanvas;
 class ModuleRenderer3D : public Module
 {
 public:
@@ -28,12 +29,15 @@ public:
 	bool CleanUp();
 	void OnResize(int width, int height);
 	void AddMeshToRender(ComponentMeshRenderer* add);
+	void AddCanvasToRender(ComponentCanvas* add);
 
 	ComponentCamera* GetCamera()const;
 	void SetCamera(ComponentCamera* cam);
 private:
 	void RenderOptions();
 	void DrawGameObject();
+	void DrawCanvas();
+
 public:
 
 	Light lights[MAX_LIGHTS];
@@ -45,6 +49,8 @@ private:
 	ImVec4 background_color = ImColor(114, 144, 154);
 
 	std::vector<ComponentMeshRenderer*> go_mesh;
+	std::vector<ComponentCanvas*> go_canvas;
+
 	bool depth_test = true;
 	float depth = 1.0f;
 

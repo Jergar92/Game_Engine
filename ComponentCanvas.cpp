@@ -1,4 +1,6 @@
-#include "UI.h"
+#include "Application.h"
+#include "ModuleRenderer3D.h"
+#include "ComponentCanvas.h"
 #include "ComponentCanvasRenderer.h"
 #include "ComponentImage.h"
 #include "ResourceTexture.h"
@@ -9,16 +11,26 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #define INDICES_NUM 4
-UI::UI()
+ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 {
+	component_name = "Canvas";
+	type = CANVAS;
+
+
 }
 
 
-UI::~UI()
+ComponentCanvas::~ComponentCanvas()
 {
 }
 
-void UI::Render()
+void ComponentCanvas::Update(float dt)
+{
+	App->renderer3D->AddCanvasToRender(this);
+
+}
+
+void ComponentCanvas::Render()
 {
 	SetUpRender();
 	SetUpCanvas();
@@ -66,7 +78,7 @@ void UI::Render()
 	
 }
 
-void UI::SetUpCanvasSize(SDL_Window *window)
+void ComponentCanvas::SetUpCanvasSize(SDL_Window *window)
 {
 	int w, h;
 	int display_w, display_h;
@@ -76,7 +88,7 @@ void UI::SetUpCanvasSize(SDL_Window *window)
 	canvas_data.draw_size = float2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 }
 
-void UI::SetUpCanvas()
+void ComponentCanvas::SetUpCanvas()
 {
 
 	std::map<uint, CanvasBuffer*>::const_iterator it = canvas_buffer.begin();
@@ -101,7 +113,7 @@ void UI::SetUpCanvas()
 	
 }
 
-void UI::SetUpRender()
+void ComponentCanvas::SetUpRender()
 {
 
 	glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
@@ -131,7 +143,7 @@ void UI::SetUpRender()
 	glLoadIdentity();
 }
 
-void UI::ResetRender()
+void ComponentCanvas::ResetRender()
 {
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_CLAMP);
@@ -152,7 +164,7 @@ void UI::ResetRender()
 	glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
 }
 
-void UI::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
+void ComponentCanvas::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
 {
 	uint texture_id = (canvas_render->image->GetImage()!=nullptr)? canvas_render->image->GetImage()->GetID():0;
 	std::map<uint, CanvasBuffer*>::iterator it = canvas_buffer.find(texture_id);

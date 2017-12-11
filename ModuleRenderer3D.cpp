@@ -4,7 +4,7 @@
 #include "ModuleCamera.h"
 #include "ComponentCamera.h"
 #include "ComponentMeshRenderer.h"
-#include "UI.h"
+#include "ComponentCanvas.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
@@ -260,9 +260,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	if (lighting)glDisable(GL_LIGHTING);
 
+	DrawCanvas();
 
-	Canvas->SetUpCanvasSize(App->window->window);
-	Canvas->Render();
 	glLoadIdentity();
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix());
@@ -411,6 +410,12 @@ void ModuleRenderer3D::AddMeshToRender(ComponentMeshRenderer * add)
 
 }
 
+void ModuleRenderer3D::AddCanvasToRender(ComponentCanvas * add)
+{
+	go_canvas.push_back(add);
+
+}
+
 
 ComponentCamera * ModuleRenderer3D::GetCamera() const
 {
@@ -475,6 +480,18 @@ void ModuleRenderer3D::DrawGameObject()
 		(*it)->Draw();
 	}
 	go_mesh.clear();
+}
+
+void ModuleRenderer3D::DrawCanvas()
+{
+	if (go_canvas.empty())
+		return;
+	for (std::vector<ComponentCanvas*>::iterator it = go_canvas.begin(); it < go_canvas.end(); it++)
+	{
+		(*it)->SetUpCanvasSize(App->window->window);
+		(*it)->Render();
+	}
+	go_canvas.clear();
 }
 
 

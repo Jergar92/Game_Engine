@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include "Application.h"
-#include "UI.h"
 #include "EventSystem.h"
 #include "Globals.h"
 #include "p2Defs.h"
@@ -22,7 +21,6 @@ enum main_states
 };
 
 Application* App = NULL;
-UI* Canvas = NULL;
 EventSystem* EventS = NULL;
 int main(int argc, char ** argv)
 {
@@ -40,7 +38,6 @@ int main(int argc, char ** argv)
 
 			LOG("-------------- Application Creation --------------");
 			App = new Application();
-			Canvas = new UI();
 			EventS = new EventSystem();
 			state = MAIN_START;
 			break;
@@ -105,7 +102,6 @@ int main(int argc, char ** argv)
 	}
 
 	RELEASE(App);
-	RELEASE(Canvas);
 
 	LOG("Exiting game bye...\n");
 	return main_return;

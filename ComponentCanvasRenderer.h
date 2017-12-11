@@ -7,6 +7,7 @@
 
 class ComponentImage;
 class Component;
+class ComponentCanvas;
 class ComponentCanvasRenderer :public Component
 {
 public:
@@ -14,16 +15,15 @@ public:
 	~ComponentCanvasRenderer();
 
 	void Update(float dt);
-
-	void Draw();
-
 	void CleanUp();
 	void GetComponent(Component* item);
 	void ProcessImage();
 	void SetUpCanvas();
+	ComponentCanvas* FindMyCanvas();
 	ComponentImage* image;
 
 private:
+	ComponentCanvas* canvas = nullptr;
 
 };
 
