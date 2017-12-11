@@ -15,7 +15,8 @@ enum ComponentType
 	TRANSFORM,
 	CANVAS,
 	CANVAS_RENDER,
-	CANVAS_IMAGE
+	CANVAS_IMAGE,
+	CANVAS_BUTTON
 };
 class Component
 {

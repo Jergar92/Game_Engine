@@ -441,6 +441,9 @@
     <ClInclude Include="ComponentImage.h">
       <Filter>Sources\Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentButton.h">
+      <Filter>Sources\Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -681,6 +684,9 @@
       <Filter>Sources\Canvas</Filter>
     </ClCompile>
     <ClCompile Include="ComponentImage.cpp">
+      <Filter>Sources\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentButton.cpp">
       <Filter>Sources\Canvas</Filter>
     </ClCompile>
   </ItemGroup>

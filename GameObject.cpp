@@ -15,6 +15,7 @@
 #include "ComponentCanvas.h"
 #include "ComponentCanvasRenderer.h"
 #include "ComponentImage.h"
+#include "ComponentButton.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
 #define MAX_NAME 20
@@ -451,6 +452,8 @@ Component * GameObject::CreateComponent(ComponentType type)
 		item = new ComponentImage(this);
 		((ComponentCanvasRenderer*)canvas_render)->GetComponent(item);
 	}
+	case CANVAS_BUTTON:
+		item = new ComponentButton(this);
 		break;
 	default:
 		break;

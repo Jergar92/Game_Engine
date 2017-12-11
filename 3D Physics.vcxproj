@@ -85,6 +85,7 @@
     <ClInclude Include="Assimp\include\scene.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentButton.h" />
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ComponentCanvasRenderer.h" />
     <ClInclude Include="ComponentImage.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentButton.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ComponentCanvasRenderer.cpp" />
     <ClCompile Include="ComponentImage.cpp" />

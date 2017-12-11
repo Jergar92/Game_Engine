@@ -14,7 +14,7 @@ UI_Inspector::UI_Inspector(ModuleEditorWindows* my_editor) :UI_Windows(my_editor
 	names[CAMERA] = "Camera";
 	names[CANVAS] = "Canvas";
 	names[CANVAS_IMAGE] = "Image";
-
+	names[CANVAS_BUTTON] = "Button";
 }
 
 
