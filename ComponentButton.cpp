@@ -1,13 +1,13 @@
 #include "ComponentButton.h"
 #include "Application.h"
 #include "ModuleInput.h"
-
+#include "GameObject.h"
 
 ComponentButton::ComponentButton(GameObject* my_go) : Component(my_go)
 {
 	component_name = "Button";
 	type = CANVAS_BUTTON;
-	texture = nullptr; //WIP
+	texture = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);	// = nullptr; //WIP
 }
 
 ComponentButton::~ComponentButton()

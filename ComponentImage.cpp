@@ -68,6 +68,7 @@ bool ComponentImage::LoadComponent(const JSONConfig & config)
 
 void ComponentImage::InspectorUpdate()
 {
+	//TODO BUTTON
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
 	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
 	if (ImGui::BeginPopupContextItem("go_options"))

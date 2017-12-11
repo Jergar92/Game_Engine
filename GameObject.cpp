@@ -451,6 +451,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 		}
 		item = new ComponentImage(this);
 		((ComponentCanvasRenderer*)canvas_render)->GetComponent(item);
+		break;
 	}
 	case CANVAS_BUTTON:
 		item = new ComponentButton(this);
