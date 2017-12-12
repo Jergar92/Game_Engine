@@ -689,7 +689,15 @@ float4x4 GameObject::GetTransposedMatrix()const
 
 float4x4 GameObject::GetGlobalMatrix() const
 {
-	return my_transform->GetGlobalMatrix();
+	if (type == GO_ELEMENT)
+	{
+		return my_transform->GetGlobalMatrix();
+	}
+	else if (type == GO_CANVAS)
+	{
+		return my_ui_transform->GetGlobalMatrix();
+	}
+	
 }
 
 GameObject * GameObject::GetPartent() const
