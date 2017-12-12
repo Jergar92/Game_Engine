@@ -7,8 +7,9 @@ class GameObject;
 
 enum ComponentType
 {
+	RECT_TRANSFORM = -2,
 	TRANSFORM = -1,
-	NO_COMPONENT,
+	NO_COMPONENT = 0,
 	MESH,
 	MESH_RENDER,
 	CAMERA,

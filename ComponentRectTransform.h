@@ -5,18 +5,18 @@
 #include "MathGeoLib-1.5\src\Math\Quat.h"
 #include "MathGeoLib-1.5\src\Math\float4x4.h"
 
-class ComponentTransform :public Component
+class ComponentRectTransform :public Component
 {
 public:
-	ComponentTransform(GameObject* my_go, float3 scale = float3::one, Quat rotation = Quat::identity, float3 position = float3::zero);
-	~ComponentTransform();
+	ComponentRectTransform(GameObject* my_go, float3 scale = float3::one, Quat rotation = Quat::identity, float3 position = float3::zero);
+	~ComponentRectTransform();
 	void SetTransform(float3 scale, Quat rotation, float3 position);
 	void GuiUpdate();
 	void InspectorUpdate();
 
 	//Update Matrix
 	void UpdateMatrix();
-	
+
 	float4x4 GetInverseMatrix() const;
 	float4x4 GetTransposedMatrix() const;
 	float4x4 GetGlobalMatrix() const;
@@ -44,13 +44,5 @@ private:
 	//globals transforms
 	float4x4 global_transform_matrix = float4x4::identity;
 	float4x4 global_transform_matrix_transposed = float4x4::identity;
-
-	//2D Transforms
-	float width = 0.0f;
-	float height = 0.0f;
-
-	//pivot
-	float2 pivot{ 0.5f,0.5f };
-
 
 };

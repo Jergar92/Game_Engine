@@ -10,6 +10,7 @@
 #include "Component.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
+#include "ComponentRectTransform.h"
 #include "ResourceMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
@@ -20,21 +21,21 @@
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
 #define MAX_NAME 20
-GameObject::GameObject(float3 scale, Quat rotation, float3 position) :name("Game Object")
+GameObject::GameObject(GameObjectType type ,float3 scale, Quat rotation, float3 position) :name("Game Object"),type(type)
 {
 	UID = App->GenerateRandom();
-	my_transform=(ComponentTransform*)CreateComponent(ComponentType::TRANSFORM);
-	my_transform->SetTransform(scale, rotation, position);
+	CreateTransform(scale, rotation, position);
+	
 	input_name = name;
 	UpdateMatrix();
 
 }
 
-GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation, float3 position) :name("Game Object") 
+GameObject::GameObject(GameObject * parent, GameObjectType type , float3 scale, Quat rotation, float3 position) :name("Game Object"), type(type)
 {
 	UID = App->GenerateRandom();
-	my_transform = (ComponentTransform*)CreateComponent(ComponentType::TRANSFORM);
-	my_transform->SetTransform(scale, rotation, position);
+	CreateTransform(scale, rotation, position);
+
 	SetParent(parent);
 	input_name = name;
 
@@ -284,6 +285,23 @@ void GameObject::OpenStaticQuestion()
 	}
 }
 
+void GameObject::CreateTransform(float3 scale, Quat rotation, float3 position)
+{
+	if (type == GO_ELEMENT)
+	{
+		my_transform = (ComponentTransform*)CreateComponent(ComponentType::TRANSFORM);
+		my_transform->SetTransform(scale, rotation, position);
+	}
+	else
+	{
+		my_ui_transform = (ComponentRectTransform*)CreateComponent(ComponentType::RECT_TRANSFORM);
+		my_ui_transform->SetTransform(scale, rotation, position);
+	}
+}
+
+
+
+
 void GameObject::SetStatic(bool set)
 {
 	static_go = set;
@@ -414,6 +432,20 @@ Component * GameObject::CreateComponent(ComponentType type)
 		item = new ComponentTransform(this);
 
 		break;
+	case RECT_TRANSFORM:
+		
+		item = new ComponentRectTransform(this);
+		if (this->type == GO_ELEMENT)
+		{
+			my_transform->DeleteComponent();
+			RELEASE(components[0]);
+			components.at(0) = item;
+			this->type = GO_CANVAS;
+			return item;
+
+		}
+
+		break;
 	case MESH:
 		
 		item = new ComponentMesh(this);
@@ -433,13 +465,19 @@ Component * GameObject::CreateComponent(ComponentType type)
 		item = new ComponentCamera(this);
 		break;
 	case CANVAS:
+		if (this->type == GO_ELEMENT)
+		{
+			CreateComponent(RECT_TRANSFORM);
+		}
 		item = new ComponentCanvas(this);
 		break;
 	case CANVAS_RENDER:
+		
 		item = new ComponentCanvasRenderer(this);
 		break;
 	case CANVAS_IMAGE:
 	{
+
 		Component* canvas_render = nullptr;
 
 		if (!HaveComponent(CANVAS_RENDER))

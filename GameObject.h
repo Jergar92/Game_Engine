@@ -10,6 +10,7 @@
 #include "JSONConfig.h"
 class Component;
 class ComponentTransform;
+class ComponentRectTransform;
 enum GameObjectType
 {
 	GO_ELEMENT,
@@ -19,8 +20,8 @@ enum ComponentType;
 class GameObject
 {
 public:
-	GameObject(float3 = float3::one, Quat = Quat::identity, float3 = float3::zero);
-	GameObject(GameObject* parent, float3 = float3::one,Quat = Quat::identity, float3 = float3::zero);
+	GameObject(GameObjectType type = GO_ELEMENT,float3 = float3::one, Quat = Quat::identity, float3 = float3::zero);
+	GameObject(GameObject* parent, GameObjectType type = GO_ELEMENT, float3 = float3::one,Quat = Quat::identity, float3 = float3::zero);
 
 	~GameObject();
 	void CleanUp();
@@ -32,7 +33,7 @@ public:
 	void GuiUpdate();
 	void InspectorUpdate();
 	void OpenStaticQuestion();	
-
+	void CreateTransform(float3 scale, Quat rotation, float3  position);
 	//Functionality
 	void GenerateBoudingBox();
 	void RenderBoundingBoxAABB();
@@ -115,7 +116,8 @@ private:
 	
 	bool to_delete = false;
 
-	ComponentTransform* my_transform;
+	ComponentTransform* my_transform = nullptr;
+	ComponentRectTransform* my_ui_transform = nullptr;
 	GameObject* parent=nullptr;
 };
 

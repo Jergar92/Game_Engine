@@ -447,6 +447,7 @@
     <ClInclude Include="ComponentTransform.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentRectTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -695,6 +696,7 @@
     <ClCompile Include="ComponentTransform.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentRectTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib-1.5\src\Math\Matrix.inl">
