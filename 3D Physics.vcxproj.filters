@@ -444,6 +444,9 @@
     <ClInclude Include="ComponentButton.h">
       <Filter>Sources\Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -688,6 +691,9 @@
     </ClCompile>
     <ClCompile Include="ComponentButton.cpp">
       <Filter>Sources\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

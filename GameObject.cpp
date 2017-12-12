@@ -9,6 +9,7 @@
 #include "ModuleEditorWindows.h"
 #include "Component.h"
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
 #include "ResourceMesh.h"
 #include "ComponentMeshRenderer.h"
 #include "ComponentCamera.h"
@@ -19,20 +20,24 @@
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
 #define MAX_NAME 20
-GameObject::GameObject(float3 scale, Quat rotation, float3 position) :name("Game Object"),scale(scale), rotation(rotation), position(position)
+GameObject::GameObject(float3 scale, Quat rotation, float3 position) :name("Game Object")
 {
 	UID = App->GenerateRandom();
+	my_transform=(ComponentTransform*)CreateComponent(ComponentType::TRANSFORM);
+	my_transform->SetTransform(scale, rotation, position);
 	input_name = name;
-	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
 	UpdateMatrix();
 
 }
 
-GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation, float3 position) :name("Game Object"),scale(scale), rotation(rotation), position(position)
+GameObject::GameObject(GameObject * parent, float3 scale, Quat rotation, float3 position) :name("Game Object") 
 {
 	UID = App->GenerateRandom();
+	my_transform = (ComponentTransform*)CreateComponent(ComponentType::TRANSFORM);
+	my_transform->SetTransform(scale, rotation, position);
 	SetParent(parent);
-	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
+	input_name = name;
+
 	UpdateMatrix();
 
 }
@@ -214,23 +219,9 @@ void GameObject::InspectorUpdate()
 	}
 	if (gui_static)
 		OpenStaticQuestion();
-	//Start draw Elements 
-	bool node_open = ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen);
-	if (node_open)
-	{
-		rotation.ToEulerXYX();
-		if (ImGui::DragFloat3("Position##transform_position", &position.x, 0.1f))
-			SetPosition(position);
-		float3 tmp = gui_rotation;
-		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 0.1f))
-			SetRotation(tmp);
-		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 0.01f))
-			SetScale(scale);
-		ImGui::TreePop();
-	}
 
 	ImGui::Checkbox("Bounding Box ##show_bb", &show_bounding_box);
-
+	//Start draw Elements 
 	for (uint i = 0; i < components.size(); i++)
 	{
 		ImGui::Separator();
@@ -351,17 +342,22 @@ void GameObject::LoadGameObject(const JSONConfig & data)
 
 
 	SetName(data.GetString("Name"));
-	position = data.GetFloat3("Translation");
-	rotation = data.GetQuaternion("Rotation");
-	scale = data.GetFloat3("Scale");
-	UpdateMatrix();
+
 
 	uint size = data.GetArraySize("Components");
 	for (uint i = 0; i < size; i++)
 	{
 		JSONConfig config_item = data.SetFocusArray("Components", i);
-		Component*item = CreateComponent((ComponentType)config_item.GetInt("Type"));
-		item->LoadComponent(config_item);
+		if (config_item.GetInt("Type") == -1)
+		{
+			my_transform->LoadComponent(config_item);
+		}
+		else
+		{
+			Component*item = CreateComponent((ComponentType)config_item.GetInt("Type"));
+			item->LoadComponent(config_item);
+		}
+	
 	}
 	//Create and Set all components
 }
@@ -372,9 +368,6 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 	config.SetInt(UID, "UID");
 	config.SetInt(parent_UID, "ParentUID");
 	config.SetString(name, "Name");
-	config.SetFloat3(position, "Translation");
-	config.SetQuaternion(rotation, "Rotation");
-	config.SetFloat3(scale, "Scale");
 
 	//Set ARRAY components
 	config.OpenArray("Components");
@@ -416,6 +409,11 @@ Component * GameObject::CreateComponent(ComponentType type)
 	}
 	switch (type)
 	{
+	case TRANSFORM:
+
+		item = new ComponentTransform(this);
+
+		break;
 	case MESH:
 		
 		item = new ComponentMesh(this);
@@ -607,58 +605,27 @@ uint GameObject::GetParentUID() const
 	return parent_UID;
 
 }
+
 void GameObject::SetTransform(float3 set_scale, Quat set_rotation, float3 set_position)
 {
-	scale = set_scale;
 
-
-	rotation = set_rotation;
-	gui_rotation = rotation.ToEulerXYZ() * RADTODEG;
-
-	position = set_position;
-
-	UpdateMatrix();
-
+	my_transform->SetTransform(set_scale, set_rotation, set_position);
 
 }
+
 void GameObject::UpdateMatrix()
 {
-	transform_matrix = float4x4::FromTRS(position, rotation, scale);
-	if (parent != nullptr)
-	{
-		global_transform_matrix = parent->global_transform_matrix * transform_matrix;
-	}
-	else
-	{
-		global_transform_matrix = transform_matrix;
-	}
-
-	global_transform_matrix_transposed = global_transform_matrix.Transposed();
-
-	global_bounding_box_OBB = indentity_bounding_box_AABB.Transform(global_transform_matrix);
-	
-	global_bounding_box_AABB = indentity_bounding_box_AABB;
-	global_bounding_box_AABB.TransformAsAABB(global_transform_matrix);
-	is_bounding_box_transformed = true;
-	
-	for (uint i = 0; i < components.size(); i++)
-	{
-		components[i]->OnUpdateMatrix(global_transform_matrix);
-	}
-	for (uint i = 0; i < childs.size(); i++)
-	{
-		childs[i]->UpdateMatrix();
-	}
+	my_transform->UpdateMatrix();
 }
 
 float4x4 GameObject::GetTransposedMatrix()const
 {
-	return global_transform_matrix_transposed;
+	return my_transform->GetTransposedMatrix();
 }
 
 float4x4 GameObject::GetGlobalMatrix() const
 {
-	return global_transform_matrix;
+	return my_transform->GetGlobalMatrix();
 }
 
 GameObject * GameObject::GetPartent() const
@@ -686,29 +653,6 @@ GameObjectType GameObject::GetType() const
 	return type;
 }
 
-void GameObject::SetScale(float3 scale)
-{
-	this->scale = scale;
-	UpdateMatrix();
-}
-
-void GameObject::SetRotation(float3 rotation_angles)
-{
-	float3 delta = (rotation_angles - gui_rotation) * DEGTORAD;
-	Quat rotate_rotation = Quat::FromEulerXYZ(delta.x, delta.y, delta.z);
-
-	rotation = rotation * rotate_rotation;
-	gui_rotation = rotation_angles;
-	UpdateMatrix();
-
-}
-
-void GameObject::SetPosition(float3 position)
-{
-	this->position = position;
-	UpdateMatrix();
-
-}
 
 void GameObject::GenerateBoudingBox()
 {

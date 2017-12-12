@@ -9,6 +9,7 @@
 #include "p2Defs.h"
 #include "JSONConfig.h"
 class Component;
+class ComponentTransform;
 enum GameObjectType
 {
 	GO_ELEMENT,
@@ -53,9 +54,7 @@ public:
 	bool RemoveGO(GameObject* to_remove);
 
 	//Setters
-	void SetScale(float3 scale);
-	void SetRotation(float3 rotation);
-	void SetPosition(float3 Position);
+
 	void SetStatic(bool set);
 	void SetParent(GameObject * parent);
 	void SetChild(GameObject * child);
@@ -93,10 +92,7 @@ public:
 
 
 
-	float3 scale=float3::one;
-	Quat rotation=Quat::identity;
-	float3 gui_rotation= float3::zero;
-	float3 position = float3::zero;
+
 
 	
 
@@ -109,20 +105,15 @@ private:
 	uint UID = 0;
 	uint parent_UID = 0;
 	GameObjectType type = GO_ELEMENT;
+	
 	//AABB bounding box
 	OBB global_bounding_box_OBB;
 	AABB global_bounding_box_AABB;
 	AABB indentity_bounding_box_AABB;
 	
-	//local transform matrix
-	float4x4 transform_matrix = float4x4::identity;
-	
-	//globals transforms
-	float4x4 global_transform_matrix = float4x4::identity;
-	float4x4 global_transform_matrix_transposed = float4x4::identity;
-
 	bool to_delete = false;
 
+	ComponentTransform* my_transform;
 	GameObject* parent=nullptr;
 };
 

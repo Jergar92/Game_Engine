@@ -261,7 +261,7 @@ void ModuleCamera::Rotate(float dx, float dy)
 
 void ModuleCamera::Focus(GameObject* Clicked)
 {
-	LookAt(Clicked->position);
+	//LookAt(Clicked->position);
 }
 
 // -----------------------------------------------------------------

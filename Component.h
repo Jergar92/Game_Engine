@@ -7,12 +7,11 @@ class GameObject;
 
 enum ComponentType
 {
-
+	TRANSFORM = -1,
 	NO_COMPONENT,
 	MESH,
 	MESH_RENDER,
 	CAMERA,
-	TRANSFORM,
 	CANVAS,
 	CANVAS_RENDER,
 	CANVAS_IMAGE,
