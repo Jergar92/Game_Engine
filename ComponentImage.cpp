@@ -161,6 +161,11 @@ const ResourceTexture * ComponentImage::GetImage() const
 	return image;
 }
 
+uint ComponentImage::GetImageID() const
+{
+	return (image!=nullptr)?image->GetID():-1;
+}
+
 float2 ComponentImage::GetUV0() const
 {
 	return uv0;

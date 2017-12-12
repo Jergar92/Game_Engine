@@ -27,6 +27,8 @@ public:
 	void InspectorUpdate();
 	const ImageRect GetImageRect()const;
 	const ResourceTexture* GetImage()const;
+	uint GetImageID()const;
+
 	float2 GetUV0()const;
 	float2 GetUV1()const;
 

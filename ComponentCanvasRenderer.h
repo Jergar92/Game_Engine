@@ -8,6 +8,26 @@
 class ComponentImage;
 class Component;
 class ComponentCanvas;
+struct CanvasVertex;
+
+struct CanvasBuffer
+{
+	CanvasBuffer();
+	std::vector<CanvasVertex> vertices;
+
+	uint indices[6] = { 0,1,2,2,3,0 };
+
+	uint VBO = 0;
+	uint EBO = 0;
+
+};
+
+struct CanvasVertex
+{
+	float3 position;
+	//float3 normals;
+	float2 tex_coords;
+};
 class ComponentCanvasRenderer :public Component
 {
 public:
@@ -17,10 +37,16 @@ public:
 	void Update(float dt);
 	void CleanUp();
 	void GetComponent(Component* item);
+	uint GetImageID()const;
+	uint GetVBO()const;
+	uint GetEBO()const;
 	void ProcessImage();
 	void SetUpCanvas();
+	void UpdateVertex();
+
 	ComponentCanvas* FindMyCanvas();
 	ComponentImage* image;
+	CanvasBuffer buffer;
 
 private:
 	ComponentCanvas* canvas = nullptr;

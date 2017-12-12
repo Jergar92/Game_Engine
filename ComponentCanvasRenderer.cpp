@@ -35,20 +35,67 @@ void ComponentCanvasRenderer::GetComponent(Component * item)
 	{
 	case CANVAS_IMAGE:
 		image = (ComponentImage*)item;
+		ProcessImage();
+		break;
 	default:
 		break;
 	}
 }
 
-void ComponentCanvasRenderer::ProcessImage()
+uint ComponentCanvasRenderer::GetVBO() const
 {
+	return buffer.VBO;
+}
 
-	
+uint ComponentCanvasRenderer::GetEBO() const
+{
+	return buffer.EBO;
+}
+
+uint ComponentCanvasRenderer::GetImageID()const
+{
+	return (image!=nullptr)?image->GetImageID():-1;
+}
+
+void ComponentCanvasRenderer::ProcessImage()
+{	
+	//UV Setup
+	//0,1-------1,1
+	//|	1     /	2|
+	//|		/	 |
+	//|	0 /		3|
+	//0,0-------1,0
+
+	UpdateVertex();
+
+	CanvasVertex ver;
+		ver.tex_coords = image->GetUV0();
+		ver.tex_coords = float2(image->GetUV0().x, image->GetUV1().y);
+		ver.tex_coords = image->GetUV1();
+		ver.tex_coords = float2(image->GetUV1().x, image->GetUV0().y);
+
+		SetUpCanvas();
 }
 
 void ComponentCanvasRenderer::SetUpCanvas()
 {
+	//
+	glBindBuffer(GL_ARRAY_BUFFER, buffer.VBO);
+	glBufferData(GL_ARRAY_BUFFER, buffer.vertices.size() * sizeof(CanvasVertex), &buffer.vertices[0], GL_STATIC_DRAW);
 
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(uint), &buffer.indices[0], GL_STATIC_DRAW);
+	//set bind buffer glBindBuffer to 0
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+
+	//set bind buffer glBindBuffer to 0
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void ComponentCanvasRenderer::UpdateVertex()
+{
 
 }
 

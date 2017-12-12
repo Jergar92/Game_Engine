@@ -1,31 +1,12 @@
 #pragma once
 #include "Globals.h"
-#include <map>
-#include <vector>
+#include <list>
 
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
 #include "Component.h"
-struct CanvasVertex;
 
-struct CanvasBuffer
-{
-	CanvasBuffer();
-	std::vector<CanvasVertex> vertices;
-	std::vector<uint> indices;
 
-	uint VBO=0;
-	uint EBO=0;
-
-	uint texture_id = 0;
-};
-
-struct CanvasVertex
-{
-	float3 position;
-	//float3 normals;
-	float2 tex_coords;
-};
 struct CanvasData
 {
 	//w = x...h=y
@@ -50,7 +31,8 @@ public:
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
 private:
-	std::map<uint, CanvasBuffer*> canvas_buffer;
+
+	std::list<ComponentCanvasRenderer*> canvas_render;
 	CanvasData canvas_data;
 
 	GLint last_texture;
