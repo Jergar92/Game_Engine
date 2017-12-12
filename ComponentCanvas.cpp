@@ -34,7 +34,6 @@ void ComponentCanvas::Update(float dt)
 void ComponentCanvas::Render()
 {
 	SetUpRender();
-	SetUpCanvas();
 	std::list<ComponentCanvasRenderer*>::iterator it = canvas_render.begin();
 	for (; it != canvas_render.end(); it++)
 	{
@@ -71,7 +70,7 @@ void ComponentCanvas::Render()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glPopMatrix();
 	}
-	
+	canvas_render.clear();
 	ResetRender();
 	/*
 	glDisable(GL_BLEND);
@@ -90,12 +89,7 @@ void ComponentCanvas::SetUpCanvasSize(SDL_Window *window)
 	canvas_data.draw_size = float2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 }
 
-void ComponentCanvas::SetUpCanvas()
-{
 
-	
-	
-}
 
 void ComponentCanvas::SetUpRender()
 {

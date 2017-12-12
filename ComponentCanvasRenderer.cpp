@@ -25,7 +25,6 @@ ComponentCanvasRenderer::~ComponentCanvasRenderer()
 void ComponentCanvasRenderer::Update(float dt)
 {
 	canvas->AddCanvasRender(this);
-	
 }
 
 

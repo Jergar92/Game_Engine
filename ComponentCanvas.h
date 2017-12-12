@@ -26,7 +26,6 @@ public:
 	void Update(float dt);
 	void Render();
 	void SetUpCanvasSize(SDL_Window* window);
-	void SetUpCanvas();
 	void SetUpRender();
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
