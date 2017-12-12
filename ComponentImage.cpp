@@ -66,6 +66,12 @@ bool ComponentImage::LoadComponent(const JSONConfig & config)
 	return true;
 }
 
+void ComponentImage::Set_uv(float2 uv0, float2 uv1)
+{
+	this->uv0 = uv0;
+	this->uv1 = uv1;
+}
+
 void ComponentImage::InspectorUpdate()
 {
 	//TODO BUTTON

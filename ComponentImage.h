@@ -35,6 +35,7 @@ public:
 	bool SaveComponent(JSONConfig & config) const;
 	bool LoadComponent(const JSONConfig & config);
 
+	void Set_uv(float2 uv0, float2 uv1);
 
 private:
 	float2 uv0 = float2::zero;

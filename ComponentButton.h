@@ -2,6 +2,7 @@
 #ifndef __COMPONENT_BUTTON__
 #define __COMPONENT_BUTTON__
 #include "Component.h"
+#include "MathGeoLib-1.5\src\Math\float2.h"
 class ComponentImage;
 
 struct Vector2f {
@@ -10,9 +11,10 @@ struct Vector2f {
 	float y;
 };
 struct State {
-
-	Vector2f uv0;
-	Vector2f uv1;
+	
+	float2 uv0;
+	float2 uv1;
+	void SetCoords(float2 uv0, float2 uv1);
 };
 enum ButtonState{IDLE,OVER,CLICKED};
 
@@ -24,13 +26,16 @@ public:
 	ComponentButton(GameObject* my_go);
 	~ComponentButton();
 
-	void Update();
+	void Update(float dt);
+
+	void InspectorUpdate();
+	void SetState(ButtonState status);
 
 private:
 
 	ComponentImage* texture = nullptr;
 	State idle, over, pressed;
-	ButtonState status = IDLE;
+	ButtonState status;
 };
 
 
