@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "GameObject.h"
 #include "ComponentCanvas.h"
 #include "ComponentCanvasRenderer.h"
 #include "ComponentImage.h"
@@ -34,9 +35,13 @@ void ComponentCanvas::Render()
 {
 	SetUpRender();
 	SetUpCanvas();
-	std::list<ComponentCanvasRenderer*>::const_iterator it = canvas_render.begin();
+	std::list<ComponentCanvasRenderer*>::iterator it = canvas_render.begin();
 	for (; it != canvas_render.end(); it++)
 	{
+		glPushMatrix();
+		glMultMatrixf((float*)&(*it)->my_go->GetTransposedMatrix());
+
+		(*it)->ProcessImage();
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -64,6 +69,7 @@ void ComponentCanvas::Render()
 		glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindTexture(GL_TEXTURE_2D, 0);
+		glPopMatrix();
 	}
 	
 	ResetRender();

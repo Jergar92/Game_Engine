@@ -42,7 +42,7 @@ public:
 	Quat rotation = Quat::identity;
 	float3 gui_rotation = float3::zero;
 	float3 position = float3::zero;
-
+	bool update = false;
 private:
 
 	float4x4 transform_matrix;
@@ -53,9 +53,9 @@ private:
 	float4x4 global_transform_matrix_transposed = float4x4::identity;
 
 	//2D Transforms
-	float width = 0.0f;
-	float height = 0.0f;
+	float width = 100.0f;
+	float height = 100.0f;
 
-	//pivot
+	//pivot init on center point on the item
 	float2 pivot{ 0.5f,0.5f };
 };

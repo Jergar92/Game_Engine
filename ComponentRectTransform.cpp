@@ -87,7 +87,6 @@ void ComponentRectTransform::UpdateMatrix()
 
 	global_transform_matrix_transposed = global_transform_matrix.Transposed();
 
-	my_go->UpdateBoundingBox();
 
 	for (uint i = 0; i < my_go->components.size(); i++)
 	{
@@ -111,23 +110,26 @@ float4x4 ComponentRectTransform::GetGlobalMatrix() const
 
 float3 ComponentRectTransform::GetSouthWest() const
 {
-	 
-	return float3(0,0,0);
+	//negative x, negative y  
+	return float3(position.x - width * pivot.x, position.y - height * pivot.y,0);
 }
 
 float3 ComponentRectTransform::GetNorthWest() const
 {
-	return float3(0,1,0);
+	//negative x, positive y
+	return float3(position.x - width * pivot.x, position.y + height * pivot.y,0);
 }
 
 float3 ComponentRectTransform::GetSouthEast() const
 {
-	return float3(1,1,0);
+	//positive x, positive y
+	return float3(position.x + width * pivot.x, position.y - height * pivot.y,0);
 }
 
 float3 ComponentRectTransform::GetNorthEeast() const
 {
-	return float3(1,0,0);
+	//positive x, negative y
+	return float3(position.x + width * pivot.x, position.y + height * pivot.y,0);
 }
 
 float4x4 ComponentRectTransform::GetInverseMatrix()const
@@ -159,19 +161,21 @@ void ComponentRectTransform::SetPosition(float3 Position)
 
 }
 
-void ComponentRectTransform::SetWidth(float width)
+void ComponentRectTransform::SetWidth(float set_width)
 {
 
+	width = set_width;
 
 }
 
 
 
-void ComponentRectTransform::SetHeight(float height)
+void ComponentRectTransform::SetHeight(float set_height)
 {
 
-
+	height = set_height;
 }
+
 
 
 bool ComponentRectTransform::SaveComponent(JSONConfig & config) const

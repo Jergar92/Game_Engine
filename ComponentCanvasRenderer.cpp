@@ -1,6 +1,7 @@
 #include "ComponentCanvasRenderer.h"
 #include "ComponentCanvas.h"
 
+#include "ComponentRectTransform.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentImage.h"
@@ -11,6 +12,10 @@ ComponentCanvasRenderer::ComponentCanvasRenderer(GameObject * my_go) :Component(
 	component_name = "Canvas Renderer";
 	type = CANVAS_RENDER;
 	canvas=FindMyCanvas();
+
+	glGenBuffers(1, &buffer.VBO);
+	glGenBuffers(1, &buffer.EBO);
+
 }
 
 ComponentCanvasRenderer::~ComponentCanvasRenderer()
@@ -20,6 +25,7 @@ ComponentCanvasRenderer::~ComponentCanvasRenderer()
 void ComponentCanvasRenderer::Update(float dt)
 {
 	canvas->AddCanvasRender(this);
+	
 }
 
 
@@ -65,14 +71,24 @@ void ComponentCanvasRenderer::ProcessImage()
 	//|		/	 |
 	//|	0 /		3|
 	//0,0-------1,0
-
+	buffer.vertices.clear();
 	UpdateVertex();
 
-	CanvasVertex ver;
+		CanvasVertex ver;
+		ver.position = my_go->GetRectTransform()->GetSouthWest();
 		ver.tex_coords = image->GetUV0();
+		buffer.vertices.push_back(ver);
+		ver.position = my_go->GetRectTransform()->GetNorthWest();
 		ver.tex_coords = float2(image->GetUV0().x, image->GetUV1().y);
+		buffer.vertices.push_back(ver);
+
+		ver.position = my_go->GetRectTransform()->GetNorthEeast();
 		ver.tex_coords = image->GetUV1();
+		buffer.vertices.push_back(ver);
+
+		ver.position = my_go->GetRectTransform()->GetSouthEast();
 		ver.tex_coords = float2(image->GetUV1().x, image->GetUV0().y);
+		buffer.vertices.push_back(ver);
 
 		SetUpCanvas();
 }

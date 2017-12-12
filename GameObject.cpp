@@ -441,6 +441,8 @@ Component * GameObject::CreateComponent(ComponentType type)
 			RELEASE(components[0]);
 			components.at(0) = item;
 			this->type = GO_CANVAS;
+			my_transform = nullptr;
+			my_ui_transform = (ComponentRectTransform*)item;
 			return item;
 
 		}
@@ -633,6 +635,11 @@ void GameObject::Delete()
 	parent = nullptr;
 }
 
+const ComponentRectTransform* GameObject::GetRectTransform()const
+{
+	return my_ui_transform;
+}
+
 uint GameObject::GetUID() const
 {
 	return UID;
@@ -658,6 +665,7 @@ void GameObject::UpdateMatrix()
 
 void GameObject::UpdateBoundingBox()
 {
+
 	global_bounding_box_OBB = indentity_bounding_box_AABB.Transform(my_transform->GetGlobalMatrix());
 
 	global_bounding_box_AABB = indentity_bounding_box_AABB;
@@ -668,7 +676,15 @@ void GameObject::UpdateBoundingBox()
 
 float4x4 GameObject::GetTransposedMatrix()const
 {
-	return my_transform->GetTransposedMatrix();
+	if (type == GO_ELEMENT)
+	{
+		return my_transform->GetTransposedMatrix();
+	}
+	else if (type == GO_CANVAS)
+	{
+		return my_ui_transform->GetTransposedMatrix();
+	}
+	
 }
 
 float4x4 GameObject::GetGlobalMatrix() const
