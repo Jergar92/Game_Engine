@@ -18,6 +18,8 @@ public:
 	~ModuleRenderer3D();
 
 	bool Awake(const JSONConfig& data);
+	bool Start();
+
 	update_status PreUpdate(float dt);
 	void GuiConfigUpdate();
 	update_status GuiUpdate();
@@ -37,6 +39,7 @@ private:
 	void RenderOptions();
 	void DrawGameObject();
 	void DrawCanvas();
+	void ChangeVsync();
 
 public:
 

@@ -10,7 +10,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "imgui/imgui_impl_sdl.h"
-
+#include "EventSystem.h"
 
 
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -126,6 +126,14 @@ bool ModuleRenderer3D::Awake(const JSONConfig& data)
 	return ret;
 }
 
+bool ModuleRenderer3D::Start()
+{
+	EventVoid vsync_event;
+	vsync_event.Create<ModuleRenderer3D>("vsync", this, &ModuleRenderer3D::ChangeVsync);
+	EventS->AddEvent(vsync_event);
+	return false;
+}
+
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
@@ -161,7 +169,7 @@ void ModuleRenderer3D::GuiConfigUpdate()
 		static bool vsync_check = vsync != 0;
 		if (ImGui::Checkbox("Vsync", &vsync_check))
 		{
-			vsync = 1 - vsync;
+			ChangeVsync();
 		}
 		ImGui::PushItemWidth(150);
 
@@ -492,6 +500,15 @@ void ModuleRenderer3D::DrawCanvas()
 		(*it)->Render();
 	}
 	go_canvas.clear();
+}
+
+void ModuleRenderer3D::ChangeVsync()
+{
+	//https://en.wikipedia.org/wiki/Exclusive_or
+	vsync ^= 1;
+	//Use Vsync
+	if (SDL_GL_SetSwapInterval(vsync) < 0)
+		LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 }
 
 
