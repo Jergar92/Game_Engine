@@ -45,12 +45,4 @@ private:
 	float4x4 global_transform_matrix = float4x4::identity;
 	float4x4 global_transform_matrix_transposed = float4x4::identity;
 
-	//2D Transforms
-	float width = 0.0f;
-	float height = 0.0f;
-
-	//pivot
-	float2 pivot{ 0.5f,0.5f };
-
-
 };

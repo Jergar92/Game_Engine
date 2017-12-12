@@ -131,7 +131,7 @@ bool ModuleRenderer3D::Start()
 	EventVoid vsync_event;
 	vsync_event.Create<ModuleRenderer3D>("vsync", this, &ModuleRenderer3D::ChangeVsync);
 	EventS->AddEvent(vsync_event);
-	return false;
+	return true;
 }
 
 // PreUpdate: clear buffer

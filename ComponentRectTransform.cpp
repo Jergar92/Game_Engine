@@ -56,6 +56,17 @@ void ComponentRectTransform::InspectorUpdate()
 		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
 			SetScale(scale);
 
+		ImGui::PushItemWidth(120);
+		if (ImGui::DragFloat("w##transform_width", &width, 3))
+			SetWidth(width);
+
+		ImGui::SameLine();
+
+		if (ImGui::DragFloat("h##transform_height", &height, 3))
+			SetHeight(height);
+		
+		ImGui::PopItemWidth();
+
 		ImGui::TreePop();
 
 	}
@@ -98,6 +109,27 @@ float4x4 ComponentRectTransform::GetGlobalMatrix() const
 	return global_transform_matrix;
 }
 
+float3 ComponentRectTransform::GetSouthWest() const
+{
+	 
+	return float3(0,0,0);
+}
+
+float3 ComponentRectTransform::GetNorthWest() const
+{
+	return float3(0,1,0);
+}
+
+float3 ComponentRectTransform::GetSouthEast() const
+{
+	return float3(1,1,0);
+}
+
+float3 ComponentRectTransform::GetNorthEeast() const
+{
+	return float3(1,0,0);
+}
+
 float4x4 ComponentRectTransform::GetInverseMatrix()const
 {
 	return transform_matrix_transposed;
@@ -126,6 +158,21 @@ void ComponentRectTransform::SetPosition(float3 Position)
 	UpdateMatrix();
 
 }
+
+void ComponentRectTransform::SetWidth(float width)
+{
+
+
+}
+
+
+
+void ComponentRectTransform::SetHeight(float height)
+{
+
+
+}
+
 
 bool ComponentRectTransform::SaveComponent(JSONConfig & config) const
 {

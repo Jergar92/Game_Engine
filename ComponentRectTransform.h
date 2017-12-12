@@ -16,15 +16,22 @@ public:
 
 	//Update Matrix
 	void UpdateMatrix();
-
+	
+	//Getters
 	float4x4 GetInverseMatrix() const;
 	float4x4 GetTransposedMatrix() const;
 	float4x4 GetGlobalMatrix() const;
+	float3   GetSouthWest()const;
+	float3   GetNorthWest()const;
+	float3   GetSouthEast()const;
+	float3   GetNorthEeast()const;
 
 	//Setters
 	void SetScale(float3 scale);
 	void SetRotation(float3 rotation);
 	void SetPosition(float3 Position);
+	void SetWidth(float width);
+	void SetHeight(float height);
 
 	bool SaveComponent(JSONConfig & config) const;
 	bool LoadComponent(const JSONConfig & config);
@@ -45,4 +52,10 @@ private:
 	float4x4 global_transform_matrix = float4x4::identity;
 	float4x4 global_transform_matrix_transposed = float4x4::identity;
 
+	//2D Transforms
+	float width = 0.0f;
+	float height = 0.0f;
+
+	//pivot
+	float2 pivot{ 0.5f,0.5f };
 };
