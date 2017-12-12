@@ -78,6 +78,8 @@ public:
 	//UpdateMatrix
 	void UpdateMatrix();
 
+	void UpdateBoundingBox();
+
 	//Save&Load
 	void LoadGameObject(const JSONConfig& data);
 	void SaveGameObject(JSONConfig& data)const;

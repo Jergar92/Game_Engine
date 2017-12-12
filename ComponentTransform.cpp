@@ -76,6 +76,8 @@ void ComponentTransform::UpdateMatrix()
 
 	global_transform_matrix_transposed = global_transform_matrix.Transposed();
 
+	my_go->UpdateBoundingBox();
+
 	for (uint i = 0; i < my_go->components.size(); i++)
 	{
 		my_go->components[i]->OnUpdateMatrix(global_transform_matrix);

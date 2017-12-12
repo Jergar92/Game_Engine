@@ -618,6 +618,16 @@ void GameObject::UpdateMatrix()
 	my_transform->UpdateMatrix();
 }
 
+void GameObject::UpdateBoundingBox()
+{
+	global_bounding_box_OBB = indentity_bounding_box_AABB.Transform(my_transform->GetGlobalMatrix());
+
+	global_bounding_box_AABB = indentity_bounding_box_AABB;
+	global_bounding_box_AABB.TransformAsAABB(my_transform->GetGlobalMatrix());
+	is_bounding_box_transformed = true;
+	
+}
+
 float4x4 GameObject::GetTransposedMatrix()const
 {
 	return my_transform->GetTransposedMatrix();
