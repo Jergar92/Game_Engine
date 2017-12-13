@@ -35,23 +35,22 @@ struct EventVoid
 	std::function<void()> event_function;
 
 };
-template<typename TYPE>
-struct EventType
+struct EventFloat
 {
 
-	void Create(std::function<void(TYPE)>ptr_function)
+	void Create(std::function<bool(float,float)>ptr_function)
 	{
 
 		event_function = ptr_function;
 	}
 
 	template<typename C>
-	void Create(std::string name, C* class_obj, void(C::*ptr_function)(TYPE))
+	void Create(std::string name, C* class_obj, bool(C::*ptr_function)(float, float))
 	{
 		SetName(name);
-		Create([object = class_obj, memFunc = ptr_function](TYPE arg)
+		Create([object = class_obj, memFunc = ptr_function](float arg1, float arg2)
 		{
-			(object->*(memFunc))(arg);//<--send this to Create(void(*ptr_function)());
+			(object->*(memFunc))(arg1, arg2);//<--send this to Create(void(*ptr_function)());
 		});
 
 	}
@@ -64,7 +63,7 @@ struct EventType
 
 	std::string name;
 
-	std::function<void(TYPE)> event_function;
+	std::function<bool(float, float)> event_function;
 
 };
 //TODO add events with argurments
@@ -79,11 +78,10 @@ public:
 		event_list[new_event.name]=new_event;
 	}
 
-/*	template<typename TYPE>
-	void AddEvent(EventType<TYPE> new_event)
+	void AddEvent(EventFloat new_event)
 	{
-		event_type_list[new_event.name]= new_event;
-	}*/
+		event_float_list[new_event.name]= new_event;
+	}
 
 	void CallEvent(std::string name)
 	{		
@@ -96,24 +94,26 @@ public:
 			}
 		}
 	}
-/*	template<typename TYPE>
-	void CallEvent(std::string name, TYPE arg)
+	bool CallEvent(std::string name, float arg1, float arg2)
 	{
-		std::map<std::string, EventType<TYPE>>::const_iterator it = event_type_list.begin();
-		for (; it != event_type_list.end(); it++)
+		bool ret = false;
+		std::map<std::string, EventFloat>::const_iterator it = event_float_list.begin();
+		for (; it != event_float_list.end(); it++)
 		{
 			if (strcmp(name.c_str(), it->first.c_str()) == 0)
 			{
-				it->second.event_function(arg);
+				ret=it->second.event_function(arg1, arg2);
+				if (ret)
+					return ret;
 			}
 		}
-	}*/
+		return ret;
+	}
 private:
 	//TODO make one big list of events??¿¿
 	std::map<std::string, EventVoid > event_list;
 
-//	template<typename TYPE>
-//	std::map<std::string, EventType<TYPE> event_type_list;
+	std::map<std::string, EventFloat> event_float_list;
 
 };
 

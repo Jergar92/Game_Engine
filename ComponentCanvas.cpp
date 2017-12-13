@@ -116,7 +116,9 @@ void ComponentCanvas::SetUpRender()
 	glPushMatrix();
 	glLoadIdentity();
 	//GLORTHO??
-	gluOrtho2D(-100, 100, -100, 100);
+	glOrtho(0.0f, canvas_data.size.x, canvas_data.size.y, 0.0f, -1.0f, +1.0f);
+
+	//gluOrtho2D(-100, 100, -100, 100);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
