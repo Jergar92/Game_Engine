@@ -6,6 +6,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentImage.h"
 #include "ResourceTexture.h"
+#include "EventSystem.h"
 #include "SDL/include\SDL.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -15,8 +16,10 @@
 ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 {
 	component_name = "Canvas";
+	//EventFloat on_click;
+	//on_click.Create("OnClick", this, &ComponentCanvas::ClickEvent);
+	//EventS->AddEvent(on_click);
 	type = CANVAS;
-
 
 }
 
@@ -165,6 +168,15 @@ void ComponentCanvas::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
 	this->canvas_render.push_back(canvas_render);
 	//canvas_render->SetUpCanvas();
 	
+}
+
+bool ComponentCanvas::ClickEvent(float x, float y)
+{
+	for (int i = 0; i < images_list.size();i++)
+	{
+	  
+	}
+
 }
 
 CanvasBuffer::CanvasBuffer()

@@ -15,6 +15,7 @@ struct CanvasData
 
 };
 class ComponentCanvasRenderer;
+class ComponentImage;
 struct SDL_Window;
 typedef int GLint;
 
@@ -31,10 +32,13 @@ public:
 	void SetUpRender();
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
+	bool ClickEvent(float x,float y);
 	void DebugDraw();
 private:
 
 	std::list<ComponentCanvasRenderer*> canvas_render;
+	std::list<ComponentImage*> images_list;
+
 	CanvasData canvas_data;
 	bool on_ejecution = false;
 	GLint last_texture;
