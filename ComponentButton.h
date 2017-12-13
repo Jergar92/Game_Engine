@@ -4,17 +4,12 @@
 #include "Component.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
 class ComponentImage;
+class ResourceTexture;
 
-struct Vector2f {
-
-	float x;
-	float y;
-};
 struct State {
 	
 	float2 uv0;
 	float2 uv1;
-	void SetCoords(float2 uv0, float2 uv1);
 };
 enum ButtonState{IDLE,OVER,CLICKED};
 
@@ -29,13 +24,22 @@ public:
 	void Update(float dt);
 
 	void InspectorUpdate();
-	void SetState(ButtonState status);
-
+	void ShowInfo(ResourceTexture* texture);
 private:
 
 	ComponentImage* texture = nullptr;
-	State idle, over, pressed;
+	ResourceTexture* idle_texture = nullptr;
+	ResourceTexture* over_texture = nullptr; 
+	ResourceTexture* pressed_texture = nullptr;
+	ResourceTexture* click_texture = nullptr;
+	State over, click, pressed;
 	ButtonState status;
+
+	bool InspectorCheck(ResourceTexture** text);
+	bool over_window = false;
+	bool pressed_window = false;
+	bool click_window = false;
+
 };
 
 

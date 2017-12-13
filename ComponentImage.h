@@ -27,6 +27,7 @@ public:
 	void InspectorUpdate();
 	const ImageRect GetImageRect()const;
 	const ResourceTexture* GetImage()const;
+
 	uint GetImageID()const;
 
 	float2 GetUV0()const;
@@ -35,14 +36,14 @@ public:
 	bool SaveComponent(JSONConfig & config) const;
 	bool LoadComponent(const JSONConfig & config);
 
-	void Set_uv(float2 uv0, float2 uv1);
-
+	//void Set_uv(float2 uv0, float2 uv1);
+	ResourceTexture* image = nullptr;
 private:
 	float2 uv0 = float2::zero;
 	float2 uv1 = float2::one;
 	ImageRect image_rect;
 	bool show_mesh_renderer_window = false;
-	ResourceTexture* image=nullptr;
+	//ResourceTexture* image=nullptr;
 
 };
 

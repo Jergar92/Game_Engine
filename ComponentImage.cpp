@@ -66,11 +66,17 @@ bool ComponentImage::LoadComponent(const JSONConfig & config)
 	return true;
 }
 
-void ComponentImage::Set_uv(float2 uv0, float2 uv1)
+/*void ComponentImage::Set_uv(float2 uv0, float2 uv1)
 {
 	this->uv0 = uv0;
 	this->uv1 = uv1;
 }
+
+void ComponentImage::Set_pix(float2 pix0, float2 pix1)
+{
+	this->pix0 = pix0;
+	this->pix1 = pix1;
+}*/
 
 void ComponentImage::InspectorUpdate()
 {
@@ -129,6 +135,7 @@ void ComponentImage::InspectorUpdate()
 		{
 			Resource* new_resource = App->resource_manager->Get(UID);
 			bool update = true;
+
 			if (image != nullptr)
 			{
 
