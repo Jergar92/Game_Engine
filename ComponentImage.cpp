@@ -114,9 +114,9 @@ void ComponentImage::InspectorUpdate()
 				ImGui::PushItemWidth(200);
 				ImGui::Text("Image RGBA");
 				ImGui::ColorEdit4("##image_rgba", image->GetRGBA().ptr());
-				if (ImGui::DragFloat2("World_UV0##uv_0", &world_uv0.x, 0.01f))
+				if (ImGui::DragFloat2("World_UV0##uv_0", &world_uv0.x, 1.0f))
 					EqualizeUv();
-				if (ImGui::DragFloat2("World_UV1##uv_1", &world_uv1.x, 0.01f))
+				if (ImGui::DragFloat2("World_UV1##uv_1", &world_uv1.x, 1.0f))
 					EqualizeUv();
 				if (ImGui::DragFloat2("UV0##uv_0", &uv0.x, 0.01f))
 					EqualizeWorldUv();
@@ -154,18 +154,17 @@ void ComponentImage::InspectorUpdate()
 					image->UnLoadInMemory();
 					image = (ResourceTexture*)new_resource;
 
-					SetWorldUvValues();
 				}
 			}
 			else
 			{
 				image = (ResourceTexture*)new_resource;
-				SetWorldUvValues();
 
 			}
 			if (update)
 			{
 				image->LoadInMemory();
+				SetWorldUvValues();
 			}
 			show_mesh_renderer_window = false;
 			ImGui::CloseCurrentPopup();
@@ -185,10 +184,21 @@ const ResourceTexture * ComponentImage::GetImage() const
 
 void ComponentImage::EqualizeUv()
 {
+	uv0.x = world_uv0.x / image->GetWidth();
+	uv0.y = world_uv0.y / image->GetHeight();
+	uv1.x = world_uv1.x / image->GetWidth();
+	uv1.y = world_uv1.y / image->GetHeight();
+
+
+
 }
 
 void ComponentImage::EqualizeWorldUv()
 {
+	world_uv0.x =  uv0.x * image->GetWidth();
+	world_uv0.y =  uv0.y* image->GetHeight();
+	world_uv1.x = uv1.x* image->GetWidth();
+	world_uv1.y = uv1.y* image->GetHeight();
 }
 
 void ComponentImage::SetWorldUvValues()

@@ -167,8 +167,8 @@ int MaterialImporter::LoadTexture(ResourceTexture * r_text)
 
 
 		r_text->SetID(textureID);
-		r_text->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
-		r_text->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
+		r_text->SetWidth(ImageInfo.Width);
+		r_text->SetHeight(ImageInfo.Height);
 
 
 		LOG("Load Texture on path %s with no errors", r_text->GetLibraryFile().c_str());
