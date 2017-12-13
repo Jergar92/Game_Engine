@@ -676,7 +676,14 @@ void GameObject::SetTransform(float3 set_scale, Quat set_rotation, float3 set_po
 
 void GameObject::UpdateMatrix()
 {
-	my_transform->UpdateMatrix();
+	if (type == GO_ELEMENT)
+	{
+		my_transform->UpdateMatrix();
+	}
+	else if (type == GO_CANVAS)
+	{
+		my_ui_transform->UpdateMatrix();
+	}
 }
 
 void GameObject::UpdateBoundingBox()
