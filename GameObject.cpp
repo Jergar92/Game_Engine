@@ -21,7 +21,7 @@
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
 #define MAX_NAME 20
-GameObject::GameObject(GameObjectType type ,float3 scale, Quat rotation, float3 position) :name("Game Object"),type(type)
+GameObject::GameObject(GameObjectType type ,float3 scale, Quat rotation, float3 position) :name("Game Object"),type(type), parent(nullptr)
 {
 	UID = App->GenerateRandom();
 	CreateTransform(scale, rotation, position);
@@ -34,9 +34,10 @@ GameObject::GameObject(GameObjectType type ,float3 scale, Quat rotation, float3 
 GameObject::GameObject(GameObject * parent, GameObjectType type , float3 scale, Quat rotation, float3 position) :name("Game Object"), type(type)
 {
 	UID = App->GenerateRandom();
+	SetParent(parent);
+
 	CreateTransform(scale, rotation, position);
 
-	SetParent(parent);
 	input_name = name;
 
 	UpdateMatrix();
@@ -289,10 +290,20 @@ void GameObject::CreateTransform(float3 scale, Quat rotation, float3 position)
 {
 	if (type == GO_ELEMENT)
 	{
+		if (parent != nullptr)
+		{
+			if (parent->type == GO_CANVAS)
+			{
+				type = GO_CANVAS;
+				my_ui_transform = (ComponentRectTransform*)CreateComponent(ComponentType::RECT_TRANSFORM);
+				my_ui_transform->SetTransform(scale, rotation, position);
+				return;
+			}
+		}
 		my_transform = (ComponentTransform*)CreateComponent(ComponentType::TRANSFORM);
 		my_transform->SetTransform(scale, rotation, position);
 	}
-	else
+	else if (type == GO_CANVAS)
 	{
 		my_ui_transform = (ComponentRectTransform*)CreateComponent(ComponentType::RECT_TRANSFORM);
 		my_ui_transform->SetTransform(scale, rotation, position);
