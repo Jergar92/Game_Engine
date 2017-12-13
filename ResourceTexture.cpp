@@ -18,6 +18,16 @@ void ResourceTexture::SetID(uint set_id)
 	id = set_id;
 }
 
+void ResourceTexture::SetWidth(uint width)
+{
+	this->width = width;
+}
+
+void ResourceTexture::SetHeight(uint height)
+{
+	this->height = height;
+}
+
 void ResourceTexture::LoadInMemory()
 {
 	if (IsLoadInMemory())
@@ -128,6 +138,16 @@ float4 ResourceTexture::GetRGBA() const
 bool ResourceTexture::GetFlip() const
 {
 	return flip;
+}
+
+uint ResourceTexture::GetHeight() const
+{
+	return height;
+}
+
+uint ResourceTexture::GetWidth() const
+{
+	return width;
 }
 
 void ResourceTexture::SetRGBA(float4 rgba)

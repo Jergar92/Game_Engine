@@ -27,7 +27,9 @@ public:
 	void InspectorUpdate();
 	const ImageRect GetImageRect()const;
 	const ResourceTexture* GetImage()const;
-
+	void EqualizeUv();
+	void EqualizeWorldUv();
+	void SetWorldUvValues();
 	uint GetImageID()const;
 
 	float2 GetUV0()const;
@@ -39,6 +41,8 @@ public:
 	//void Set_uv(float2 uv0, float2 uv1);
 	ResourceTexture* image = nullptr;
 private:
+	float2 world_uv0 = float2::zero;
+	float2 world_uv1 = float2::one;
 	float2 uv0 = float2::zero;
 	float2 uv1 = float2::one;
 	ImageRect image_rect;
