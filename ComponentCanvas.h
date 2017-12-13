@@ -32,7 +32,7 @@ public:
 	void SetUpRender();
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
-	bool ClickEvent(float x,float y);
+	void ClickEvent(float x,float y);
 	void DebugDraw();
 private:
 

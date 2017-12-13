@@ -38,14 +38,14 @@ struct EventVoid
 struct EventFloat
 {
 
-	void Create(std::function<bool(float,float)>ptr_function)
+	void Create(std::function<void(float,float)>ptr_function)
 	{
 
 		event_function = ptr_function;
 	}
 
 	template<typename C>
-	void Create(std::string name, C* class_obj, bool(C::*ptr_function)(float, float))
+	void Create(std::string name, C* class_obj, void(C::*ptr_function)(float, float))
 	{
 		SetName(name);
 		Create([object = class_obj, memFunc = ptr_function](float arg1, float arg2)
@@ -63,7 +63,7 @@ struct EventFloat
 
 	std::string name;
 
-	std::function<bool(float, float)> event_function;
+	std::function<void(float, float)> event_function;
 
 };
 //TODO add events with argurments
@@ -94,20 +94,16 @@ public:
 			}
 		}
 	}
-	bool CallEvent(std::string name, float arg1, float arg2)
+	void CallEvent(std::string name, float arg1, float arg2)
 	{
-		bool ret = false;
 		std::map<std::string, EventFloat>::const_iterator it = event_float_list.begin();
 		for (; it != event_float_list.end(); it++)
 		{
 			if (strcmp(name.c_str(), it->first.c_str()) == 0)
 			{
-				ret=it->second.event_function(arg1, arg2);
-				if (ret)
-					return ret;
+				it->second.event_function(arg1, arg2);
 			}
 		}
-		return ret;
 	}
 private:
 	//TODO make one big list of events??¿¿

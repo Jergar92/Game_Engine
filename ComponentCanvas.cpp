@@ -16,9 +16,9 @@
 ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 {
 	component_name = "Canvas";
-	//EventFloat on_click;
-	//on_click.Create("OnClick", this, &ComponentCanvas::ClickEvent);
-	//EventS->AddEvent(on_click);
+	EventFloat on_click;
+	on_click.Create("OnClick", this, &ComponentCanvas::ClickEvent);
+	EventS->AddEvent(on_click);
 	type = CANVAS;
 
 }
@@ -170,7 +170,7 @@ void ComponentCanvas::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
 	
 }
 
-bool ComponentCanvas::ClickEvent(float x, float y)
+void ComponentCanvas::ClickEvent(float x, float y)
 {
 	for (int i = 0; i < images_list.size();i++)
 	{
