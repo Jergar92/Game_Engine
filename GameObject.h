@@ -52,6 +52,8 @@ public:
 	void ToDelete();
 	void Delete();
 	const ComponentRectTransform * GetRectTransform() const;
+	ComponentRectTransform * GetRectTransform();
+
 	bool RemoveComponent(ComponentType type, int component_position);
 	bool RemoveGO(GameObject* to_remove);
 

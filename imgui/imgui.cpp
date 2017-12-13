@@ -3131,7 +3131,7 @@ bool ImGui::IsMouseHoveringRect(const ImVec2& r_min, const ImVec2& r_max, bool c
 
     // Expand for touch input
     const ImRect rect_for_touch(rect_clipped.Min - g.Style.TouchExtraPadding, rect_clipped.Max + g.Style.TouchExtraPadding);
-    return rect_for_touch.Contains(g.IO.MousePos);
+    return rect_for_touch.Contains(g.IO.MousePos) && (GetStyle().Alpha > 0.5);
 }
 
 bool ImGui::IsAnyWindowHovered()

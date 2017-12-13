@@ -43,13 +43,16 @@ void ComponentRectTransform::InspectorUpdate()
 
 	if (node_open)
 	{
+		if (block)
+			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
+
 		rotation.ToEulerXYX();
 
 		if (ImGui::DragFloat3("Position##transform_position", &value.x, 1))
-		 SetPosition(value);
-		
+			SetPosition(value);
+
 		float3 tmp = gui_rotation;
-		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x,1))
+		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 1))
 			SetRotation(tmp);
 
 
@@ -64,11 +67,16 @@ void ComponentRectTransform::InspectorUpdate()
 
 		if (ImGui::DragFloat("h##transform_height", &height, 1))
 			SetHeight(height);
-		
 		ImGui::PopItemWidth();
 
+		if (block)
+			ImGui::PopStyleVar();
 		ImGui::TreePop();
 	}
+	
+	
+
+	
 }
 
 void ComponentRectTransform::UpdateMatrix()
@@ -139,6 +147,11 @@ float3 ComponentRectTransform::GetNorthEeast() const
 float4x4 ComponentRectTransform::GetInverseMatrix()const
 {
 	return transform_matrix_transposed;
+}
+
+void ComponentRectTransform::SetBlock(bool set_block)
+{
+	block = set_block;
 }
 
 void ComponentRectTransform::SetScale(float3 scale)

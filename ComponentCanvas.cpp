@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "ComponentCanvas.h"
 #include "ComponentCanvasRenderer.h"
+#include "ComponentRectTransform.h"
 #include "ComponentImage.h"
 #include "ResourceTexture.h"
 #include "SDL/include\SDL.h"
@@ -28,6 +29,9 @@ ComponentCanvas::~ComponentCanvas()
 void ComponentCanvas::Update(float dt)
 {
 	App->renderer3D->AddCanvasToRender(this);
+	my_go->GetRectTransform()->SetWidth(canvas_data.size.x);
+	my_go->GetRectTransform()->SetHeight(canvas_data.size.y);
+	my_go->GetRectTransform()->SetBlock(true);
 
 }
 

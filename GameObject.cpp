@@ -640,6 +640,11 @@ const ComponentRectTransform* GameObject::GetRectTransform()const
 	return my_ui_transform;
 }
 
+ComponentRectTransform * GameObject::GetRectTransform()
+{
+	return my_ui_transform;
+}
+
 uint GameObject::GetUID() const
 {
 	return UID;

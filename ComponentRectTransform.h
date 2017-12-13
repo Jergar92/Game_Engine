@@ -28,6 +28,8 @@ public:
 	float3   GetNorthEeast() const;
 
 	//Setters
+	void SetBlock(bool block);
+
 	void SetScale(float3 scale);
 	void SetRotation(float3 rotation);
 	void SetPosition(float3 Position);
@@ -45,7 +47,7 @@ public:
 	float3 position = float3::zero;
 	bool update = false;
 	float3 value = float3::zero;
-
+	bool block = false;
 private:
 
 	float4x4 transform_matrix;
