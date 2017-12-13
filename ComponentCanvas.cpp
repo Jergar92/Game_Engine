@@ -37,7 +37,7 @@ void ComponentCanvas::Update(float dt)
 
 void ComponentCanvas::Render()
 {
-	SetUpRender();
+	//SetUpRender();
 	std::list<ComponentCanvasRenderer*>::iterator it = canvas_render.begin();
 	for (; it != canvas_render.end(); it++)
 	{
@@ -75,7 +75,7 @@ void ComponentCanvas::Render()
 		glPopMatrix();
 	}
 	canvas_render.clear();
-	ResetRender();
+//	ResetRender();
 	/*
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_CLAMP);

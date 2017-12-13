@@ -24,7 +24,8 @@ ComponentCanvasRenderer::~ComponentCanvasRenderer()
 
 void ComponentCanvasRenderer::Update(float dt)
 {
-	canvas->AddCanvasRender(this);
+	if (canvas != nullptr)
+		canvas->AddCanvasRender(this);
 }
 
 
@@ -124,7 +125,7 @@ ComponentCanvas * ComponentCanvasRenderer::FindMyCanvas()
 		item = my_go->GetPartent();
 		while (item != nullptr)
 		{
-			ret = ((ComponentCanvas*)my_go->FindComponent(ComponentType::CANVAS));
+			ret = ((ComponentCanvas*)item->FindComponent(ComponentType::CANVAS));
 			if (ret != nullptr)
 				break;
 			item = item->GetPartent();

@@ -490,7 +490,10 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 	case CANVAS_IMAGE:
 	{
-
+		if (this->type == GO_ELEMENT)
+		{
+			CreateComponent(RECT_TRANSFORM);
+		}
 		Component* canvas_render = nullptr;
 
 		if (!HaveComponent(CANVAS_RENDER))
@@ -503,6 +506,10 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 	}
 	case CANVAS_BUTTON:
+		if (this->type == GO_ELEMENT)
+		{
+			CreateComponent(RECT_TRANSFORM);
+		}
 		item = new ComponentButton(this);
 		break;
 	default:
