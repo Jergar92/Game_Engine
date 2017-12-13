@@ -23,7 +23,9 @@ class ComponentCanvas:public Component
 public:
 	ComponentCanvas(GameObject* my_go);
 	~ComponentCanvas();
+	void OnPlay();
 	void Update(float dt);
+	void OnStop();
 	void Render();
 	void SetUpCanvasSize(SDL_Window* window);
 	void SetUpRender();
@@ -34,7 +36,7 @@ private:
 
 	std::list<ComponentCanvasRenderer*> canvas_render;
 	CanvasData canvas_data;
-
+	bool on_ejecution = false;
 	GLint last_texture;
 	GLint last_polygon_mode[2];
 	GLint last_scissor_box[4];

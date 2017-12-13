@@ -19,6 +19,9 @@ public:
 
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
+	void OnPlay();
+	void OnStop();
+
 	bool CleanUp();
 	void CleanGO();
 

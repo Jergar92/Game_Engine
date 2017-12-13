@@ -7,7 +7,6 @@
 #include "ComponentImage.h"
 #include "ResourceTexture.h"
 #include "SDL/include\SDL.h"
-
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
@@ -26,6 +25,11 @@ ComponentCanvas::~ComponentCanvas()
 {
 }
 
+void ComponentCanvas::OnPlay()
+{
+	on_ejecution = true;
+}
+
 void ComponentCanvas::Update(float dt)
 {
 	App->renderer3D->AddCanvasToRender(this);
@@ -36,9 +40,15 @@ void ComponentCanvas::Update(float dt)
 
 }
 
+void ComponentCanvas::OnStop()
+{
+	on_ejecution = false;
+}
+
 void ComponentCanvas::Render()
 {
-	//SetUpRender();
+	if (on_ejecution)
+		SetUpRender();
 	std::list<ComponentCanvasRenderer*>::iterator it = canvas_render.begin();
 	for (; it != canvas_render.end(); it++)
 	{
@@ -76,7 +86,8 @@ void ComponentCanvas::Render()
 		glPopMatrix();
 	}
 	canvas_render.clear();
-	//ResetRender();
+	if (on_ejecution)
+		ResetRender();
 	/*
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_CLAMP);

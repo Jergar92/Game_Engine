@@ -95,6 +95,12 @@ update_status ModuleScene::PostUpdate(float dt)
 	}
 	return UPDATE_CONTINUE;
 }
+void ModuleScene::OnPlay()
+{
+}
+void ModuleScene::OnStop()
+{
+}
 bool ModuleScene::CleanUp()
 {
 	bool ret = true;

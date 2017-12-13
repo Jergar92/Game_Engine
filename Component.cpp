@@ -17,6 +17,12 @@ void Component::Enable()
 	enable = true;
 
 }
+void Component::OnPlay()
+{
+}
+void Component::OnStop()
+{
+}
 void Component::CleanUp()
 {
 }

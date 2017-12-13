@@ -24,6 +24,9 @@ public:
 	Component(GameObject* my_go);
 	virtual ~Component();
 	virtual void Enable();
+	virtual void OnPlay();
+	virtual void OnStop();
+
 	virtual void CleanUp();
 	virtual void Update(float dt);
 	virtual void GuiUpdate();
