@@ -29,6 +29,7 @@ public:
 	void SetUpRender();
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
+	void DebugDraw();
 private:
 
 	std::list<ComponentCanvasRenderer*> canvas_render;

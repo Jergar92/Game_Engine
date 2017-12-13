@@ -32,6 +32,7 @@ void ComponentCanvas::Update(float dt)
 	my_go->GetRectTransform()->SetWidth(canvas_data.size.x);
 	my_go->GetRectTransform()->SetHeight(canvas_data.size.y);
 	my_go->GetRectTransform()->SetBlock(true);
+	DebugDraw();
 
 }
 
@@ -75,7 +76,7 @@ void ComponentCanvas::Render()
 		glPopMatrix();
 	}
 	canvas_render.clear();
-//	ResetRender();
+	//ResetRender();
 	/*
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_CLAMP);
@@ -157,4 +158,24 @@ void ComponentCanvas::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
 
 CanvasBuffer::CanvasBuffer()
 {
+}
+
+void ComponentCanvas::DebugDraw()
+{
+	glBegin(GL_LINES);
+	glLineWidth(1.0f);
+	glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
+	glVertex3f(my_go->GetRectTransform()->GetSouthWest().x, my_go->GetRectTransform()->GetSouthWest().y, my_go->GetRectTransform()->GetSouthWest().z);
+	glVertex3f(my_go->GetRectTransform()->GetNorthWest().x, my_go->GetRectTransform()->GetNorthWest().y, my_go->GetRectTransform()->GetNorthWest().z);
+	
+	glVertex3f(my_go->GetRectTransform()->GetNorthWest().x, my_go->GetRectTransform()->GetNorthWest().y, my_go->GetRectTransform()->GetNorthWest().z);
+	glVertex3f(my_go->GetRectTransform()->GetNorthEeast().x, my_go->GetRectTransform()->GetNorthEeast().y, my_go->GetRectTransform()->GetNorthEeast().z);
+
+	glVertex3f(my_go->GetRectTransform()->GetNorthEeast().x, my_go->GetRectTransform()->GetNorthEeast().y,my_go->GetRectTransform()->GetNorthEeast().z);
+	glVertex3f(my_go->GetRectTransform()->GetSouthEast().x, my_go->GetRectTransform()->GetSouthEast().y, my_go->GetRectTransform()->GetSouthEast().z);
+
+	glVertex3f(my_go->GetRectTransform()->GetSouthEast().x, my_go->GetRectTransform()->GetSouthEast().y, my_go->GetRectTransform()->GetSouthEast().z);
+	glVertex3f(my_go->GetRectTransform()->GetSouthWest().x, my_go->GetRectTransform()->GetSouthWest().y, my_go->GetRectTransform()->GetSouthWest().z);
+
+	glEnd();
 }

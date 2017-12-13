@@ -21,7 +21,7 @@ ComponentCamera::ComponentCamera(GameObject* my_go):Component(my_go)
 	type = CAMERA;
 
 	camera_frustrum.nearPlaneDistance = 0.2f;
-	camera_frustrum.farPlaneDistance = 200.0f;
+	camera_frustrum.farPlaneDistance = 10000.0f;
 
 	camera_frustrum.type = PerspectiveFrustum;
 	camera_frustrum.front = {0,0,1};
