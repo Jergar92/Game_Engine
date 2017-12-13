@@ -45,30 +45,29 @@ void ComponentRectTransform::InspectorUpdate()
 	{
 		rotation.ToEulerXYX();
 
-		if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
-			SetPosition(position);
-
+		if (ImGui::DragFloat3("Position##transform_position", &value.x, 1))
+		 SetPosition(value);
+		
 		float3 tmp = gui_rotation;
-		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
+		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x,1))
 			SetRotation(tmp);
 
 
-		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
+		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 1))
 			SetScale(scale);
 
 		ImGui::PushItemWidth(120);
-		if (ImGui::DragFloat("w##transform_width", &width, 3))
+		if (ImGui::DragFloat("w##transform_width", &width, 1))
 			SetWidth(width);
 
 		ImGui::SameLine();
 
-		if (ImGui::DragFloat("h##transform_height", &height, 3))
+		if (ImGui::DragFloat("h##transform_height", &height, 1))
 			SetHeight(height);
 		
 		ImGui::PopItemWidth();
 
 		ImGui::TreePop();
-
 	}
 }
 
@@ -106,6 +105,11 @@ float4x4 ComponentRectTransform::GetTransposedMatrix()const
 float4x4 ComponentRectTransform::GetGlobalMatrix() const
 {
 	return global_transform_matrix;
+}
+
+float ComponentRectTransform::Getdepth() const
+{
+	return depth;
 }
 
 float3 ComponentRectTransform::GetSouthWest() const
@@ -154,11 +158,12 @@ void ComponentRectTransform::SetRotation(float3 rotation_angles)
 
 }
 
-void ComponentRectTransform::SetPosition(float3 Position)
+void ComponentRectTransform::SetPosition(float3 position)
 {
+	value = { position.x,position.y, depth = position.z };
+	position.z = 0;
 	this->position = position;
 	UpdateMatrix();
-
 }
 
 void ComponentRectTransform::SetWidth(float set_width)

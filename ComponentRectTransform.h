@@ -21,10 +21,11 @@ public:
 	float4x4 GetInverseMatrix() const;
 	float4x4 GetTransposedMatrix() const;
 	float4x4 GetGlobalMatrix() const;
-	float3   GetSouthWest()const;
-	float3   GetNorthWest()const;
-	float3   GetSouthEast()const;
-	float3   GetNorthEeast()const;
+	float Getdepth()const;
+	float3   GetSouthWest() const;
+	float3   GetNorthWest() const;
+	float3   GetSouthEast() const;
+	float3   GetNorthEeast() const;
 
 	//Setters
 	void SetScale(float3 scale);
@@ -43,6 +44,8 @@ public:
 	float3 gui_rotation = float3::zero;
 	float3 position = float3::zero;
 	bool update = false;
+	float3 value = float3::zero;
+
 private:
 
 	float4x4 transform_matrix;
@@ -58,4 +61,7 @@ private:
 
 	//pivot init on center point on the item
 	float2 pivot{ 0.5f,0.5f };
+
+	//depth
+	float depth = 0;
 };
