@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleEditorWindows.h"
 #include "ModuleFileSystem.h"
+#include "EventSystem.h"
 UI_Play::UI_Play(ModuleEditorWindows* my_editor) :UI_Windows(my_editor)
 {
 }
@@ -36,6 +37,7 @@ bool UI_Play::Draw()
 
 		my_editor->WantToSave("play.json", App->file_system->GetPlayFolder());
 		state = ON_PLAY;
+		EventS->CallEvent("OnPlay");
 		App->OnPlay();
 
 	}
@@ -53,6 +55,7 @@ bool UI_Play::Draw()
 		state = ON_NONE;
 		value = 1.0f;
 		App->OnStop();
+		EventS->CallEvent("OnStop");
 
 	}
 	ImGui::SameLine();

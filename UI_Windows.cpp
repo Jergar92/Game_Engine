@@ -12,6 +12,8 @@ UI_Windows::~UI_Windows()
 	my_editor = nullptr;
 }
 
+
+
 bool UI_Windows::Draw()
 {
 	return true;

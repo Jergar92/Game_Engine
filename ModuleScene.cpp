@@ -45,10 +45,14 @@ bool ModuleScene::Start()
 	GenerateQuadTree();
 
 
-	EventVoid clean;
+	EventVoid play;
 
-	clean.Create<ModuleScene>("clear", this, &ModuleScene::EventTry);
-	EventS->AddEvent(clean);
+	play.Create<ModuleScene>("OnPlay", this, &ModuleScene::OnPlay);
+	EventS->AddEvent(play);
+
+	EventVoid stop;
+	play.Create<ModuleScene>("OnStop", this, &ModuleScene::OnStop);
+	EventS->AddEvent(stop);
 	return ret;
 }
 

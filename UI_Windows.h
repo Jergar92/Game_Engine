@@ -6,7 +6,6 @@ public:
 	UI_Windows(ModuleEditorWindows* my_editor);
 	virtual ~UI_Windows();
 
-
 	virtual bool Draw();
 	virtual void CleanUp();
 
