@@ -177,12 +177,26 @@ void ComponentButton::Idle()
 
 void ComponentButton::Hover()
 {
-	texture->ChangeImage(over_texture->GetID());
+	uint id = 0;
+	if (over_texture != nullptr)
+	{
+		id = over_texture->GetID();
+
+	}
+
+	texture->ChangeImage(id);
 }
 
 void ComponentButton::Down()
 {
-	texture->ChangeImage(click_texture->GetID());
+	uint id = 0;
+	if (click_texture != nullptr)
+	{
+		id = click_texture->GetID();
+
+	}
+
+	texture->ChangeImage(id);
 }
 
 bool ComponentButton::InspectorCheck(ResourceTexture** status)
