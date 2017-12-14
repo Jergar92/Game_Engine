@@ -1,4 +1,3 @@
-
 #ifndef __COMPONENT_BUTTON__
 #define __COMPONENT_BUTTON__
 #include "ComponentInteractive.h"

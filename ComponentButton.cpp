@@ -17,10 +17,6 @@ ComponentButton::ComponentButton(GameObject* my_go) : ComponentInteractive(my_go
 	canvas = FindMyCanvas();
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	texture = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
-	//if (texture != nullptr)
-	//{
-	//	idle_texture = texture->image;
-	//}
 
 };
 
@@ -33,21 +29,7 @@ ComponentButton::~ComponentButton()
 
 void ComponentButton::Update(float dt)
 {
-	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
-	//{
-	//	texture->image = over_texture;
-	//}
-	//if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
-	//{
-	//	texture->image = pressed_texture;
-	//}
-	//if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-	//{
-	//	texture->image = click_texture;
-	//}
-
 	ButtonFunctionality();
-
 }
 
 void ComponentButton::InspectorUpdate()
@@ -123,12 +105,9 @@ void ComponentButton::ShowInfo(ResourceTexture * texture)
 	if (texture != nullptr)
 	{
 
-		//ImGui::Image((GLuint*)texture->GetID(), ImVec2(TEXTURE_SIZE, TEXTURE_SIZE), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y), *(ImVec4*)&texture->GetRGBA());
-
 		if (ImGui::IsItemHovered())
 		{
 			ImGui::BeginTooltip();
-			//ImGui::Image((GLuint*)image->GetID(), ImVec2(TEXTURE_SIZE_HOVER, TEXTURE_SIZE_HOVER), ImVec2(uv0.x, uv0.y), ImVec2(uv1.x, uv1.y), *(ImVec4*)&image->GetRGBA());
 			ImGui::EndTooltip();
 		}
 
@@ -137,9 +116,6 @@ void ComponentButton::ShowInfo(ResourceTexture * texture)
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", over_texture->GetOrignalName().c_str());
 		ImGui::PushItemWidth(200);
 		ImGui::Text("Image RGBA");
-		//ImGui::ColorEdit4("##image_rgba", imaover_texture->GetRGBA().ptr());
-		//ImGui::DragFloat2("UV0##uv_0", &uv0.x, 0.01f);
-		//ImGui::DragFloat2("UV1##uv_1", &uv1.x, 0.01f);
 	}
 }
 

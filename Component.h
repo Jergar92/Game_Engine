@@ -17,7 +17,8 @@ enum ComponentType
 	CANVAS_RENDER,
 	CANVAS_TEXT,
 	CANVAS_IMAGE,
-	CANVAS_BUTTON
+	CANVAS_BUTTON,
+	CANVAS_CHECKBOX
 };
 class Component
 {

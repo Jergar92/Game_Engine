@@ -19,9 +19,11 @@
 #include "ComponentImage.h"
 #include "ComponentButton.h"
 #include "ComponentText.h"
+#include "ComponentCheckBox.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
 #define MAX_NAME 20
+
 GameObject::GameObject(GameObjectType type ,float3 scale, Quat rotation, float3 position) :name("Game Object"),type(type), parent(nullptr)
 {
 	UID = App->GenerateRandom();
@@ -529,6 +531,13 @@ Component * GameObject::CreateComponent(ComponentType type)
 			CreateComponent(RECT_TRANSFORM);
 		}
 		item = new ComponentButton(this);
+		break;
+	case CANVAS_CHECKBOX:
+		if (this->type == GO_ELEMENT)
+		{
+			CreateComponent(CANVAS_CHECKBOX);
+		}
+		item = new ComponentCheckBox(this);
 		break;
 	default:
 		break;
