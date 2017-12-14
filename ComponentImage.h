@@ -40,11 +40,17 @@ public:
 
 	//void Set_uv(float2 uv0, float2 uv1);
 	ResourceTexture* image = nullptr;
+
+	void ChangeImage(uint ID);
 private:
 	float2 world_uv0 = float2::zero;
 	float2 world_uv1 = float2::one;
 	float2 uv0 = float2::zero;
 	float2 uv1 = float2::one;
+
+	//tmp ID
+	uint tmp_id=0;
+
 	ImageRect image_rect;
 	bool show_mesh_renderer_window = false;
 	//ResourceTexture* image=nullptr;

@@ -5,20 +5,22 @@
 #include <gl/GLU.h>
 #include "imgui/imgui.h"
 #include "ComponentImage.h"
+#include "ComponentCanvas.h"
 #include "ModuleResourceManager.h"
 #include "ResourceTexture.h"
 #define TEXTURE_SIZE 64
 #define TEXTURE_SIZE_HOVER 128
-ComponentButton::ComponentButton(GameObject* my_go) : Component(my_go)
+ComponentButton::ComponentButton(GameObject* my_go) : ComponentInteractive(my_go)
 {
 	component_name = "Button";
 	type = CANVAS_BUTTON;
-
+	canvas = FindMyCanvas();
+	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	texture = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
-	if (texture != nullptr)
-	{
-		idle_texture = texture->image;
-	}
+	//if (texture != nullptr)
+	//{
+	//	idle_texture = texture->image;
+	//}
 
 };
 
@@ -26,23 +28,25 @@ ComponentButton::ComponentButton(GameObject* my_go) : Component(my_go)
 
 ComponentButton::~ComponentButton()
 {
-
+	
 }
 
 void ComponentButton::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
-	{
-		texture->image = over_texture;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
-	{
-		texture->image = pressed_texture;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
-	{
-		texture->image = click_texture;
-	}
+	//if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
+	//{
+	//	texture->image = over_texture;
+	//}
+	//if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
+	//{
+	//	texture->image = pressed_texture;
+	//}
+	//if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+	//{
+	//	texture->image = click_texture;
+	//}
+
+	ButtonFunctionality();
 
 }
 
@@ -65,20 +69,20 @@ void ComponentButton::InspectorUpdate()
 	if (node_open)
 	{
 		
-		ShowInfo(over_texture);
-		if (ImGui::Button("Select Texture##over_texture_texture"))
+		/*ShowInfo(OnHove);*/
+		if (ImGui::Button("Select Hover Texture##over_texture_texture"))
 		{
 			over_window = true;
 
 		}
-		ShowInfo(pressed_texture);
-		if (ImGui::Button("Select Texture##pressed_texture_texture"))
+		/*ShowInfo(pressed_texture);*/
+		if (ImGui::Button("Select Idle Texture##pressed_texture_texture"))
 		{
 			pressed_window = true;
 
 		}
-		ShowInfo(click_texture);
-		if (ImGui::Button("Select Texture##click_texture_texture"))
+		/*ShowInfo(click_texture);*/
+		if (ImGui::Button("Select Click Texture##click_texture_texture"))
 		{
 			click_window = true;
 		}
@@ -139,6 +143,48 @@ void ComponentButton::ShowInfo(ResourceTexture * texture)
 	}
 }
 
+void ComponentButton::ButtonFunctionality()
+{
+	canvas->UpdateInteractive();
+	if (last_state != states)
+	{
+		last_state = states;
+		switch (states)
+		{
+		case IDLE:
+			Idle();
+			break;
+
+		case HOVER:
+			Hover();
+			break;
+
+		case DOWN:
+			Down();
+			break;
+
+		default:
+			break;
+		}
+
+	}
+}
+
+void ComponentButton::Idle()
+{
+	texture->ChangeImage(0);
+}
+
+void ComponentButton::Hover()
+{
+	texture->ChangeImage(over_texture->GetID());
+}
+
+void ComponentButton::Down()
+{
+	texture->ChangeImage(click_texture->GetID());
+}
+
 bool ComponentButton::InspectorCheck(ResourceTexture** status)
 {
 	bool ret = false;
@@ -183,4 +229,5 @@ bool ComponentButton::InspectorCheck(ResourceTexture** status)
 	return ret;
 
 }
+
 

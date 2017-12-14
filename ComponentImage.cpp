@@ -66,6 +66,19 @@ bool ComponentImage::LoadComponent(const JSONConfig & config)
 	return true;
 }
 
+void ComponentImage::ChangeImage(uint ID)
+{
+	if(ID == 0)
+	{ 
+		tmp_id = image->GetID();
+	}
+	else
+	{
+		tmp_id = ID;
+	}
+	
+}
+
 /*void ComponentImage::Set_uv(float2 uv0, float2 uv1)
 {
 	this->uv0 = uv0;
@@ -210,7 +223,7 @@ void ComponentImage::SetWorldUvValues()
 
 uint ComponentImage::GetImageID() const
 {
-	return (image!=nullptr)?image->GetID():-1;
+	return (image!=nullptr)?tmp_id:-1;
 }
 
 float2 ComponentImage::GetUV0() const

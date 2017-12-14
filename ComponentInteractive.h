@@ -2,6 +2,7 @@
 
 #include "Component.h"
 class ComponentRectTransform;
+class ComponentCanvas;
 enum States
 {
 	IDLE,
@@ -9,7 +10,7 @@ enum States
 	DOWN,
 };
 
-class ComponentInteractive : Component
+class ComponentInteractive : public Component
 {
 
 public:
@@ -17,23 +18,31 @@ public:
 	ComponentInteractive(GameObject* my_go);
 	~ComponentInteractive();
 	
+	//Interactive function states
 	void OnIdle();
 	void OnHover();
 	void OnClick();
 	void OnDown();
-	void OnDrag();
 
+	ComponentCanvas* FindMyCanvas();
+	
+	virtual void Idle() = 0;
 	virtual void Hover() = 0;
+	virtual void Down() = 0;
+
+	//Drag Funcionality
+	void OnDrag();
 
 public:
 
 	States states = IDLE;
+	States last_state = IDLE;
+
 	ComponentRectTransform* transform;
 
 private:
 
 	bool is_dragable = false;
-
 
 };
 

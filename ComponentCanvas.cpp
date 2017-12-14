@@ -41,7 +41,6 @@ void ComponentCanvas::Update(float dt)
 	my_go->GetRectTransform()->SetWidth(canvas_data.size.x);
 	my_go->GetRectTransform()->SetHeight(canvas_data.size.y);
 	my_go->GetRectTransform()->SetBlock(true);
-	
 	DebugDraw();
 
 }
@@ -53,7 +52,7 @@ void ComponentCanvas::OnStop()
 
 void ComponentCanvas::Render()
 {
-	if (on_ejecution)
+	//if (on_ejecution)
 		SetUpRender();
 	std::list<ComponentCanvasRenderer*>::iterator it = canvas_render.begin();
 	for (; it != canvas_render.end(); it++)
@@ -92,7 +91,7 @@ void ComponentCanvas::Render()
 		glPopMatrix();
 	}
 	canvas_render.clear();
-	if (on_ejecution)
+	//if (on_ejecution)
 		ResetRender();
 	/*
 	glDisable(GL_BLEND);
@@ -184,28 +183,42 @@ void ComponentCanvas::ClickEvent(float x, float y)
 
 void ComponentCanvas::UpdateInteractive()
 {
+	
 	int mouse_x = App->input->GetMouseX();
 	int mouse_y = App->input->GetMouseY();
-	
+
 	for (int i = 0; i < interactive_array.size(); i++)
 	{
 		int x;
 		int y;
+
+	//	if (interactive_array[i] == 0)
+	//		continue;
+
 		ComponentRectTransform* transform = interactive_array[i]->transform;
+	
 		x = transform->GetGlobalMatrix().TranslatePart().x;
 		y = transform->GetGlobalMatrix().TranslatePart().y;
 	    
-		x = x - transform->GetWidth() * transform->GetPivot().x;
-		y = y - transform->GetHeight() * transform->GetPivot().y;
+		x -= transform->GetWidth() * transform->GetPivot().x;
+		y -= transform->GetHeight() * transform->GetPivot().y;
 
 		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
 			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
 		{
+			LOG("I'M A CURSOR RIC");
 			interactive_array[i]->OnHover();
+			
+			if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+			{
+				interactive_array[i]->OnClick();
+			}
 		}
-		
+		else
+		{
+			interactive_array[i]->Idle();
+		}
 	}
-
 }
 
 CanvasBuffer::CanvasBuffer()

@@ -1,9 +1,11 @@
 
 #ifndef __COMPONENT_BUTTON__
 #define __COMPONENT_BUTTON__
-#include "Component.h"
+#include "ComponentInteractive.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
+
 class ComponentImage;
+class ComponentCanvas;
 class ResourceTexture;
 
 struct State {
@@ -12,7 +14,7 @@ struct State {
 	float2 uv1;
 };
 
-class ComponentButton : public Component
+class ComponentButton : public ComponentInteractive
 {
 
 public:
@@ -24,6 +26,13 @@ public:
 
 	void InspectorUpdate();
 	void ShowInfo(ResourceTexture* texture);
+
+	void ButtonFunctionality();
+
+	void Idle();
+	void Hover();
+	void Down();
+
 private:
 
 	ComponentImage* texture = nullptr;
@@ -31,14 +40,13 @@ private:
 	ResourceTexture* over_texture = nullptr; 
 	ResourceTexture* pressed_texture = nullptr;
 	ResourceTexture* click_texture = nullptr;
-	State over, click, pressed;
-	
 
 	bool InspectorCheck(ResourceTexture** text);
 	bool over_window = false;
 	bool pressed_window = false;
 	bool click_window = false;
 
+	ComponentCanvas* canvas;
 };
 
 

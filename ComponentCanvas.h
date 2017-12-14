@@ -39,10 +39,15 @@ public:
 	void ClickEvent(float x,float y);
 	void UpdateInteractive();
 	void DebugDraw();
+
+public:
+
+	std::vector<ComponentInteractive*> interactive_array;
+
 private:
 
 	std::list<ComponentCanvasRenderer*> canvas_render;
-	std::vector<ComponentInteractive*> interactive_array;
+	
 
 	CanvasData canvas_data;
 	bool on_ejecution = false;
