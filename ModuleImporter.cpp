@@ -48,6 +48,10 @@ void ModuleImporter::Import(const char * path)
 		//mesh.LoadMesh(dropped_filedir.c_str());
 
 	}
+	else if (_stricmp(extension.c_str(), "ttf") == 0)
+	{
+		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsFolder());
+	}
 	else
 	{
 		App->file_system->CloneFile(dropped_filedir.c_str(), App->file_system->GetAssetsFolder());
@@ -64,6 +68,11 @@ bool ModuleImporter::ImportTexture(const char * path, const char * name)
 bool ModuleImporter::ImportMesh(const char * path,const char* name)
 {
 	return mesh.ImportMesh(path, name);
+}
+
+bool ModuleImporter::ImportFont(const char * path, const char * name)
+{
+	return font.ImportFont(path,name);
 }
 
 void ModuleImporter::LoadMesh(ResourceMesh* r_mesh)

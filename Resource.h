@@ -6,7 +6,8 @@ enum ResourceType
 	R_NONE,
 	R_TEXTURE,
 	R_MESH,
-	R_PREFAB
+	R_PREFAB, 
+	R_FONT
 };
 class Resource
 {

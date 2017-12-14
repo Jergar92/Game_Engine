@@ -20,5 +20,5 @@ void ComponentInteractive::OnIdle()
 void ComponentInteractive::OnHover()
 {
 	states = HOVER;
-	Hover;
+	Hover();
 }

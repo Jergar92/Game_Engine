@@ -5,6 +5,7 @@
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
 #include "ResourcePrefab.h"
+#include "ResourceFont.h"
 #include "ModuleFileSystem.h"
 #include <vector>
 #include <experimental\filesystem>
@@ -144,7 +145,8 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		break;
 	case R_PREFAB:
 		import_success = App->importer->ImportMesh(new_asset_file, name.c_str());
-
+	case R_FONT:
+		import_success = App->importer->ImportFont(new_asset_file, name.c_str());
 
 		break;
 	default:
@@ -172,6 +174,8 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 			break;
 		case R_PREFAB:
 			ret->SetLibraryFile(name.c_str(), "json");
+		case R_FONT:
+			ret->SetLibraryFile(name.c_str(), "ttf");
 			break;
 		default:
 			break;
@@ -210,6 +214,7 @@ bool ModuleResourceManager::ReImport(Resource* resource)
 	case R_TEXTURE:
 		ret=App->importer->ImportTexture(resource->GetOriginalFile().c_str(), name.c_str());
 		break;
+
 	case R_PREFAB:
 		break;
 	default:
@@ -292,6 +297,11 @@ ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)const
 		return R_PREFAB;
 
 	}
+	else if (_stricmp(extension.c_str(), "TTF") == 0)
+	{
+		return R_FONT;
+
+	}
 	else
 	{
 		return R_NONE;
@@ -330,6 +340,9 @@ Resource * ModuleResourceManager::CreateResource(ResourceType type, uint custom_
 		break;
 	case R_PREFAB:
 		ret = new ResourcePrefab(UID);
+		break;
+	case R_FONT:
+		ret = new ResourceFont(UID);
 		break;
 	default:
 		break;
