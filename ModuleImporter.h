@@ -15,6 +15,7 @@ class ComponentMesh;
 class ComponentMeshRenderer;
 class ResourceMesh;
 class ResourceTexture;
+class ResourceFont;
 
 struct Texture;
 class ModuleImporter:public Module
@@ -30,6 +31,7 @@ public:
 
 	void LoadMesh(ResourceMesh * mesh);
 	int LoadTexture(ResourceTexture* component);
+	int LoadFont(ResourceFont* component);
 
 	MaterialImporter material;
 	MeshImporter mesh;

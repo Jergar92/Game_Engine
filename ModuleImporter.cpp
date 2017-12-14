@@ -85,3 +85,9 @@ int ModuleImporter::LoadTexture(ResourceTexture * r_text)
 	return material.LoadTexture(r_text);
 
 }
+
+int ModuleImporter::LoadFont(ResourceFont * component)
+{
+	return font.LoadFont(component);
+	
+}

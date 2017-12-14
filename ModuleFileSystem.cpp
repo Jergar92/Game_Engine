@@ -141,7 +141,8 @@ int ModuleFileSystem::LoadFile(const char * path, const char * name, char ** buf
 }
 int ModuleFileSystem::LoadFile(const char * name, char ** buffer)
 {
-	std::ifstream load_file(name, std::ifstream::binary);
+
+	std::ifstream load_file(name, std::ifstream::binary | std::ios::ate);
 	int size = 0;
 
 	if (load_file.good())
