@@ -95,6 +95,7 @@
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="EventSystem.h" />
     <ClInclude Include="ComponentInteractive.h" />
+    <ClInclude Include="FontImporter.h" />
     <ClInclude Include="JSONConfig.h" />
     <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleResourceManager.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Profiler.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceFont.h" />
     <ClInclude Include="ResourceMesh.h" />
     <ClInclude Include="ResourcePrefab.h" />
     <ClInclude Include="ResourceTexture.h" />
@@ -221,6 +223,7 @@
     <ClCompile Include="ComponentRectTransform.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="FontImporter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ComponentInteractive.cpp" />
     <ClCompile Include="JSONConfig.cpp" />
@@ -281,6 +284,7 @@
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceFont.cpp" />
     <ClCompile Include="ResourceMesh.cpp" />
     <ClCompile Include="ResourcePrefab.cpp" />
     <ClCompile Include="ResourceTexture.cpp" />
