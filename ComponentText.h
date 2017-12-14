@@ -3,7 +3,7 @@
 class ComponentText:public Component
 {
 public:
-	ComponentText();
+	ComponentText(GameObject* my_go);
 	~ComponentText();
 };
 

@@ -459,6 +459,9 @@
     <ClInclude Include="FontImporter.h">
       <Filter>Sources\Importer</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentText.h">
+      <Filter>Sources\Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -718,6 +721,9 @@
     </ClCompile>
     <ClCompile Include="FontImporter.cpp">
       <Filter>Sources\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentText.cpp">
+      <Filter>Sources\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
