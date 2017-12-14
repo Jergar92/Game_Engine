@@ -94,6 +94,7 @@
     <ClInclude Include="ComponentRectTransform.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="EventSystem.h" />
+    <ClInclude Include="ComponentInteractive.h" />
     <ClInclude Include="JSONConfig.h" />
     <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleResourceManager.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="ComponentInteractive.cpp" />
     <ClCompile Include="JSONConfig.cpp" />
     <ClCompile Include="MaterialImporter.cpp" />
     <ClCompile Include="MeshImporter.cpp" />

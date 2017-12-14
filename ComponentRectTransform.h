@@ -22,6 +22,7 @@ public:
 	float4x4 GetTransposedMatrix() const;
 	float4x4 GetGlobalMatrix() const;
 	float Getdepth()const;
+	float2 GetPivot() const;
 	float3   GetSouthWest() const;
 	float3   GetNorthWest() const;
 	float3   GetSouthEast() const;
@@ -31,6 +32,8 @@ public:
 	void SetBlock(bool block);
 
 	void SetScale(float3 scale);
+	float GetWidth() const;
+	float GetHeight() const;
 	void SetRotation(float3 rotation);
 	void SetPosition(float3 Position);
 	void SetWidth(float width);

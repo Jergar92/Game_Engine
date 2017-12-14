@@ -4,9 +4,11 @@
 #include "ComponentCanvas.h"
 #include "ComponentCanvasRenderer.h"
 #include "ComponentRectTransform.h"
+#include "ComponentInteractive.h"
 #include "ComponentImage.h"
 #include "ResourceTexture.h"
 #include "EventSystem.h"
+#include "ModuleInput.h"
 #include "SDL/include\SDL.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -39,6 +41,7 @@ void ComponentCanvas::Update(float dt)
 	my_go->GetRectTransform()->SetWidth(canvas_data.size.x);
 	my_go->GetRectTransform()->SetHeight(canvas_data.size.y);
 	my_go->GetRectTransform()->SetBlock(true);
+	
 	DebugDraw();
 
 }
@@ -172,9 +175,35 @@ void ComponentCanvas::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
 
 void ComponentCanvas::ClickEvent(float x, float y)
 {
-	for (int i = 0; i < images_list.size();i++)
+	for (int i = 0; i < interactive_array.size();i++)
 	{
 	  
+	}
+
+}
+
+void ComponentCanvas::UpdateInteractive()
+{
+	int mouse_x = App->input->GetMouseX();
+	int mouse_y = App->input->GetMouseY();
+	
+	for (int i = 0; i < interactive_array.size(); i++)
+	{
+		int x;
+		int y;
+		ComponentRectTransform* transform = interactive_array[i]->transform;
+		x = transform->GetGlobalMatrix().TranslatePart().x;
+		y = transform->GetGlobalMatrix().TranslatePart().y;
+	    
+		x = x - transform->GetWidth() * transform->GetPivot().x;
+		y = y - transform->GetHeight() * transform->GetPivot().y;
+
+		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
+			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
+		{
+			interactive_array[i]->OnHover();
+		}
+		
 	}
 
 }

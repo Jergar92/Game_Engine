@@ -450,6 +450,9 @@
     <ClInclude Include="ComponentRectTransform.h">
       <Filter>Sources\Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentInteractive.h">
+      <Filter>Sources\Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -699,6 +702,9 @@
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="ComponentRectTransform.cpp">
+      <Filter>Sources\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentInteractive.cpp">
       <Filter>Sources\Canvas</Filter>
     </ClCompile>
   </ItemGroup>

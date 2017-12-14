@@ -160,6 +160,29 @@ void ComponentRectTransform::SetScale(float3 scale)
 	UpdateMatrix();
 }
 
+float ComponentRectTransform::GetWidth() const
+{
+
+	return width ;
+
+}
+
+float ComponentRectTransform::GetHeight() const
+{
+	
+	return height;
+
+}
+
+
+float2 ComponentRectTransform::GetPivot() const
+{
+
+	return pivot;
+
+}
+
+
 void ComponentRectTransform::SetRotation(float3 rotation_angles)
 {
 	float3 delta = (rotation_angles - gui_rotation) * DEGTORAD;

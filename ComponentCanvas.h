@@ -1,10 +1,12 @@
 #pragma once
 #include "Globals.h"
 #include <list>
+#include <vector>
 
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
 #include "Component.h"
+
 
 
 struct CanvasData
@@ -14,8 +16,10 @@ struct CanvasData
 	float2 draw_size = float2::one;
 
 };
+
 class ComponentCanvasRenderer;
 class ComponentImage;
+class ComponentInteractive;
 struct SDL_Window;
 typedef int GLint;
 
@@ -33,11 +37,12 @@ public:
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
 	void ClickEvent(float x,float y);
+	void UpdateInteractive();
 	void DebugDraw();
 private:
 
 	std::list<ComponentCanvasRenderer*> canvas_render;
-	std::list<ComponentImage*> images_list;
+	std::vector<ComponentInteractive*> interactive_array;
 
 	CanvasData canvas_data;
 	bool on_ejecution = false;

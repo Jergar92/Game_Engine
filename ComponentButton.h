@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef __COMPONENT_BUTTON__
 #define __COMPONENT_BUTTON__
 #include "Component.h"
@@ -11,7 +11,6 @@ struct State {
 	float2 uv0;
 	float2 uv1;
 };
-enum ButtonState{IDLE,OVER,CLICKED};
 
 class ComponentButton : public Component
 {
@@ -33,7 +32,7 @@ private:
 	ResourceTexture* pressed_texture = nullptr;
 	ResourceTexture* click_texture = nullptr;
 	State over, click, pressed;
-	ButtonState status;
+	
 
 	bool InspectorCheck(ResourceTexture** text);
 	bool over_window = false;
