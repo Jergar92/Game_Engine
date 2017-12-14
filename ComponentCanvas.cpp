@@ -184,8 +184,7 @@ void ComponentCanvas::ClickEvent(float x, float y)
 void ComponentCanvas::UpdateInteractive()
 {
 	
-	int mouse_x = App->input->GetMouseX();
-	int mouse_y = App->input->GetMouseY();
+
 
 	for (int i = 0; i < interactive_array.size(); i++)
 	{
@@ -196,7 +195,10 @@ void ComponentCanvas::UpdateInteractive()
 	//		continue;
 
 		ComponentRectTransform* transform = interactive_array[i]->transform;
-	
+		
+		int mouse_x = App->input->GetMouseX() * transform->GetPivot().x;
+		int mouse_y = App->input->GetMouseY() * transform->GetPivot().y;
+		
 		x = transform->GetGlobalMatrix().TranslatePart().x;
 		y = transform->GetGlobalMatrix().TranslatePart().y;
 	    
@@ -206,10 +208,9 @@ void ComponentCanvas::UpdateInteractive()
 		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
 			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
 		{
-			LOG("I'M A CURSOR RIC");
 			interactive_array[i]->OnHover();
 			
-			if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 			{
 				interactive_array[i]->OnClick();
 			}

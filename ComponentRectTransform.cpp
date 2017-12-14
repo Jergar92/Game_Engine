@@ -123,25 +123,25 @@ float ComponentRectTransform::Getdepth() const
 float3 ComponentRectTransform::GetSouthWest() const
 {
 	//negative x, negative y  
-	return float3(position.x - width * pivot.x, position.y - height * pivot.y,0);
+	return float3(position.x - width, position.y - height,0);
 }
 
 float3 ComponentRectTransform::GetNorthWest() const
 {
 	//negative x, positive y
-	return float3(position.x - width * pivot.x, position.y + height * pivot.y,0);
+	return float3(position.x - width, position.y + height,0);
 }
 
 float3 ComponentRectTransform::GetSouthEast() const
 {
 	//positive x, positive y
-	return float3(position.x + width * pivot.x, position.y - height * pivot.y,0);
+	return float3(position.x + width, position.y - height,0);
 }
 
 float3 ComponentRectTransform::GetNorthEeast() const
 {
 	//positive x, negative y
-	return float3(position.x + width * pivot.x, position.y + height * pivot.y,0);
+	return float3(position.x + width, position.y + height,0);
 }
 
 float4x4 ComponentRectTransform::GetInverseMatrix()const
