@@ -6,6 +6,7 @@
 #include "Assimp/include/cfileio.h"
 #include "MeshImporter.h"
 #include "MaterialImporter.h"
+#include "FontImporter.h"
 #include <vector>
 
 class GameObject;
@@ -25,12 +26,14 @@ public:
 	void Import(const char* path);
 	bool ImportTexture(const char* path,const char* name);
 	bool ImportMesh(const char* path, const char* name);
+	bool ImportFont(const char* path, const char* name);
 
 	void LoadMesh(ResourceMesh * mesh);
 	int LoadTexture(ResourceTexture* component);
 
 	MaterialImporter material;
 	MeshImporter mesh;
+	FontImporter font;
 
 private:	
 	std::string directory;

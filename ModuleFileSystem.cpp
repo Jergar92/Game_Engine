@@ -210,7 +210,7 @@ bool ModuleFileSystem::CloneFile(const char * origin_path, const char * destinat
 
 void ModuleFileSystem::CreationTime(const char * file, char ** data)
 {
-	*data = new char[21];
+	*data = new char[22];
 	WIN32_FILE_ATTRIBUTE_DATA wfad;
 	SYSTEMTIME st;
 

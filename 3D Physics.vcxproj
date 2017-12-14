@@ -94,6 +94,7 @@
     <ClInclude Include="ComponentRectTransform.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="EventSystem.h" />
+    <ClInclude Include="FontImporter.h" />
     <ClInclude Include="JSONConfig.h" />
     <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleResourceManager.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceMesh.h" />
     <ClInclude Include="ResourcePrefab.h" />
+    <ClInclude Include="ResourceFont.h" />
     <ClInclude Include="ResourceTexture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="ComponentCanvas.h" />
@@ -220,6 +222,7 @@
     <ClCompile Include="ComponentRectTransform.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="EventSystem.cpp" />
+    <ClCompile Include="FontImporter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="JSONConfig.cpp" />
     <ClCompile Include="MaterialImporter.cpp" />
@@ -281,6 +284,7 @@
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceMesh.cpp" />
     <ClCompile Include="ResourcePrefab.cpp" />
+    <ClCompile Include="ResourceFont.cpp" />
     <ClCompile Include="ResourceTexture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="ComponentCanvas.cpp" />
