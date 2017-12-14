@@ -22,7 +22,7 @@ void ResourceFont::LoadInMemory()
 
 void ResourceFont::Load()
 {
-	App->importer->LoadFont(this);
+	id=App->importer->LoadFont(this);
 
 }
 

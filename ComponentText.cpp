@@ -46,6 +46,7 @@ void ComponentText::InspectorUpdate()
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", text->GetOrignalName().c_str());		
 			if (ImGui::InputText("Text##text_input", (char*)input_text.c_str(), max_input, ImGuiInputTextFlags_EnterReturnsTrue))
 				SetString(input_text.c_str());
+
 			if (ImGui::DragInt("Font Size##transform_position", &text->size, 1,0))
 			{
 				text->UnLoadInMemory();
@@ -98,6 +99,38 @@ void ComponentText::InspectorUpdate()
 			ImGui::CloseCurrentPopup();
 		}
 	}
+}
+
+GlyphData ComponentText::getGlyphInfo(uint character, float offset_x, float offset_y)
+{
+
+	stbtt_aligned_quad quad;
+
+	stbtt_GetPackedQuad(text->char_info.get(), text->atlas_width, text->atlas_height, character - text->first_char, &offset_x, &offset_y, &quad, 1);
+	auto xmin = quad.x0;
+	auto xmax = quad.x1;
+	auto ymin = -quad.y1;
+	auto ymax = -quad.y0;
+
+	GlyphData data;
+
+	data.offset_x = offset_x;
+	data.offset_y = offset_y;
+	data.positions[0] = { xmin, ymin, 0 };
+	data.positions[1] = { xmin, ymax, 0 };
+	data.positions[2] = { xmax, ymax, 0 };
+	data.positions[3] = { xmax, ymin, 0 };
+	data.text_cords[0] = { quad.s0, quad.t1 };
+	data.text_cords[1] = { quad.s0, quad.t0 };
+	data.text_cords[2] = { quad.s1, quad.t0 };
+	data.text_cords[3] = { quad.s1, quad.t1 };
+	return data;
+}
+
+uint ComponentText::GetID()
+{
+
+	return	(text != nullptr)? text->id:-1;
 }
 
 void ComponentText::SetString(std::string input)

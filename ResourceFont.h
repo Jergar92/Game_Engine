@@ -8,16 +8,6 @@
 #ifndef STB_TRUETYPE_IMPLEMENTATION
 #define STB_TRUETYPE_IMPLEMENTATION
 #endif // !1
-
-struct AtlasQuad
-{
-	uint EBO = 0;
-	uint VBO = 0;
-	uint uvBuffer = 0;
-	float time = 0;
-} ;
-
-
 class ResourceFont:public Resource
 {
 public:
@@ -29,7 +19,6 @@ public:
 	void UnLoadInMemory();
 	void UnLoad();
 
-	AtlasQuad atlas;
 	int size = 40;
 	uint atlas_width = 1024;
 	uint atlas_height = 1024;

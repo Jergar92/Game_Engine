@@ -16,8 +16,8 @@ struct CanvasBuffer
 {
 	CanvasBuffer();
 	std::vector<CanvasVertex> vertices;
+	std::vector<uint> indices;
 
-	uint indices[6] = { 0,1,2,2,3,0 };
 
 	uint VBO = 0;
 	uint EBO = 0;
@@ -42,7 +42,10 @@ public:
 	uint GetImageID()const;
 	uint GetVBO()const;
 	uint GetEBO()const;
+	uint GetIndicesSize() const;
 	void ProcessImage();
+	void ProcessText();
+
 	void SetUpCanvas();
 	void UpdateVertex();
 

@@ -44,7 +44,7 @@ void ComponentCanvasRenderer::GetComponent(Component * item)
 		break;
 	case CANVAS_TEXT:
 		text = (ComponentText*)item;
-		//ProcessImage();
+		ProcessText();
 		break;
 	default:
 		break;
@@ -60,7 +60,10 @@ uint ComponentCanvasRenderer::GetEBO() const
 {
 	return buffer.EBO;
 }
-
+uint ComponentCanvasRenderer::GetIndicesSize() const
+{
+	return buffer.indices.size();
+}
 uint ComponentCanvasRenderer::GetImageID()const
 {
 	return (image!=nullptr)?image->GetImageID():-1;
@@ -68,6 +71,8 @@ uint ComponentCanvasRenderer::GetImageID()const
 
 void ComponentCanvasRenderer::ProcessImage()
 {	
+	if (image == nullptr)
+		return;
 	//UV Setup
 	//0,1-------1,1
 	//|	1     /	2|
@@ -75,6 +80,8 @@ void ComponentCanvasRenderer::ProcessImage()
 	//|	0 /		3|
 	//0,0-------1,0
 	buffer.vertices.clear();
+	buffer.indices.clear();
+
 	UpdateVertex();
 
 		CanvasVertex ver;
@@ -93,7 +100,81 @@ void ComponentCanvasRenderer::ProcessImage()
 		ver.tex_coords = float2(image->GetUV1().x, image->GetUV0().y);
 		buffer.vertices.push_back(ver);
 
+		uint lastIndex = 0;
+
+		buffer.indices.push_back(lastIndex);
+		buffer.indices.push_back(lastIndex + 1);
+		buffer.indices.push_back(lastIndex + 2);
+		buffer.indices.push_back(lastIndex + 2);
+		buffer.indices.push_back(lastIndex + 3);
+		buffer.indices.push_back(lastIndex );
 		SetUpCanvas();
+}
+
+void ComponentCanvasRenderer::ProcessText()
+{
+	if (text->text_str.empty())
+		return;
+	const std::string str = text->text_str;
+	buffer.vertices.clear();
+	buffer.indices.clear();
+
+	uint lastIndex = 0;
+	float offsetX = 0, offsetY = 0;
+	for (auto c : str)
+	{
+		GlyphData data = text->getGlyphInfo(c, offsetX, offsetY);
+		offsetX = data.offset_x;
+		offsetY = data.offset_y;
+
+		CanvasVertex ver0;
+		ver0.position=data.positions[0];
+		ver0.tex_coords = data.text_cords[0];
+		buffer.vertices.push_back(ver0);
+
+		CanvasVertex ver1;
+		ver1.position = data.positions[1];
+		ver1.tex_coords = data.text_cords[1];
+		buffer.vertices.push_back(ver1);
+
+		CanvasVertex ver2;
+		ver2.position = data.positions[2];
+		ver2.tex_coords = data.text_cords[2];
+		buffer.vertices.push_back(ver2);
+
+		CanvasVertex ver3;
+		ver3.position = data.positions[3];
+		ver3.tex_coords = data.text_cords[3];
+		buffer.vertices.push_back(ver3);
+
+		buffer.indices.push_back(lastIndex);
+		buffer.indices.push_back(lastIndex + 1);
+		buffer.indices.push_back(lastIndex + 2);
+		buffer.indices.push_back(lastIndex);
+		buffer.indices.push_back(lastIndex + 2);
+		buffer.indices.push_back(lastIndex + 3);
+
+		lastIndex += 4;
+	}
+
+
+	glGenBuffers(1, &buffer.VBO);
+	glGenBuffers(1, &buffer.EBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, buffer.VBO);
+	glBufferData(GL_ARRAY_BUFFER, buffer.vertices.size() * sizeof(CanvasVertex), &buffer.vertices[0], GL_STATIC_DRAW);
+
+	if (buffer.indices.size() != 0)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer.indices.size()* sizeof(uint), &buffer.indices[0], GL_STATIC_DRAW);
+		//set bind buffer glBindBuffer to 0
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	}
+	//set bind buffer glBindBuffer to 0
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 }
 
 void ComponentCanvasRenderer::SetUpCanvas()
