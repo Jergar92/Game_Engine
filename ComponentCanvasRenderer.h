@@ -5,9 +5,11 @@
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
 
+class ComponentText;
 class ComponentImage;
 class Component;
 class ComponentCanvas;
+
 struct CanvasVertex;
 
 struct CanvasBuffer
@@ -45,7 +47,9 @@ public:
 	void UpdateVertex();
 
 	ComponentCanvas* FindMyCanvas();
-	ComponentImage* image;
+	ComponentImage* image = nullptr;
+	ComponentText* text=nullptr;
+
 	CanvasBuffer buffer;
 
 private:

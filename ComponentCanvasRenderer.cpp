@@ -1,10 +1,9 @@
+#include "GameObject.h"
+#include "ComponentText.h"
+#include "ComponentImage.h"
 #include "ComponentCanvasRenderer.h"
 #include "ComponentCanvas.h"
-
 #include "ComponentRectTransform.h"
-#include "GameObject.h"
-#include "Component.h"
-#include "ComponentImage.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 ComponentCanvasRenderer::ComponentCanvasRenderer(GameObject * my_go) :Component(my_go)
@@ -42,6 +41,10 @@ void ComponentCanvasRenderer::GetComponent(Component * item)
 	case CANVAS_IMAGE:
 		image = (ComponentImage*)item;
 		ProcessImage();
+		break;
+	case CANVAS_TEXT:
+		text = (ComponentText*)item;
+		//ProcessImage();
 		break;
 	default:
 		break;
