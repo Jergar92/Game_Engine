@@ -43,6 +43,6 @@ public:
 private:
 
 	bool is_dragable = false;
-
+	bool is_focusable = false;
 };
 

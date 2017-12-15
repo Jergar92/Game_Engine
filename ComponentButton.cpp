@@ -121,7 +121,6 @@ void ComponentButton::ShowInfo(ResourceTexture * texture)
 
 void ComponentButton::ButtonFunctionality()
 {
-	canvas->UpdateInteractive();
 	if (last_state != states)
 	{
 		last_state = states;

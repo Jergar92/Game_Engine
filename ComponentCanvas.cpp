@@ -18,9 +18,6 @@
 ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 {
 	component_name = "Canvas";
-	EventFloat on_click;
-	on_click.Create("OnClick", this, &ComponentCanvas::ClickEvent);
-	EventS->AddEvent(on_click);
 	type = CANVAS;
 
 }
@@ -41,6 +38,8 @@ void ComponentCanvas::Update(float dt)
 	my_go->GetRectTransform()->SetWidth(canvas_data.size.x);
 	my_go->GetRectTransform()->SetHeight(canvas_data.size.y);
 	my_go->GetRectTransform()->SetBlock(true);
+	UpdateInteractiveMap();
+	UpdateInteractive();
 	DebugDraw();
 
 }
@@ -172,21 +171,11 @@ void ComponentCanvas::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
 	
 }
 
-void ComponentCanvas::ClickEvent(float x, float y)
-{
-	for (int i = 0; i < interactive_array.size();i++)
-	{
-	  
-	}
-
-}
-
 void ComponentCanvas::UpdateInteractive()
 {
-	
-
-
-	for (int i = 0; i < interactive_array.size(); i++)
+	std::multimap<float, ComponentInteractive*>::reverse_iterator map_iterator;
+	bool is_on_hover = false;
+	for (map_iterator = interactive_z_map.rbegin();map_iterator != interactive_z_map.rend(); ++map_iterator)
 	{
 		int x;
 		int y;
@@ -194,7 +183,7 @@ void ComponentCanvas::UpdateInteractive()
 	//	if (interactive_array[i] == 0)
 	//		continue;
 
-		ComponentRectTransform* transform = interactive_array[i]->transform;
+		ComponentRectTransform* transform = map_iterator->second->transform;
 		
 		int mouse_x = App->input->GetMouseX() * transform->GetPivot().x;
 		int mouse_y = App->input->GetMouseY() * transform->GetPivot().y;
@@ -208,18 +197,46 @@ void ComponentCanvas::UpdateInteractive()
 		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
 			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
 		{
-			interactive_array[i]->OnHover();
-			
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+			if(is_on_hover == false)
 			{
-				interactive_array[i]->OnClick();
+				is_on_hover = true;
+				if (map_iterator->second->states == IDLE)
+				{
+					map_iterator->second->OnHover();
+
+				}
+
+				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+				{
+					map_iterator->second->OnClick();
+				}
+				else if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_IDLE && map_iterator->second->states == DOWN)
+				{
+					map_iterator->second->OnHover();
+				}
 			}
+			else if(map_iterator->second->states == HOVER || map_iterator->second->states == DOWN)
+			{
+				map_iterator->second->OnIdle();
+			}
+				
 		}
-		else
+		else if(map_iterator->second->states == HOVER || map_iterator->second->states == DOWN)
 		{
-			interactive_array[i]->Idle();
+			map_iterator->second->OnIdle();
 		}
 	}
+}
+
+void ComponentCanvas::UpdateInteractiveMap()
+{
+	interactive_z_map.clear();
+	
+	for (int i = 0; i < interactive_array.size(); i++)
+	{
+		interactive_z_map.insert(std::pair<float, ComponentInteractive*>(interactive_array[i]->transform->GetDepth(), interactive_array[i]));
+	}
+
 }
 
 CanvasBuffer::CanvasBuffer()

@@ -174,6 +174,11 @@ float ComponentRectTransform::GetHeight() const
 
 }
 
+float ComponentRectTransform::GetDepth() const
+{
+	return depth;
+}
+
 
 float2 ComponentRectTransform::GetPivot() const
 {

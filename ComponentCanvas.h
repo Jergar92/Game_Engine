@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include <list>
 #include <vector>
+#include <map>
 
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
@@ -36,13 +37,14 @@ public:
 	void SetUpRender();
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
-	void ClickEvent(float x,float y);
 	void UpdateInteractive();
+	void UpdateInteractiveMap();
 	void DebugDraw();
 
 public:
 
 	std::vector<ComponentInteractive*> interactive_array;
+	std::multimap<float, ComponentInteractive*> interactive_z_map;
 
 private:
 

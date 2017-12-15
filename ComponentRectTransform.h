@@ -32,8 +32,11 @@ public:
 	void SetBlock(bool block);
 
 	void SetScale(float3 scale);
+	
 	float GetWidth() const;
 	float GetHeight() const;
+	float GetDepth()const;
+
 	void SetRotation(float3 rotation);
 	void SetPosition(float3 Position);
 	void SetWidth(float width);
