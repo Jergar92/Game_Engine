@@ -90,6 +90,7 @@
     <ClInclude Include="ComponentCanvasRenderer.h" />
     <ClInclude Include="ComponentCheckBox.h" />
     <ClInclude Include="ComponentImage.h" />
+    <ClInclude Include="ComponentInputText.h" />
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentMeshRenderer.h" />
     <ClInclude Include="ComponentRectTransform.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="ComponentCanvasRenderer.cpp" />
     <ClCompile Include="ComponentCheckBox.cpp" />
     <ClCompile Include="ComponentImage.cpp" />
+    <ClCompile Include="ComponentInputText.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentMeshRenderer.cpp" />
     <ClCompile Include="ComponentRectTransform.cpp" />

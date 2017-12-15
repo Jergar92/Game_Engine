@@ -16,9 +16,7 @@ public:
 	void UnLoadInMemory();
 	void UnLoad();
 	TTF_Font* font = NULL;
-//	SDL_Surface * sFont;
 	int size = 16;
-	uint id = 0;
 private:
 
 };

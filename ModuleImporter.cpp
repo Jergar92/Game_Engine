@@ -86,8 +86,8 @@ int ModuleImporter::LoadTexture(ResourceTexture * r_text)
 
 }
 
-int ModuleImporter::LoadFont(ResourceFont * component)
+void ModuleImporter::LoadFont(ResourceFont * component)
 {
-	return font.LoadFont(component);
+	font.LoadFont(component);
 	
 }

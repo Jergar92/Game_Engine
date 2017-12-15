@@ -34,6 +34,10 @@ void ComponentCanvasRenderer::Update(float dt)
 
 void ComponentCanvasRenderer::CleanUp()
 {
+	buffer.vertices.clear();
+	buffer.indices.clear();
+	glDeleteBuffers(1, &buffer.VBO);
+	glDeleteBuffers(1, &buffer.EBO);
 }
 
 void ComponentCanvasRenderer::GetComponent(Component * item)
@@ -51,6 +55,7 @@ void ComponentCanvasRenderer::GetComponent(Component * item)
 	default:
 		break;
 	}
+
 }
 
 uint ComponentCanvasRenderer::GetVBO() const
@@ -122,7 +127,7 @@ void ComponentCanvasRenderer::ProcessImage()
 
 void ComponentCanvasRenderer::ProcessText()
 {
-	if (text->text_str.empty())
+	if (text->text_str.empty()|| !text->GetUpdateText())
 		return;
 
 	buffer.vertices.clear();
@@ -137,17 +142,17 @@ void ComponentCanvasRenderer::ProcessText()
 		buffer.vertices.push_back(ver0);
 
 		CanvasVertex ver1;
-		ver1.position = float3(0+text->s_font->w, 0, 0);
+		ver1.position = float3(0+text->GetRect().width, 0, 0);
 		ver1.tex_coords = float2(1, 0);
 		buffer.vertices.push_back(ver1);
 
 		CanvasVertex ver2;
-		ver2.position = float3(0 + text->s_font->w, 0 + text->s_font->h, 0);
+		ver2.position = float3(0 + text->GetRect().width, 0 + text->GetRect().height, 0);
 		ver2.tex_coords = float2(1, 1);
 		buffer.vertices.push_back(ver2);
 
 		CanvasVertex ver3;
-		ver3.position = float3(0, 0+ text->s_font->h, 0);
+		ver3.position = float3(0, 0+ text->GetRect().height, 0);
 		ver3.tex_coords = float2(0, 1);
 		buffer.vertices.push_back(ver3);
 		
@@ -161,8 +166,7 @@ void ComponentCanvasRenderer::ProcessText()
 
 
 
-	glGenBuffers(1, &buffer.VBO);
-	glGenBuffers(1, &buffer.EBO);
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffer.VBO);
 	glBufferData(GL_ARRAY_BUFFER, buffer.vertices.size() * sizeof(CanvasVertex), &buffer.vertices[0], GL_STATIC_DRAW);
@@ -177,7 +181,7 @@ void ComponentCanvasRenderer::ProcessText()
 	}
 	//set bind buffer glBindBuffer to 0
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+	text->SetUpdateText(false);
 }
 
 void ComponentCanvasRenderer::SetUpCanvas()

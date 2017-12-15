@@ -23,7 +23,7 @@ void ResourceFont::LoadInMemory()
 
 void ResourceFont::Load()
 {
-	id=App->importer->LoadFont(this);
+	App->importer->LoadFont(this);
 
 }
 
@@ -40,7 +40,4 @@ void ResourceFont::UnLoadInMemory()
 void ResourceFont::UnLoad()
 {
 	TTF_CloseFont(font);
-	glDeleteTextures(1, &id);
-	id = -1;
-
 }

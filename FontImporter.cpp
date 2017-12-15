@@ -25,11 +25,10 @@ bool FontImporter::ImportFont(const char * path, const char * name)
 	return App->file_system->CreateOwnFile(name, buffer, size, App->file_system->GetMaterialFolder(), "ttf");
 }
 
-int FontImporter::LoadFont(ResourceFont * font)
+void FontImporter::LoadFont(ResourceFont * font)
 {
 	
 	font->font = TTF_OpenFont(font->GetOriginalFile().c_str(), font->size);
 	
 
-	return 1;
 }

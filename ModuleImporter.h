@@ -31,7 +31,7 @@ public:
 
 	void LoadMesh(ResourceMesh * mesh);
 	int LoadTexture(ResourceTexture* component);
-	int LoadFont(ResourceFont* component);
+	 void LoadFont(ResourceFont* component);
 
 	MaterialImporter material;
 	MeshImporter mesh;

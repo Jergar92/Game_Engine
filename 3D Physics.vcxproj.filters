@@ -471,6 +471,9 @@
     <ClInclude Include="SDL_ttf\include\SDL_ttf.h">
       <Filter>Sources\TTF font</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentInputText.h">
+      <Filter>Sources\Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -735,6 +738,9 @@
       <Filter>Sources\Canvas</Filter>
     </ClCompile>
     <ClCompile Include="ComponentCheckBox.cpp">
+      <Filter>Sources\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentInputText.cpp">
       <Filter>Sources\Canvas</Filter>
     </ClCompile>
   </ItemGroup>
