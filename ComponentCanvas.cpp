@@ -59,7 +59,7 @@ void ComponentCanvas::Render()
 		glPushMatrix();
 		glMultMatrixf((float*)&(*it)->my_go->GetTransposedMatrix());
 
-		(*it)->ProcessImage();
+		(*it)->ProcessComponent();
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);

@@ -43,6 +43,7 @@ public:
 	uint GetVBO()const;
 	uint GetEBO()const;
 	uint GetIndicesSize() const;
+	void ProcessComponent();
 	void ProcessImage();
 	void ProcessText();
 

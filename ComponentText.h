@@ -22,9 +22,9 @@ public:
 
 	ResourceFont* text=nullptr;
 	std::string text_str;
-	float4 color;
 	uint id = 0;//Vertex Buffer Object
 private:
+	float4 color = float4::one;
 	bool show_resource_font_windows = false;
 	void SetString(std::string input);
 	std::string input_text;

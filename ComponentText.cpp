@@ -49,6 +49,10 @@ void ComponentText::InspectorUpdate()
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", text->GetOrignalName().c_str());		
 			if (ImGui::InputText("Text##text_input", (char*)input_text.c_str(), max_input, ImGuiInputTextFlags_EnterReturnsTrue))
 				SetString(input_text.c_str());
+			if (ImGui::ColorEdit4("##image_rgba", color.ptr()))
+			{
+				UpdateText();
+			}
 
 			if (ImGui::DragInt("Font Size##transform_position", &text->size, 1,0))
 			{
@@ -115,7 +119,7 @@ void ComponentText::UpdateText()
 {
 	if (text->font == nullptr)
 		return;
-	s_font = TTF_RenderText_Blended(text->font, text_str.c_str(), SDL_Color{(Uint8)color.x, (Uint8)color.y,(Uint8)color.z, (Uint8)color.w });
+	s_font = TTF_RenderText_Blended(text->font, text_str.c_str(), SDL_Color{(Uint8)(color.x*255), (Uint8)(color.y*255),(Uint8)(color.z*255), (Uint8)(color.w*255) });
 
 	GLuint texture;
 	glGenTextures(1, &id);

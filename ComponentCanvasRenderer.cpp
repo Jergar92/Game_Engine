@@ -66,9 +66,16 @@ uint ComponentCanvasRenderer::GetIndicesSize() const
 {
 	return buffer.indices.size();
 }
+void ComponentCanvasRenderer::ProcessComponent()
+{
+	if (image != nullptr || text != nullptr)
+		(image != nullptr) ? ProcessImage() : ProcessText();
+
+}
 uint ComponentCanvasRenderer::GetImageID()const
 {
-	return (image!=nullptr)?image->GetImageID():-1;
+	if(image!=nullptr||text!=nullptr)
+	return (image!=nullptr)?image->GetImageID():text->id;
 }
 
 void ComponentCanvasRenderer::ProcessImage()
