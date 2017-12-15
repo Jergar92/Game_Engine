@@ -100,3 +100,15 @@ void ComponentCheckBox::InspectorCheck(ResourceTexture** state)
 	}
 
 }
+
+void ComponentCheckBox::Idle()
+{
+}
+
+void ComponentCheckBox::Hover()
+{
+}
+
+void ComponentCheckBox::Down()
+{
+}

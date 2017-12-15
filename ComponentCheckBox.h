@@ -20,6 +20,10 @@ private:
 	void InspectorCheck(ResourceTexture** state);
 
 	bool actived = false;
+	
+	void Idle();
+	void Hover();
+	void Down();
 
 	ComponentCanvas* canvas;
 	ComponentImage* check;
