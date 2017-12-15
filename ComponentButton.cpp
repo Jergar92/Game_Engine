@@ -57,12 +57,7 @@ void ComponentButton::InspectorUpdate()
 			over_window = true;
 
 		}
-		/*ShowInfo(pressed_texture);*/
-		if (ImGui::Button("Select Idle Texture##pressed_texture_texture"))
-		{
-			pressed_window = true;
 
-		}
 		/*ShowInfo(click_texture);*/
 		if (ImGui::Button("Select Click Texture##click_texture_texture"))
 		{
