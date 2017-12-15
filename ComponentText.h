@@ -36,5 +36,6 @@ private:
 	void SetString(std::string input);
 	std::string input_text;
 	int max_input = 20;
+
 };
 

@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "ComponentInteractive.h"
 class ComponentText;
+
 class ComponentInputText:public ComponentInteractive
 {
 public:
@@ -15,10 +16,19 @@ public:
 	void MoveLeft();
 	void MoveToEnd();
 	void MoveToStart();
+	void CallUpdate();
 
+	void Idle();
+	void Hover();
+	void Down();
+
+	uint GetCurrentPos()const;
+	void ReduceCursorPos();
 private:
 	uint cursor_pos = 0;
 
 	ComponentText* my_text = nullptr;
+	ComponentCanvas* canvas = nullptr;
+
 };
 

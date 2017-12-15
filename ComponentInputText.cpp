@@ -1,11 +1,19 @@
 #include "ComponentInputText.h"
 #include "ComponentText.h"
-
+#include "GameObject.h"
+#include "ComponentCanvas.h"
 
 
 
 ComponentInputText::ComponentInputText(GameObject * my_go):ComponentInteractive(my_go)
 {
+	component_name = "Input Text";
+	type = CANVAS_INPUT_TEXT;
+	canvas = FindMyCanvas();
+	canvas->interactive_array.push_back((ComponentInteractive*)this);
+	my_text = (ComponentText*)my_go->FindComponent(ComponentType::CANVAS_TEXT);
+	MoveToEnd();
+	
 }
 
 ComponentInputText::~ComponentInputText()
@@ -61,4 +69,31 @@ void ComponentInputText::MoveToStart()
 {
 	cursor_pos =0;
 
+}
+
+void ComponentInputText::CallUpdate()
+{
+	my_text->UpdateText();
+}
+
+void ComponentInputText::Idle()
+{
+}
+
+void ComponentInputText::Hover()
+{
+}
+
+void ComponentInputText::Down()
+{
+}
+
+uint ComponentInputText::GetCurrentPos() const
+{
+	return cursor_pos;
+}
+
+void ComponentInputText::ReduceCursorPos()
+{
+	cursor_pos--;
 }

@@ -5,6 +5,7 @@
 #include "ComponentCanvasRenderer.h"
 #include "ComponentRectTransform.h"
 #include "ComponentInteractive.h"
+#include "ComponentInputText.h"
 #include "ComponentImage.h"
 #include "ResourceTexture.h"
 #include "EventSystem.h"
@@ -238,6 +239,10 @@ void ComponentCanvas::UpdateFocus()
 
 	if (current_focus != nullptr)
 	{
+		if (current_focus->type == CANVAS_INPUT_TEXT)
+		{
+			UpdateInput();
+		}
 		if (current_focus->has_focus == true)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
@@ -275,6 +280,41 @@ void ComponentCanvas::UpdateFocus()
 				current_focus->has_focus = true;
 			}
 		}
+	}
+}
+
+void ComponentCanvas::UpdateInput()
+{
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	{
+		((ComponentInputText*)current_focus)->MoveLeft();
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+	{
+		((ComponentInputText*)current_focus)->MoveRight();
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_END) == KEY_DOWN)
+	{
+		((ComponentInputText*)current_focus)->MoveToEnd();
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_HOME) == KEY_DOWN)
+	{
+		((ComponentInputText*)current_focus)->MoveToStart();
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
+	{
+	
+		if (((ComponentInputText*)current_focus)->EraseText(((ComponentInputText*)current_focus)->GetCurrentPos()-1))
+		{
+			((ComponentInputText*)current_focus)->ReduceCursorPos();
+			((ComponentInputText*)current_focus)->CallUpdate();
+		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+	{
+		((ComponentInputText*)current_focus)->EraseText(((ComponentInputText*)current_focus)->GetCurrentPos());
+		((ComponentInputText*)current_focus)->CallUpdate();
+
 	}
 }
 

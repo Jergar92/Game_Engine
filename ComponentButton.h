@@ -45,7 +45,7 @@ private:
 	bool pressed_window = false;
 	bool click_window = false;
 
-	ComponentCanvas* canvas;
+	ComponentCanvas* canvas = nullptr;
 };
 
 

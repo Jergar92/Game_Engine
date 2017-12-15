@@ -44,6 +44,7 @@ public:
 
 	//Focus Functions
 	void UpdateFocus();
+	void UpdateInput();
 
 	void DebugDraw();
 

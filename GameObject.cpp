@@ -19,6 +19,7 @@
 #include "ComponentImage.h"
 #include "ComponentButton.h"
 #include "ComponentText.h"
+#include "ComponentInputText.h"
 #include "ComponentCheckBox.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
@@ -523,6 +524,16 @@ Component * GameObject::CreateComponent(ComponentType type)
 		}
 		item = new ComponentText(this);
 		((ComponentCanvasRenderer*)canvas_render)->GetComponent(item);
+		break;
+	}
+
+	case CANVAS_INPUT_TEXT:
+	{
+		if (this->type == GO_ELEMENT)
+		{
+			CreateComponent(RECT_TRANSFORM);
+		}
+		item = new ComponentInputText(this);
 		break;
 	}
 	case CANVAS_BUTTON:
