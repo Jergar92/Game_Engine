@@ -6,6 +6,8 @@
 #include "ComponentRectTransform.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "SDL\include\SDL.h"
+#include "SDL_ttf\include\SDL_ttf.h"
 ComponentCanvasRenderer::ComponentCanvasRenderer(GameObject * my_go) :Component(my_go)
 {
 	component_name = "Canvas Renderer";
@@ -115,47 +117,41 @@ void ComponentCanvasRenderer::ProcessText()
 {
 	if (text->text_str.empty())
 		return;
-	const std::string str = text->text_str;
+
 	buffer.vertices.clear();
 	buffer.indices.clear();
 
-	uint lastIndex = 0;
-	float offsetX = 0, offsetY = 0;
-	for (auto c : str)
-	{
-		GlyphData data = text->getGlyphInfo(c, offsetX, offsetY);
-		offsetX = data.offset_x;
-		offsetY = data.offset_y;
-
+	
+	float3 position;
+	float2 text_cord;
 		CanvasVertex ver0;
-		ver0.position=data.positions[0];
-		ver0.tex_coords = data.text_cords[0];
+		ver0.position=float3(0,0,0);
+		ver0.tex_coords = float2(0, 0);
 		buffer.vertices.push_back(ver0);
 
 		CanvasVertex ver1;
-		ver1.position = data.positions[1];
-		ver1.tex_coords = data.text_cords[1];
+		ver1.position = float3(0+text->s_font->w, 0, 0);
+		ver1.tex_coords = float2(1, 0);
 		buffer.vertices.push_back(ver1);
 
 		CanvasVertex ver2;
-		ver2.position = data.positions[2];
-		ver2.tex_coords = data.text_cords[2];
+		ver2.position = float3(0 + text->s_font->w, 0 + text->s_font->h, 0);
+		ver2.tex_coords = float2(1, 1);
 		buffer.vertices.push_back(ver2);
 
 		CanvasVertex ver3;
-		ver3.position = data.positions[3];
-		ver3.tex_coords = data.text_cords[3];
+		ver3.position = float3(0, 0+ text->s_font->h, 0);
+		ver3.tex_coords = float2(0, 1);
 		buffer.vertices.push_back(ver3);
-
+		
+		uint lastIndex = 0;
 		buffer.indices.push_back(lastIndex);
 		buffer.indices.push_back(lastIndex + 1);
 		buffer.indices.push_back(lastIndex + 2);
-		buffer.indices.push_back(lastIndex);
 		buffer.indices.push_back(lastIndex + 2);
 		buffer.indices.push_back(lastIndex + 3);
+		buffer.indices.push_back(lastIndex);
 
-		lastIndex += 4;
-	}
 
 
 	glGenBuffers(1, &buffer.VBO);

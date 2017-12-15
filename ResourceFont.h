@@ -1,13 +1,10 @@
 #pragma once
 #include "Globals.h"
 #include "Resource.h"
-//ImGui define dat
-#include <memory>
 
-#include "imgui\stb_truetype.h"
-#ifndef STB_TRUETYPE_IMPLEMENTATION
-#define STB_TRUETYPE_IMPLEMENTATION
-#endif // !1
+
+
+typedef struct _TTF_Font TTF_Font;
 class ResourceFont:public Resource
 {
 public:
@@ -18,16 +15,9 @@ public:
 	void Load();
 	void UnLoadInMemory();
 	void UnLoad();
-
-	int size = 40;
-	uint atlas_width = 1024;
-	uint atlas_height = 1024;
-	uint oversample_x = 2;
-	uint oversample_y = 2;
-	uint first_char = ' ';
-	uint char_count = '~' - ' ';
-	std::unique_ptr<stbtt_packedchar[]> char_info;
-
+	TTF_Font* font = NULL;
+//	SDL_Surface * sFont;
+	int size = 16;
 	uint id = 0;
 private:
 

@@ -64,6 +64,9 @@
     <Filter Include="Sources\Canvas">
       <UniqueIdentifier>{faa517a6-e767-4e5c-935f-a3c3485b365b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\TTF font">
+      <UniqueIdentifier>{d581a0d3-6a9f-4278-a8c8-914e3013bf44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -464,6 +467,9 @@
     </ClInclude>
     <ClInclude Include="ComponentCheckBox.h">
       <Filter>Sources\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_ttf\include\SDL_ttf.h">
+      <Filter>Sources\TTF font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

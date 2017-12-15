@@ -8,19 +8,22 @@ struct GlyphData
 	float2 text_cords[4];
 	float offset_x, offset_y;
 };
+struct SDL_Surface;
 class ComponentText:public Component
 {
 public:
 	ComponentText(GameObject* my_go);
 	~ComponentText();
 	void InspectorUpdate();
-	GlyphData getGlyphInfo(uint character, float offset_x, float offset_y);
 	uint GetID();
+	void UpdateText();
+	SDL_Surface * s_font = nullptr;
+
+
 	ResourceFont* text=nullptr;
 	std::string text_str;
-
-	uint VBO = 0;//Vertex Buffer Object
-	uint EBO = 0;//Element Buffer Object+
+	float4 color;
+	uint id = 0;//Vertex Buffer Object
 private:
 	bool show_resource_font_windows = false;
 	void SetString(std::string input);

@@ -11,7 +11,8 @@
 #include <gl/GLU.h>
 #include "imgui/imgui_impl_sdl.h"
 #include "EventSystem.h"
-
+#include "SDL\include\SDL.h"
+#include "SDL_ttf\include\SDL_ttf.h"
 
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
@@ -84,6 +85,7 @@ bool ModuleRenderer3D::Awake(const JSONConfig& data)
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
+		TTF_Init();
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 

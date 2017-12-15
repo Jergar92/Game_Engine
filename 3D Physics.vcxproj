@@ -202,6 +202,7 @@
     <ClInclude Include="ResourceMesh.h" />
     <ClInclude Include="ResourcePrefab.h" />
     <ClInclude Include="ResourceTexture.h" />
+    <ClInclude Include="SDL_ttf\include\SDL_ttf.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="ComponentCanvas.h" />
     <ClInclude Include="UI_About.h" />

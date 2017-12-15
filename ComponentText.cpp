@@ -2,12 +2,15 @@
 #include "Application.h"
 #include "ModuleResourceManager.h"
 #include "ResourceFont.h"
+
+
 #include "imgui/imgui.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-
+#include "SDL\include\SDL.h"
+#include "SDL_ttf\include\SDL_ttf.h"
 ComponentText::ComponentText(GameObject* my_go):Component(my_go)
 {
 	component_name = "text";
@@ -101,31 +104,6 @@ void ComponentText::InspectorUpdate()
 	}
 }
 
-GlyphData ComponentText::getGlyphInfo(uint character, float offset_x, float offset_y)
-{
-
-	stbtt_aligned_quad quad;
-
-	stbtt_GetPackedQuad(text->char_info.get(), text->atlas_width, text->atlas_height, character - text->first_char, &offset_x, &offset_y, &quad, 1);
-	auto xmin = quad.x0;
-	auto xmax = quad.x1;
-	auto ymin = -quad.y1;
-	auto ymax = -quad.y0;
-
-	GlyphData data;
-
-	data.offset_x = offset_x;
-	data.offset_y = offset_y;
-	data.positions[0] = { xmin, ymin, 0 };
-	data.positions[1] = { xmin, ymax, 0 };
-	data.positions[2] = { xmax, ymax, 0 };
-	data.positions[3] = { xmax, ymin, 0 };
-	data.text_cords[0] = { quad.s0, quad.t1 };
-	data.text_cords[1] = { quad.s0, quad.t0 };
-	data.text_cords[2] = { quad.s1, quad.t0 };
-	data.text_cords[3] = { quad.s1, quad.t1 };
-	return data;
-}
 
 uint ComponentText::GetID()
 {
@@ -133,7 +111,29 @@ uint ComponentText::GetID()
 	return	(text != nullptr)? text->id:-1;
 }
 
+void ComponentText::UpdateText()
+{
+	if (text->font == nullptr)
+		return;
+	s_font = TTF_RenderText_Blended(text->font, text_str.c_str(), SDL_Color{(Uint8)color.x, (Uint8)color.y,(Uint8)color.z, (Uint8)color.w });
+
+	GLuint texture;
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s_font->w, s_font->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, s_font->pixels);
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+}
+
+
 void ComponentText::SetString(std::string input)
 {
 	text_str = input;
+	UpdateText();
 }

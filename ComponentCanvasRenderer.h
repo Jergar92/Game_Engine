@@ -4,7 +4,7 @@
 #include <vector>
 #include "MathGeoLib-1.5\src\Math\float3.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
-
+#include "SDL_ttf\include\SDL_ttf.h"
 class ComponentText;
 class ComponentImage;
 class Component;

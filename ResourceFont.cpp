@@ -2,7 +2,8 @@
 #include "Application.h"
 #include "ModuleImporter.h"
 #include "Glew\include\GL\glew.h"
-
+#include "SDL\include\SDL.h"
+#include "SDL_ttf\include\SDL_ttf.h"
 ResourceFont::ResourceFont(uint UID):Resource(UID, ResourceType::R_FONT)
 {
 }
@@ -38,6 +39,7 @@ void ResourceFont::UnLoadInMemory()
 
 void ResourceFont::UnLoad()
 {
+	TTF_CloseFont(font);
 	glDeleteTextures(1, &id);
 	id = -1;
 
