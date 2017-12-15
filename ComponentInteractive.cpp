@@ -37,6 +37,11 @@ void ComponentInteractive::OnDown()
 	Down();
 }
 
+void ComponentInteractive::SetCurrentFocus(bool state)
+{
+	has_focus = state;
+}
+
 ComponentCanvas * ComponentInteractive::FindMyCanvas()
 {
 	ComponentCanvas * ret = nullptr;

@@ -37,20 +37,27 @@ public:
 	void SetUpRender();
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
+	
+	//Z interactive list functions
 	void UpdateInteractive();
 	void UpdateInteractiveMap();
+
+	//Focus Functions
+	void UpdateFocus();
+
 	void DebugDraw();
 
 public:
 
 	std::vector<ComponentInteractive*> interactive_array;
 	std::multimap<float, ComponentInteractive*> interactive_z_map;
+	std::multimap<float, ComponentInteractive*> interactive_x_map;
 
 private:
 
 	std::list<ComponentCanvasRenderer*> canvas_render;
 	
-
+	ComponentInteractive* current_focus = nullptr;
 	CanvasData canvas_data;
 	bool on_ejecution = false;
 	GLint last_texture;

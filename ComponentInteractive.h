@@ -24,6 +24,9 @@ public:
 	void OnClick();
 	void OnDown();
 
+	void SetCurrentFocus(bool state);
+
+
 	ComponentCanvas* FindMyCanvas();
 	
 	virtual void Idle() = 0;
@@ -40,9 +43,11 @@ public:
 
 	ComponentRectTransform* transform;
 
-private:
 
 	bool is_dragable = false;
 	bool is_focusable = false;
+
+	bool has_focus = false;
+
 };
 

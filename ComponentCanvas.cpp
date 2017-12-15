@@ -40,6 +40,7 @@ void ComponentCanvas::Update(float dt)
 	my_go->GetRectTransform()->SetBlock(true);
 	UpdateInteractiveMap();
 	UpdateInteractive();
+	UpdateFocus();
 	DebugDraw();
 
 }
@@ -180,9 +181,6 @@ void ComponentCanvas::UpdateInteractive()
 		int x;
 		int y;
 
-	//	if (interactive_array[i] == 0)
-	//		continue;
-
 		ComponentRectTransform* transform = map_iterator->second->transform;
 		
 		int mouse_x = App->input->GetMouseX() * transform->GetPivot().x;
@@ -199,7 +197,12 @@ void ComponentCanvas::UpdateInteractive()
 		{
 			if(is_on_hover == false)
 			{
+				current_focus = map_iterator->second;
+
 				is_on_hover = true;
+				
+				current_focus->has_focus = true;
+
 				if (map_iterator->second->states == IDLE)
 				{
 					map_iterator->second->OnHover();
@@ -228,20 +231,72 @@ void ComponentCanvas::UpdateInteractive()
 	}
 }
 
+void ComponentCanvas::UpdateFocus()
+{
+	bool is_on_hover = false;
+	std::multimap<float, ComponentInteractive*>::iterator map_iterator;
+
+	if (current_focus != nullptr)
+	{
+		if (current_focus->has_focus == true)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
+			{
+				for (map_iterator = interactive_x_map.begin(); map_iterator != interactive_x_map.end(); ++map_iterator)
+				{
+					if (current_focus == map_iterator->second)
+					{
+						current_focus->has_focus = false;
+						++map_iterator;
+						if (map_iterator == interactive_x_map.end())
+						{
+							map_iterator = interactive_x_map.begin();
+						}
+						current_focus = map_iterator->second;
+						current_focus->has_focus = true;
+						return;
+					}
+
+				}
+			}
+			else if(App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT)
+			{
+				current_focus->OnClick();
+			}
+		}	
+	}
+	else
+	{
+		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
+		{
+			if (!interactive_x_map.empty())
+			{
+				current_focus = interactive_x_map.begin()->second;
+				current_focus->has_focus = true;
+			}
+		}
+	}
+}
+
+
+
 void ComponentCanvas::UpdateInteractiveMap()
 {
 	interactive_z_map.clear();
-	
+	interactive_x_map.clear();
+
 	for (int i = 0; i < interactive_array.size(); i++)
 	{
 		interactive_z_map.insert(std::pair<float, ComponentInteractive*>(interactive_array[i]->transform->GetDepth(), interactive_array[i]));
+		interactive_x_map.insert(std::pair<float, ComponentInteractive*>(interactive_array[i]->transform->position.x, interactive_array[i]));
 	}
-
 }
 
 CanvasBuffer::CanvasBuffer()
 {
 }
+
+
 
 void ComponentCanvas::DebugDraw()
 {
