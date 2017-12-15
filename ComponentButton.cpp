@@ -29,7 +29,7 @@ ComponentButton::~ComponentButton()
 
 void ComponentButton::Update(float dt)
 {
-	ButtonFunctionality();
+
 }
 
 void ComponentButton::InspectorUpdate()
