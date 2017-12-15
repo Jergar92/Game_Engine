@@ -17,7 +17,8 @@ public:
 
 private:
 	void Click();
-	void InspectorCheck(ResourceTexture** state);
+	void InspectorUpdate();
+	bool InspectorCheck(ResourceTexture** state);
 
 	bool actived = false;
 	
@@ -26,11 +27,12 @@ private:
 	void Down();
 
 	ComponentCanvas* canvas;
-	ComponentImage* check;
-	ResourceTexture* empty = nullptr;
-	ResourceTexture* checked = nullptr;
-
-	uint id_active;
-	uint id_unactive;
+	ComponentImage* box;
+	ResourceTexture* hover = nullptr;
+	ResourceTexture* pressed = nullptr;
+	bool active_text = false;
+	bool hover_text = false;
+	bool pressed_window = false;
+	bool activated = false;
 };
 #endif

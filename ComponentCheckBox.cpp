@@ -15,12 +15,9 @@ ComponentCheckBox::ComponentCheckBox(GameObject* my_go) : ComponentInteractive(m
 	canvas = FindMyCanvas();
 
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
-	check = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
+	box = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
 
-	InspectorCheck(&empty);
-	InspectorCheck(&checked);
-	id_active = checked->GetID();
-	id_unactive = checked->GetID();
+	InspectorCheck(&pressed);
 }
 
 ComponentCheckBox::~ComponentCheckBox()
@@ -29,86 +26,157 @@ ComponentCheckBox::~ComponentCheckBox()
 
 void ComponentCheckBox::Update(float dt)
 {
-	canvas->UpdateInteractive();
-
-	if (actived)
-	{
-		check->ChangeImage(id_unactive);
-		actived = false;
-	}
-	else
-	{
-		check->ChangeImage(id_active);
-		actived = true;
-	}
-	
 }
 
 void ComponentCheckBox::Click()
 {
-	switch (actived)
+	if (last_state != states)
 	{
-		case true:
+		last_state = states;
+		switch (states)
+		{
+		case IDLE:
+			Idle();
+			break;
 
-			return;
-		case false:
-	
-			return;
+		case HOVER:
+			Hover();
+			break;
+
+		case DOWN:
+			Down();
+			break;
+
 		default:
 			break;
+		}
+
 	}
-	actived = !actived;
 }
 
-void ComponentCheckBox::InspectorCheck(ResourceTexture** state)
+void ComponentCheckBox::InspectorUpdate()
+{
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
+	if (ImGui::BeginPopupContextItem("go_options"))
+	{
+		if (ImGui::Button("Delete Component"))
+		{
+			DeleteComponent();
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+	if (node_open)
+	{
+
+		if (ImGui::Button("Select Empty checkbox Texture"))
+		{
+			hover_text = true;
+
+		}
+
+		if (ImGui::Button("Select pressed checkbox Texture"))
+		{
+			active_text = true;
+		}
+
+		ImGui::TreePop();
+	}
+
+	if (active_text || hover_text)
+	{
+		bool check = false;
+		if (active_text)
+		{
+			check = InspectorCheck(&pressed);
+			if (check)
+				pressed_window = false;
+		}
+
+		if (hover_text)
+		{
+			check = InspectorCheck(&hover);
+			if (check)
+				pressed_window = false;
+		}
+
+		if (pressed_window)
+		{
+			check = InspectorCheck(&pressed);
+			if (check)
+				pressed_window = false;
+		}
+	}
+}
+
+bool ComponentCheckBox::InspectorCheck(ResourceTexture** status)
 {
 	bool ret = false;
 	uint UID = App->resource_manager->ResourceWindows(R_TEXTURE);
 	if (UID == -1)
 	{
-		return;
+		ret = true;
 	}
 	else if (UID != 0)
 	{
 		Resource* new_resource = App->resource_manager->Get(UID);
 		bool update = true;
 
-		if (*state != nullptr)
+		if (*status != nullptr)
 		{
 
-			if (new_resource->GetOriginalFile().compare((*state)->GetOriginalFile()) == 0)
+			if (new_resource->GetOriginalFile().compare((*status)->GetOriginalFile()) == 0)
 			{
 				update = false;
 			}
 			else
 			{
-				(*state)->UnLoadInMemory();
-				*state = (ResourceTexture*)new_resource;
+				(*status)->UnLoadInMemory();
+				*status = (ResourceTexture*)new_resource;
 
 			}
 		}
 		else
 		{
-			*state = (ResourceTexture*)new_resource;
+			*status = (ResourceTexture*)new_resource;
 		}
 		if (update)
 		{
-			(*state)->LoadInMemory();
+			(*status)->LoadInMemory();
 		}
+		active_text = false;
+		hover_text = false;
 
 		ImGui::CloseCurrentPopup();
 	}
+	return ret;
 
 }
 
 void ComponentCheckBox::Idle()
 {
+	uint id = 0;
+	if (activated && pressed != nullptr)
+	{ 
+		id = pressed->GetID();
+	}
+	box->ChangeImage(id);
 }
 
 void ComponentCheckBox::Hover()
 {
+
 }
 
 void ComponentCheckBox::Down()
 {
+	uint id = 0;
+	activated = !activated;
+	if (activated && pressed != nullptr)
+	{
+		id = pressed->GetID();
+	}
+	box->ChangeImage(id);
 }

@@ -16,6 +16,7 @@ UI_Inspector::UI_Inspector(ModuleEditorWindows* my_editor) :UI_Windows(my_editor
 	names[CANVAS_IMAGE] = "Image";
 	names[CANVAS_BUTTON] = "Button";
 	names[CANVAS_TEXT] = "Text";
+	names[CANVAS_CHECKBOX] = "CheckBox";
 
 }
 
