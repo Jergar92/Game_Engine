@@ -467,7 +467,7 @@ void GameObject::ActivateFade(int speed)
 {
 	if (enable_fade == true)
 	{
-	   if(my_ui_transform->position.y + my_ui_transform->GetHeight < 0.0f)
+	   if(my_ui_transform->position.y + my_ui_transform->GetHeight() < 0.0f)
 	   {
 			   my_ui_transform->position.y += speed;
 			   my_ui_transform->UpdateMatrix();
@@ -715,6 +715,21 @@ Component* GameObject::FindComponent(ComponentType type)const
 	}
 	return ret;
 }
+
+bool GameObject::FindGameObjectWithComponent(ComponentType type)const
+{
+	Component* ret = nullptr;
+	for (uint i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+
+		if (item->type == type)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 bool GameObject::RemoveComponent(ComponentType type,int position)
 {
 	Component* item = FindComponent(type);
@@ -948,6 +963,11 @@ void GameObject::GenerateBoudingBox()
 void GameObject::SetAABB(const AABB set_bounding_box)
 {
 	indentity_bounding_box_AABB = set_bounding_box;
+}
+
+void GameObject::SetEnableFade(bool value)
+{
+	enable_fade = value;
 }
 
 void GameObject::RenderBoundingBoxAABB()

@@ -281,6 +281,29 @@ void ModuleScene::LoadGO(const char*path)
 		}
 	}
 }
+GameObject * ModuleScene::FindGameObjectComponent(ComponentType type) const
+{
+	GameObject* ret = nullptr;
+	if (scene_go != nullptr)
+	{
+		std::queue<GameObject*> queue;
+		queue.push(scene_go);
+		while (!queue.empty())
+		{
+			GameObject* item = queue.front();
+			for (std::vector<GameObject*>::iterator it = item->childs.begin(); it != item->childs.end(); it++)
+			{
+				queue.push(*it);
+			}
+			if (queue.front()->FindGameObjectWithComponent(type))
+			{
+				ret = queue.front();
+			}
+			queue.pop();
+		}
+	}
+	return ret;
+}
 /*
 void ModuleScene::SendToQuad(GameObject * go)
 {

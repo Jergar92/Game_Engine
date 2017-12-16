@@ -55,6 +55,8 @@ public:
 	const ComponentRectTransform * GetRectTransform() const;
 	ComponentRectTransform * GetRectTransform();
 
+	bool FindGameObjectWithComponent(ComponentType type) const;
+
 	bool RemoveComponent(ComponentType type, int component_position);
 	bool RemoveGO(GameObject* to_remove);
 
@@ -66,6 +68,7 @@ public:
 	void SetName(const char* name);
 	void SetTransform(math::float3 scale, math::Quat rotation, math::float3 position);
 	void SetAABB(const AABB set_bounding_box);
+	void SetEnableFade(bool value);
 
 
 	//Getters

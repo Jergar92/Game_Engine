@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "MyQuadTree.h"
+#include "Component.h"
 #include <list>
 class GameObject;
 class Plane_p;
@@ -34,6 +35,8 @@ public:
 
 	void LoadScene(const char*path);
 	void LoadGO(const char*path);
+
+	GameObject* FindGameObjectComponent(ComponentType type)const;
 
 	GameObject* FindGameObjectByID(const std::vector<GameObject*> & go, int UID_to_find)const ;
 
