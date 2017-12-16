@@ -50,7 +50,7 @@ void ComponentButton::InspectorUpdate()
 	}
 	if (node_open)
 	{
-		
+	
 		/*ShowInfo(OnHove);*/
 		if (ImGui::Button("Select Hover Texture##over_texture_texture"))
 		{

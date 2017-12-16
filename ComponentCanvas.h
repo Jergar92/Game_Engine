@@ -38,14 +38,16 @@ public:
 	void ResetRender();
 	void AddCanvasRender(ComponentCanvasRenderer* canvas_render);
 	
-	//Z interactive list functions
-	void UpdateInteractive();
+	//interactive list functions
 	void UpdateInteractiveMap();
 
-	//Focus Functions
+	//Components Interactive Functions
 	void UpdateFocus();
 	void UpdateInput();
+	void UpdateInteractive();
+	void UpdateDrag();
 
+	//Draw Canvas function
 	void DebugDraw();
 
 public:

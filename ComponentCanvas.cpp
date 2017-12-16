@@ -16,6 +16,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #define INDICES_NUM 4
+#define DEFAULT_PIVOT 0.5f
 ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 {
 	component_name = "Canvas";
@@ -232,6 +233,25 @@ void ComponentCanvas::UpdateInteractive()
 	}
 }
 
+void ComponentCanvas::UpdateDrag()
+{
+	ComponentRectTransform* transform = current_focus->transform;
+
+	if (current_focus->is_dragable == true)
+	{
+		
+		int delta_x = App->input->GetMouseXMotion() * transform->GetPivot().x;
+		int delta_y = App->input->GetMouseYMotion() * transform->GetPivot().y;
+
+		if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		{
+			transform->position.x += delta_x;
+			transform->position.y += delta_y;
+		}
+	 }
+}
+
+
 void ComponentCanvas::UpdateFocus()
 {
 	bool is_on_hover = false;
@@ -242,6 +262,10 @@ void ComponentCanvas::UpdateFocus()
 		if (current_focus->type == CANVAS_INPUT_TEXT)
 		{
 			UpdateInput();
+		}
+		else if(current_focus->type == CANVAS_BUTTON)
+		{
+			UpdateDrag();
 		}
 		if (current_focus->has_focus == true)
 		{
@@ -282,6 +306,8 @@ void ComponentCanvas::UpdateFocus()
 		}
 	}
 }
+
+
 
 void ComponentCanvas::UpdateInput()
 {
