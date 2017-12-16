@@ -564,7 +564,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 		}
 		Component* canvas_render = nullptr;
 
-		if (HaveComponent(CANVAS_RENDER))
+		if (!HaveComponent(CANVAS_RENDER))
 		{
 			LOG("Add Component Canvas Render")
 				canvas_render = CreateComponent(CANVAS_RENDER);
