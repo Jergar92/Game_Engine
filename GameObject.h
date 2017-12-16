@@ -89,22 +89,21 @@ public:
 	void LoadGameObject(const JSONConfig& data);
 	void SaveGameObject(JSONConfig& data)const;
 
+	//Fade Fucntion
+	void ActivateFade(int speed);
 
 public:
+
 	std::vector<Component*> components;
 	std::vector<GameObject*> childs;
 
 	std::string name;
 	std::string input_name;
 
-
-
-
-
-	
-
 private:
+
 	bool enable = true;
+	bool enable_fade = false;
 	bool static_go = false;
 	bool gui_static = false;
 	bool show_bounding_box = false;

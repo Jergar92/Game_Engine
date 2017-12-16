@@ -51,6 +51,7 @@ public:
 	void WindowLimits();
 
 	void EventString(const char* str);
+	void FadeParent();
 
 	//Draw Canvas function
 	void DebugDraw();

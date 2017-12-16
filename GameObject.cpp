@@ -463,6 +463,18 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 
 }
 
+void GameObject::ActivateFade(int speed)
+{
+	if (enable_fade == true)
+	{
+	   if(my_ui_transform->position.y + my_ui_transform->GetHeight < 0.0f)
+	   {
+			   my_ui_transform->position.y += speed;
+			   my_ui_transform->UpdateMatrix();
+	   }
+	}
+}
+
 GameObject * GameObject::CreateChild()
 {
 	GameObject* ret = new GameObject(this);

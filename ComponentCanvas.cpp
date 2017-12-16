@@ -25,6 +25,11 @@ ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 	UUID = App->GenerateRandom();
 	event_str.Create("AddStr", this, &ComponentCanvas::EventString, UUID);
 	EventS->AddEvent(event_str);
+	
+	//Button event
+	EventVoid event_button;
+	event_button.Create("Fade Parent", this, &ComponentCanvas::FadeParent, UUID);
+	EventS->AddEvent(event_str);
 }
 
 
@@ -112,6 +117,7 @@ void ComponentCanvas::Render()
 void ComponentCanvas::CleanUp()
 {
 	EventS->EraseEventChar("AddStr", UUID);
+	EventS->EraseEventChar("Fade Parent", UUID);
 }
 
 void ComponentCanvas::SetUpCanvasSize(SDL_Window *window)
@@ -304,6 +310,14 @@ void ComponentCanvas::EventString(const char * str)
 			((ComponentInputText*)current_focus)->CallUpdate();
 
 		}
+	}
+}
+
+void ComponentCanvas::FadeParent()
+{
+	if (current_focus != nullptr)
+	{
+
 	}
 }
 
