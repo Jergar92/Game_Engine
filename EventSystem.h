@@ -150,9 +150,55 @@ struct EventChar
 	std::string name;
 
 	std::function<void(const char*)> event_function;
+};
 
-	
 
+struct EventBool
+{
+
+	void Create(std::function<void(bool)>ptr_function)
+	{
+
+		event_function = ptr_function;
+	}
+
+	template<typename C>
+	void Create(std::string name, C* class_obj, void(C::*ptr_function)(bool), uint UID = 0)
+	{
+		SetUID(UID);
+
+		SetName(name);
+		Create([object = class_obj, memFunc = ptr_function](bool arg)
+		{
+			(object->*(memFunc))(arg);//<--send this to Create(void(*ptr_function)());
+		});
+
+	}
+
+	void SetUID(uint value)
+	{
+		UID = value;
+
+	}
+
+	void SetName(std::string ptr)
+	{
+		name = ptr;
+
+	}
+	bool Compare(uint value)
+	{
+		return UID == value;
+	}
+	bool operator==(const EventBool& other)
+	{
+		return UID == other.UID;
+	}
+	uint UID;
+
+	std::string name;
+
+	std::function<void(bool)> event_function;
 };
 //TODO add events with argurments
 class EventSystem
@@ -174,7 +220,10 @@ public:
 	{
 		event_char_list[new_event.name].push_back(new_event);
 	}
-
+	void AddEvent(EventBool new_event)
+	{
+		event_bool_list[new_event.name].push_back(new_event);
+	}
 	
 	void CallEvent(std::string name)
 	{		
@@ -219,7 +268,20 @@ public:
 		}
 	}
 
-
+	void CallEvent(std::string name, bool arg)
+	{
+		std::map<std::string, std::list<EventBool>>::const_iterator it = event_bool_list.begin();
+		for (; it != event_bool_list.end(); it++)
+		{
+			if (strcmp(name.c_str(), it->first.c_str()) == 0)
+			{
+				for (std::list<EventBool>::const_iterator iterator = it->second.begin(); iterator != it->second.end(); iterator++)
+				{
+					iterator->event_function(arg);
+				}
+			}
+		}
+	}
 //Removals
 	
 	void EraseEventVoid(std::string name, uint UID)
@@ -281,12 +343,30 @@ public:
 			}
 		}
 	}
-	
+	void EraseEventBool(std::string name, uint UID)
+	{
+		std::map<std::string, std::list<EventBool>>::iterator it = event_bool_list.begin();
+		for (; it != event_bool_list.end(); it++)
+		{
+			if (strcmp(name.c_str(), it->first.c_str()) == 0)
+			{
+				for (std::list<EventBool>::iterator iterator = it->second.begin(); iterator != it->second.end(); iterator++)
+				{
+					if ((*iterator).Compare(UID))
+					{
+						it->second.remove((*iterator));
+						return;
+					}
+				}
+			}
+		}
+	}
 private:
 	//TODO make one big list of events??¿¿
 	std::map<std::string, std::list<EventVoid> > event_list;
 	std::map<std::string, std::list<EventFloat>> event_float_list;
 	std::map<std::string, std::list<EventChar>> event_char_list;
+	std::map<std::string, std::list<EventBool>> event_bool_list;
 
 };
 

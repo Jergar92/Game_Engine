@@ -7,7 +7,7 @@
 #include "Application.h"
 #include "ModuleResourceManager.h"
 #include "ComponentImage.h"
-
+#include "EventSystem.h"
 ComponentCheckBox::ComponentCheckBox(GameObject* my_go) : ComponentInteractive(my_go)
 {
 	component_name = "CheckBox";
@@ -16,7 +16,8 @@ ComponentCheckBox::ComponentCheckBox(GameObject* my_go) : ComponentInteractive(m
 
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	box = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
-
+	functions[0] = "Change Vsync";
+	functions[1] = "Change Cullface";
 	InspectorCheck(&pressed);
 }
 
@@ -81,7 +82,11 @@ void ComponentCheckBox::InspectorUpdate()
 		{
 			active_text = true;
 		}
-
+		ImGui::Text("Function Selection");
+		for (int i = 0; i < functions.size(); i++)
+		{
+			ImGui::RadioButton(functions[i], &function_selection, i);
+		}
 		ImGui::TreePop();
 	}
 
@@ -110,7 +115,14 @@ void ComponentCheckBox::InspectorUpdate()
 		}
 	}
 }
-
+void ComponentCheckBox::StartFunciton(int event_num)
+{
+	for (std::map<int, const char*>::const_iterator it = functions.begin(); it != functions.end(); it++)
+	{
+		if (it->first == event_num)
+			EventS->CallEvent(it->second, actived);
+	}
+}
 bool ComponentCheckBox::InspectorCheck(ResourceTexture** status)
 {
 	bool ret = false;

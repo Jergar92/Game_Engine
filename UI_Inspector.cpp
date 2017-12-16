@@ -98,12 +98,10 @@ void UI_Inspector::InspectorGameObject()
 		ImGui::SameLine();
 		if (ImGui::BeginPopup("select"))
 		{
-			int i = 0;
 			for (std::map<ComponentType, const char*>::const_iterator it = names.begin(); it != names.end(); it++)
 			{
 				if (ImGui::Selectable(it->second))
 					selected_fish = it->first;
-				i++;
 			}
 				
 			ImGui::EndPopup();

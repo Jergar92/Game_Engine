@@ -8,6 +8,7 @@
 #include "ComponentCanvas.h"
 #include "ModuleResourceManager.h"
 #include "ResourceTexture.h"
+#include "EventSystem.h"
 #define TEXTURE_SIZE 64
 #define TEXTURE_SIZE_HOVER 128
 ComponentButton::ComponentButton(GameObject* my_go) : ComponentInteractive(my_go)
@@ -17,6 +18,9 @@ ComponentButton::ComponentButton(GameObject* my_go) : ComponentInteractive(my_go
 	canvas = FindMyCanvas();
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	texture = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
+	functions[0]="Fade Parent";
+	functions[1] = "Do nothing1";
+	functions[2] = "Do nothing2";
 
 };
 
@@ -63,7 +67,15 @@ void ComponentButton::InspectorUpdate()
 		{
 			click_window = true;
 		}
+		ImGui::Text("Function Selection");
+		for (int i = 0; i < functions.size(); i++)
+		{
+			ImGui::RadioButton(functions[i], &function_selection, i);
+		}
 		ImGui::TreePop();
+		
+	
+	
 	}
 
 	if (over_window|| pressed_window|| click_window)
@@ -140,6 +152,15 @@ void ComponentButton::ButtonFunctionality()
 	}
 }
 
+void ComponentButton::StartFunciton(int event_num)
+{
+	for (std::map<int, const char*>::const_iterator it = functions.begin(); it != functions.end(); it++)
+	{
+		if (it->first == event_num)
+			EventS->CallEvent(it->second);
+	}
+}
+
 void ComponentButton::Idle()
 {
 	texture->ChangeImage(0);
@@ -167,6 +188,7 @@ void ComponentButton::Down()
 	}
 
 	texture->ChangeImage(id);
+	StartFunciton(function_selection);
 }
 
 bool ComponentButton::InspectorCheck(ResourceTexture** status)

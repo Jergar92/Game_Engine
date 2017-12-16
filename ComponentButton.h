@@ -2,7 +2,7 @@
 #define __COMPONENT_BUTTON__
 #include "ComponentInteractive.h"
 #include "MathGeoLib-1.5\src\Math\float2.h"
-
+#include <map>
 class ComponentImage;
 class ResourceTexture;
 
@@ -24,9 +24,8 @@ public:
 
 	void InspectorUpdate();
 	void ShowInfo(ResourceTexture* texture);
-
 	void ButtonFunctionality();
-
+	void StartFunciton(int event_num);
 	void Idle();
 	void Hover();
 	void Down();
@@ -38,11 +37,12 @@ private:
 	ResourceTexture* over_texture = nullptr; 
 	ResourceTexture* pressed_texture = nullptr;
 	ResourceTexture* click_texture = nullptr;
-
+	int function_selection = 0;
 	bool InspectorCheck(ResourceTexture** text);
 	bool over_window = false;
 	bool pressed_window = false;
 	bool click_window = false;
+	std::map<int,const char*> functions;
 };
 
 

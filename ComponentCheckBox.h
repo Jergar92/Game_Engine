@@ -2,6 +2,7 @@
 #define __COMPONENT_CHECKBOX__
 #include "Component.h"
 #include "ComponentInteractive.h"
+#include <map>
 
 class ComponentCanvas;
 class ComponentImage;
@@ -18,6 +19,7 @@ public:
 private:
 	void Click();
 	void InspectorUpdate();
+	void StartFunciton(int event_num);
 	bool InspectorCheck(ResourceTexture** state);
 
 	bool actived = false;
@@ -25,6 +27,8 @@ private:
 	void Idle();
 	void Hover();
 	void Down();
+	int function_selection = 0;
+	std::map<int, const char*> functions;
 
 	ComponentCanvas* canvas;
 	ComponentImage* box;
