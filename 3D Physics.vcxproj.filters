@@ -474,6 +474,9 @@
     <ClInclude Include="ComponentInputText.h">
       <Filter>Sources\Canvas</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentPanel.h">
+      <Filter>Sources\Canvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -741,6 +744,9 @@
       <Filter>Sources\Canvas</Filter>
     </ClCompile>
     <ClCompile Include="ComponentInputText.cpp">
+      <Filter>Sources\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentPanel.cpp">
       <Filter>Sources\Canvas</Filter>
     </ClCompile>
   </ItemGroup>

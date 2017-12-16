@@ -48,8 +48,6 @@ bool ComponentImage::SaveComponent(JSONConfig & config) const
 
 bool ComponentImage::LoadComponent(const JSONConfig & config)
 {
-	
-	//SetMaterials
 	if (config.GetInt("ResourceType") != 0)
 	{
 		image = (ResourceTexture*)App->resource_manager->Get(config.GetInt("Resource UID"));
@@ -79,26 +77,12 @@ void ComponentImage::ChangeImage(uint ID)
 	
 }
 
-/*void ComponentImage::Set_uv(float2 uv0, float2 uv1)
-{
-	this->uv0 = uv0;
-	this->uv1 = uv1;
-}
-
-void ComponentImage::Set_pix(float2 pix0, float2 pix1)
-{
-	this->pix0 = pix0;
-	this->pix1 = pix1;
-}*/
-
 void ComponentImage::InspectorUpdate()
 {
-	//TODO BUTTON
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
 	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
 	if (ImGui::BeginPopupContextItem("go_options"))
 	{	
-		//Scene GO protection
 		if (ImGui::Button("Delete Component"))
 		{
 			DeleteComponent();
@@ -178,6 +162,7 @@ void ComponentImage::InspectorUpdate()
 			{
 				image->LoadInMemory();
 				SetWorldUvValues();
+				tmp_id = image->GetID();
 			}
 			show_mesh_renderer_window = false;
 			ImGui::CloseCurrentPopup();
@@ -185,10 +170,6 @@ void ComponentImage::InspectorUpdate()
 	}
 }
 
-const ImageRect ComponentImage::GetImageRect() const
-{
-	return image_rect;
-}
 
 const ResourceTexture * ComponentImage::GetImage() const
 {
@@ -233,21 +214,4 @@ float2 ComponentImage::GetUV0() const
 float2 ComponentImage::GetUV1() const
 {
 	return uv1;
-}
-ImageRect::ImageRect(int pos_x, int pos_y, int width, int height) :pos_x(pos_x), pos_y(pos_y), width(width), height(height)
-{
-	SetUpVertices();
-}
-
-void ImageRect::SetUpVertices()
-{
-	vertices[0] = pos_x;
-	vertices[1] = pos_y;
-	vertices[3] = pos_x;
-	vertices[4] = pos_y + height;
-	vertices[6] = pos_x + width;
-	vertices[7] = pos_y + height;
-	vertices[9] = pos_x + width;
-	vertices[10] = pos_y;
-
 }

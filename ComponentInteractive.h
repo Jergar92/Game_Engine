@@ -33,9 +33,6 @@ public:
 	virtual void Hover() = 0;
 	virtual void Down() = 0;
 
-	//Drag Funcionality
-	void OnDrag();
-
 public:
 
 	States states = IDLE;
@@ -46,8 +43,8 @@ public:
 	bool on_execution = false;
 	bool is_dragable = false;
 	bool is_focusable = false;
-
 	bool has_focus = false;
 
+	ComponentCanvas* canvas = nullptr;
 };
 

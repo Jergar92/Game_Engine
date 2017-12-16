@@ -288,7 +288,7 @@ void ComponentCanvas::UpdateFocus()
 		{
 			UpdateInput();
 		}
-		else if(current_focus->type == CANVAS_BUTTON)
+		else if(current_focus->type == CANVAS_IMDRAG)
 		{
 			UpdateDrag();
 		}

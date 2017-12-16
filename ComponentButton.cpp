@@ -50,7 +50,7 @@ void ComponentButton::InspectorUpdate()
 	}
 	if (node_open)
 	{
-	
+		//ImGui::Checkbox("Enable Drag", &is_dragable);
 		/*ShowInfo(OnHove);*/
 		if (ImGui::Button("Select Hover Texture##over_texture_texture"))
 		{

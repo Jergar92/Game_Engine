@@ -21,6 +21,7 @@
 #include "ComponentText.h"
 #include "ComponentInputText.h"
 #include "ComponentCheckBox.h"
+#include "ComponentPanel.h"
 #include "MathGeoLib-1.5\src\MathGeoLib.h"
 #include <queue>
 #define MAX_NAME 20
@@ -631,6 +632,25 @@ Component * GameObject::CreateComponent(ComponentType type)
 
 		}
 		item = new ComponentCheckBox(this);
+		break;
+	case CANVAS_IMDRAG:
+		if (HaveComponent(CANVAS_TEXT))
+		{
+			LOG("Can Create component, component Text create conflict");
+			break;
+		}
+		if (this->type == GO_ELEMENT)
+		{
+			CreateComponent(CANVAS_IMDRAG);
+
+		}
+		if (!HaveComponent(CANVAS_IMAGE))
+		{
+			LOG("Add Component Canvas Text")
+				CreateComponent(CANVAS_IMAGE);
+
+		}
+		item = new ComponentPanel(this);
 		break;
 	default:
 		break;

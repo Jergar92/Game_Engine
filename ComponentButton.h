@@ -4,7 +4,6 @@
 #include "MathGeoLib-1.5\src\Math\float2.h"
 
 class ComponentImage;
-class ComponentCanvas;
 class ResourceTexture;
 
 struct State {
@@ -44,8 +43,6 @@ private:
 	bool over_window = false;
 	bool pressed_window = false;
 	bool click_window = false;
-
-	ComponentCanvas* canvas = nullptr;
 };
 
 
