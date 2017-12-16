@@ -10,7 +10,6 @@
 #include "ResourceTexture.h"
 #include "EventSystem.h"
 #include "ModuleInput.h"
-#include "ModuleWindow.h"
 #include "SDL/include\SDL.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -273,28 +272,26 @@ void ComponentCanvas::UpdateDrag()
 void ComponentCanvas::WindowLimits()
 {
 
-	//ComponentRectTransform* transform = current_focus->transform;
+	ComponentRectTransform* transform = current_focus->transform;
 
-	//if (transform->GetSouthWest().y + canvas_data.size.y >= transform->position.x)
-	//{
-	//	current_focus->transform->SetPosition(float3();
-	//}
-	//
-	//if (transform->GetSouthWest().x + canvas_data.size.x <= transform->position.x)
-	//{
-	//	current_focus->transform->SetPosition(float3();
-	//}
 
-	//if (transform->GetSouthEast().x + canvas_data.size.y <= transform->position.x)
-	//{
-	//	current_focus->transform->SetPosition(float3();
-	//}
-
-	//if (transform->GetNorthEeast().x - canvas_data.size.y <= transform->position.x)
-	//{
-
-	//}
-
+	if (transform->position.y < 0)
+	{
+		current_focus->transform->SetPosition(float3(transform->position.x, 0, transform->position.z));
+	}
+	if (transform->position.y + transform->GetHeight()> canvas_data.size.y)
+	{
+		current_focus->transform->SetPosition(float3(transform->position.x, canvas_data.size.y - transform->GetHeight(), transform->position.z));
+	}
+	if (transform->position.x < 0)
+	{
+		current_focus->transform->SetPosition(float3(0, transform->position.y, transform->position.z));
+	}
+	if (transform->position.x + transform->GetWidth()> canvas_data.size.x)
+	{
+		current_focus->transform->SetPosition(float3(canvas_data.size.x - transform->GetWidth(), transform->position.y, transform->position.z));
+	}
+	
 }
 
 void ComponentCanvas::EventString(const char * str)
@@ -324,8 +321,8 @@ void ComponentCanvas::UpdateFocus()
 		}
 		else if(current_focus->type == CANVAS_IMDRAG)
 		{
-			WindowLimits();
 			UpdateDrag();
+			WindowLimits();
 		}
 		if (current_focus->has_focus == true)
 		{
