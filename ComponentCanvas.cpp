@@ -132,29 +132,26 @@ void ComponentCanvas::SetUpRender()
 
 	glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
 	glGetIntegerv(GL_POLYGON_MODE, last_polygon_mode);
-	glGetIntegerv(GL_VIEWPORT, last_viewport);
-	glGetIntegerv(GL_SCISSOR_BOX, last_scissor_box);
+	//glGetIntegerv(GL_VIEWPORT, last_viewport);
+	//glGetIntegerv(GL_SCISSOR_BOX, last_scissor_box);
 
-	int fb_width = (int)(canvas_data.size.x * canvas_data.draw_size.x);
-	int fb_height = (int)(canvas_data.size.y * canvas_data.draw_size.y);
+//	int fb_width = (int)(canvas_data.size.x * canvas_data.draw_size.x);
+//	int fb_height = (int)(canvas_data.size.y * canvas_data.draw_size.y);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DEPTH_CLAMP);
-	glEnable(GL_SCISSOR_TEST);
+//	glEnable(GL_SCISSOR_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
+//	glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	//GLORTHO??
 	glOrtho(0.0f, canvas_data.size.x, canvas_data.size.y, 0.0f, -1.0f, +1.0f);
-
-	//gluOrtho2D(-100, 100, -100, 100);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -176,8 +173,8 @@ void ComponentCanvas::ResetRender()
 	glPolygonMode(GL_FRONT, last_polygon_mode[0]);
 	glPolygonMode(GL_BACK, last_polygon_mode[1]);
 
-	glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
-	glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
+	//glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
+	//glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
 }
 
 void ComponentCanvas::AddCanvasRender(ComponentCanvasRenderer * canvas_render)
@@ -198,14 +195,14 @@ void ComponentCanvas::UpdateInteractive()
 
 		ComponentRectTransform* transform = map_iterator->second->transform;
 		
-		int mouse_x = App->input->GetMouseX() * transform->GetPivot().x;
-		int mouse_y = App->input->GetMouseY() * transform->GetPivot().y;
+		int mouse_x = App->input->GetMouseX() ;
+		int mouse_y = App->input->GetMouseY();
 		
 		x = transform->GetGlobalMatrix().TranslatePart().x;
 		y = transform->GetGlobalMatrix().TranslatePart().y;
 	    
-		x -= transform->GetWidth() * transform->GetPivot().x;
-		y -= transform->GetHeight() * transform->GetPivot().y;
+		x -= transform->GetWidth() ;
+		y -= transform->GetHeight() ;
 
 		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
 			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
@@ -255,17 +252,17 @@ void ComponentCanvas::UpdateDrag()
 	if (current_focus->is_dragable == true)
 	{
 		
-		int mouse_x = App->input->GetMouseX() * transform->GetPivot().x;
-		int mouse_y = App->input->GetMouseY() * transform->GetPivot().y;
+		int mouse_x = App->input->GetMouseX() ;
+		int mouse_y = App->input->GetMouseY() ;
 
 		x = transform->GetGlobalMatrix().TranslatePart().x;
 		y = transform->GetGlobalMatrix().TranslatePart().y;
 
-		x -= transform->GetWidth() * transform->GetPivot().x;
-		y -= transform->GetHeight() * transform->GetPivot().y;
+		x -= transform->GetWidth() ;
+		y -= transform->GetHeight() ;
 
-		int delta_x = App->input->GetMouseXMotion() * transform->GetPivot().x;
-		int delta_y = App->input->GetMouseYMotion() * transform->GetPivot().y;
+		int delta_x = App->input->GetMouseXMotion() ;
+		int delta_y = App->input->GetMouseYMotion() ;
 
 		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
 			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
