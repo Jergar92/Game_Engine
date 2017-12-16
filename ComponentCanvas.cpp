@@ -195,15 +195,12 @@ void ComponentCanvas::UpdateInteractive()
 
 		ComponentRectTransform* transform = map_iterator->second->transform;
 		
-		int mouse_x = App->input->GetMouseX() ;
+		int mouse_x = App->input->GetMouseX();
 		int mouse_y = App->input->GetMouseY();
 		
 		x = transform->GetGlobalMatrix().TranslatePart().x;
 		y = transform->GetGlobalMatrix().TranslatePart().y;
 	    
-		x -= transform->GetWidth() ;
-		y -= transform->GetHeight() ;
-
 		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
 			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
 		{
@@ -252,14 +249,11 @@ void ComponentCanvas::UpdateDrag()
 	if (current_focus->is_dragable == true)
 	{
 		
-		int mouse_x = App->input->GetMouseX() ;
-		int mouse_y = App->input->GetMouseY() ;
+		int mouse_x = App->input->GetMouseX();
+		int mouse_y = App->input->GetMouseY();
 
 		x = transform->GetGlobalMatrix().TranslatePart().x;
 		y = transform->GetGlobalMatrix().TranslatePart().y;
-
-		x -= transform->GetWidth() ;
-		y -= transform->GetHeight() ;
 
 		int delta_x = App->input->GetMouseXMotion() ;
 		int delta_y = App->input->GetMouseYMotion() ;
