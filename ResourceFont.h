@@ -15,6 +15,8 @@ public:
 	void Load();
 	void UnLoadInMemory();
 	void UnLoad();
+	void SaveResource(JSONConfig& data)const;
+	void LoadResource(const JSONConfig& data);
 	TTF_Font* font = NULL;
 	int size = 16;
 private:

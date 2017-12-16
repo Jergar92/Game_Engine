@@ -46,7 +46,6 @@ bool ModuleScene::Start()
 
 
 	EventVoid play;
-
 	play.Create<ModuleScene>("OnPlay", this, &ModuleScene::OnPlay);
 	EventS->AddEvent(play);
 
@@ -101,9 +100,19 @@ update_status ModuleScene::PostUpdate(float dt)
 }
 void ModuleScene::OnPlay()
 {
+	if (scene_go != nullptr)
+	{
+		scene_go->OnPlay();
+
+	}
 }
 void ModuleScene::OnStop()
 {
+	if (scene_go != nullptr)
+	{
+		scene_go->OnStop();
+
+	}
 }
 bool ModuleScene::CleanUp()
 {

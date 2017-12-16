@@ -41,3 +41,21 @@ void ResourceFont::UnLoad()
 {
 	TTF_CloseFont(font);
 }
+
+void ResourceFont::SaveResource(JSONConfig & config) const
+{
+	config.SetInt(type, "Resource Type");
+	config.SetInt(UID, "Resource UID");
+	config.SetString(creation_time, "File Creation");
+	config.SetString(original_file, "Original File");
+	config.SetString(library_file, "Library File");
+	config.SetString(meta_file, "Meta File");
+}
+
+void ResourceFont::LoadResource(const JSONConfig & config)
+{
+	creation_time = config.GetString("File Creation");
+	original_file = config.GetString("Original File");
+	library_file = config.GetString("Library File");
+	meta_file = config.GetString("Meta File");
+}
