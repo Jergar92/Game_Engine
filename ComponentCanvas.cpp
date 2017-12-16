@@ -257,8 +257,8 @@ void ComponentCanvas::UpdateDrag()
 
 		if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 		{
-			transform->position.x += delta_x;
-			transform->position.y += delta_y;
+			transform->SetPosition(float3(transform->position.x + delta_x, transform->position.y + delta_y, transform->GetDepth()));
+			transform->UpdateMatrix();
 		}
 	 }
 }
