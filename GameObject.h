@@ -26,7 +26,8 @@ public:
 	~GameObject();
 	void CleanUp();
 	void PreUpdate(float dt);
-
+	void OnPlay();
+	void OnStop();
 	void Update(float dt);
 	void PostUpdate(float dt);
 

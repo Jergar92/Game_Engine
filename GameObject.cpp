@@ -116,6 +116,42 @@ void GameObject::PreUpdate(float dt)
 			item->PreUpdate(dt);
 	}
 }
+void GameObject::OnPlay()
+{
+
+	if (!enable)
+		return;
+
+	for (uint i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		if (item->isEnable())
+			item->OnPlay();
+	}
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		item->OnStop();
+	}
+}
+void GameObject::OnStop()
+{
+
+	if (!enable)
+		return;
+
+	for (uint i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		if (item->isEnable())
+			item->OnStop();
+	}
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		item->OnStop();
+	}
+}
 void GameObject::Update(float dt)
 {
 

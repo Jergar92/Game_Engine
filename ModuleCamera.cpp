@@ -10,7 +10,6 @@
 #include "ModuleEditorWindows.h"
 #include "MathGeoLib-1.5\src\Geometry\Triangle.h"
 #include "ResourceMesh.h"
-#include "EventSystem.h"
 ModuleCamera::ModuleCamera()
 {
 	name = "Camera";
@@ -39,10 +38,7 @@ bool ModuleCamera::CleanUp()
 
 update_status ModuleCamera::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		EventS->CallEvent("clear");
-	}
+	
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
 		enable_left = true;
