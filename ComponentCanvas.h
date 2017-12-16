@@ -33,6 +33,7 @@ public:
 	void Update(float dt);
 	void OnStop();
 	void Render();
+	void CleanUp();
 	void SetUpCanvasSize(SDL_Window* window);
 	void SetUpRender();
 	void ResetRender();
@@ -46,6 +47,9 @@ public:
 	void UpdateInput();
 	void UpdateInteractive();
 	void UpdateDrag();
+
+
+	void EventString(const char* str);
 
 	//Draw Canvas function
 	void DebugDraw();

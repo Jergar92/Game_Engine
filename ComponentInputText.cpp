@@ -20,6 +20,18 @@ ComponentInputText::~ComponentInputText()
 {
 }
 
+void ComponentInputText::OnStart()
+{
+	on_execution = true;
+	MoveToEnd();
+
+}
+
+void ComponentInputText::OnStop()
+{
+	on_execution = false;
+}
+
 void ComponentInputText::AddText(const char * str)
 {
 	AddText(str, cursor_pos);
@@ -28,6 +40,7 @@ void ComponentInputText::AddText(const char * str)
 void ComponentInputText::AddText(const char * str, uint position)
 {
 	my_text->text_str.insert(position, str);
+	cursor_pos += strlen(str);
 }
 
 
@@ -38,6 +51,7 @@ bool ComponentInputText::EraseText(uint position)
 		return false;
 
 	my_text->text_str.erase(position, 1);
+	ReduceCursorPos();
 
 	//check if still have text
 	if (my_text->text_str.length() > 0)

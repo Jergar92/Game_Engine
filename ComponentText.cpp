@@ -115,18 +115,26 @@ uint ComponentText::GetID()
 
 	return	(text != nullptr)? id:-1;
 }
-
+void ComponentText::FreeFont()
+{
+	SDL_FreeSurface(s_font);
+	glDeleteTextures(1, &id);
+}
 void ComponentText::UpdateText()
 {
-	if (text->font == NULL|| text_str.empty())
+	if (!text->font && text_str.empty())
 		return;
-	update_text = true;
+	else if (s_font != NULL && text_str.empty())
+	{
+		FreeFont();
+		return;
+	}
 	if (s_font != NULL)
 	{
-		SDL_FreeSurface(s_font);
-		glDeleteTextures(1, &id);
-
+		FreeFont();
 	}
+	update_text = true;
+
 	s_font = TTF_RenderText_Blended(text->font, text_str.c_str(), SDL_Color{(Uint8)(color.x*255), (Uint8)(color.y*255),(Uint8)(color.z*255), (Uint8)(color.w*255) });
 
 	GLuint texture;

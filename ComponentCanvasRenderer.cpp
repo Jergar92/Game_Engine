@@ -71,11 +71,11 @@ uint ComponentCanvasRenderer::GetIndicesSize() const
 {
 	return buffer.indices.size();
 }
-void ComponentCanvasRenderer::ProcessComponent()
+bool ComponentCanvasRenderer::ProcessComponent()
 {
 	if (image != nullptr || text != nullptr)
-		(image != nullptr) ? ProcessImage() : ProcessText();
-
+		return (image != nullptr) ? ProcessImage() : ProcessText();
+	return false;
 }
 uint ComponentCanvasRenderer::GetImageID()const
 {
@@ -83,10 +83,10 @@ uint ComponentCanvasRenderer::GetImageID()const
 	return (image!=nullptr)?image->GetImageID():text->id;
 }
 
-void ComponentCanvasRenderer::ProcessImage()
+bool ComponentCanvasRenderer::ProcessImage()
 {	
 	if (image == nullptr)
-		return;
+		return false;
 	//UV Setup
 	//0,1-------1,1
 	//|	1     /	2|
@@ -123,12 +123,19 @@ void ComponentCanvasRenderer::ProcessImage()
 		buffer.indices.push_back(lastIndex + 3);
 		buffer.indices.push_back(lastIndex );
 		SetUpCanvas();
+		return true;
 }
 
-void ComponentCanvasRenderer::ProcessText()
+bool ComponentCanvasRenderer::ProcessText()
 {
-	if (text->text_str.empty()|| !text->GetUpdateText())
-		return;
+	if (text->text_str.empty())
+	{
+		return false;
+	}
+	if (!text->GetUpdateText())
+		return true;
+
+
 
 	buffer.vertices.clear();
 	buffer.indices.clear();
@@ -182,6 +189,7 @@ void ComponentCanvasRenderer::ProcessText()
 	//set bind buffer glBindBuffer to 0
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	text->SetUpdateText(false);
+	return true;
 }
 
 void ComponentCanvasRenderer::SetUpCanvas()

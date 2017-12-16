@@ -21,7 +21,10 @@ ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 {
 	component_name = "Canvas";
 	type = CANVAS;
-
+	EventChar event_str;
+	UUID = App->GenerateRandom();
+	event_str.Create("AddStr", this, &ComponentCanvas::EventString, UUID);
+	EventS->AddEvent(event_str);
 }
 
 
@@ -62,7 +65,11 @@ void ComponentCanvas::Render()
 		glPushMatrix();
 		glMultMatrixf((float*)&(*it)->my_go->GetTransposedMatrix());
 
-		(*it)->ProcessComponent();
+		if (!(*it)->ProcessComponent())
+		{
+			glPopMatrix();
+			continue;
+		}
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -100,6 +107,11 @@ void ComponentCanvas::Render()
 	glEnable(GL_DEPTH_CLAMP);
 	*/
 	
+}
+
+void ComponentCanvas::CleanUp()
+{
+	EventS->EraseEventChar("AddStr", UUID);
 }
 
 void ComponentCanvas::SetUpCanvasSize(SDL_Window *window)
@@ -251,6 +263,19 @@ void ComponentCanvas::UpdateDrag()
 	 }
 }
 
+void ComponentCanvas::EventString(const char * str)
+{
+	if (current_focus != nullptr)
+	{
+		if (current_focus->type == CANVAS_INPUT_TEXT)
+		{
+			((ComponentInputText*)current_focus)->AddText(str);
+			((ComponentInputText*)current_focus)->CallUpdate();
+
+		}
+	}
+}
+
 
 void ComponentCanvas::UpdateFocus()
 {
@@ -332,9 +357,9 @@ void ComponentCanvas::UpdateInput()
 	
 		if (((ComponentInputText*)current_focus)->EraseText(((ComponentInputText*)current_focus)->GetCurrentPos()-1))
 		{
-			((ComponentInputText*)current_focus)->ReduceCursorPos();
-			((ComponentInputText*)current_focus)->CallUpdate();
 		}
+		((ComponentInputText*)current_focus)->CallUpdate();
+
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 	{

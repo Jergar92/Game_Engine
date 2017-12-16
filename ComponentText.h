@@ -18,6 +18,7 @@ public:
 	~ComponentText();
 	void InspectorUpdate();
 	uint GetID();
+	void FreeFont();
 	void UpdateText();
 	SDL_Surface * s_font = nullptr;
 	const TextureRect GetRect() const;

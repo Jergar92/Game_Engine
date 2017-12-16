@@ -43,7 +43,7 @@ public:
 
 	ComponentRectTransform* transform;
 
-
+	bool on_execution = false;
 	bool is_dragable = false;
 	bool is_focusable = false;
 

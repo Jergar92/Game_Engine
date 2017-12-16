@@ -9,6 +9,8 @@ class ComponentInputText:public ComponentInteractive
 public:
 	ComponentInputText(GameObject* my_go);
 	~ComponentInputText();
+	void OnStart();
+	void OnStop();
 	void AddText(const char* str);
 	void AddText(const char* str, uint position);
 	bool EraseText(uint position);

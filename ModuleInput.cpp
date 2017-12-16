@@ -5,7 +5,7 @@
 #include "ModuleRenderer3D.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui\imgui.h"
-
+#include "EventSystem.h"
 #include "ModuleEditorWindows.h"
 #define MAX_KEYS 300
 
@@ -134,7 +134,11 @@ update_status ModuleInput::PreUpdate(float dt)
 				SDL_free(e.drop.file);   
 				break;
 			}
-
+			case SDL_TEXTINPUT:
+			{
+				EventS->CallEvent("AddStr", e.text.text);
+				break;
+			}
 			case SDL_WINDOWEVENT:
 			{
 				if (e.window.event == SDL_WINDOWEVENT_RESIZED)

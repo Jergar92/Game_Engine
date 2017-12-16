@@ -131,7 +131,7 @@ void GameObject::OnPlay()
 	for (uint i = 0; i < childs.size(); i++)
 	{
 		GameObject* item = childs[i];
-		item->OnStop();
+		item->OnPlay();
 	}
 }
 void GameObject::OnStop()
