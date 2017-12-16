@@ -60,6 +60,7 @@ void ComponentText::InspectorUpdate()
 				text->LoadInMemory();
 				UpdateText();
 			}
+			ImGui::DragInt("Max leght ##max_lenght", &max_input, 1, 0, 20);
 		}
 
 		if (ImGui::Button("Select Font"))
@@ -117,7 +118,7 @@ uint ComponentText::GetID()
 }
 void ComponentText::FreeFont()
 {
-	SDL_FreeSurface(s_font);
+	//SDL_FreeSurface(s_font);
 	glDeleteTextures(1, &id);
 }
 void ComponentText::UpdateText()
@@ -147,7 +148,7 @@ void ComponentText::UpdateText()
 	SetRect(0.0f, 0.0f, s_font->w, s_font->h);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-//
+	SDL_FreeSurface(s_font);
 
 
 
@@ -161,6 +162,11 @@ const TextureRect ComponentText::GetRect() const
 void ComponentText::SetUpdateText(bool value)
 {
 	update_text = value;
+}
+
+int ComponentText::GetMaxInput() const
+{
+	return max_input;
 }
 
 bool ComponentText::GetUpdateText() const

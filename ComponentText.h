@@ -23,7 +23,7 @@ public:
 	SDL_Surface * s_font = nullptr;
 	const TextureRect GetRect() const;
 	void SetUpdateText(bool value);
-
+	int GetMaxInput()const;
 	bool GetUpdateText() const;
 	void SetRect(float x, float y, float width, float height);
 	ResourceFont* text=nullptr;

@@ -34,13 +34,19 @@ void ComponentInputText::OnStop()
 
 void ComponentInputText::AddText(const char * str)
 {
+	
 	AddText(str, cursor_pos);
 }
 
 void ComponentInputText::AddText(const char * str, uint position)
 {
-	my_text->text_str.insert(position, str);
-	cursor_pos += strlen(str);
+	bool succes = false;
+	if (my_text->text_str.size() < my_text->GetMaxInput() || my_text->GetMaxInput() == 0)
+	{
+		my_text->text_str.insert(position, str);
+		cursor_pos += strlen(str);
+		//my_text->UpdateText();
+	}
 }
 
 
