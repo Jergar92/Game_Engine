@@ -154,12 +154,6 @@ void ComponentRectTransform::SetBlock(bool set_block)
 	block = set_block;
 }
 
-void ComponentRectTransform::SetScale(float3 scale)
-{
-	this->scale = scale;
-	UpdateMatrix();
-}
-
 float ComponentRectTransform::GetWidth() const
 {
 
@@ -186,6 +180,13 @@ float2 ComponentRectTransform::GetPivot() const
 	return pivot;
 
 }
+
+void ComponentRectTransform::SetScale(float3 scale)
+{
+	this->scale = scale;
+	UpdateMatrix();
+}
+
 
 
 void ComponentRectTransform::SetRotation(float3 rotation_angles)

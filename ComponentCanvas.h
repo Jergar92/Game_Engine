@@ -48,6 +48,7 @@ public:
 	void UpdateInteractive();
 	void UpdateDrag();
 
+	void WindowLimits();
 
 	void EventString(const char* str);
 

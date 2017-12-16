@@ -639,6 +639,12 @@ Component * GameObject::CreateComponent(ComponentType type)
 			LOG("Can Create component, component Text create conflict");
 			break;
 		}
+
+		if (this->type == GO_ELEMENT)
+		{
+			CreateComponent(RECT_TRANSFORM);
+		}
+
 		if (this->type == GO_ELEMENT)
 		{
 			CreateComponent(CANVAS_IMDRAG);

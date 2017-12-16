@@ -45,15 +45,15 @@ void ComponentTransform::InspectorUpdate()
 	{
 		rotation.ToEulerXYX();
 
-		if (ImGui::DragFloat3("Position##transform_position", &position.x, 3))
+		if (ImGui::DragFloat3("Position##transform_position", &position.x, 1))
 			SetPosition(position);
 
 		float3 tmp = gui_rotation;
-		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 3))
+		if (ImGui::DragFloat3("Rotation##transform_rotation", &tmp.x, 1))
 			SetRotation(tmp);
 
 
-		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 3))
+		if (ImGui::DragFloat3("Scale##transform_scale", &scale.x, 1))
 			SetScale(scale);
 
 		ImGui::TreePop();

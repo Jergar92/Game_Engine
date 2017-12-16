@@ -10,6 +10,7 @@
 #include "ResourceTexture.h"
 #include "EventSystem.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
 #include "SDL/include\SDL.h"
 #include "Glew/include/GL/glew.h"
 #include "SDL/include/SDL_opengl.h"
@@ -248,19 +249,61 @@ void ComponentCanvas::UpdateInteractive()
 void ComponentCanvas::UpdateDrag()
 {
 	ComponentRectTransform* transform = current_focus->transform;
+	int x;
+	int y;
 
 	if (current_focus->is_dragable == true)
 	{
 		
+		int mouse_x = App->input->GetMouseX() * transform->GetPivot().x;
+		int mouse_y = App->input->GetMouseY() * transform->GetPivot().y;
+
+		x = transform->GetGlobalMatrix().TranslatePart().x;
+		y = transform->GetGlobalMatrix().TranslatePart().y;
+
+		x -= transform->GetWidth() * transform->GetPivot().x;
+		y -= transform->GetHeight() * transform->GetPivot().y;
+
 		int delta_x = App->input->GetMouseXMotion() * transform->GetPivot().x;
 		int delta_y = App->input->GetMouseYMotion() * transform->GetPivot().y;
 
-		if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		if (mouse_x >= x  && mouse_x <= x + transform->GetWidth() &&
+			mouse_y >= y  && mouse_y <= y + transform->GetHeight())
 		{
-			transform->SetPosition(float3(transform->position.x + delta_x, transform->position.y + delta_y, transform->GetDepth()));
-			transform->UpdateMatrix();
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+			{
+				transform->SetPosition(float3(transform->position.x + delta_x, transform->position.y + delta_y, transform->GetDepth()));
+				transform->UpdateMatrix();
+			}
 		}
 	 }
+}
+
+void ComponentCanvas::WindowLimits()
+{
+
+	//ComponentRectTransform* transform = current_focus->transform;
+
+	//if (transform->GetSouthWest().y + canvas_data.size.y >= transform->position.x)
+	//{
+	//	current_focus->transform->SetPosition(float3();
+	//}
+	//
+	//if (transform->GetSouthWest().x + canvas_data.size.x <= transform->position.x)
+	//{
+	//	current_focus->transform->SetPosition(float3();
+	//}
+
+	//if (transform->GetSouthEast().x + canvas_data.size.y <= transform->position.x)
+	//{
+	//	current_focus->transform->SetPosition(float3();
+	//}
+
+	//if (transform->GetNorthEeast().x - canvas_data.size.y <= transform->position.x)
+	//{
+
+	//}
+
 }
 
 void ComponentCanvas::EventString(const char * str)
@@ -290,6 +333,7 @@ void ComponentCanvas::UpdateFocus()
 		}
 		else if(current_focus->type == CANVAS_IMDRAG)
 		{
+			WindowLimits();
 			UpdateDrag();
 		}
 		if (current_focus->has_focus == true)
