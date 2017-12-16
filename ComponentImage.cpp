@@ -68,7 +68,7 @@ void ComponentImage::ChangeImage(uint ID)
 {
 	if(ID == 0)
 	{ 
-		tmp_id = image->GetID();
+		tmp_id = (image != nullptr) ? image->GetID() : 0;
 	}
 	else
 	{

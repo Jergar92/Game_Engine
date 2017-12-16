@@ -145,6 +145,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 		break;
 	case R_PREFAB:
 		import_success = App->importer->ImportMesh(new_asset_file, name.c_str());
+		break;
 	case R_FONT:
 		import_success = App->importer->ImportFont(new_asset_file, name.c_str());
 
@@ -174,6 +175,7 @@ uint ModuleResourceManager::ImportFile(const char * new_asset_file)
 			break;
 		case R_PREFAB:
 			ret->SetLibraryFile(name.c_str(), "json");
+			break;
 		case R_FONT:
 			ret->SetLibraryFile(name.c_str(), "ttf");
 			break;
@@ -297,7 +299,7 @@ ResourceType ModuleResourceManager::GetResourceFromFile(const char * file)const
 		return R_PREFAB;
 
 	}
-	else if (_stricmp(extension.c_str(), "TTF") == 0)
+	else if (_stricmp(extension.c_str(), "ttf") == 0)
 	{
 		return R_FONT;
 

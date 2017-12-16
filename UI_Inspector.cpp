@@ -25,6 +25,7 @@ UI_Inspector::UI_Inspector(ModuleEditorWindows* my_editor) :UI_Windows(my_editor
 
 UI_Inspector::~UI_Inspector()
 {
+	names.clear();
 }
 
 bool UI_Inspector::Draw()
@@ -63,7 +64,6 @@ void UI_Inspector::CleanUp()
 {
 	selected_go = nullptr;
 	selected_resource = nullptr;
-	names.clear();
 	show = I_NONE;
 
 }
