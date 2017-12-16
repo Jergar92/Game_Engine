@@ -29,7 +29,7 @@ ComponentCanvas::ComponentCanvas(GameObject* my_go): Component(my_go)
 	//Button event
 	EventVoid event_button;
 	event_button.Create("Fade Parent", this, &ComponentCanvas::FadeParent, UUID);
-	EventS->AddEvent(event_str);
+	EventS->AddEvent(event_button);
 }
 
 
@@ -317,7 +317,7 @@ void ComponentCanvas::FadeParent()
 {
 	if (current_focus != nullptr)
 	{
-
+		current_focus->my_go->GetPartent()->SetEnableFade(true);
 	}
 }
 

@@ -175,7 +175,12 @@ void GameObject::Update(float dt)
 		RenderBoundingBoxAABB();
 		RenderBoundingBoxOBB();
 	}
-	
+
+	if (enable_fade == true)
+	{
+		ActivateFade(50.0f * dt);
+	}
+
 }
 
 void GameObject::PostUpdate(float dt)
@@ -463,16 +468,19 @@ void GameObject::SaveGameObject(JSONConfig& data)const
 
 }
 
-void GameObject::ActivateFade(int speed)
+void GameObject::ActivateFade(float speed)
 {
-	if (enable_fade == true)
-	{
-	   if(my_ui_transform->position.y + my_ui_transform->GetHeight() < 0.0f)
+	   if(my_ui_transform->position.y + my_ui_transform->GetHeight() > 0.0f)
 	   {
-			   my_ui_transform->position.y += speed;
+			   my_ui_transform->position.y -= speed;
 			   my_ui_transform->UpdateMatrix();
 	   }
-	}
+
+	   if(my_ui_transform->position.y + my_ui_transform->GetHeight() <= 0.0f)
+	   {
+		   enable_fade = false;
+		   enable = false;
+	   }
 }
 
 GameObject * GameObject::CreateChild()

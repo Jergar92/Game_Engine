@@ -93,7 +93,7 @@ public:
 	void SaveGameObject(JSONConfig& data)const;
 
 	//Fade Fucntion
-	void ActivateFade(int speed);
+	void ActivateFade(float speed);
 
 public:
 
