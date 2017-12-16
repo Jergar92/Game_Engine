@@ -530,6 +530,11 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 	case CANVAS_IMAGE:
 	{
+		if (HaveComponent(CANVAS_TEXT))
+		{
+			LOG("Can Create component, component Text create conflict");
+			break;
+		}
 		if (this->type == GO_ELEMENT)
 		{
 			CreateComponent(RECT_TRANSFORM);
@@ -547,13 +552,18 @@ Component * GameObject::CreateComponent(ComponentType type)
 	}
 	case CANVAS_TEXT:
 	{
+		if (HaveComponent(CANVAS_IMAGE))
+		{
+			LOG("Can Create component, component Image create conflict");
+			break;
+		}
 		if (this->type == GO_ELEMENT)
 		{
 			CreateComponent(RECT_TRANSFORM);
 		}
 		Component* canvas_render = nullptr;
 
-		if (!HaveComponent(CANVAS_RENDER))
+		if (HaveComponent(CANVAS_RENDER))
 		{
 			LOG("Add Component Canvas Render")
 				canvas_render = CreateComponent(CANVAS_RENDER);
@@ -565,24 +575,60 @@ Component * GameObject::CreateComponent(ComponentType type)
 
 	case CANVAS_INPUT_TEXT:
 	{
+		if (HaveComponent(CANVAS_IMAGE))
+		{
+			LOG("Can Create component, component Image create conflict");
+			break;
+		}
 		if (this->type == GO_ELEMENT)
 		{
 			CreateComponent(RECT_TRANSFORM);
+		}
+		if (!HaveComponent(CANVAS_TEXT))
+		{
+			LOG("Add Component Canvas Text")
+			CreateComponent(CANVAS_TEXT);
+
 		}
 		item = new ComponentInputText(this);
 		break;
 	}
 	case CANVAS_BUTTON:
+		if (HaveComponent(CANVAS_TEXT))
+		{
+			LOG("Can Create component, component Text create conflict");
+			break;
+		}
 		if (this->type == GO_ELEMENT)
 		{
 			CreateComponent(RECT_TRANSFORM);
+
+		
+		}
+		if (!HaveComponent(CANVAS_IMAGE))
+		{
+			LOG("Add Component Canvas Text")
+				CreateComponent(CANVAS_IMAGE);
+
 		}
 		item = new ComponentButton(this);
 		break;
 	case CANVAS_CHECKBOX:
+		if (HaveComponent(CANVAS_TEXT))
+		{
+			LOG("Can Create component, component Text create conflict");
+			break;
+		}
 		if (this->type == GO_ELEMENT)
 		{
 			CreateComponent(CANVAS_CHECKBOX);
+		
+		}
+		if (!HaveComponent(CANVAS_IMAGE))
+		{
+			LOG("Add Component Canvas Text")
+				CreateComponent(CANVAS_IMAGE);
+
 		}
 		item = new ComponentCheckBox(this);
 		break;
