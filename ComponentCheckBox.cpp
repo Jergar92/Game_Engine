@@ -120,7 +120,7 @@ bool ComponentCheckBox::LoadComponent(const JSONConfig & config)
 			LOG("Error On LoadComponent: Texture is null");
 		}
 	}
-	function_selection= config.GetBool("Function Selection");
+	function_selection= config.GetInt("Function Selection");
 
 	activated = config.GetBool("Actived");
 	enable = config.GetBool("Enable");
