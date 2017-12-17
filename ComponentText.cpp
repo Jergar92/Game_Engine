@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "ModuleResourceManager.h"
 #include "ResourceFont.h"
-
+#include "GameObject.h"
 
 #include "imgui/imgui.h"
 #include "Glew/include/GL/glew.h"
@@ -187,4 +187,41 @@ void ComponentText::SetString(std::string input)
 {
 	text_str = input;
 	UpdateText();
+}
+
+bool ComponentText::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
+
+	config.SetInt(type, "Type");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+	if (text != nullptr)
+	{
+		config.SetInt(text->GetResourceType(), "ResourceType");
+		config.SetInt(text->GetUID(), "Resource UID");
+		config.SetInt(text->size, "Font Size");
+
+	}
+	config.SetInt(max_input, "Max Input");
+
+	config.SetBool(enable, "Enable");
+	return ret;
+}
+
+bool ComponentText::LoadComponent(const JSONConfig & config)
+{
+	bool ret = true;
+
+	if (config.GetInt("ResourceType") != 0)
+	{
+		text = (ResourceFont*)App->resource_manager->Get(config.GetInt("Resource UID"));
+		if (text != nullptr)
+		{
+			text->size=config.GetInt("Font Size");
+			text->LoadInMemory();
+		}
+	}
+	max_input=config.GetInt("Max Input");
+	enable = config.GetBool("Enable");
+	return ret;
 }

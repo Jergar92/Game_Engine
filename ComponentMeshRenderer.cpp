@@ -140,6 +140,7 @@ bool ComponentMeshRenderer::SaveComponent(JSONConfig & config) const
 
 bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 {
+	bool ret = true;
 
 
 	
@@ -163,6 +164,7 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 		else
 		{
 			LOG("Error On LoadComponent: Texture is null");
+			ret = false;
 		}
 	//	text.id=App->importer->LoadTexture(config_item.GetString("Texture Name"), this);
 	//	text.name = config_item.GetString("Texture Name");
@@ -170,7 +172,8 @@ bool ComponentMeshRenderer::LoadComponent(const JSONConfig & config)
 
 	}
 	enable = config.GetBool("Enable");
-	return false;
+	return ret;
+
 }
 
 void ComponentMeshRenderer::InspectorUpdate()

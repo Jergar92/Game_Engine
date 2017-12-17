@@ -232,6 +232,184 @@ void GameObject::GuiUpdate()
 				ImGui::CloseCurrentPopup();
 
 			}
+			if (ImGui::Button("Create Canvas"))
+			{
+				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
+				if (main_go == nullptr)
+				{
+					main_go = App->scene->GenerateGameObject(this);
+					main_go->SetName("Canvas");
+					main_go->CreateComponent(ComponentType::CANVAS);
+				}
+				else
+				{
+					LOG("Canvas is already created");
+				}
+				ImGui::CloseCurrentPopup();
+			}
+
+			if (ImGui::Button("Create Image"))
+			{
+				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
+
+				if (main_go == nullptr)
+				{
+					main_go = App->scene->GenerateGameObject(this);
+					main_go->SetName("Canvas");
+					main_go->CreateComponent(ComponentType::CANVAS);
+					GameObject* image = App->scene->GenerateGameObject(main_go);
+					image->SetName("Image");
+					image->CreateComponent(ComponentType::CANVAS_IMAGE);
+				}
+				else
+				{
+					if (IsRelated(main_go))
+					{
+						GameObject* image = App->scene->GenerateGameObject(this);
+						image->SetName("Image");
+						image->CreateComponent(ComponentType::CANVAS_IMAGE);
+					}
+				}
+			
+
+
+
+				ImGui::CloseCurrentPopup();
+			}
+			if (ImGui::Button("Create Panel"))
+			{
+
+				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
+
+				if (main_go == nullptr)
+				{
+					main_go = App->scene->GenerateGameObject(this);
+					main_go->SetName("Canvas");
+					main_go->CreateComponent(ComponentType::CANVAS);
+					GameObject* panel = App->scene->GenerateGameObject(main_go);
+					panel->SetName("Panel");
+					panel->CreateComponent(ComponentType::CANVAS_IMAGE);
+					panel->CreateComponent(ComponentType::CANVAS_IMDRAG);
+
+				}
+				else
+				{
+					if (IsRelated(main_go))
+					{
+						GameObject* panel = App->scene->GenerateGameObject(this);
+						panel->SetName("Panel");
+						panel->CreateComponent(ComponentType::CANVAS_IMAGE);
+						panel->CreateComponent(ComponentType::CANVAS_IMDRAG);
+
+					}
+				}
+			}
+			if (ImGui::Button("Create Button"))
+			{
+
+				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
+
+				if (main_go == nullptr)
+				{
+					main_go = App->scene->GenerateGameObject(this);
+					main_go->SetName("Canvas");
+					main_go->CreateComponent(ComponentType::CANVAS);
+					GameObject* button = App->scene->GenerateGameObject(main_go);
+					button->SetName("Button");
+					button->CreateComponent(ComponentType::CANVAS_IMAGE);
+					button->CreateComponent(ComponentType::CANVAS_BUTTON);
+
+				}
+				else
+				{
+					if (IsRelated(main_go))
+					{
+						GameObject* button = App->scene->GenerateGameObject(this);
+						button->SetName("Button");
+						button->CreateComponent(ComponentType::CANVAS_IMAGE);
+						button->CreateComponent(ComponentType::CANVAS_BUTTON);
+
+					}
+				}
+			}
+			if (ImGui::Button("Create CheckBox"))
+			{
+
+				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
+
+				if (main_go == nullptr)
+				{
+					main_go = App->scene->GenerateGameObject(this);
+					main_go->SetName("Canvas");
+					main_go->CreateComponent(ComponentType::CANVAS);
+					GameObject* check_box = App->scene->GenerateGameObject(main_go);
+					check_box->SetName("Check Box");
+					check_box->CreateComponent(ComponentType::CANVAS_IMAGE);
+					check_box->CreateComponent(ComponentType::CANVAS_CHECKBOX);
+
+				}
+				else
+				{
+					if (IsRelated(main_go))
+					{
+						GameObject* check_box = App->scene->GenerateGameObject(this);
+						check_box->SetName("Check Box");
+						check_box->CreateComponent(ComponentType::CANVAS_IMAGE);
+						check_box->CreateComponent(ComponentType::CANVAS_CHECKBOX);
+
+					}
+				}
+			}
+			if (ImGui::Button("Create Texto"))
+			{
+
+				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
+
+				if (main_go == nullptr)
+				{
+					main_go = App->scene->GenerateGameObject(this);
+					main_go->SetName("Canvas");
+					main_go->CreateComponent(ComponentType::CANVAS);
+					GameObject* text = App->scene->GenerateGameObject(main_go);
+					text->SetName("Text");
+					text->CreateComponent(ComponentType::CANVAS_TEXT);
+				}
+				else
+				{
+					if (IsRelated(main_go))
+					{
+						GameObject* text = App->scene->GenerateGameObject(this);
+						text->SetName("Text");
+						text->CreateComponent(ComponentType::CANVAS_TEXT);
+					}
+				}
+			}
+			if (ImGui::Button("Create InputText"))
+			{
+
+				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
+
+				if (main_go == nullptr)
+				{
+					main_go = App->scene->GenerateGameObject(this);
+					main_go->SetName("Canvas");
+					main_go->CreateComponent(ComponentType::CANVAS);
+					GameObject* text = App->scene->GenerateGameObject(main_go);
+					text->SetName("Input Text");
+					text->CreateComponent(ComponentType::CANVAS_TEXT);
+					text->CreateComponent(ComponentType::CANVAS_INPUT_TEXT);
+				}
+				else
+				{
+					if (IsRelated(main_go))
+					{
+						GameObject* text = App->scene->GenerateGameObject(this);
+						text->SetName("Input Text");
+						text->CreateComponent(ComponentType::CANVAS_TEXT);
+						text->CreateComponent(ComponentType::CANVAS_INPUT_TEXT);
+					}
+				}
+			}
 			ImGui::EndPopup();
 		}
 	ImGui::PopID();
@@ -1000,5 +1178,25 @@ void GameObject::RenderBoundingBoxOBB()
 		glVertex3f(global_bounding_box_OBB.Edge(i).b.x, global_bounding_box_OBB.Edge(i).b.y, global_bounding_box_OBB.Edge(i).b.z);
 	}
 	glEnd();
+}
+
+bool GameObject::IsRelated(GameObject * parent) const
+{
+	std::queue<GameObject*> queue;
+	queue.push(parent);
+	while (!queue.empty())
+	{
+		GameObject* item = queue.front();
+		for (std::vector<GameObject*>::iterator it = item->childs.begin(); it != item->childs.end(); it++)
+		{
+			queue.push(*it);
+		}
+		if (queue.front() == this)
+		{
+			return true;
+		}
+		queue.pop();
+	}
+	return false;
 }
 

@@ -35,6 +35,8 @@ private:
 	float4 color = float4::one;
 	bool show_resource_font_windows = false;
 	void SetString(std::string input);
+	bool SaveComponent(JSONConfig & config) const;
+	bool LoadComponent(const JSONConfig & config);
 	std::string input_text;
 	int max_input = 20;
 

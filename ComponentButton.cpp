@@ -16,6 +16,7 @@ ComponentButton::ComponentButton(GameObject* my_go) : ComponentInteractive(my_go
 	component_name = "Button";
 	type = CANVAS_BUTTON;
 	canvas = FindMyCanvas();
+	if (canvas != nullptr)
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	texture = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
 	functions[0]="Fade Parent";
@@ -34,6 +35,64 @@ ComponentButton::~ComponentButton()
 void ComponentButton::Update(float dt)
 {
 
+}
+bool ComponentButton::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
+
+	config.SetInt(type, "Type");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+	config.SetInt((over_texture != nullptr) ? over_texture->GetResourceType() : 0, "ResourceOverType");
+	config.SetInt((click_texture != nullptr) ? click_texture->GetResourceType() : 0, "ResourceOverType");
+
+	if (over_texture != nullptr)
+	{
+		config.SetInt(over_texture->GetUID(), "Resource Over UID");
+	}
+	if (click_texture != nullptr)
+	{
+		config.SetInt(click_texture->GetUID(), "Resource Click UID");
+	}
+	config.SetBool(enable, "Enable");
+	return ret;
+}
+
+bool ComponentButton::LoadComponent(const JSONConfig & config)
+{
+	if (canvas != nullptr)
+	{
+		canvas = FindMyCanvas();
+		if (canvas != nullptr)
+			canvas->interactive_array.push_back((ComponentInteractive*)this);
+	}
+
+	texture = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
+	if (config.GetInt("ResourceOverType") != 0)
+	{
+		over_texture = (ResourceTexture*)App->resource_manager->Get(config.GetInt("Resource Over UID"));
+		if (over_texture != nullptr)
+		{
+			over_texture->LoadInMemory();
+		}
+		else
+		{
+			LOG("Error On LoadComponent: Texture is null");
+		}
+	}
+	if (config.GetInt("ResourceClickType") != 0)
+	{
+		click_texture = (ResourceTexture*)App->resource_manager->Get(config.GetInt("Resource Click UID"));
+		if (click_texture != nullptr)
+		{
+			click_texture->LoadInMemory();
+		}
+		else
+		{
+			LOG("Error On LoadComponent: Texture is null");
+		}
+	}
+	enable = config.GetBool("Enable");
+	return true;
 }
 
 void ComponentButton::InspectorUpdate()
@@ -88,12 +147,6 @@ void ComponentButton::InspectorUpdate()
 				over_window = false;
 		}
 
-		if (pressed_window)
-		{
-			check = InspectorCheck(&pressed_texture);
-			if (check)
-				pressed_window = false;
-		}
 
 		if (click_window)
 		{

@@ -22,6 +22,10 @@ public:
 
 	void Update(float dt);
 
+	bool SaveComponent(JSONConfig & config) const;
+
+	bool LoadComponent(const JSONConfig & config);
+
 	void InspectorUpdate();
 	void ShowInfo(ResourceTexture* texture);
 	void ButtonFunctionality();
@@ -33,9 +37,7 @@ public:
 private:
 
 	ComponentImage* texture = nullptr;
-	ResourceTexture* idle_texture = nullptr;
 	ResourceTexture* over_texture = nullptr; 
-	ResourceTexture* pressed_texture = nullptr;
 	ResourceTexture* click_texture = nullptr;
 	int function_selection = 0;
 	bool InspectorCheck(ResourceTexture** text);

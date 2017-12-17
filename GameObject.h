@@ -39,6 +39,7 @@ public:
 	void GenerateBoudingBox();
 	void RenderBoundingBoxAABB();
 	void RenderBoundingBoxOBB();
+	bool IsRelated(GameObject*parent)const;
 
 	void ChangeUID();
 
@@ -69,7 +70,6 @@ public:
 	void SetTransform(math::float3 scale, math::Quat rotation, math::float3 position);
 	void SetAABB(const AABB set_bounding_box);
 	void SetEnableFade(bool value);
-
 
 	//Getters
 	float4x4 GetTransposedMatrix() const;
