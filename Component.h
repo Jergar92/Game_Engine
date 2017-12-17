@@ -29,6 +29,8 @@ public:
 	virtual ~Component();
 	virtual void Enable();
 	virtual void OnPlay();
+	virtual void OnPause();
+
 	virtual void OnStop();
 	virtual void LinkComponent();
 	virtual void CleanUp();

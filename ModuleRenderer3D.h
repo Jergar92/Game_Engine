@@ -41,7 +41,7 @@ private:
 	void DrawGameObject();
 	void DrawCanvas();
 	void ChangeVsync(bool enable);
-	void changeCullFace(bool enable);
+	void ChangeCullFace(bool enable);
 
 public:
 

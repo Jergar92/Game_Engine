@@ -75,6 +75,7 @@ private:
 	ComponentInteractive* current_focus = nullptr;
 	CanvasData canvas_data;
 	bool on_ejecution = false;
+	bool draw_2d = false;
 	GLint last_texture;
 	GLint last_polygon_mode[2];
 	GLint last_scissor_box[4];

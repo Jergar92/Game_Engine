@@ -37,6 +37,7 @@ bool UI_Play::Draw()
 
 		my_editor->WantToSave("play.json", App->file_system->GetPlayFolder());
 		state = ON_PLAY;
+		my_editor->OnPlay();
 		EventS->CallEvent("OnPlay");
 		App->OnPlay();
 
@@ -45,6 +46,8 @@ bool UI_Play::Draw()
 	if (ImGui::Button("Pause")&&state==ON_PLAY)
 	{
 		state = ON_PAUSE;
+		my_editor->OnPause();
+
 		App->OnPause();
 
 	}
@@ -55,6 +58,8 @@ bool UI_Play::Draw()
 		state = ON_NONE;
 		value = 1.0f;
 		App->OnStop();
+		my_editor->OnStop();
+
 		EventS->CallEvent("OnStop");
 
 	}

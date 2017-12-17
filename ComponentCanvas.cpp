@@ -48,10 +48,14 @@ void ComponentCanvas::Update(float dt)
 	my_go->GetRectTransform()->SetWidth(canvas_data.size.x);
 	my_go->GetRectTransform()->SetHeight(canvas_data.size.y);
 	my_go->GetRectTransform()->SetBlock(true);
-	UpdateInteractiveMap();
-	UpdateInteractive();
-	UpdateFocus();
-	DebugDraw();
+	if (on_ejecution)
+	{
+		UpdateInteractiveMap();
+		UpdateInteractive();
+		UpdateFocus();
+	}
+	else
+		DebugDraw();
 
 }
 
@@ -93,13 +97,13 @@ void ComponentCanvas::InspectorUpdate()
 	}
 	if (node_open)
 	{
-		ImGui::Checkbox("Enable 2D Draw", &on_ejecution);
+		ImGui::Checkbox("Enable 2D Draw", &draw_2d);
 		ImGui::TreePop();
 	}
 }
 void ComponentCanvas::Render()
 {
-	if (on_ejecution)
+	if (on_ejecution||draw_2d)
 		SetUpRender();
 	std::list<ComponentCanvasRenderer*>::iterator it = canvas_render.begin();
 	for (; it != canvas_render.end(); it++)
@@ -142,7 +146,7 @@ void ComponentCanvas::Render()
 		glPopMatrix();
 	}
 	canvas_render.clear();
-	if (on_ejecution)
+	if (on_ejecution|| draw_2d)
 		ResetRender();
 	/*
 	glDisable(GL_BLEND);
@@ -380,6 +384,8 @@ void ComponentCanvas::UpdateFocus()
 	
 	if (current_focus != nullptr)
 	{
+		if (!current_focus->on_execution)
+			return;
 		if (current_focus->type == CANVAS_INPUT_TEXT)
 		{
 			UpdateInput();
@@ -425,6 +431,7 @@ void ComponentCanvas::UpdateFocus()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
 		{
+
 			if (!interactive_x_map.empty())
 			{
 				if (!map_iterator->second->to_delete)

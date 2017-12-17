@@ -111,6 +111,28 @@ update_status ModuleEditorWindows::PostUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
+void ModuleEditorWindows::OnPlay()
+{
+
+	ui_inspector->active_draw = false;
+	ui_hierarchy->active_draw = false;
+	ui_folder->active_draw = false;
+}
+
+void ModuleEditorWindows::OnPause()
+{
+	ui_inspector->active_draw = true;
+	ui_hierarchy->active_draw = true;
+	ui_folder->active_draw = true;
+}
+
+void ModuleEditorWindows::OnStop()
+{
+	ui_inspector->active_draw = true;
+	ui_hierarchy->active_draw = true;
+	ui_folder->active_draw = true;
+}
+
 
 update_status ModuleEditorWindows::GuiUpdate()
 {

@@ -17,7 +17,9 @@ public:
 
 	ComponentInteractive(GameObject* my_go);
 	~ComponentInteractive();
-	
+	void OnPlay();
+	void OnPause();
+	void OnStop();
 	//Interactive function states
 	void OnIdle();
 	void OnHover();

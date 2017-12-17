@@ -20,6 +20,9 @@ void Component::Enable()
 void Component::OnPlay()
 {
 }
+void Component::OnPause()
+{
+}
 void Component::OnStop()
 {
 }

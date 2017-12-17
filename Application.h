@@ -104,6 +104,7 @@ private:
 
 
 
+	bool on_execution = false;
 
 
 	std::list<Module*> list_modules;

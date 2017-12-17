@@ -13,6 +13,23 @@ ComponentInteractive::~ComponentInteractive()
 {
 }
 
+void ComponentInteractive::OnPlay()
+{
+	on_execution = true;
+
+}
+
+void ComponentInteractive::OnPause()
+{
+	on_execution = false;
+
+}
+
+void ComponentInteractive::OnStop()
+{
+	on_execution = false;
+}
+
 void ComponentInteractive::OnIdle()
 {
 	states = IDLE;

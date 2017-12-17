@@ -50,9 +50,11 @@ bool ComponentPanel::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 
-	config.SetBool(enable, "Enable");
+	config.SetBool(center, "Center");
 
 	config.SetBool(is_dragable, "Dragable");
+	config.SetBool(enable, "Enable");
+
 	return ret;
 }
 
@@ -64,6 +66,7 @@ bool ComponentPanel::LoadComponent(const JSONConfig & config)
 		if (canvas != nullptr)
 			canvas->interactive_array.push_back((ComponentInteractive*)this);
 	}
+	center = config.GetBool("Center");
 
 	is_dragable = config.GetBool("Dragable");
 	enable = config.GetBool("Enable");

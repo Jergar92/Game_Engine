@@ -375,7 +375,7 @@ void GameObject::GuiUpdate()
 					}
 				}
 			}
-			if (ImGui::Button("Create Texto"))
+			if (ImGui::Button("Create Text"))
 			{
 
 				GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);

@@ -189,27 +189,30 @@ void ComponentButton::ShowInfo(ResourceTexture * texture)
 
 void ComponentButton::ButtonFunctionality()
 {
-	if (last_state != states)
+	if (on_execution)
 	{
-		last_state = states;
-		switch (states)
+		if (last_state != states)
 		{
-		case IDLE:
-			Idle();
-			break;
+			last_state = states;
+			switch (states)
+			{
+			case IDLE:
+				Idle();
+				break;
 
-		case HOVER:
-			Hover();
-			break;
+			case HOVER:
+				Hover();
+				break;
 
-		case DOWN:
-			Down();
-			break;
+			case DOWN:
+				Down();
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
+
 		}
-
 	}
 }
 

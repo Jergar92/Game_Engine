@@ -320,6 +320,7 @@ void Application::SetGameTimeMultiply(float value)
 
 void Application::OnPlay()
 {
+	on_execution = true;
 	on_play = true;
 	on_pause = false;
 	on_one_frame = false;
@@ -329,6 +330,8 @@ void Application::OnPlay()
 void Application::OnStop()
 {
 	game_frame_count = 0;
+	on_execution = false;
+
 	on_play = false;
 	on_pause = false;
 	on_one_frame = false;
@@ -338,6 +341,8 @@ void Application::OnStop()
 
 void Application::OnPause()
 {
+	on_execution = false;
+
 	on_play = false;
 	on_pause = true;
 	on_one_frame = false;
@@ -421,20 +426,21 @@ void Application::AddModule(Module* mod)
 update_status Application::GuiUpdate()
 {
 	update_status ret = UPDATE_CONTINUE;
+
 	if (open_config_window) {
 		GuiConfigUpdate();
 	}
 	if (profiler->CheckWindows()) {
 		profiler->DrawProfiler();
 	}
-
+	
 	std::list<Module*>::iterator item = list_modules.begin();
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
 
 		profiler->CreateCategory("Application_Update", item._Ptr->_Myval->name.c_str(), "Gui_Update");
 
-		ret = item._Ptr->_Myval->GuiUpdate();
+		ret = (*item)->GuiUpdate();
 		item++;
 	}
 

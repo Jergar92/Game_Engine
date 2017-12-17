@@ -142,7 +142,7 @@ bool UI_Hierarchy::Draw()
 
 
 		}
-		if (ImGui::Button("Generate Texto"))
+		if (ImGui::Button("Generate Text"))
 		{
 
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
