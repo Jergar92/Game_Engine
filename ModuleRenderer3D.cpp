@@ -133,6 +133,10 @@ bool ModuleRenderer3D::Start()
 	EventBool vsync_event;
 	vsync_event.Create<ModuleRenderer3D>("Vsync", this, &ModuleRenderer3D::ChangeVsync);
 	EventS->AddEvent(vsync_event);
+
+	EventBool cull_face_event;
+	vsync_event.Create<ModuleRenderer3D>("Change Cullface", this, &ModuleRenderer3D::changeCullFace);
+	EventS->AddEvent(vsync_event);
 	return true;
 }
 
@@ -187,6 +191,7 @@ void ModuleRenderer3D::GuiConfigUpdate()
 		if (ImGui::Checkbox("Depth test##depth", &depth_test))
 			(depth_test) ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 		//Culling Option
+		changeCullFace(cull_face);
 		if (ImGui::Checkbox("Cull face##cull_face", &cull_face))
 			(cull_face) ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 		if (cull_face)
@@ -522,6 +527,20 @@ void ModuleRenderer3D::ChangeVsync(bool enable)
 	//Use Vsync
 	if (SDL_GL_SetSwapInterval(vsync) < 0)
 		LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+}
+
+void ModuleRenderer3D::changeCullFace(bool enable)
+{
+	if (enable)
+	{
+		cull_face = enable;
+	}
+	else
+	{
+		cull_face = enable;
+	}
+	
+	
 }
 
 

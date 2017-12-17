@@ -41,6 +41,7 @@ private:
 	void DrawGameObject();
 	void DrawCanvas();
 	void ChangeVsync(bool enable);
+	void changeCullFace(bool enable);
 
 public:
 
@@ -49,6 +50,7 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	bool vsync_check = vsync != 0;
+
 private:
 	int vsync = 0;
 	ImVec4 background_color = ImColor(114, 144, 154);
