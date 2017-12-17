@@ -160,7 +160,7 @@ void ComponentCanvas::Render()
 void ComponentCanvas::CleanUp()
 {
 	EventS->EraseEventChar("AddStr", UUID);
-	EventS->EraseEventChar("Fade Parent", UUID);
+	EventS->EraseEventVoid("Fade Parent", UUID);
 	
 	for (int i = 0; i < interactive_array.size(); i++)
 	{
@@ -389,8 +389,7 @@ void ComponentCanvas::UpdateFocus()
 	
 	if (current_focus != nullptr)
 	{
-		if (!current_focus->on_execution)
-			return;
+		
 		if (current_focus->type == CANVAS_INPUT_TEXT)
 		{
 			UpdateInput();

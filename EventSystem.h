@@ -297,6 +297,11 @@ public:
 					if ((*iterator).Compare(UID))
 					{
 						it->second.remove((*iterator));
+						if (it->second.empty())
+						{
+							
+							event_char_list.erase(name);
+						}
 						return;
 					}
 					
@@ -319,6 +324,10 @@ public:
 					if ((*iterator).Compare(UID))
 					{
 						it->second.remove((*iterator));
+						if (it->second.empty())
+						{
+							event_char_list.erase(name);
+						}
 						return;
 					}
 				}
@@ -337,6 +346,10 @@ public:
 					if ((*iterator).Compare(UID))
 					{
 						it->second.remove((*iterator));
+						if (it->second.empty())
+						{
+							event_char_list.erase(name);
+						}
 						return;
 					}
 				}
@@ -355,6 +368,10 @@ public:
 					if ((*iterator).Compare(UID))
 					{
 						it->second.remove((*iterator));
+						if (it->second.empty())
+						{
+							event_char_list.erase(name);
+						}
 						return;
 					}
 				}

@@ -13,12 +13,11 @@ ComponentCheckBox::ComponentCheckBox(GameObject* my_go) : ComponentInteractive(m
 	component_name = "CheckBox";
 	type = CANVAS_CHECKBOX;
 	canvas = FindMyCanvas();
-
+	if(canvas!=nullptr)
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	box = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
 	functions[0] = "Vsync";
 	functions[1] = "Change Cullface";
-	InspectorCheck(&pressed);
 }
 
 ComponentCheckBox::~ComponentCheckBox()
@@ -228,6 +227,7 @@ bool ComponentCheckBox::InspectorCheck(ResourceTexture** status)
 		if (update)
 		{
 			(*status)->LoadInMemory();
+
 		}
 		active_text = false;
 		hover_text = false;
