@@ -6,7 +6,7 @@
 #include <list>
 class GameObject;
 class Plane_p;
-
+enum GameObjectType;
 class ModuleScene : public Module
 {
 public:
@@ -26,7 +26,7 @@ public:
 	bool CleanUp();
 	void CleanGO();
 
-	GameObject* GenerateGameObject(GameObject* parent = nullptr);
+	GameObject* GenerateGameObject(GameObjectType type,GameObject* parent = nullptr);
 	GameObject* GetScene() const;
 	void EventTry();
 

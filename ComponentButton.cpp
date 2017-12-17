@@ -36,6 +36,13 @@ void ComponentButton::Update(float dt)
 {
 
 }
+void ComponentButton::CleanUp()
+{
+	if (canvas != nullptr)
+	{
+
+	}
+}
 bool ComponentButton::SaveComponent(JSONConfig & config) const
 {
 	bool ret = true;
@@ -43,7 +50,7 @@ bool ComponentButton::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 	config.SetInt((over_texture != nullptr) ? over_texture->GetResourceType() : 0, "ResourceOverType");
-	config.SetInt((click_texture != nullptr) ? click_texture->GetResourceType() : 0, "ResourceOverType");
+	config.SetInt((click_texture != nullptr) ? click_texture->GetResourceType() : 0, "ResourceClickType");
 
 	if (over_texture != nullptr)
 	{

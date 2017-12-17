@@ -58,7 +58,13 @@ bool ComponentPanel::LoadComponent(const JSONConfig & config)
 	return true;
 }
 
+void ComponentPanel::CleanUp()
+{
+	if (canvas != nullptr)
+	{
 
+	}
+}
 
 void ComponentPanel::InspectorUpdate()
 {

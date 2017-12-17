@@ -136,10 +136,11 @@ void ModuleScene::CleanGO()
 		scene_go->Delete();
 		RELEASE(scene_go);
 	}
+
 }
-GameObject * ModuleScene::GenerateGameObject(GameObject * parent)
+GameObject* ModuleScene::GenerateGameObject(GameObjectType type, GameObject* parent)
 {
-	GameObject* new_go = new GameObject(parent);
+	GameObject* new_go = new GameObject(parent,type);
 	
 	no_static_list.push_back(new_go);
 
@@ -199,9 +200,8 @@ void ModuleScene::LoadScene(const char*path)
 	for (uint i = 0; i < size; i++)
 	{
 		JSONConfig config_item = config.SetFocusArray("GameObject", i);
-		GameObject* item = GenerateGameObject();
+		GameObject* item = GenerateGameObject(static_cast<GameObjectType>(config_item.GetInt("TransformType")));
 		
-
 		item->LoadGameObject(config_item);
 		tmp_go.push_back(item);
 

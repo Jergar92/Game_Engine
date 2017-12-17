@@ -32,6 +32,8 @@ public:
 	void OnPlay();
 	void Update(float dt);
 	void OnStop();
+	bool SaveComponent(JSONConfig & config) const;
+	bool LoadComponent(const JSONConfig & config);
 	void Render();
 	void CleanUp();
 	void SetUpCanvasSize(SDL_Window* window);

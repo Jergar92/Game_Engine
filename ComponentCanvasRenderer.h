@@ -37,6 +37,8 @@ public:
 	~ComponentCanvasRenderer();
 
 	void Update(float dt);
+	bool SaveComponent(JSONConfig & config) const;
+	bool LoadComponent(const JSONConfig & config);
 	void CleanUp();
 	void GetComponent(Component* item);
 	uint GetImageID()const;

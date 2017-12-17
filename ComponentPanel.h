@@ -23,6 +23,8 @@ public:
 	bool SaveComponent(JSONConfig & config) const;
 	bool LoadComponent(const JSONConfig & config);
 
+	void CleanUp();
+
 
 private:
 

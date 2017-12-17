@@ -10,6 +10,7 @@ ComponentInputText::ComponentInputText(GameObject * my_go):ComponentInteractive(
 	component_name = "Input Text";
 	type = CANVAS_INPUT_TEXT;
 	canvas = FindMyCanvas();
+	if (canvas != nullptr)
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	my_text = (ComponentText*)my_go->FindComponent(ComponentType::CANVAS_TEXT);
 	MoveToEnd();
@@ -31,7 +32,38 @@ void ComponentInputText::OnStop()
 {
 	on_execution = false;
 }
+void ComponentInputText::CleanUp()
+{
+	if (canvas != nullptr)
+	{
 
+	}
+}
+bool ComponentInputText::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
+
+	config.SetInt(type, "Type");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+	
+	config.SetBool(enable, "Enable");
+	return ret;
+}
+
+bool ComponentInputText::LoadComponent(const JSONConfig & config)
+{
+	if (canvas != nullptr)
+	{
+		canvas = FindMyCanvas();
+		if (canvas != nullptr)
+			canvas->interactive_array.push_back((ComponentInteractive*)this);
+	}
+
+	my_text = (ComponentText*)my_go->FindComponent(ComponentType::CANVAS_TEXT);
+
+	enable = config.GetBool("Enable");
+	return true;
+}
 void ComponentInputText::AddText(const char * str)
 {
 	

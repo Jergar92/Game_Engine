@@ -26,7 +26,7 @@ void ResourcePrefab::LoadInMemory()
 	for (uint i = 0; i < size; i++)
 	{
 		JSONConfig config_item = config.SetFocusArray("GameObject", i);
-		GameObject* item = App->scene->GenerateGameObject();
+		GameObject* item = App->scene->GenerateGameObject(static_cast<GameObjectType>(config_item.GetInt("TransformType")));
 		item->LoadGameObject(config_item);
 		tmp_go.push_back(item);
 

@@ -30,7 +30,35 @@ void ComponentCanvasRenderer::Update(float dt)
 }
 
 
+bool ComponentCanvasRenderer::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
 
+	config.SetInt(type, "Type");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+	config.SetBool(enable, "Enable");
+	return ret;
+}
+
+bool ComponentCanvasRenderer::LoadComponent(const JSONConfig & config)
+{
+	if (canvas != nullptr)
+	{
+		canvas = FindMyCanvas();
+		if (canvas != nullptr)
+			canvas->interactive_array.push_back((ComponentInteractive*)this);
+	}
+	Component* get = nullptr;
+	if (image != nullptr)	
+		get = my_go->FindComponent(ComponentType::CANVAS_IMAGE);
+
+	if (text != nullptr)	
+		get = my_go->FindComponent(ComponentType::CANVAS_TEXT);
+	if (get != nullptr)
+		GetComponent(get);
+	enable = config.GetBool("Enable");
+	return true;
+}
 
 void ComponentCanvasRenderer::CleanUp()
 {
@@ -42,6 +70,8 @@ void ComponentCanvasRenderer::CleanUp()
 
 void ComponentCanvasRenderer::GetComponent(Component * item)
 {
+	if (item == nullptr)
+		return;
 	switch (item->type)
 	{
 	case CANVAS_IMAGE:

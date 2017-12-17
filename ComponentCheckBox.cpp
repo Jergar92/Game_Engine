@@ -54,7 +54,71 @@ void ComponentCheckBox::Click()
 
 	}
 }
+bool ComponentCheckBox::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
 
+	config.SetInt(type, "Type");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+	config.SetInt((hover != nullptr) ? hover->GetResourceType() : 0, "ResourceHoverType");
+	config.SetInt((pressed != nullptr) ? pressed->GetResourceType() : 0, "ResourcePressedType");
+
+	if (hover != nullptr)
+	{
+		config.SetInt(hover->GetUID(), "Resource Hover UID");
+	}
+	if (pressed != nullptr)
+	{
+		config.SetInt(pressed->GetUID(), "Resource Pressed UID");
+	}
+	config.SetBool(enable, "Enable");
+	return ret;
+}
+
+bool ComponentCheckBox::LoadComponent(const JSONConfig & config)
+{
+	if (canvas != nullptr)
+	{
+		canvas = FindMyCanvas();
+		if (canvas != nullptr)
+			canvas->interactive_array.push_back((ComponentInteractive*)this);
+	}
+
+	box = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
+	if (config.GetInt("ResourceHoverType") != 0)
+	{
+		hover = (ResourceTexture*)App->resource_manager->Get(config.GetInt("Resource Hover UID"));
+		if (hover != nullptr)
+		{
+			hover->LoadInMemory();
+		}
+		else
+		{
+			LOG("Error On LoadComponent: Texture is null");
+		}
+	}
+	if (config.GetInt("ResourcePressedType") != 0)
+	{
+		pressed = (ResourceTexture*)App->resource_manager->Get(config.GetInt("Resource Pressed UID"));
+		if (pressed != nullptr)
+		{
+			pressed->LoadInMemory();
+		}
+		else
+		{
+			LOG("Error On LoadComponent: Texture is null");
+		}
+	}
+	enable = config.GetBool("Enable");
+	return true;
+}
+void ComponentCheckBox::CleanUp()
+{
+	if (canvas != nullptr)
+	{
+
+	}
+}
 void ComponentCheckBox::InspectorUpdate()
 {
 	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;

@@ -11,6 +11,10 @@ public:
 	~ComponentInputText();
 	void OnStart();
 	void OnStop();
+	void CleanUp();
+	bool SaveComponent(JSONConfig & config) const;
+
+	bool LoadComponent(const JSONConfig & config);
 	void AddText(const char* str);
 	void AddText(const char* str, uint position);
 	bool EraseText(uint position);
@@ -30,7 +34,6 @@ private:
 	uint cursor_pos = 0;
 
 	ComponentText* my_text = nullptr;
-	ComponentCanvas* canvas = nullptr;
 
 };
 

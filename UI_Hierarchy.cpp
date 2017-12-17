@@ -41,7 +41,7 @@ bool UI_Hierarchy::Draw()
 
 		if (ImGui::Button("Generate Game Object"))
 		{
-			GameObject* main_go = App->scene->GenerateGameObject();
+			GameObject* main_go = App->scene->GenerateGameObject(GO_ELEMENT);
 			main_go->SetName("Game Object");
 			App->scene->SendGameObject(main_go);	
 			ImGui::CloseCurrentPopup();
@@ -51,7 +51,7 @@ bool UI_Hierarchy::Draw()
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
 			if (main_go == nullptr)
 			{
-				main_go = App->scene->GenerateGameObject();
+				main_go = App->scene->GenerateGameObject(GO_CANVAS);
 				App->scene->SendGameObject(main_go);
 				main_go->SetName("Canvas");
 				main_go->CreateComponent(ComponentType::CANVAS);
@@ -65,13 +65,13 @@ bool UI_Hierarchy::Draw()
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
 			if (main_go == nullptr)
 			{
-				main_go = App->scene->GenerateGameObject();
+				main_go = App->scene->GenerateGameObject(GO_CANVAS);
 				App->scene->SendGameObject(main_go);
 			}
 			main_go->SetName("Canvas");
 			main_go->CreateComponent(ComponentType::CANVAS);
 
-			GameObject* image = App->scene->GenerateGameObject();
+			GameObject* image = App->scene->GenerateGameObject(GO_CANVAS);
 			image->SetName("Image");
 			image->SetParent(main_go);
 			image->CreateComponent(ComponentType::CANVAS_IMAGE);
@@ -86,13 +86,13 @@ bool UI_Hierarchy::Draw()
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
 			if (main_go == nullptr)
 			{
-				main_go = App->scene->GenerateGameObject();
+				main_go = App->scene->GenerateGameObject(GO_CANVAS);
 				App->scene->SendGameObject(main_go);
 			}
 			main_go->SetName("Canvas");
 			main_go->CreateComponent(ComponentType::CANVAS);
 
-			GameObject* panel = App->scene->GenerateGameObject();
+			GameObject* panel = App->scene->GenerateGameObject(GO_CANVAS);
 			panel->SetName("Panel");
 			panel->SetParent(main_go);
 			panel->CreateComponent(ComponentType::CANVAS_IMAGE);
@@ -108,13 +108,13 @@ bool UI_Hierarchy::Draw()
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
 			if (main_go == nullptr)
 			{
-				main_go = App->scene->GenerateGameObject();
+				main_go = App->scene->GenerateGameObject(GO_CANVAS);
 				App->scene->SendGameObject(main_go);
 			}
 			main_go->SetName("Canvas");
 			main_go->CreateComponent(ComponentType::CANVAS);
 
-			GameObject* button = App->scene->GenerateGameObject();
+			GameObject* button = App->scene->GenerateGameObject(GO_CANVAS);
 			button->SetName("Button");
 			button->SetParent(main_go);
 			button->CreateComponent(ComponentType::CANVAS_IMAGE);
@@ -128,13 +128,13 @@ bool UI_Hierarchy::Draw()
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
 			if (main_go == nullptr)
 			{
-				main_go = App->scene->GenerateGameObject();
+				main_go = App->scene->GenerateGameObject(GO_CANVAS);
 				App->scene->SendGameObject(main_go);
 			}
 			main_go->SetName("Canvas");
 			main_go->CreateComponent(ComponentType::CANVAS);
 
-			GameObject* check_box = App->scene->GenerateGameObject();
+			GameObject* check_box = App->scene->GenerateGameObject(GO_CANVAS);
 			check_box->SetName("Check Box");
 			check_box->SetParent(main_go);
 			check_box->CreateComponent(ComponentType::CANVAS_IMAGE);
@@ -148,13 +148,13 @@ bool UI_Hierarchy::Draw()
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
 			if (main_go == nullptr)
 			{
-				main_go = App->scene->GenerateGameObject();
+				main_go = App->scene->GenerateGameObject(GO_CANVAS);
 				App->scene->SendGameObject(main_go);
 			}
 			main_go->SetName("Canvas");
 			main_go->CreateComponent(ComponentType::CANVAS);
 
-			GameObject* text = App->scene->GenerateGameObject();
+			GameObject* text = App->scene->GenerateGameObject(GO_CANVAS);
 			text->SetName("Text");
 			text->SetParent(main_go);
 			text->CreateComponent(ComponentType::CANVAS_TEXT);
@@ -167,13 +167,13 @@ bool UI_Hierarchy::Draw()
 			GameObject* main_go = App->scene->FindGameObjectComponent(ComponentType::CANVAS);
 			if (main_go == nullptr)
 			{
-				main_go = App->scene->GenerateGameObject();
+				main_go = App->scene->GenerateGameObject(GO_CANVAS);
 				App->scene->SendGameObject(main_go);
 			}
 			main_go->SetName("Canvas");
 			main_go->CreateComponent(ComponentType::CANVAS);
 
-			GameObject* text = App->scene->GenerateGameObject();
+			GameObject* text = App->scene->GenerateGameObject(GO_CANVAS);
 			text->SetName("Input Text");
 			text->SetParent(main_go);
 			text->CreateComponent(ComponentType::CANVAS_TEXT);

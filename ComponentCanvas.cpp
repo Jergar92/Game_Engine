@@ -59,7 +59,24 @@ void ComponentCanvas::OnStop()
 {
 	on_ejecution = false;
 }
+bool ComponentCanvas::SaveComponent(JSONConfig & config) const
+{
+	bool ret = true;
 
+	config.SetInt(type, "Type");
+	config.SetInt(my_go->GetUID(), "GameObject UID");
+
+
+	config.SetBool(enable, "Enable");
+	return ret;
+}
+
+bool ComponentCanvas::LoadComponent(const JSONConfig & config)
+{
+
+	enable = config.GetBool("Enable");
+	return true;
+}
 void ComponentCanvas::Render()
 {
 	//if (on_ejecution)

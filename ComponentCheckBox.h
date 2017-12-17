@@ -18,6 +18,9 @@ public:
 
 private:
 	void Click();
+	bool SaveComponent(JSONConfig & config) const;
+	bool LoadComponent(const JSONConfig & config);
+	void CleanUp();
 	void InspectorUpdate();
 	void StartFunciton(int event_num);
 	bool InspectorCheck(ResourceTexture** state);
@@ -30,7 +33,6 @@ private:
 	int function_selection = 0;
 	std::map<int, const char*> functions;
 
-	ComponentCanvas* canvas;
 	ComponentImage* box;
 	ResourceTexture* hover = nullptr;
 	ResourceTexture* pressed = nullptr;

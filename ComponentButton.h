@@ -21,6 +21,7 @@ public:
 	~ComponentButton();
 
 	void Update(float dt);
+	void CleanUp();
 
 	bool SaveComponent(JSONConfig & config) const;
 
