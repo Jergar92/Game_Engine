@@ -24,6 +24,12 @@ ComponentCheckBox::~ComponentCheckBox()
 {
 }
 
+void ComponentCheckBox::OnPlay()
+{
+	on_execution = true;
+	StartFunciton(activated);
+}
+
 void ComponentCheckBox::Update(float dt)
 {
 }
@@ -74,7 +80,7 @@ bool ComponentCheckBox::SaveComponent(JSONConfig & config) const
 	}
 
 	
-	config.SetBool(actived, "Actived");
+	config.SetBool(activated, "Actived");
 
 	config.SetBool(enable, "Enable");
 	return ret;
