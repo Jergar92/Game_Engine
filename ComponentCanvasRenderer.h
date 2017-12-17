@@ -52,7 +52,6 @@ public:
 	bool ProcessText();
 
 	void SetUpCanvas();
-	void UpdateVertex();
 
 	ComponentCanvas* FindMyCanvas();
 	ComponentImage* image = nullptr;

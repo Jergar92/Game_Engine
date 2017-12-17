@@ -17,6 +17,7 @@ public:
 	ComponentText(GameObject* my_go);
 	~ComponentText();
 	void InspectorUpdate();
+	void CleanUp();
 	uint GetID();
 	void FreeFont();
 	void UpdateText();

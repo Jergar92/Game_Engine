@@ -9,7 +9,7 @@ class ComponentInputText:public ComponentInteractive
 public:
 	ComponentInputText(GameObject* my_go);
 	~ComponentInputText();
-	void OnStart();
+	void OnPlay();
 	void OnStop();
 	void CleanUp();
 	bool SaveComponent(JSONConfig & config) const;
@@ -17,7 +17,9 @@ public:
 	bool LoadComponent(const JSONConfig & config);
 	void AddText(const char* str);
 	void AddText(const char* str, uint position);
-	bool EraseText(uint position);
+	bool EraseTextBack(uint position);
+	bool EraseTextFront(uint position);
+
 	void MoveRight();
 	void MoveLeft();
 	void MoveToEnd();

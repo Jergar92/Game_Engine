@@ -21,7 +21,7 @@ ComponentInputText::~ComponentInputText()
 {
 }
 
-void ComponentInputText::OnStart()
+void ComponentInputText::OnPlay()
 {
 	on_execution = true;
 	MoveToEnd();
@@ -82,14 +82,27 @@ void ComponentInputText::AddText(const char * str, uint position)
 }
 
 
-bool ComponentInputText::EraseText(uint position)
+bool ComponentInputText::EraseTextBack(uint position)
 {
 	//check
-	if (my_text->text_str.length() == 0) 
+	if (my_text->text_str.length() == 0)
 		return false;
 
 	my_text->text_str.erase(position, 1);
 	ReduceCursorPos();
+
+	//check if still have text
+	if (my_text->text_str.length() > 0)
+		return true;
+}
+
+bool ComponentInputText::EraseTextFront(uint position)
+{
+	//check
+	if (my_text->text_str.length() == 0 || my_text->text_str.length() == position)
+		return false;
+
+	my_text->text_str.erase(position, 1);
 
 	//check if still have text
 	if (my_text->text_str.length() > 0)

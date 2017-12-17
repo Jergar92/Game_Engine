@@ -126,7 +126,6 @@ bool ComponentCanvasRenderer::ProcessImage()
 	buffer.vertices.clear();
 	buffer.indices.clear();
 
-	UpdateVertex();
 
 		CanvasVertex ver;
 		ver.position = my_go->GetRectTransform()->GetSouthWest();
@@ -239,10 +238,7 @@ void ComponentCanvasRenderer::SetUpCanvas()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void ComponentCanvasRenderer::UpdateVertex()
-{
 
-}
 
 ComponentCanvas * ComponentCanvasRenderer::FindMyCanvas()
 {

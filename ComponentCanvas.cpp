@@ -473,17 +473,18 @@ void ComponentCanvas::UpdateInput()
 	else if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
 	{
 	
-		if (((ComponentInputText*)current_focus)->EraseText(((ComponentInputText*)current_focus)->GetCurrentPos()-1))
+		if (((ComponentInputText*)current_focus)->EraseTextBack(((ComponentInputText*)current_focus)->GetCurrentPos()-1))
 		{
+			((ComponentInputText*)current_focus)->CallUpdate();
 		}
-		((ComponentInputText*)current_focus)->CallUpdate();
 
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 	{
-		((ComponentInputText*)current_focus)->EraseText(((ComponentInputText*)current_focus)->GetCurrentPos());
-		((ComponentInputText*)current_focus)->CallUpdate();
-
+		if (((ComponentInputText*)current_focus)->EraseTextFront(((ComponentInputText*)current_focus)->GetCurrentPos()))
+		{
+			((ComponentInputText*)current_focus)->CallUpdate();
+		}
 	}
 }
 

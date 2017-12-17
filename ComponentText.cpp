@@ -117,6 +117,13 @@ void ComponentText::InspectorUpdate()
 	}
 }
 
+void ComponentText::CleanUp()
+{
+	if (text != nullptr)
+		text->UnLoadInMemory();
+
+}
+
 
 uint ComponentText::GetID()
 {

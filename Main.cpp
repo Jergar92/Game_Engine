@@ -101,7 +101,7 @@ int main(int argc, char ** argv)
 
 		}
 	}
-
+	RELEASE(EventS);
 	RELEASE(App);
 
 	LOG("Exiting game bye...\n");
