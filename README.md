@@ -4,6 +4,7 @@ https://github.com/Jergar92/Game_Engine
 Collaborators:
 Andreu Rojas Barrera: https://github.com/Jergar92
 Sergio Saez: https://github.com/dreedcon
+Marc Fabian: https://github.com/xDragan
 ## Installation
 Drop the game folder inside the .zip somewhere in your computer and execute the .exe
 
@@ -124,6 +125,13 @@ If a GameObject is disabled the inspector show the name on the game object in gr
 	* Mouse Right Click Active :
 		* Delete Game Object ==> Delete selected gameobject and his children
 		* Create Game Object ==> Create gameobject on selection
+		* Create Canvas ==> Create gameobject with Canvas on selection		
+		* Create Image ==> Create gameobject with Image on selection(create canvas as parent if scene don't have)
+		* Create Panel ==> Create gameobject with Panel on selection(create canvas as parent if scene don't have)
+		* Create Button ==> Create gameobject with Button on selection(create canvas as parent if scene don't have)
+		* Create CheckBox ==> Create gameobject with CheckBox on selection(create canvas as parent if scene don't have)
+		* Create Text ==> Create gameobject with Text on selection(create canvas as parent if scene don't have)
+		* Create InputText ==> Create gameobject with InputText on selection(create canvas as parent if scene don't have)
 
 ### Inspector
 Show information about the selected GameObject and Resources
@@ -147,6 +155,10 @@ This Engine implement GameObject (Unity like), GameObject contains
 ##Component 
 This Engine implement Component (Unity like) right now the components implemented are:
 All Components have a check box on the right that enable/disable the component
+	*Component Transform ==> Hadle transformations 3D
+		*Position,Rotation,Scale of the gameobject
+	*Component Rect Transform ==> Hadle transformations 2D
+		*Position,Rotation,Scale,Width,Height of the gameobject
 	*Component Mesh ==> Allocate all vertices and index
 		*Vertices ==> Show vertices count
 		*Indices ==> Show indices count
@@ -158,6 +170,27 @@ All Components have a check box on the right that enable/disable the component
                 *From the editor you can change the fov the near and far plane
                 *You can see what the frustum is seeing, by pressing Set Render Camera
 		*To activate the culling click on enable culling
+	*Component Canvas==> Draw Component Canvas Render
+                *You can active the 2d draw if you wanna see how is lock before play the scene
+	*Component Canvas Render==> Draw Image and Text
+	*Component Image ==> Draw image
+		*Select Texture ==> You can change the texture of the component
+	*Component Panel ==> Modify component image interactivity
+                *Center ==> Set the image on the center of the windows
+                *Dragable ==> You can set the image on drag mode
+	*Component Button ==> Simple Button
+                *You can chose the two images of hover and click
+		*You can chose one function pre definet or two placeholders
+	*Component CheckBox ==> Simple checkbox
+                *You can chose the clicked image
+		*You can chose two pre definet fuctions
+	*Component Text ==> Set text on the editor
+                *Select the font of the text
+                *Select the color of the text
+		*Select the max size of the text (min value 6 max value 50)
+		*Select the max number of the caracters (min value 6 max value 20)
+	*Component InputText ==> Modifi Text on execution
+
 
 ##Resources
 This Engine implement Resources (Unity like) right now the resources implemented are:
@@ -184,6 +217,10 @@ This engine have the tool quadtree which, contemplates the static game objects a
 	
 	*Have a optimization with the frustum culling.  
 	
+##Event System
+
+This engine use a function pointer event system.
+
 
 #### Libraries 
 
@@ -202,6 +239,18 @@ This engine use <a href="http://assimp.sourceforge.net/"> Assimp </a>
 This engine use <a href="http://openil.sourceforge.net/"> DevIL </a>
 
 ## Changelog
+
+#### v1.0
+
+* Added: Add RectTrasnform Component
+* Added: Add Canvas Component
+* Added: Add Button Component
+* Added: Add Image Component
+* Added: Add Panel Component
+* Added: Add CheckBox Component
+* Added: Add Text Component
+* Added: Add TextInput Component
+* Added: Add EventSystem
 
 #### v0.8.0
 
