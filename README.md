@@ -23,13 +23,11 @@ Drop the game folder inside the .zip somewhere in your computer and execute the 
 Is fixed at the top of the screen.
 Buttons info:
 
-*File ====>Open File submenu
+	*File ====>Open File submenu
 	*Save ==> Save Scene on Assets folder
 	*Load ==> Load Scene after showing a load window
 	*Quit ==> Quit the application
-	
-*View ====>Open View submenu
-
+	*View ====>Open View submenu
 	*Console ==> Open/Close the Console windows (Console info below)
 	*Configuration ==>Open/Close the Configuration windows (Configuration info below)
 	*Profiler ==>Open/Close the Profiler windows(Profiler info below)
@@ -39,9 +37,7 @@ Buttons info:
         *Debug ==> Hover to see the debug options
 		 	* Pulse on draw raycast to see the raycast
 			* Pulse on draw quadtree to se the quadtree 
-
-*Help ====>Open Help submenu
-
+	*Help ====>Open Help submenu
 	*Documentation ==> Open a link to proyect wiki
 	*Download latest ==>Open a link to proyect releases
 	*Report a bug ==>Open a link to proyect github issues
@@ -87,27 +83,20 @@ This window shows and allows to edit certain behaviors of the engine:
 	*OpenGL Version ==> Show the openGL version
 *Render
 
-	*Vsync ==> Active/Desactive Vsync
-	
+	*Vsync ==> Active/Desactive Vsync	
 	*Depth test ==> Active/Desactive Depth test 
-	
 	*Cull face ==> Active/Desactive Cull face 
 		*Front Culling ==> Active/Desactive Front Culling
-		*Back Culling ==> Active/Desactive Back Culling
-		
+		*Back Culling ==> Active/Desactive Back Culling		
 	*Lighting ==> Active/Desactive Lighting
-		*Ambient ==> Change the Ambient light
-	
+		*Ambient ==> Change the Ambient light	
 	*Color Material ==> Active/Desactive Color Material 
 		*Ambient ==> Change the Ambient color
-		*Diffuse ==> Change the Diffuse color
-		
-	*Texture 2D ==> Active/Desactive Texture 2D 
-	
+		*Diffuse ==> Change the Diffuse color		
+	*Texture 2D ==> Active/Desactive Texture 2D 	
 	*FOG ==> Active/Desactive FOG
 		*Densisty ==> Change the FOG densisty
-		*Color==> Change the FOG color
-	
+		*Color==> Change the FOG color	
 	*Wireframe ==> Active/Desactive Wireframe 
 
 ### Profiler 
@@ -123,6 +112,7 @@ Shows a numerical record of the current speed of each module, to use it you have
 Show information all the GameObject of the scene
 If a GameObject is disabled the inspector show the name on the game object in gray
 	* Mouse Right Click Active :
+	
 		* Delete Game Object ==> Delete selected gameobject and his children
 		* Create Game Object ==> Create gameobject on selection
 		* Create Canvas ==> Create gameobject with Canvas on selection		
@@ -139,6 +129,7 @@ Inspector GameObject:
 If you are on the GameObject Inspector you can create Components using the Button "Create Component"
 If you create a MeshRenderer Component a Mesh Component is created to
 	* Mouse Right Click Active :
+	
 		* Delete Component : ==> Delete selected component (You can't delete a Component Mesh if the Game Object have a Component MeshRenderer)
 Inspector Resources:
 You can see the load Count
@@ -147,6 +138,7 @@ Right now the only Resource with import options is the Resource Texture
 
 ##GameObject
 This Engine implement GameObject (Unity like), GameObject contains
+
 	*Enable ==> Enable/Disable GameObject
 	*Transform ==> Position,Rotation,Scale of the gameobject
 	*Show Bounding Box ==> To see a AABB bounding Box and OBB bounding box
@@ -155,6 +147,7 @@ This Engine implement GameObject (Unity like), GameObject contains
 ##Component 
 This Engine implement Component (Unity like) right now the components implemented are:
 All Components have a check box on the right that enable/disable the component
+
 	*Component Transform ==> Hadle transformations 3D
 		*Position,Rotation,Scale of the gameobject
 	*Component Rect Transform ==> Hadle transformations 2D
@@ -199,6 +192,7 @@ This Engine implement Resources (Unity like) right now the resources implemented
 	*Resources Texture
 	*Resources Prefab
 Resources Info:
+
 	*The Resources only load once and if no one is ussing the resource the resource is Unload you can see the load count by selecting a Resource and see the Inspector
 	*All resources generate his own meta file and can save importing options (Right now only Resource Texture has this functionality (can flip the texture))
 	*If the Resource Manager detect the asset file is missing destroy the Resource, his meta file and library file
@@ -214,7 +208,7 @@ Show the Assets info:
 
 ##Quadtree
 This engine have the tool quadtree which, contemplates the static game objects and subdivides.
-	
+
 	*Have a optimization with the frustum culling.  
 	
 ##Event System
