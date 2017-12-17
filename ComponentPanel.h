@@ -24,9 +24,11 @@ public:
 	bool LoadComponent(const JSONConfig & config);
 
 	void CleanUp();
+	bool GetF1Button()const;
 
 
 private:
+	bool f1_button = false;
 
 	bool center = false;
 	bool show_mesh_renderer_window = false;

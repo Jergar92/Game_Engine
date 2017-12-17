@@ -70,6 +70,11 @@ void Component::Disable()
 	enable = false;
 }
 
+void Component::ChangeEnable()
+{
+	enable = !enable;
+}
+
 void Component::DeleteComponent()
 {
 	to_delete= true;

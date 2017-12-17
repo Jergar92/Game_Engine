@@ -42,6 +42,8 @@ public:
 	virtual void OnUpdateMatrix(const float4x4 & matrix);
 
 	virtual void Disable();
+	void ChangeEnable();
+
 	void DeleteComponent();
 	bool ToDelete()const;
 	bool isEnable();

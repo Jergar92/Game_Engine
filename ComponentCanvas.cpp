@@ -6,6 +6,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentInteractive.h"
 #include "ComponentInputText.h"
+#include "ComponentPanel.h"
 #include "ComponentImage.h"
 #include "ResourceTexture.h"
 #include "EventSystem.h"
@@ -54,6 +55,8 @@ void ComponentCanvas::Update(float dt)
 		UpdateInteractiveMap();
 		UpdateInteractive();
 		UpdateFocus();
+	
+		
 	}
 	else
 		DebugDraw();
@@ -249,6 +252,18 @@ void ComponentCanvas::UpdateInteractive()
 {
 	std::multimap<float, ComponentInteractive*>::reverse_iterator map_iterator;
 	bool is_on_hover = false;
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		for (int i = 0; i < interactive_array.size(); i++)
+		{
+			if (interactive_array[i]->type != CANVAS_IMDRAG)
+				continue;
+			if (((ComponentPanel*)interactive_array[i])->GetF1Button())
+			{
+				interactive_array[i]->my_go->FindComponent(CANVAS_RENDER)->ChangeEnable();
+			}
+		}
+	}
 	for (map_iterator = interactive_z_map.rbegin();map_iterator != interactive_z_map.rend(); ++map_iterator)
 	{
 		int x;
@@ -401,6 +416,7 @@ void ComponentCanvas::UpdateFocus()
 			UpdateDrag();
 			WindowLimits();
 		}
+	
 		if (current_focus->has_focus == true)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)

@@ -51,6 +51,7 @@ bool ComponentPanel::SaveComponent(JSONConfig & config) const
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 
 	config.SetBool(center, "Center");
+	config.SetBool(f1_button, "f1_button");
 
 	config.SetBool(is_dragable, "Dragable");
 	config.SetBool(enable, "Enable");
@@ -68,6 +69,8 @@ bool ComponentPanel::LoadComponent(const JSONConfig & config)
 	}
 	center = config.GetBool("Center");
 
+	f1_button = config.GetBool("f1_button");
+
 	is_dragable = config.GetBool("Dragable");
 	enable = config.GetBool("Enable");
 	return true;
@@ -79,6 +82,11 @@ void ComponentPanel::CleanUp()
 	{
 		canvas->EraseInteractiveElement(this);
 	}
+}
+
+bool ComponentPanel::GetF1Button() const
+{
+	return f1_button;
 }
 
 void ComponentPanel::InspectorUpdate()
@@ -97,6 +105,7 @@ void ComponentPanel::InspectorUpdate()
 	}
 	if (node_open)
 	{
+		ImGui::Checkbox("F1Button", &f1_button);
 		ImGui::Checkbox("Enable Drag", &is_dragable);
 		ImGui::Checkbox("Set Center", &center);
 		ImGui::TreePop();
