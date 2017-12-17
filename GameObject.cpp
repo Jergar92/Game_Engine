@@ -549,6 +549,22 @@ void GameObject::CreateTransform(float3 scale, Quat rotation, float3 position)
 	}
 }
 
+void GameObject::EnableDiableChild()
+{
+	std::queue<GameObject*> queue;
+	queue.push(this);
+	while (!queue.empty())
+	{
+		GameObject* item = queue.front();
+		for (std::vector<GameObject*>::iterator it = item->childs.begin(); it != item->childs.end(); it++)
+		{
+			(*it)->enable = !(*it)->enable;
+			queue.push(*it);
+		}
+		queue.pop();
+	}
+}
+
 
 
 

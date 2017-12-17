@@ -35,6 +35,7 @@ public:
 	void InspectorUpdate();
 	void OpenStaticQuestion();	
 	void CreateTransform(float3 scale, Quat rotation, float3  position);
+	void EnableDiableChild();
 	//Functionality
 	void GenerateBoudingBox();
 	void RenderBoundingBoxAABB();

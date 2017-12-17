@@ -260,7 +260,11 @@ void ComponentCanvas::UpdateInteractive()
 				continue;
 			if (((ComponentPanel*)interactive_array[i])->GetF1Button())
 			{
+
 				interactive_array[i]->my_go->FindComponent(CANVAS_RENDER)->ChangeEnable();
+				interactive_array[i]->my_go->EnableDiableChild();
+
+			
 			}
 		}
 	}
