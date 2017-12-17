@@ -10,6 +10,7 @@
 #include "imgui/imgui.h"
 #include "ComponentInteractive.h"
 #include "ComponentCanvas.h"
+#include "ComponentRectTransform.h"
 #define TEXTURE_SIZE 64
 #define TEXTURE_SIZE_HOVER 128
 
@@ -32,6 +33,14 @@ ComponentPanel::~ComponentPanel()
 
 void ComponentPanel::Update(float dt)
 {
+	if (center)
+	{
+		if (canvas != nullptr)
+		{
+			transform->SetPosition(float3((canvas->GetCanvasData().size.x * 0.5) - (transform->GetWidth() * 0.5), (canvas->GetCanvasData().size.y * 0.5) - (transform->GetHeight() * 0.5), transform->value.z));
+		}
+	}
+
 }
 
 bool ComponentPanel::SaveComponent(JSONConfig & config) const
@@ -86,7 +95,10 @@ void ComponentPanel::InspectorUpdate()
 	if (node_open)
 	{
 		ImGui::Checkbox("Enable Drag", &is_dragable);
+		ImGui::Checkbox("Set Center", &center);
 		ImGui::TreePop();
+
+
 	}
 }
 

@@ -533,3 +533,8 @@ void ComponentCanvas::EraseInteractiveElement(ComponentInteractive * element)
 		}
 	}
 }
+
+const CanvasData ComponentCanvas::GetCanvasData() const
+{
+	return canvas_data;
+}

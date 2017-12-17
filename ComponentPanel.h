@@ -28,7 +28,7 @@ public:
 
 private:
 
-
+	bool center = false;
 	bool show_mesh_renderer_window = false;
 
 

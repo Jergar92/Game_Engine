@@ -59,9 +59,9 @@ public:
 
 	//Draw Canvas function
 	void DebugDraw();
-
 	void EraseInteractiveElement(ComponentInteractive* element);
 
+	const CanvasData GetCanvasData()const;
 public:
 
 	std::vector<ComponentInteractive*> interactive_array;
