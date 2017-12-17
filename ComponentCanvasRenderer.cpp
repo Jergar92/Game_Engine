@@ -25,10 +25,7 @@ ComponentCanvasRenderer::~ComponentCanvasRenderer()
 
 void ComponentCanvasRenderer::Update(float dt)
 {
-	if (canvas == nullptr)
-	{
-		canvas = FindMyCanvas();
-	}
+
 	if (canvas != nullptr)
 		canvas->AddCanvasRender(this);
 }
@@ -61,6 +58,14 @@ void ComponentCanvasRenderer::CleanUp()
 	buffer.indices.clear();
 	glDeleteBuffers(1, &buffer.VBO);
 	glDeleteBuffers(1, &buffer.EBO);
+}
+
+void ComponentCanvasRenderer::LinkComponent()
+{
+	if (canvas == nullptr)
+	{
+		canvas = FindMyCanvas();
+	}
 }
 
 void ComponentCanvasRenderer::GetComponent(Component * item)

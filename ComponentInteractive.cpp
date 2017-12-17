@@ -37,6 +37,16 @@ void ComponentInteractive::OnDown()
 	Down();
 }
 
+void ComponentInteractive::LinkComponent()
+{
+	if (canvas== nullptr)
+	{
+		canvas = FindMyCanvas();
+		if (canvas != nullptr)
+			canvas->interactive_array.push_back((ComponentInteractive*)this);
+	}
+}
+
 void ComponentInteractive::SetCurrentFocus(bool state)
 {
 	has_focus = state;

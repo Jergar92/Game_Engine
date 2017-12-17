@@ -40,6 +40,8 @@ public:
 	bool SaveComponent(JSONConfig & config) const;
 	bool LoadComponent(const JSONConfig & config);
 	void CleanUp();
+	void LinkComponent();
+
 	void GetComponent(Component* item);
 	uint GetImageID()const;
 	uint GetVBO()const;

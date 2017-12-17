@@ -23,6 +23,7 @@ public:
 	void OnHover();
 	void OnClick();
 	void OnDown();
+	void LinkComponent();
 
 	void SetCurrentFocus(bool state);
 

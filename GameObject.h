@@ -30,7 +30,7 @@ public:
 	void OnStop();
 	void Update(float dt);
 	void PostUpdate(float dt);
-
+	void LinkComponents();
 	void GuiUpdate();
 	void InspectorUpdate();
 	void OpenStaticQuestion();	

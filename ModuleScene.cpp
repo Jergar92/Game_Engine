@@ -221,6 +221,8 @@ void ModuleScene::LoadScene(const char*path)
 		item->UpdateMatrix();
 
 	}
+	if (scene_go != nullptr)
+		scene_go->LinkComponents();
 	config.CleanUp();
 	App->editor_window->SetSceneGameObject(scene_go);
 
@@ -280,6 +282,9 @@ void ModuleScene::LoadGO(const char*path)
 			resource->LoadInMemory();
 		}
 	}
+	if (scene_go != nullptr)
+		scene_go->LinkComponents();
+
 }
 GameObject * ModuleScene::FindGameObjectComponent(ComponentType type) const
 {

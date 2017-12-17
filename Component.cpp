@@ -23,6 +23,9 @@ void Component::OnPlay()
 void Component::OnStop()
 {
 }
+void Component::LinkComponent()
+{
+}
 void Component::CleanUp()
 {
 }

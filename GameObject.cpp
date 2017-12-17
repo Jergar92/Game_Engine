@@ -189,6 +189,21 @@ void GameObject::PostUpdate(float dt)
 
 }
 
+void GameObject::LinkComponents()
+{
+	for (uint i = 0; i < components.size(); i++)
+	{
+		Component* item = components[i];
+		if (item->isEnable())
+			item->LinkComponent();
+	}
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		GameObject* item = childs[i];
+		item->LinkComponents();
+	}
+}
+
 void GameObject::GuiUpdate()
 {
 	bool node_open = false;

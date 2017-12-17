@@ -30,7 +30,7 @@ public:
 	virtual void Enable();
 	virtual void OnPlay();
 	virtual void OnStop();
-
+	virtual void LinkComponent();
 	virtual void CleanUp();
 	virtual void Update(float dt);
 	virtual void GuiUpdate();

@@ -71,6 +71,10 @@ bool ComponentCheckBox::SaveComponent(JSONConfig & config) const
 	{
 		config.SetInt(pressed->GetUID(), "Resource Pressed UID");
 	}
+
+	
+	config.SetBool(actived, "Actived");
+
 	config.SetBool(enable, "Enable");
 	return ret;
 }
@@ -109,6 +113,7 @@ bool ComponentCheckBox::LoadComponent(const JSONConfig & config)
 			LOG("Error On LoadComponent: Texture is null");
 		}
 	}
+	activated = config.GetBool("Actived");
 	enable = config.GetBool("Enable");
 	return true;
 }

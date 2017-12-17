@@ -41,8 +41,9 @@ bool ComponentPanel::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 
-
 	config.SetBool(enable, "Enable");
+
+	config.SetBool(is_dragable, "Dragable");
 	return ret;
 }
 
@@ -54,6 +55,8 @@ bool ComponentPanel::LoadComponent(const JSONConfig & config)
 		if (canvas != nullptr)
 			canvas->interactive_array.push_back((ComponentInteractive*)this);
 	}
+
+	is_dragable = config.GetBool("Dragable");
 	enable = config.GetBool("Enable");
 	return true;
 }

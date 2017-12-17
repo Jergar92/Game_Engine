@@ -22,7 +22,6 @@ public:
 
 	void Update(float dt);
 	void CleanUp();
-
 	bool SaveComponent(JSONConfig & config) const;
 
 	bool LoadComponent(const JSONConfig & config);
