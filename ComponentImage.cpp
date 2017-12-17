@@ -55,6 +55,7 @@ bool ComponentImage::LoadComponent(const JSONConfig & config)
 		if (image != nullptr)
 		{
 			image->LoadInMemory();
+			tmp_id = image->GetID();
 		}
 		else
 		{

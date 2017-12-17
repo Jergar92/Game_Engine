@@ -232,6 +232,8 @@ bool ComponentRectTransform::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 	config.SetFloat3(position, "Translation");
+	config.SetFloat3(value, "Value");
+
 	config.SetQuaternion(rotation, "Rotation");
 	config.SetFloat3(scale, "Scale");
 
@@ -252,6 +254,9 @@ bool ComponentRectTransform::LoadComponent(const JSONConfig & config)
 	bool ret = true;
 
 	position = config.GetFloat3("Translation");
+
+	value = config.GetFloat3("Value");
+	depth = value.z;
 	rotation = config.GetQuaternion("Rotation");
 	scale = config.GetFloat3("Scale");
 	width = config.GetFloat("Width");
