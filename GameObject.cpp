@@ -178,7 +178,7 @@ void GameObject::Update(float dt)
 
 	if (enable_fade == true)
 	{
-		ActivateFade(50.0f * dt);
+		ActivateFade(80.0f * dt);
 	}
 
 }
