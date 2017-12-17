@@ -72,6 +72,7 @@ bool ComponentCanvas::SaveComponent(JSONConfig & config) const
 	config.SetInt(type, "Type");
 	config.SetInt(my_go->GetUID(), "GameObject UID");
 
+	config.SetBool(draw_2d, "Draw_load");
 
 	config.SetBool(enable, "Enable");
 	return ret;
@@ -79,6 +80,7 @@ bool ComponentCanvas::SaveComponent(JSONConfig & config) const
 
 bool ComponentCanvas::LoadComponent(const JSONConfig & config)
 {
+	draw_2d = config.GetBool("Draw_load");
 
 	enable = config.GetBool("Enable");
 	return true;

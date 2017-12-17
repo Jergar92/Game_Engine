@@ -11,6 +11,8 @@
 #include <gl/GLU.h>
 #include "SDL\include\SDL.h"
 #include "SDL_ttf\include\SDL_ttf.h"
+#define MIN_SIZE 6 
+#define MAX_SIZE 50
 ComponentText::ComponentText(GameObject* my_go):Component(my_go)
 {
 	component_name = "text";
@@ -54,13 +56,18 @@ void ComponentText::InspectorUpdate()
 				UpdateText();
 			}
 
-			if (ImGui::DragInt("Font Size##font_size", &text->size, 1,6,50))
+			if (ImGui::DragInt("Font Size##font_size", &text->size, 1, MIN_SIZE, MAX_SIZE))
 			{
+				if (text->size < MIN_SIZE)
+					text->size = MIN_SIZE;
+				if (text->size> MAX_SIZE)
+					text->size = MAX_SIZE;
 				text->UnLoadInMemory();
 				text->LoadInMemory();
 				UpdateText();
 			}
 			ImGui::DragInt("Max leght ##max_lenght", &max_input, 1, 0, 20);
+		
 		}
 
 		if (ImGui::Button("Select Font"))

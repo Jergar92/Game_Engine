@@ -239,6 +239,8 @@ void MeshImporter::ProcessMesh(aiMesh * mesh, const aiScene * scene, GameObject*
 			aiFace face = mesh->mFaces[i];
 			if (face.mNumIndices != 3) {
 				LOG("Number of indices is not 3!");
+				return;
+
 				indices_error = true;
 			}
 			else
