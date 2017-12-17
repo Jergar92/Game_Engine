@@ -40,6 +40,7 @@ void ComponentButton::CleanUp()
 {
 	if (canvas != nullptr)
 	{
+		LOG("ENTER CLEAN UP");
 		canvas->EraseInteractiveElement(this);
 	}
 }

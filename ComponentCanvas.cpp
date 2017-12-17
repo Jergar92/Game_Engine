@@ -155,7 +155,17 @@ void ComponentCanvas::CleanUp()
 {
 	EventS->EraseEventChar("AddStr", UUID);
 	EventS->EraseEventChar("Fade Parent", UUID);
+	
+	for (int i = 0; i < interactive_array.size(); i++)
+	{
+		if (interactive_array[i] == current_focus)
+		{
+			current_focus = nullptr;
+		}
+	}
 	interactive_array.clear();
+	interactive_z_map.clear();
+	interactive_x_map.clear();
 }
 
 void ComponentCanvas::SetUpCanvasSize(SDL_Window *window)
@@ -249,11 +259,13 @@ void ComponentCanvas::UpdateInteractive()
 		{
 			if(is_on_hover == false)
 			{
-				current_focus = map_iterator->second;
-
 				is_on_hover = true;
-				
-				current_focus->has_focus = true;
+
+				if (!map_iterator->second->to_delete)
+				{
+					current_focus = map_iterator->second;
+					current_focus->has_focus = true;
+				}
 
 				if (map_iterator->second->states == IDLE)
 				{
@@ -355,6 +367,7 @@ void ComponentCanvas::FadeParent()
 {
 	if (current_focus != nullptr)
 	{
+		LOG("FADE PARENT")
 		current_focus->my_go->GetPartent()->SetEnableFade(true);
 	}
 }
@@ -364,7 +377,7 @@ void ComponentCanvas::UpdateFocus()
 {
 	bool is_on_hover = false;
 	std::multimap<float, ComponentInteractive*>::iterator map_iterator;
-
+	
 	if (current_focus != nullptr)
 	{
 		if (current_focus->type == CANVAS_INPUT_TEXT)
@@ -390,8 +403,13 @@ void ComponentCanvas::UpdateFocus()
 						{
 							map_iterator = interactive_x_map.begin();
 						}
-						current_focus = map_iterator->second;
-						current_focus->has_focus = true;
+
+						if (!map_iterator->second->to_delete)
+						{
+							current_focus = map_iterator->second;
+							current_focus->has_focus = true;
+						}
+
 						return;
 					}
 
@@ -409,8 +427,11 @@ void ComponentCanvas::UpdateFocus()
 		{
 			if (!interactive_x_map.empty())
 			{
-				current_focus = interactive_x_map.begin()->second;
-				current_focus->has_focus = true;
+				if (!map_iterator->second->to_delete)
+				{
+					current_focus = interactive_x_map.begin()->second;
+					current_focus->has_focus = true;
+				}
 			}
 		}
 	}
@@ -502,9 +523,11 @@ void ComponentCanvas::EraseInteractiveElement(ComponentInteractive * element)
 		{
 			if(interactive_array[i]->has_focus)
 			{
+				LOG("HAS FOCUS");
 				interactive_array[i]->has_focus = false;
 				current_focus = nullptr;
 			}
+			LOG("ERASE");
 			interactive_array.erase(interactive_array.begin()+i);
 			return;
 		}
