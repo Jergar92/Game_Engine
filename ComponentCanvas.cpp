@@ -40,6 +40,7 @@ ComponentCanvas::~ComponentCanvas()
 void ComponentCanvas::OnPlay()
 {
 	on_ejecution = true;
+	current_focus = nullptr;
 }
 
 void ComponentCanvas::Update(float dt)
@@ -62,6 +63,7 @@ void ComponentCanvas::Update(float dt)
 void ComponentCanvas::OnStop()
 {
 	on_ejecution = false;
+	current_focus = nullptr;
 }
 bool ComponentCanvas::SaveComponent(JSONConfig & config) const
 {
@@ -371,8 +373,11 @@ void ComponentCanvas::FadeParent()
 {
 	if (current_focus != nullptr)
 	{
-		LOG("FADE PARENT")
-		current_focus->my_go->GetPartent()->SetEnableFade(true);
+		if (current_focus->type == CANVAS_BUTTON)
+		{
+			LOG("FADE PARENT")
+				current_focus->my_go->GetPartent()->SetEnableFade(true);
+		}
 	}
 }
 
@@ -434,7 +439,7 @@ void ComponentCanvas::UpdateFocus()
 
 			if (!interactive_x_map.empty())
 			{
-				if (!map_iterator->second->to_delete)
+				if (!interactive_x_map.begin()->second->to_delete)
 				{
 					current_focus = interactive_x_map.begin()->second;
 					current_focus->has_focus = true;
