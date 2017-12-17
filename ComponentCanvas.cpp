@@ -77,9 +77,29 @@ bool ComponentCanvas::LoadComponent(const JSONConfig & config)
 	enable = config.GetBool("Enable");
 	return true;
 }
+void ComponentCanvas::InspectorUpdate()
+{
+	uint flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_CheckBox;
+	bool node_open = ImGui::TreeNodeEx(component_name.c_str(), flags, &enable);
+	if (ImGui::BeginPopupContextItem("go_options"))
+	{
+		if (ImGui::Button("Delete Component"))
+		{
+			DeleteComponent();
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+	if (node_open)
+	{
+		ImGui::Checkbox("Enable 2D Draw", &on_ejecution);
+		ImGui::TreePop();
+	}
+}
 void ComponentCanvas::Render()
 {
-	//if (on_ejecution)
+	if (on_ejecution)
 		SetUpRender();
 	std::list<ComponentCanvasRenderer*>::iterator it = canvas_render.begin();
 	for (; it != canvas_render.end(); it++)
@@ -122,7 +142,7 @@ void ComponentCanvas::Render()
 		glPopMatrix();
 	}
 	canvas_render.clear();
-	//if (on_ejecution)
+	if (on_ejecution)
 		ResetRender();
 	/*
 	glDisable(GL_BLEND);

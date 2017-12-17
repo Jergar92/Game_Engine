@@ -34,6 +34,8 @@ public:
 	void OnStop();
 	bool SaveComponent(JSONConfig & config) const;
 	bool LoadComponent(const JSONConfig & config);
+	void InspectorUpdate();
+
 	void Render();
 	void CleanUp();
 	void SetUpCanvasSize(SDL_Window* window);
