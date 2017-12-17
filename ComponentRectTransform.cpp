@@ -235,6 +235,12 @@ bool ComponentRectTransform::SaveComponent(JSONConfig & config) const
 	config.SetQuaternion(rotation, "Rotation");
 	config.SetFloat3(scale, "Scale");
 
+	config.SetFloat(width, "Width");
+	config.SetFloat(height, "Height");
+
+
+
+
 	config.SetBool(enable, "Enable");
 
 	//save the path of the mesh.frog
@@ -248,6 +254,9 @@ bool ComponentRectTransform::LoadComponent(const JSONConfig & config)
 	position = config.GetFloat3("Translation");
 	rotation = config.GetQuaternion("Rotation");
 	scale = config.GetFloat3("Scale");
+	width = config.GetFloat("Width");
+	height = config.GetFloat("Height");
+
 	UpdateMatrix();
 
 	enable = config.GetBool("Enable");

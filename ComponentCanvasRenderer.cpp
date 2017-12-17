@@ -25,6 +25,10 @@ ComponentCanvasRenderer::~ComponentCanvasRenderer()
 
 void ComponentCanvasRenderer::Update(float dt)
 {
+	if (canvas == nullptr)
+	{
+		canvas = FindMyCanvas();
+	}
 	if (canvas != nullptr)
 		canvas->AddCanvasRender(this);
 }
@@ -42,20 +46,11 @@ bool ComponentCanvasRenderer::SaveComponent(JSONConfig & config) const
 
 bool ComponentCanvasRenderer::LoadComponent(const JSONConfig & config)
 {
-	if (canvas != nullptr)
+	if (canvas == nullptr)
 	{
 		canvas = FindMyCanvas();
-		if (canvas != nullptr)
-			canvas->interactive_array.push_back((ComponentInteractive*)this);
 	}
-	Component* get = nullptr;
-	if (image != nullptr)	
-		get = my_go->FindComponent(ComponentType::CANVAS_IMAGE);
 
-	if (text != nullptr)	
-		get = my_go->FindComponent(ComponentType::CANVAS_TEXT);
-	if (get != nullptr)
-		GetComponent(get);
 	enable = config.GetBool("Enable");
 	return true;
 }

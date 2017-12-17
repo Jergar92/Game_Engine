@@ -742,9 +742,9 @@ Component * GameObject::CreateComponent(ComponentType type)
 		{
 			CreateComponent(RECT_TRANSFORM);
 		}
-		Component* canvas_render = nullptr;
+		Component* canvas_render = FindComponent(ComponentType::CANVAS_RENDER);;
 
-		if (!HaveComponent(CANVAS_RENDER))
+		if (canvas_render==nullptr)
 		{
 			LOG("Add Component Canvas Render")
 				canvas_render = CreateComponent(CANVAS_RENDER);
@@ -765,9 +765,9 @@ Component * GameObject::CreateComponent(ComponentType type)
 		{
 			CreateComponent(RECT_TRANSFORM);
 		}
-		Component* canvas_render = nullptr;
+		Component* canvas_render = FindComponent(ComponentType::CANVAS_RENDER);;
 
-		if (!HaveComponent(CANVAS_RENDER))
+		if (canvas_render == nullptr)
 		{
 			LOG("Add Component Canvas Render")
 				canvas_render = CreateComponent(CANVAS_RENDER);

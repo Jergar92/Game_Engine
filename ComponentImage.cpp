@@ -50,6 +50,7 @@ bool ComponentImage::LoadComponent(const JSONConfig & config)
 {
 	if (config.GetInt("ResourceType") != 0)
 	{
+
 		image = (ResourceTexture*)App->resource_manager->Get(config.GetInt("Resource UID"));
 		if (image != nullptr)
 		{
