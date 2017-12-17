@@ -36,7 +36,7 @@ void ComponentInputText::CleanUp()
 {
 	if (canvas != nullptr)
 	{
-
+		canvas->EraseInteractiveElement(this);
 	}
 }
 bool ComponentInputText::SaveComponent(JSONConfig & config) const

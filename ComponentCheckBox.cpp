@@ -121,7 +121,7 @@ void ComponentCheckBox::CleanUp()
 {
 	if (canvas != nullptr)
 	{
-
+		canvas->EraseInteractiveElement(this);
 	}
 }
 void ComponentCheckBox::InspectorUpdate()

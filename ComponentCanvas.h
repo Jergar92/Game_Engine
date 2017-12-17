@@ -60,6 +60,8 @@ public:
 	//Draw Canvas function
 	void DebugDraw();
 
+	void EraseInteractiveElement(ComponentInteractive* element);
+
 public:
 
 	std::vector<ComponentInteractive*> interactive_array;

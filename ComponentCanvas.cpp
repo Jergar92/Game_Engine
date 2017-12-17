@@ -155,6 +155,7 @@ void ComponentCanvas::CleanUp()
 {
 	EventS->EraseEventChar("AddStr", UUID);
 	EventS->EraseEventChar("Fade Parent", UUID);
+	interactive_array.clear();
 }
 
 void ComponentCanvas::SetUpCanvasSize(SDL_Window *window)
@@ -490,4 +491,22 @@ void ComponentCanvas::DebugDraw()
 	glVertex3f(my_go->GetRectTransform()->GetSouthWest().x, my_go->GetRectTransform()->GetSouthWest().y, my_go->GetRectTransform()->GetSouthWest().z);
 
 	glEnd();
+}
+
+void ComponentCanvas::EraseInteractiveElement(ComponentInteractive * element)
+{
+
+	for (int i = 0; i < interactive_array.size(); i++)
+	{
+		if (interactive_array[i] == element)
+		{
+			if(interactive_array[i]->has_focus)
+			{
+				interactive_array[i]->has_focus = false;
+				current_focus = nullptr;
+			}
+			interactive_array.erase(interactive_array.begin()+i);
+			return;
+		}
+	}
 }

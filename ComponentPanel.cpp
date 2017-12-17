@@ -65,7 +65,7 @@ void ComponentPanel::CleanUp()
 {
 	if (canvas != nullptr)
 	{
-
+		canvas->EraseInteractiveElement(this);
 	}
 }
 

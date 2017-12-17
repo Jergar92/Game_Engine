@@ -40,7 +40,7 @@ void ComponentButton::CleanUp()
 {
 	if (canvas != nullptr)
 	{
-
+		canvas->EraseInteractiveElement(this);
 	}
 }
 bool ComponentButton::SaveComponent(JSONConfig & config) const
