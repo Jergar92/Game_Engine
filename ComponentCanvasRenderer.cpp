@@ -179,18 +179,18 @@ bool ComponentCanvasRenderer::ProcessText()
 		buffer.vertices.push_back(ver0);
 
 		CanvasVertex ver1;
-		ver1.position = float3(0+text->GetRect().width, 0, 0);
-		ver1.tex_coords = float2(1, 0);
+		ver1.position = float3(0,text->GetRect().height, 0);
+		ver1.tex_coords = float2(0, 1);
 		buffer.vertices.push_back(ver1);
 
 		CanvasVertex ver2;
-		ver2.position = float3(0 + text->GetRect().width, 0 + text->GetRect().height, 0);
+		ver2.position = float3(text->GetRect().width,text->GetRect().height, 0);
 		ver2.tex_coords = float2(1, 1);
 		buffer.vertices.push_back(ver2);
 
 		CanvasVertex ver3;
-		ver3.position = float3(0, 0+ text->GetRect().height, 0);
-		ver3.tex_coords = float2(0, 1);
+		ver3.position = float3(text->GetRect().width,0, 0);
+		ver3.tex_coords = float2(1,0);
 		buffer.vertices.push_back(ver3);
 		
 		uint lastIndex = 0;
