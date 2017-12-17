@@ -13,6 +13,7 @@ class ComponentCheckBox : public ComponentInteractive
 public:
 	ComponentCheckBox(GameObject* my_go);
 	~ComponentCheckBox();
+	void OnPlay();
 
 	void Update(float dt);
 
