@@ -130,8 +130,8 @@ bool ModuleRenderer3D::Awake(const JSONConfig& data)
 
 bool ModuleRenderer3D::Start()
 {
-	EventVoid vsync_event;
-	vsync_event.Create<ModuleRenderer3D>("vsync", this, &ModuleRenderer3D::ChangeVsync);
+	EventBool vsync_event;
+	vsync_event.Create<ModuleRenderer3D>("Vsync", this, &ModuleRenderer3D::ChangeVsync);
 	EventS->AddEvent(vsync_event);
 	return true;
 }
@@ -168,10 +168,9 @@ void ModuleRenderer3D::GuiConfigUpdate()
 {
 	if (ImGui::CollapsingHeader(name.c_str()))
 	{
-		static bool vsync_check = vsync != 0;
 		if (ImGui::Checkbox("Vsync", &vsync_check))
 		{
-			ChangeVsync();
+			ChangeVsync(vsync_check);
 		}
 		ImGui::PushItemWidth(150);
 
@@ -504,10 +503,22 @@ void ModuleRenderer3D::DrawCanvas()
 	go_canvas.clear();
 }
 
-void ModuleRenderer3D::ChangeVsync()
+void ModuleRenderer3D::ChangeVsync(bool enable)
 {
 	//https://en.wikipedia.org/wiki/Exclusive_or
-	vsync ^= 1;
+	
+	if (enable)
+	{
+		vsync = 1;
+	}
+	else
+	{
+		vsync = 0;
+	}
+
+	vsync_check = enable;
+	/*vsync ^= 1;*/
+
 	//Use Vsync
 	if (SDL_GL_SetSwapInterval(vsync) < 0)
 		LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());

@@ -36,10 +36,11 @@ public:
 	ComponentCamera* GetCamera()const;
 	void SetCamera(ComponentCamera* cam);
 private:
+
 	void RenderOptions();
 	void DrawGameObject();
 	void DrawCanvas();
-	void ChangeVsync();
+	void ChangeVsync(bool enable);
 
 public:
 
@@ -47,6 +48,7 @@ public:
 	SDL_GLContext gl_context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	bool vsync_check = vsync != 0;
 private:
 	int vsync = 0;
 	ImVec4 background_color = ImColor(114, 144, 154);

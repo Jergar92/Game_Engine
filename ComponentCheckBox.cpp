@@ -16,7 +16,7 @@ ComponentCheckBox::ComponentCheckBox(GameObject* my_go) : ComponentInteractive(m
 
 	canvas->interactive_array.push_back((ComponentInteractive*)this);
 	box = (ComponentImage*)my_go->FindComponent(ComponentType::CANVAS_IMAGE);
-	functions[0] = "Change Vsync";
+	functions[0] = "Vsync";
 	functions[1] = "Change Cullface";
 	InspectorCheck(&pressed);
 }
@@ -189,7 +189,7 @@ void ComponentCheckBox::StartFunciton(int event_num)
 	for (std::map<int, const char*>::const_iterator it = functions.begin(); it != functions.end(); it++)
 	{
 		if (it->first == event_num)
-			EventS->CallEvent(it->second, actived);
+			EventS->CallEvent(it->second, activated);
 	}
 }
 bool ComponentCheckBox::InspectorCheck(ResourceTexture** status)
@@ -260,4 +260,5 @@ void ComponentCheckBox::Down()
 		id = pressed->GetID();
 	}
 	box->ChangeImage(id);
+	StartFunciton(function_selection);
 }
