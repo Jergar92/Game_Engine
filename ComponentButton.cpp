@@ -61,6 +61,8 @@ bool ComponentButton::SaveComponent(JSONConfig & config) const
 	{
 		config.SetInt(click_texture->GetUID(), "Resource Click UID");
 	}
+	config.SetInt(function_selection, "Function Selection");
+
 	config.SetBool(enable, "Enable");
 	return ret;
 }
@@ -99,6 +101,8 @@ bool ComponentButton::LoadComponent(const JSONConfig & config)
 			LOG("Error On LoadComponent: Texture is null");
 		}
 	}
+	function_selection = config.GetBool("Function Selection");
+
 	enable = config.GetBool("Enable");
 	return true;
 }
