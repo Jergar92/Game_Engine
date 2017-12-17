@@ -2,9 +2,13 @@
 Repository:
 https://github.com/Jergar92/Game_Engine
 Collaborators:
+
 Andreu Rojas Barrera: https://github.com/Jergar92
+
 Sergio Saez: https://github.com/dreedcon
+
 Marc Fabian: https://github.com/xDragan
+
 ## Installation
 Drop the game folder inside the .zip somewhere in your computer and execute the .exe
 
@@ -136,7 +140,7 @@ You can see the load Count
 You can save the Resource options, if the Resource is loaded in memory the resource is unload and load from memory with the new import settings
 Right now the only Resource with import options is the Resource Texture
 
-##GameObject
+## GameObject
 This Engine implement GameObject (Unity like), GameObject contains
 
 	*Enable ==> Enable/Disable GameObject
@@ -144,7 +148,7 @@ This Engine implement GameObject (Unity like), GameObject contains
 	*Show Bounding Box ==> To see a AABB bounding Box and OBB bounding box
 	*Component ==> GameObject contais component that components do other functions (like mesh rendering)
 
-##Component 
+## Component 
 This Engine implement Component (Unity like) right now the components implemented are:
 All Components have a check box on the right that enable/disable the component
 
@@ -185,7 +189,7 @@ All Components have a check box on the right that enable/disable the component
 	*Component InputText ==> Modifi Text on execution
 
 
-##Resources
+## Resources
 This Engine implement Resources (Unity like) right now the resources implemented are:
 
 	*Resources Mesh 
@@ -198,7 +202,7 @@ Resources Info:
 	*If the Resource Manager detect the asset file is missing destroy the Resource, his meta file and library file
 	*If the Resource Manager detect the asset is not a Resource, then the resource manager create the new resource
 
-##Folders
+## Folders
 Show the Assets info:
 	At the left you have all the folders, you can see his content if you click on it one time and you can open the folder if you double click
 	At the right you see the selected folder, if you doble click on other folder inside this window the selected folder is now the clicked folder
@@ -206,12 +210,12 @@ Show the Assets info:
 	You can delete files or folders(Except the Assets folder) using the right click
 
 
-##Quadtree
+## Quadtree
 This engine have the tool quadtree which, contemplates the static game objects and subdivides.
 
 	*Have a optimization with the frustum culling.  
 	
-##Event System
+## Event System
 
 This engine use a function pointer event system.
 
