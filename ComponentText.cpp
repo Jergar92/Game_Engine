@@ -123,7 +123,7 @@ void ComponentText::FreeFont()
 }
 void ComponentText::UpdateText()
 {
-	if (!text->font && text_str.empty())
+	if (!text->font ||text_str.empty())
 		return;
 	else if (s_font != NULL && text_str.empty())
 	{
@@ -200,6 +200,8 @@ bool ComponentText::SaveComponent(JSONConfig & config) const
 		config.SetInt(text->GetResourceType(), "ResourceType");
 		config.SetInt(text->GetUID(), "Resource UID");
 		config.SetInt(text->size, "Font Size");
+		config.SetString(input_text, "InputText");
+		config.SetString(text_str, "TextStr");
 
 	}
 	config.SetInt(max_input, "Max Input");
@@ -218,7 +220,10 @@ bool ComponentText::LoadComponent(const JSONConfig & config)
 		if (text != nullptr)
 		{
 			text->size=config.GetInt("Font Size");
+			input_text=	config.GetString( "InputText");
+			text_str=config.GetString( "TextStr");
 			text->LoadInMemory();
+			UpdateText();
 		}
 	}
 	max_input=config.GetInt("Max Input");

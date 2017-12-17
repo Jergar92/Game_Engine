@@ -1030,6 +1030,11 @@ void GameObject::Delete()
 		RELEASE(item);
 
 	}
+	if (parent == nullptr)
+	{
+		App->scene->no_static_list.remove(this);
+		App->scene->quadtree->RemoveGameObject(this);
+	}
 	parent = nullptr;
 }
 
